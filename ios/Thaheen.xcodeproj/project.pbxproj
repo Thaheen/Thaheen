@@ -14,10 +14,6 @@
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		BC8800E7F8D3B7445407EA93 /* libPods-Thaheen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F36011ECAA2441736533B06 /* libPods-Thaheen.a */; };
 		F9E0BE2167F774DEF65F6FEE /* libPods-Thaheen-ThaheenTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C35AF4E09CCA017BF0923151 /* libPods-Thaheen-ThaheenTests.a */; };
-		7F4D99342C0946F6A59654D3 /* a-jannat-lt-bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 03118C82DDD74DD3B17491B5 /* a-jannat-lt-bold.otf */; };
-		7D70419E2244475EA959D115 /* a-jannat-lt.otf in Resources */ = {isa = PBXBuildFile; fileRef = 35911BA53ECC49288E4A3490 /* a-jannat-lt.otf */; };
-		7D3507CCEE9743AFBDC85371 /* AJannatLT-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 45686A0237924844B2DCF7DE /* AJannatLT-Bold.otf */; };
-		7F1D5866B6EA47C280194357 /* AJannatLT.otf in Resources */ = {isa = PBXBuildFile; fileRef = 219E28576664403FAC173CD9 /* AJannatLT.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,10 +44,6 @@
 		930F56C84937316E4752A414 /* Pods-Thaheen-ThaheenTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Thaheen-ThaheenTests.release.xcconfig"; path = "Target Support Files/Pods-Thaheen-ThaheenTests/Pods-Thaheen-ThaheenTests.release.xcconfig"; sourceTree = "<group>"; };
 		C35AF4E09CCA017BF0923151 /* libPods-Thaheen-ThaheenTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Thaheen-ThaheenTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		03118C82DDD74DD3B17491B5 /* a-jannat-lt-bold.otf */ = {isa = PBXFileReference; name = "a-jannat-lt-bold.otf"; path = "../assets/fonts/a-jannat-lt-bold.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		35911BA53ECC49288E4A3490 /* a-jannat-lt.otf */ = {isa = PBXFileReference; name = "a-jannat-lt.otf"; path = "../assets/fonts/a-jannat-lt.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		45686A0237924844B2DCF7DE /* AJannatLT-Bold.otf */ = {isa = PBXFileReference; name = "AJannatLT-Bold.otf"; path = "../assets/fonts/AJannatLT-Bold.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		219E28576664403FAC173CD9 /* AJannatLT.otf */ = {isa = PBXFileReference; name = "AJannatLT.otf"; path = "../assets/fonts/AJannatLT.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,7 +122,6 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				9662096C8123CF314394BD22 /* Pods */,
-				B0A5CD1CA9EA443098703283 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -157,18 +148,6 @@
 			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
-		};
-		B0A5CD1CA9EA443098703283 /* Resources */ = {
-			isa = "PBXGroup";
-			children = (
-				03118C82DDD74DD3B17491B5 /* a-jannat-lt-bold.otf */,
-				35911BA53ECC49288E4A3490 /* a-jannat-lt.otf */,
-				45686A0237924844B2DCF7DE /* AJannatLT-Bold.otf */,
-				219E28576664403FAC173CD9 /* AJannatLT.otf */,
-			);
-			name = Resources;
-			sourceTree = "<group>";
-			path = "";
 		};
 /* End PBXGroup section */
 
@@ -266,10 +245,6 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				7F4D99342C0946F6A59654D3 /* a-jannat-lt-bold.otf in Resources */,
-				7D70419E2244475EA959D115 /* a-jannat-lt.otf in Resources */,
-				7D3507CCEE9743AFBDC85371 /* AJannatLT-Bold.otf in Resources */,
-				7F1D5866B6EA47C280194357 /* AJannatLT.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
