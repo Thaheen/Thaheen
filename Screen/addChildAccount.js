@@ -18,7 +18,7 @@ import { SvgUri }  from 'react-native-svg';
 import TitleStyles from '../Styles/Titles'
 import firestore from '@react-native-firebase/firestore';
 import DropDownPicker from 'react-native-dropdown-picker';
-import VectorImage from 'react-native-vector-image';
+
 
 
 const addChildAccount: () => Node = () => {
@@ -92,7 +92,7 @@ const addChildAccount: () => Node = () => {
     <View style={{backgroundColor:'#DAE2E9' , height:'100%' , justifyContent:'center' , alignItems:'center'}}>
         <SafeAreaView >
 
-           <VectorImage source={require('../assets/images/Vector.svg')} />
+           
          <View style={{backgroundColor:'#FFFFFF',
              width :355,
             borderRadius:25,
