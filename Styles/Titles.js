@@ -21,12 +21,11 @@ export default StyleSheet.create({
   input: {
     overflow: 'hidden',
     backgroundColor: '#f8f4f4',
-    width: '80%',
     borderWidth: 1,
     borderColor: '#fff',
     height: 52,
     borderRadius: 10,
-    fontFamily: 'AJannatLT',
+    fontFamily: 'AJannatLT-Bold',
     fontSize: 18,
     textAlign: 'right',
     paddingRight: 5,
@@ -50,26 +49,23 @@ export default StyleSheet.create({
 
   Button: {
     backgroundColor: '#F5C5AD',
-    width: 283,
-    height: 40,
     marginTop: 20,
     marginBottom:10,
     borderRadius:13,
-    shadowColor: "#000",
+    shadowColor: "#00000",
             shadowOffset: {
 	          width: 0,
 	          height: 4,
               },
-            shadowOpacity: 0.39,
-            shadowRadius: 8.30,
-            elevation: 13,
+            shadowOpacity: 0.25,
+            shadowRadius: 9,
+            elevation: 9,
   },
 
   ButtonText:{
-     fontFamily: 'AJannatLT',
-     fontSize:20,
+     fontFamily: 'AJannatLT-Bold',
+     fontSize:28,
      color:"#43515F",
-     fontWeight:'bold',
      textAlign:'center'
 
 
