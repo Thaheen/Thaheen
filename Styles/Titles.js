@@ -43,7 +43,7 @@ export default StyleSheet.create({
   },
   categoryText: {
     textAlign: 'right',
-    fontFamily: 'AJannatLT',
+    fontFamily: 'AJannatLT-Bold',
     fontSize: 18,
   },
 
@@ -70,4 +70,32 @@ export default StyleSheet.create({
 
 
    },
+
+    modalContent: {
+    margin: 20,
+    marginBottom: 'auto',
+    marginTop: 'auto',
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
+  },
+
+  shadowOffset:{
+    shadowColor: "#00000",
+            shadowOffset: {
+	          width: 0,
+	          height: 4,
+              },
+            shadowOpacity: 0.25,
+            shadowRadius: 9,
+            elevation: 9,
+  }
 });

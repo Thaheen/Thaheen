@@ -24,8 +24,8 @@ const Login = () => {
         flexDirection: 'row',
         alignItems: 'center',
       }}>
-      <Top2Lines style={{position: 'absolute', top: 0, left: 0}} />
-      <Bottom2Lines style={{position: 'absolute', bottom: 0, right: 0}} />
+      <Top2Lines style={[TitleStyles.shadowOffset,{position: 'absolute', top: 0, left: 0}]} />
+      <Bottom2Lines style={[TitleStyles.shadowOffset,{position: 'absolute', bottom: 0, right: 0}]} />
       <StatusBar />
       <ScrollView style={{paddingHorizontal: 10}}>
         <View
