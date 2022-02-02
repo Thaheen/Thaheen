@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -9,11 +9,11 @@ import {
   TouchableOpacity,
   useColorScheme,
   View,
-} from 'react-native'
-import TitleStyles from '../Styles/Titles'
+} from 'react-native';
+import TitleStyles from '../Styles/Titles';
 
-import Top2Lines from '../assets/images/top2Lines.svg'
-import Bottom2Lines from '../assets/images/bottom2Lines.svg'
+import Top2Lines from '../assets/images/top2Lines.svg';
+import Bottom2Lines from '../assets/images/bottom2Lines.svg';
 
 const Login = () => {
   return (
@@ -24,8 +24,18 @@ const Login = () => {
         flexDirection: 'row',
         alignItems: 'center',
       }}>
-      <Top2Lines style={[TitleStyles.shadowOffset,{position: 'absolute', top: 0, left: 0}]} />
-      <Bottom2Lines style={[TitleStyles.shadowOffset,{position: 'absolute', bottom: 0, right: 0}]} />
+      <Top2Lines
+        style={[
+          TitleStyles.shadowOffset,
+          {position: 'absolute', top: 0, left: 0},
+        ]}
+      />
+      <Bottom2Lines
+        style={[
+          TitleStyles.shadowOffset,
+          {position: 'absolute', bottom: 0, right: 0},
+        ]}
+      />
       <StatusBar />
       <ScrollView style={{paddingHorizontal: 10}}>
         <View
@@ -54,7 +64,7 @@ const Login = () => {
             تسجيل الدخول
           </Text>
           <TextInput
-            placeholder='البريد الإلكتروني'
+            placeholder="البريد الإلكتروني"
             placeholderTextColor={'#C8CBCD'}
             style={[
               TitleStyles.input,
@@ -70,10 +80,10 @@ const Login = () => {
                 elevation: 4,
               },
             ]}
-            color='black'
+            color="black"
           />
           <TextInput
-            placeholder='كلمة المرور'
+            placeholder="كلمة المرور"
             placeholderTextColor={'#C8CBCD'}
             style={[
               TitleStyles.input,
@@ -89,7 +99,7 @@ const Login = () => {
                 elevation: 4,
               },
             ]}
-            color='black'
+            color="black"
           />
           <View
             style={{
@@ -111,8 +121,8 @@ const Login = () => {
         </View>
       </ScrollView>
     </SafeAreaView>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   smallText: {
@@ -120,6 +130,6 @@ const styles = StyleSheet.create({
     color: '#43515F',
     fontSize: 16,
   },
-})
+});
 
-export default Login
+export default Login;
