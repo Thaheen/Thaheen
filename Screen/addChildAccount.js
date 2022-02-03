@@ -151,7 +151,7 @@ const addChildAccount: () => Node = () => {
               
             </Modal>
          <View style={{backgroundColor:'#FFFFFF',
-             width :355,
+            width :355,
             borderRadius:25,
             shadowColor: "#000",
             shadowOffset: {
@@ -161,35 +161,40 @@ const addChildAccount: () => Node = () => {
             shadowOpacity: 0.39,
             shadowRadius: 8.30,
             elevation: 13,
-            alignItems:'center'
-            ,marginTop:70}}>
+            padding:25,
+            marginTop:70}}>
             <Text style={[TitleStyles.sectionTitle ,{marginBottom:20}]}>
              إضافة حساب طفل 
             </Text>
+            <View style={TitleStyles.shadowOffset}>
             <TextInput
               placeholder="اسم الطفل"
               placeholderTextColor={"#C3C7CA"} 
-              style={[TitleStyles.input , { width: '80%'}]}
+              style={[TitleStyles.input]}
               onChangeText={(text) => setChildName(text)}
               value={ChildName}
               underlineColorAndroid="transparent"
               color="black"
             />
+            </View>
 
+            <View style={TitleStyles.shadowOffset}>
             <TextInput
               placeholder="@ اسم المستخدم "
               placeholderTextColor={"#C3C7CA"} 
-              style={[TitleStyles.input , { width: '80%'}]}
+              style={TitleStyles.input }
               onChangeText={(text) => setChildAccount(text)}
               value={ChildAccount}
               underlineColorAndroid="transparent"
               color="black"
             />
+            </View>
 
+            <View style={TitleStyles.shadowOffset}>
              <TextInput
               placeholder="رمز الدخول "
               placeholderTextColor={"#C3C7CA"} 
-              style={[TitleStyles.input , { width: '80%'}]}
+              style={TitleStyles.input}
               onChangeText={(text) => setChildPasscode(text)}
               keyboardType='number-pad'
               maxLength={6}
@@ -198,11 +203,13 @@ const addChildAccount: () => Node = () => {
               secureTextEntry={true}
               color="black"
             />
+            </View>
 
+            <View style={TitleStyles.shadowOffset}>
             <TextInput
               placeholder="تأكيد رمز الدخول "
               placeholderTextColor={"#C3C7CA"} 
-              style={[TitleStyles.input , { width: '80%'}]}
+              style={TitleStyles.input}
               onChangeText={(text) => setrepeatChildPasscode(text)}
               value={repeatChildPasscode}
               keyboardType='number-pad'
@@ -211,11 +218,13 @@ const addChildAccount: () => Node = () => {
               secureTextEntry={true}
               color="black"
             />
+            </View>
 
+            <View style={[TitleStyles.shadowOffset,{zIndex: 1000, elevation: 1000}]}>
              <DropDownPicker
               style={TitleStyles.dropDownStyle}
               textStyle={TitleStyles.categoryText}
-              containerStyle={{ marginBottom: 15}}
+              containerStyle={{ }}
               dropDownContainerStyle={{borderColor: '#C7C7CD', backgroundColor:'#f2f4f7'}}
               placeholderStyle={{color: '#C7C7CD'}}
               open={open}
@@ -227,20 +236,23 @@ const addChildAccount: () => Node = () => {
               placeholder='المرحلة الدراسية'
               onChangeValue={value => setGrade(value)}
             />
+            </View>
 
-
+            <View style={TitleStyles.shadowOffset}>
             <TextInput
               placeholder="اسم المدرسة (اختياري)"
               placeholderTextColor={"#C3C7CA"} 
-              style={[TitleStyles.input , { width: '80%'}]}
+              style={TitleStyles.input}
               onChangeText={(text) => setChildSchool(text)}
               value={ChildSchool}
               underlineColorAndroid="transparent"
+              
               color="black"
             />
+            </View>
 
             <TouchableOpacity
-            style={[TitleStyles.Button ,  TitleStyles.shadowOffset , {marginBottom:30, width: 283, height: 50}]}
+            style={[TitleStyles.Button ,  TitleStyles.shadowOffset , {marginBottom:30, marginTop:30}]}
             onPress={() => submit()} >
              <Text  style={TitleStyles.ButtonText} >إضافة حساب</Text>
             </TouchableOpacity>

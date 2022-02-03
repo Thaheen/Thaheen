@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import {
   SafeAreaView,
   ScrollView,
@@ -9,11 +9,11 @@ import {
   TouchableOpacity,
   useColorScheme,
   View,
-} from 'react-native';
-import TitleStyles from '../Styles/Titles';
+} from 'react-native'
+import TitleStyles from '../Styles/Titles'
 
-import Top2Lines from '../assets/images/top2Lines.svg';
-import Bottom2Lines from '../assets/images/bottom2Lines.svg';
+import Top2Lines from '../assets/images/top2Lines.svg'
+import Bottom2Lines from '../assets/images/bottom2Lines.svg'
 
 const Login = () => {
   return (
@@ -37,10 +37,10 @@ const Login = () => {
         ]}
       />
       <StatusBar />
-      <ScrollView style={{paddingHorizontal: 10}}>
+      <ScrollView>
         <View
           style={{
-            margin: 20,
+            margin: 25,
             backgroundColor: '#FFFFFF',
             borderRadius: 5,
             borderRadius: 25,
@@ -63,44 +63,25 @@ const Login = () => {
             }}>
             تسجيل الدخول
           </Text>
-          <TextInput
-            placeholder="البريد الإلكتروني"
-            placeholderTextColor={'#C8CBCD'}
-            style={[
-              TitleStyles.input,
-              {
-                marginBottom: 10,
-                shadowColor: '#000000',
-                shadowOffset: {
-                  width: 0,
-                  height: 4,
-                },
-                shadowOpacity: 0.25,
-                shadowRadius: 4,
-                elevation: 4,
-              },
-            ]}
-            color="black"
-          />
-          <TextInput
-            placeholder="كلمة المرور"
-            placeholderTextColor={'#C8CBCD'}
-            style={[
-              TitleStyles.input,
-              {
-                marginBottom: 10,
-                shadowColor: '#000000',
-                shadowOffset: {
-                  width: 0,
-                  height: 4,
-                },
-                shadowOpacity: 0.25,
-                shadowRadius: 4,
-                elevation: 4,
-              },
-            ]}
-            color="black"
-          />
+
+          <View style={TitleStyles.shadowOffset}>
+            <TextInput
+              placeholder='البريد الإلكتروني'
+              placeholderTextColor={'#C8CBCD'}
+              style={TitleStyles.input}
+              color='black'
+            />
+          </View>
+
+          <View style={TitleStyles.shadowOffset}>
+            <TextInput
+              placeholder='كلمة المرور'
+              placeholderTextColor={'#C8CBCD'}
+              style={TitleStyles.input}
+              color='black'
+            />
+          </View>
+
           <View
             style={{
               flex: 1,
@@ -112,7 +93,7 @@ const Login = () => {
 
             <Text
               onPress={() => {
-                alert('You tapped the button!');
+                alert('You tapped the button!')
               }}
               style={styles.smallText}>
               نسيت كلمة المرور؟
@@ -128,8 +109,8 @@ const Login = () => {
         </View>
       </ScrollView>
     </SafeAreaView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   smallText: {
@@ -137,6 +118,6 @@ const styles = StyleSheet.create({
     color: '#43515F',
     fontSize: 16,
   },
-});
+})
 
-export default Login;
+export default Login
