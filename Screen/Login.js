@@ -12,6 +12,7 @@ import {
 } from 'react-native'
 import TitleStyles from '../Styles/Titles'
 
+import BouncyCheckbox from 'react-native-bouncy-checkbox'
 import Top2Lines from '../assets/images/top2Lines.svg'
 import Bottom2Lines from '../assets/images/bottom2Lines.svg'
 
@@ -89,7 +90,14 @@ const Login = () => {
               justifyContent: 'space-between',
               paddingHorizontal: 5,
             }}>
-            <Text style={styles.smallText}>تذكرني</Text>
+            <BouncyCheckbox
+              size={20}
+              fillColor='#F5C5AD'
+              style={{flexDirection: 'row-reverse'}}
+              iconStyle={{borderRadius: 3, marginLeft: 10}}
+              text='تذكرني'
+              textStyle={styles.smallText}
+            />
 
             <Text
               onPress={() => {
@@ -117,6 +125,7 @@ const styles = StyleSheet.create({
     fontFamily: 'AJannatLT-Bold',
     color: '#43515F',
     fontSize: 16,
+    textDecorationLine: 'none',
   },
 })
 
