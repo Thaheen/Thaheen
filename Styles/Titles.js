@@ -21,8 +21,6 @@ export default StyleSheet.create({
   input: {
     overflow: 'hidden',
     backgroundColor: '#f8f4f4',
-    borderWidth: 1,
-    borderColor: '#fff',
     height: 52,
     borderRadius: 10,
     fontFamily: 'AJannatLT-Bold',
@@ -30,16 +28,15 @@ export default StyleSheet.create({
     textAlign: 'right',
     paddingRight: 5,
     marginTop: 10,
+    marginBottom: 10,
     color: '#fff',
   },
   dropDownStyle: {
-    marginRight:35,
     marginTop: 10,
-    borderColor: 'white',
+    borderColor: '#f8f4f4',
     flexDirection: 'row-reverse',
     backgroundColor: '#f8f4f4',
-    width:'80%',
-    marginBottom:-15
+    marginBottom:10
   },
   categoryText: {
     textAlign: 'right',
