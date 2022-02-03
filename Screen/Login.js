@@ -109,7 +109,14 @@ const Login = () => {
               paddingHorizontal: 5,
             }}>
             <Text style={styles.smallText}>تذكرني</Text>
-            <Text style={styles.smallText}>نسيت كلمة المرور؟</Text>
+
+            <Text
+              onPress={() => {
+                alert('You tapped the button!');
+              }}
+              style={styles.smallText}>
+              نسيت كلمة المرور؟
+            </Text>
           </View>
           <TouchableOpacity style={TitleStyles.Button}>
             <Text style={TitleStyles.ButtonText}>دخــــول</Text>

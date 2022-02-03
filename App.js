@@ -26,7 +26,8 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-import Login from './Screen/Login' ;
+import Login from './Screen/Login';
+import ForgotPassword from './Screen/ForgotPassword';
 
 const Section = ({children, title}): Node => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -60,10 +61,8 @@ const App: () => Node = () => {
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
-
-  return (
-        Login()
-  );
+  return ForgotPassword();
+  return Login();
 };
 
 const styles = StyleSheet.create({
