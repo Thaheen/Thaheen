@@ -11,10 +11,10 @@ import {
   View,
 } from 'react-native';
 import TitleStyles from '../Styles/Titles';
-
 import Top2Lines from '../assets/images/top2Lines.svg';
 import Bottom2Lines from '../assets/images/bottom2Lines.svg';
 import Envelope from '../assets/images/Envelope.svg';
+import BackBtn from '../assets/images/BackBtn.svg';
 
 const ForgotPassword = () => {
   return (
@@ -25,6 +25,14 @@ const ForgotPassword = () => {
         flexDirection: 'row',
         alignItems: 'center',
       }}>
+      <View>
+        <BackBtn
+          style={[
+            TitleStyles.shadowOffset,
+            {position: 'absolute', bottom: 350, left: 330},
+          ]}
+        />
+      </View>
       <Top2Lines
         style={[
           TitleStyles.shadowOffset,
@@ -65,7 +73,6 @@ const ForgotPassword = () => {
           }}>
           استرجاع كلمة المرور
         </Text>
-
         <TextInput
           placeholder="البريد الإلكتروني"
           placeholderTextColor={'#C8CBCD'}
