@@ -118,7 +118,22 @@ const addChildAccount: () => Node = () => {
       return;
     }
 
+
+  firestore()
+  .collection('Child')
+  .add({
+    name: ChildName,
+    username: ChildAccount,
+    Passcode:ChildPasscode,
+    Grade:grade,
+    School:ChildSchool
+
+  })
+  .then(() => {
     setModalVisible(!modalVisible)
+  });
+
+    
     };
 
     
