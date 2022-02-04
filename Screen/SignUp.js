@@ -30,16 +30,13 @@ const SignUp: () => Node = () => {
   const [Password , setPassword]=useState('')
   const [ConfirmPassword , setConfirmPassword]=useState('')
 
-  const [open, setOpen] = useState(false);
-// choosen option
-  const [TypeValue, setTypeValue] = useState(null);
+ const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+  const [items, setItems] = useState([
+    {label: 'ولي/ـة امر', value: 'ولي/ـة امر'},
+    {label: 'معلم/ـة', value: 'معلم/ـة'}
+  ]);
 
-//list options 
-  const [AccountType, setAccountType] = useState([
-      {label: 'معلم', value: 'معلم'},
-      {label: 'ولي/ـة امر', value: ' ولي/ـة امر '},
-
-    ]);
     const IsValidPass = (password) => {
     const strongPass = new RegExp(
      // "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
@@ -227,13 +224,14 @@ if (IsValidPhone(Phone) == false) {
               dropDownContainerStyle={{borderColor: '#C7C7CD', backgroundColor:'#f2f4f7'}}
               placeholderStyle={{color: '#C7C7CD'}}
               open={open}
-              value={TypeValue}
-              items={AccountType}
-              setOpen={setOpen}
-              setValue={setTypeValue}
-              setItems={setAccountType}
+           
+      value={value}
+      items={items}
+      setOpen={setOpen}
+      setValue={setValue}
+      setItems={setItems}
               placeholder='نوع الحساب'
-              onChangeValue={value => setGrade(value)}
+              onChangeValue={value => setValue(value)}
             />
             </View>
 
