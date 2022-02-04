@@ -28,6 +28,7 @@ import {
 
 import Login from './Screen/Login';
 import ForgotPassword from './Screen/ForgotPassword';
+import SignUp from './Screen/SignUp';
 
 const Section = ({children, title}): Node => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -63,6 +64,7 @@ const App: () => Node = () => {
   };
   return ForgotPassword();
   return Login();
+  return SignUp();
 };
 
 const styles = StyleSheet.create({
