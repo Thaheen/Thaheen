@@ -29,13 +29,8 @@ const AuthRoot = () => {
       </View>
     )
 
-  //The auth stack, here should be the screens of login, signup, forgot password etc...
-  if (!user) {
-    return <Login />
-  }
-
-  //The user stack once he log in
-  return <Home />
+  //Replace with user stacks later
+  return user? <Home /> : <Login />
 }
 
 export default AuthRoot

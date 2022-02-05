@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   useColorScheme,
   View,
+  Platform
 } from 'react-native'
 import TitleStyles from '../Styles/Titles'
 
@@ -54,13 +55,13 @@ const Login = () => {
       }}>
       <Top2Lines
         style={[
-          TitleStyles.shadowOffset,
+          Platform.OS === 'ios' ? TitleStyles.shadowOffset : null,
           {position: 'absolute', top: 0, left: 0},
         ]}
       />
       <Bottom2Lines
         style={[
-          TitleStyles.shadowOffset,
+          Platform.OS === 'ios' ? TitleStyles.shadowOffset : null,
           {position: 'absolute', bottom: 0, right: 0},
         ]}
       />
@@ -92,11 +93,11 @@ const Login = () => {
             تسجيل الدخول
           </Text>
 
-          <View style={TitleStyles.shadowOffset}>
+          <View style={Platform.OS === 'ios' ? TitleStyles.shadowOffset : null}>
             <TextInput
               placeholder='البريد الإلكتروني'
               placeholderTextColor={'#C8CBCD'}
-              style={TitleStyles.input}
+              style={[Platform.OS === 'android' ? TitleStyles.shadowOffset : null, TitleStyles.input,{shadowColor: '#000'}]}
               color='black'
               onChangeText={text => setEmail(text)}
               value={email}
@@ -110,7 +111,7 @@ const Login = () => {
             <TextInput
               placeholder='كلمة المرور'
               placeholderTextColor={'#C8CBCD'}
-              style={TitleStyles.input}
+              style={[Platform.OS === 'android' ? TitleStyles.shadowOffset : null, TitleStyles.input,{shadowColor: '#000'}]}
               color='black'
               onChangeText={text => setPassword(text)}
               value={password}
