@@ -21,8 +21,13 @@ import { SvgUri } from 'react-native-svg';
 import  CheckVector  from '../assets/images/CheckVector.svg'
 import Top2Lines from '../assets/images/top2Lines.svg'
 import Bottom2Lines from '../assets/images/bottom2Lines.svg'
+import BackBtn from '../assets/images/BackBtn.svg';
+import auth from '@react-native-firebase/auth'
 
 const addChildAccount: () => Node = () => {
+
+  //const user = AfaadFirebase.auth().currentUser ;
+
   DropDownPicker.setListMode("SCROLLVIEW");
   const [ChildName , setChildName]=useState('')
   const [ChildAccount , setChildAccount]=useState('')
@@ -55,6 +60,12 @@ const addChildAccount: () => Node = () => {
       return RegxOfNames.test(field);
     };
 
+  //chech if Username only use letters and numbers
+  const onValidUsername = (val) => {
+    const usernameRegex =  /^[a-zA-Z0-9]+$/
+    return usernameRegex.test(val)
+  }
+
     //when submit button is pressed perform this
     const submit = () => {
       // Checking for empty fields
@@ -63,13 +74,12 @@ const addChildAccount: () => Node = () => {
         ChildAccount == "" ||
         ChildPasscode == "" ||
         repeatChildPasscode=="" ||
-        ChildGrade == "" ||
-        ChildSchool== null 
+        grade == ""
       ) {
         Alert.alert("تنبيه ", "جميع الحقول مطلوبة", [
           {
             text: "حسناً",
-            style: "cancel",
+            style: "cancel", 
           },
         ]);
   
@@ -77,6 +87,17 @@ const addChildAccount: () => Node = () => {
       } 
       if (IsValidfield(ChildName) == false) {
         Alert.alert("تنبيه", "حقل \"اسم الطفل\" يجب ان يحتوي على حروف فقط", [
+          {
+            text: "حسنًا",
+            style: "cancel",
+          },
+        ]);
+        return
+      }
+
+      
+      if (onValidUsername(ChildAccount) == false) {
+        Alert.alert("تنبيه", "حقل \"اسم المستخدم\" يجب ان يحتوي على حروف انجليزية و ارقام فقط", [
           {
             text: "حسنًا",
             style: "cancel",
@@ -120,14 +141,14 @@ const addChildAccount: () => Node = () => {
 
 
   firestore()
-  .collection('Child')
+  .collection('Student')
   .add({
-    name: ChildName,
-    username: ChildAccount,
-    Passcode:ChildPasscode,
+    Username: ChildAccount,
+    Fullname: ChildName,
     Grade:grade,
-    School:ChildSchool
-
+    SchoolName:ChildSchool,
+    Passcode:ChildPasscode,
+   // ParentID: user.uid
   })
   .then(() => {
     setModalVisible(!modalVisible)
@@ -142,6 +163,15 @@ const addChildAccount: () => Node = () => {
   return (
     <View >
         <SafeAreaView style={{backgroundColor:'#DAE2E9' , height:'100%' , justifyContent:'center' , alignItems:'center'}} >
+        <View>
+        
+        <BackBtn
+          style={[
+            TitleStyles.shadowOffset,
+            {position: 'absolute', left: 138},
+          ]}
+        />
+      </View>
 
 
           <Top2Lines style={[TitleStyles.shadowOffset,{position: 'absolute', top: 0, left: 0}]} />
