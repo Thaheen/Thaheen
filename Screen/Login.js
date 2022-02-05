@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {
   SafeAreaView,
   ScrollView,
@@ -15,8 +15,35 @@ import TitleStyles from '../Styles/Titles'
 import BouncyCheckbox from 'react-native-bouncy-checkbox'
 import Top2Lines from '../assets/images/top2Lines.svg'
 import Bottom2Lines from '../assets/images/bottom2Lines.svg'
+import auth from '@react-native-firebase/auth'
 
 const Login = () => {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  const onLogin = () => {
+    if (email !== '' && password !== '') {
+      auth()
+        .signInWithEmailAndPassword(email, password)
+        .then(() => {
+          console.log('User account signed in!')
+        })
+        .catch(error => {
+          if (error.code === 'auth/email-already-in-use') {
+            console.log('That email address is already in use!')
+          }
+
+          if (error.code === 'auth/invalid-email') {
+            console.log('That email address is invalid!')
+          }
+
+          console.error(error)
+        })
+    } else {
+      console.error('empty email or password or both')
+    }
+  }
+
   return (
     <SafeAreaView
       style={{
@@ -71,6 +98,11 @@ const Login = () => {
               placeholderTextColor={'#C8CBCD'}
               style={TitleStyles.input}
               color='black'
+              onChangeText={text => setEmail(text)}
+              value={email}
+              textContentType='emailAddress'
+              clearButtonMode='while-editing'
+              keyboardType='email-address'
             />
           </View>
 
@@ -80,6 +112,11 @@ const Login = () => {
               placeholderTextColor={'#C8CBCD'}
               style={TitleStyles.input}
               color='black'
+              onChangeText={text => setPassword(text)}
+              value={password}
+              secureTextEntry={true}
+              textContentType='password'
+              clearButtonMode='while-editing'
             />
           </View>
 
@@ -107,7 +144,7 @@ const Login = () => {
               نسيت كلمة المرور؟
             </Text>
           </View>
-          <TouchableOpacity style={TitleStyles.Button}>
+          <TouchableOpacity style={TitleStyles.Button} onPress={onLogin}>
             <Text style={TitleStyles.ButtonText}>دخــــول</Text>
           </TouchableOpacity>
           <Text style={[{textAlign: 'center'}, styles.smallText]}>
