@@ -22,6 +22,7 @@ import  CheckVector  from '../assets/images/CheckVector.svg'
 import Top2Lines from '../assets/images/top2Lines.svg'
 import Bottom2Lines from '../assets/images/bottom2Lines.svg'
 import BackBtn from '../assets/images/BackBtn.svg';
+import SuccessModel from '../Components/SuccessModel'
 import auth from '@react-native-firebase/auth'
 
 const addChildAccount: () => Node = () => {
@@ -176,25 +177,9 @@ const addChildAccount: () => Node = () => {
 
           <Top2Lines style={[TitleStyles.shadowOffset,{position: 'absolute', top: 0, left: 0}]} />
           <Bottom2Lines style={[TitleStyles.shadowOffset,{position: 'absolute', bottom: 0, right: 0}]} />
-           <Modal
-              animationType="fade"
-              transparent={true}
-              visible={modalVisible}
-            >
-              <View style={{backgroundColor:'rgba(52, 52, 52, 0.5)', height: '100%' }}>
-                <View style={TitleStyles.modalContent}>
-                <CheckVector width={120} height={120} style={{marginLeft:80 , marginTop:-75}} />
-                    <Text style={[TitleStyles.subTitle , {textAlign:'center' , fontWeight:'bold'}]}>تمت إضافة الطفل بنجاح</Text>
-                     <TouchableOpacity
-                        style={[TitleStyles.Button , TitleStyles.shadowOffset,{backgroundColor:'#DAE2E9'}]}
-                         onPress={() => setModalVisible(!modalVisible)} >
-                        <Text  style={TitleStyles.ButtonText} >حسنا </Text>
-                      </TouchableOpacity>
 
-                </View>
-              </View>
-              
-            </Modal>
+           <SuccessModel message={'تمت إضافة الطفل بنجاح'}  modalVisible={modalVisible} setModalVisible={setModalVisible} />
+           
          <View style={{backgroundColor:'#FFFFFF',
             width :355,
             borderRadius:25,
