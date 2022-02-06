@@ -25,7 +25,7 @@ import SuccessModel from '../Components/SuccessModel';
 import ErrorModel from '../Components/ErrorModel';
 import auth from '@react-native-firebase/auth';
 
-const addChildAccount: () => Node = () => {
+const AddChildAccount: () => Node = () => {
   //const user = AfaadFirebase.auth().currentUser ;
 
   DropDownPicker.setListMode('SCROLLVIEW');
@@ -308,4 +308,4 @@ const [ErrorMessage , setErrorMessage] =useState('');
   );
 };
 
-export default addChildAccount;
+export default AddChildAccount;

@@ -2,8 +2,12 @@ import React, {useState, useEffect} from 'react'
 import {View, Text, ActivityIndicator} from 'react-native'
 import auth from '@react-native-firebase/auth'
 
-import Login from '../Screen/Login.js'
-import Home from '../Screen/Home.js'
+import AuthStack from './AuthStack.js'
+import InstructorStack from './InstructorStack.js'
+import ParentStack from './ParentStack.js'
+
+import { NavigationContainer } from '@react-navigation/native';
+
 
 const AuthRoot = () => {
   // Set an initializing state whilst Firebase connects
@@ -29,8 +33,12 @@ const AuthRoot = () => {
       </View>
     )
 
-  //Replace with user stacks later
-  return user? <Home /> : <Login />
+//initially only log in to the parent stack -> instructor screens not yet implemented
+  return (
+    <NavigationContainer>
+      {user ? <ParentStack /> : <AuthStack />}
+    </NavigationContainer>
+  );
 }
 
 export default AuthRoot
