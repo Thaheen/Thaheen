@@ -124,4 +124,14 @@ fontFamily: 'AJannatLT-Bold',
     textAlign: 'right',
 
   },
+
+  childItem: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    backgroundColor:'#F3DBBD',
+    borderRadius:88,
+    margin:10 ,
+    flexDirection: "row",
+  }
 });
