@@ -117,4 +117,14 @@ export default StyleSheet.create({
     shadowRadius: 9,
     elevation: 9,
   },
+
+  childItem: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    backgroundColor:'#F3DBBD',
+    borderRadius:88,
+    margin:10 ,
+    flexDirection: "row",
+  }
 });
