@@ -18,13 +18,11 @@ import TitleStyles from '../Styles/Titles';
 import firestore from '@react-native-firebase/firestore';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {SvgUri} from 'react-native-svg';
-import CheckVector from '../assets/images/CheckVector.svg';
 import Top2Lines from '../assets/images/top2Lines.svg';
 import Bottom2Lines from '../assets/images/bottom2Lines.svg';
 import BackBtn from '../assets/images/BackBtn.svg';
 import SuccessModel from '../Components/SuccessModel';
 import ErrorModel from '../Components/ErrorModel';
-import Error from '../Components/ErrorModel';
 import auth from '@react-native-firebase/auth';
 
 const addChildAccount: () => Node = () => {
