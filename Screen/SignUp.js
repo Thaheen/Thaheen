@@ -1,4 +1,4 @@
-import React , { useState }  from 'react';
+import React, {useState} from 'react';
 import type {Node} from 'react';
 import {
   SafeAreaView,
@@ -11,301 +11,330 @@ import {
   TextInput,
   Alert,
   Modal,
-  TouchableOpacity
+  TouchableOpacity,
 } from 'react-native';
-
-import TitleStyles from '../Styles/Titles'
+import TitleStyles from '../Styles/Titles';
 import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 import DropDownPicker from 'react-native-dropdown-picker';
-import { SvgUri } from 'react-native-svg';
-import  CheckVector  from '../assets/images/CheckVector.svg'
-import Top2Lines from '../assets/images/top2Lines.svg'
-import Bottom2Lines from '../assets/images/bottom2Lines.svg'
-
+import {SvgUri} from 'react-native-svg';
+import CheckVector from '../assets/images/CheckVector.svg';
+import SuccessModel from '../Components/SuccessModel';
+import ErrorModel from '../Components/ErrorModel';
+import Error from '../Components/ErrorModel';
+import Top2Lines from '../assets/images/top2Lines.svg';
+import Bottom2Lines from '../assets/images/bottom2Lines.svg';
+import 'firebase/compat/auth';
 const SignUp: () => Node = () => {
-  DropDownPicker.setListMode("SCROLLVIEW");
-  const [FullName , setFullName]=useState('')
-  const [Email , setEmail]=useState('')
-  const [Phone , setPhone]=useState('')
-  const [Password , setPassword]=useState('')
-  const [ConfirmPassword , setConfirmPassword]=useState('')
+  DropDownPicker.setListMode('SCROLLVIEW');
+  const [FullName, setFullName] = useState('');
+  const [Email, setEmail] = useState('');
+  const [Phone, setPhone] = useState('');
+  const [Password, setPassword] = useState('');
+  const [ConfirmPassword, setConfirmPassword] = useState('');
 
- const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
+  // Error model
+
+  const [ErrormodalVisible, setErrormodalVisible] = useState(false);
+  const [ErrorMessage, setErrorMessage] = useState('');
+  // DropDown
+  const [open, setOpen] = useState(false);
+  const [SelectedValue, setSelectedValue] = useState(null);
+
   const [items, setItems] = useState([
     {label: 'ولي/ـة امر', value: 'ولي/ـة امر'},
-    {label: 'معلم/ـة', value: 'معلم/ـة'}
+    {label: 'معلم/ـة', value: 'معلم/ـة'},
   ]);
 
-    const IsValidPass = (password) => {
+  const IsValidPass = password => {
     const strongPass = new RegExp(
-     // "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
-   "^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
+      // "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
+      '^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})',
     );
     return strongPass.test(password);
   };
-  const IsValidPhone = (phone) => {
+  const IsValidPhone = phone => {
     const RegxPhone = /^[0-9]*$/;
     return RegxPhone.test(phone);
   };
 
-  const IsValidPhoneStart = (phone) => {
+  const IsValidPhoneStart = phone => {
     var regex = new RegExp(/^(05|5)(5|0|3|6|4|9|1|8|7)([0-9]{7})$/);
     return regex.test(phone);
   };
 
-    //Success modal 
-    const [modalVisible, setModalVisible] = useState(false);
+  //Success modal
+  const [modalVisible, setModalVisible] = useState(false);
 
   // Check if name contain numbers
-  const IsValidfield= (field) => {
-      const RegxOfNames = /^[a-zA-Z\s\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF]*$/;
-      return RegxOfNames.test(field);
-    };
+  const IsValidfield = field => {
+    const RegxOfNames = /^[a-zA-Z\s\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF]*$/;
+    return RegxOfNames.test(field);
+  };
 
-    //when submit button is pressed perform this
-    const submit = () => {
-      // Checking for empty fields
-      if (
-        FullName == "" || 
-        Email == "" ||
-        Phone == "" || 
-        Password == "" ||
-        ConfirmPassword==""  )
+  //when submit button is pressed perform this
+  const submit = () => {
+    // Checking for empty fields
+    if (
+      FullName == '' ||
+      Email == '' ||
+      Phone == '' ||
+      Password == '' ||
+      ConfirmPassword == '' ||
+      SelectedValue == null
+    ) {
+      setErrorMessage('جميع الحقول مطلوبة');
+      setErrormodalVisible(!ErrormodalVisible);
 
-      {
-        Alert.alert("تنبيه ", "جميع الحقول مطلوبة", [
-          {
-            text: "حسناً",
-            style: "cancel",
-          },
-        ]);
-  
-        return
-      } 
-      if (IsValidfield(FullName) == false) {
-        Alert.alert("تنبيه", "حقل \"الاسم الكامل \" يجب ان يحتوي على حروف فقط", [
-          {
-            text: "حسنًا",
-            style: "cancel",
-          },
-        ]);
-        return
-      }
-      if(FullName.replace(/\s+/g,'').length > 30 || FullName.replace(/\s+/g,'').length <  2){
-        Alert.alert("تنبيه", "حقل الاسم الكامل يجب ألا يقل عن حرفين وألا يتجاوز ٣٠ حرف ", [
-          {
-            text: "حسنًا",
-            style: "cancel",
-          },
-        ]);
-        return
-      }
-if (IsValidPhone(Phone) == false) {
-      Alert.alert(
-        "تنبيه",
-        " يجب ان يكون رقم الهاتف من أرقام إنجليزية فقط ",
-
-        [
-          {
-            text: "حسنًا",
-            onPress: () => console.log("yes Pressed"),
-            style: "cancel",
-          },
-        ]
+      return;
+    }
+    if (IsValidfield(FullName) == false) {
+      setErrorMessage('حقل الاسم الكامل يجب أن يحتوي على حروف فقط');
+      setErrormodalVisible(!ErrormodalVisible);
+      return;
+    }
+    if (
+      FullName.replace(/\s+/g, '').length > 30 ||
+      FullName.replace(/\s+/g, '').length < 2
+    ) {
+      setErrorMessage(
+        'حقل الاسم الكامل يجب ألا يقل عن حرفين وألا يتجاوز ٣٠ حرف',
       );
+      setErrormodalVisible(!ErrormodalVisible);
+
+      return;
+    }
+    if (IsValidPhone(Phone) == false) {
+      setErrorMessage(' يجب ان يكون رقم الهاتف من أرقام إنجليزية فقط ');
+      setErrormodalVisible(!ErrormodalVisible);
       return;
     }
     if (IsValidPhoneStart(Phone) == false) {
-      Alert.alert(
-        "تنبيه",
-        " يجب أن يبدأ الرقم بـ 05 ويتبعه 8 خانات فقط",
-
-        [
-          {
-            text: "حسنًا",
-            onPress: () => console.log("yes Pressed"),
-            style: "cancel",
-          },
-        ]
-      );
+      setErrorMessage('يجب أن يبدأ الرقم بـ 05 ويتبعه 8 خانات فقط');
+      setErrormodalVisible(!ErrormodalVisible);
       return;
     }
-  
+
     if (IsValidPass(Password) == false) {
-      Alert.alert(
-        "كلمة السر ضعيفة ",
-        "كلمة السر لا تستوفي الشروط المطلوبة",
-
-        [
-          {
-            text: "حسنًا",
-            onPress: () => console.log("yes Pressed"),
-            style: "cancel",
-          },
-        ]
-      );
+      setErrorMessage('كلمة السر لا تستوفي الشروط المطلوبة');
+      setErrormodalVisible(!ErrormodalVisible);
       return;
     }
 
-      if (Password !== ConfirmPassword) {
-      Alert.alert("تنبيه ", "كلمة المرور وتأكيد رمز كلمة المررور يجب أن تتطابق", [
-        {
-          text: "حسنًا",
-          onPress: () => console.log("yes Pressed"),
-          style: "cancel",
-        },
-      ]);
+    if (Password !== ConfirmPassword) {
+      setErrorMessage('كلمة المرور وتأكيد رمز كلمة المررور يجب أن تتطابق');
+      setErrormodalVisible(!ErrormodalVisible);
+      return;
       return;
     }
 
+    if (SelectedValue == "'ولي/ـة امر'") {
+      auth()
+        .createUserWithEmailAndPassword(Email, Password)
+        .then(response => {
+          firestore().collection('Instructors Accounts').add({
+            fullName: FullName,
+            email: Email,
+            phone: Phone,
+            type: SelectedValue,
+          });
+        })
+        .then(() => {
+          setModalVisible(!modalVisible);
+        })
+        .catch(error => {
+          switch (error.code) {
+            case 'auth/invalid-email':
+              setErrorMessage('البريد الألكتروني غير صحيح ');
+              setErrormodalVisible(!ErrormodalVisible);
+                     console.log('User account signed in!')
+              break;
 
-    setModalVisible(!modalVisible)
-    };
+            case 'auth/network-request-failed':
+              setErrorMessage('الرجاء التحقق من الأتصال بالانترنت');
+              setErrormodalVisible(!ErrormodalVisible);
+                     console.log('User account signed in!')
+              break;
+
+            case 'auth/email-already-in-use':
+              setErrorMessage('البريد الألكتروني مسجل من قبل');
+              setErrormodalVisible(!ErrormodalVisible);
+                     console.log('User account signed in!')
+              break;
+
+            case 'auth/phone-number-already-exists':
+              setErrorMessage('رقم الجوال مسجل من قبل');
+              setErrormodalVisible(!ErrormodalVisible);
+                     console.log('User account signed in!')
+              break;
+          }
+        });
+    } else {
+      auth()
+        .createUserWithEmailAndPassword(Email, Password)
+        .then(response => {
+          firestore()
+            .collection('Instructors Accounts')
+            .add({
+              fullName: FullName,
+              email: Email,
+              phone: Phone,
+              type: SelectedValue,
+            })
+            .then(() => {
+              setModalVisible(!modalVisible);
+            });
+        }); // then end
+    } // else end
+  };
 
   return (
-    <View >
-        <SafeAreaView style={{backgroundColor:'#DAE2E9' , height:'100%' , justifyContent:'center' , alignItems:'center'}} >
+    <View>
+      <SafeAreaView
+        style={{
+          backgroundColor: '#DAE2E9',
+          height: '100%',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <Top2Lines
+          style={[
+            TitleStyles.shadowOffset,
+            {position: 'absolute', top: 0, left: 0},
+          ]}
+        />
+        <Bottom2Lines
+          style={[
+            TitleStyles.shadowOffset,
+            {position: 'absolute', bottom: 0, right: 0},
+          ]}
+        />
+        <SuccessModel
+          message={'تم إنشاء الحساب بنجاح'}
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+        />
 
-
-          <Top2Lines style={[TitleStyles.shadowOffset,{position: 'absolute', top: 0, left: 0}]} />
-          <Bottom2Lines style={[TitleStyles.shadowOffset,{position: 'absolute', bottom: 0, right: 0}]} />
-           <Modal
-              animationType="fade"
-              transparent={true}
-              visible={modalVisible}
-            >
-              <View style={{backgroundColor:'rgba(52, 52, 52, 0.5)', height: '100%' }}>
-                <View style={TitleStyles.modalContent}>
-                <CheckVector width={120} height={120} style={{marginLeft:80 , marginTop:-75}} />
-                    <Text style={[TitleStyles.subTitle , {textAlign:'center' , fontWeight:'bold'}]}>تمت إضافة الطفل بنجاح</Text>
-                     <TouchableOpacity
-                        style={[TitleStyles.Button , TitleStyles.shadowOffset,{backgroundColor:'#DAE2E9'}]}
-                         onPress={() => setModalVisible(!modalVisible)} >
-                        <Text  style={TitleStyles.ButtonText} >حسنا </Text>
-                      </TouchableOpacity>
-
-                </View>
-              </View>
-              
-            </Modal>
-         <View style={{backgroundColor:'#FFFFFF',
-            width :355,
-            borderRadius:25,
-            shadowColor: "#000",
+        <ErrorModel
+          message={ErrorMessage}
+          modalVisible={ErrormodalVisible}
+          setModalVisible={setErrormodalVisible}
+        />
+        <View
+          style={{
+            backgroundColor: '#FFFFFF',
+            width: 355,
+            borderRadius: 25,
+            shadowColor: '#000',
             shadowOffset: {
-	          width: 3,
-	          height: 9,
-              },
+              width: 3,
+              height: 9,
+            },
             shadowOpacity: 0.39,
-            shadowRadius: 8.30,
+            shadowRadius: 8.3,
             elevation: 13,
-            padding:25,
-            marginTop:70}}>
-            <Text style={[TitleStyles.sectionTitle ,{marginBottom:20}]}>
+            padding: 25,
+            marginTop: 70,
+          }}>
+          <Text style={[TitleStyles.sectionTitle, {marginBottom: 3}]}>
             إنشاء حساب
-            </Text>
-            <View style={TitleStyles.shadowOffset}>
+          </Text>
+          <Text style={TitleStyles.WarningText}>*جميـع الحقول مطلوبـــة</Text>
+          <View style={TitleStyles.shadowOffset}>
             <TextInput
-              placeholder="الاسم الكامل"
-              placeholderTextColor={"#C3C7CA"} 
+              placeholder="*الاسم الكامل"
+              placeholderTextColor={'#C3C7CA'}
               style={[TitleStyles.input]}
-              onChangeText={(text) => setFullName(text)}
+              onChangeText={text => setFullName(text)}
               value={FullName}
               underlineColorAndroid="transparent"
               color="black"
             />
-            </View>
-             <View style={[TitleStyles.shadowOffset,{zIndex: 1000, elevation: 1000}]}>
-             <DropDownPicker
+          </View>
+          <View
+            style={[TitleStyles.shadowOffset, {zIndex: 1000, elevation: 1000}]}>
+            <DropDownPicker
               style={TitleStyles.dropDownStyle}
               textStyle={TitleStyles.categoryText}
-              containerStyle={{ }}
-              dropDownContainerStyle={{borderColor: '#C7C7CD', backgroundColor:'#f2f4f7'}}
+              containerStyle={{}}
+              dropDownContainerStyle={{
+                borderColor: '#C7C7CD',
+                backgroundColor: '#f2f4f7',
+              }}
               placeholderStyle={{color: '#C7C7CD'}}
               open={open}
-           
-      value={value}
-      items={items}
-      setOpen={setOpen}
-      setValue={setValue}
-      setItems={setItems}
-              placeholder='نوع الحساب'
-              onChangeValue={value => setValue(value)}
+              value={SelectedValue}
+              items={items}
+              setOpen={setOpen}
+              setValue={setSelectedValue}
+              setItems={setItems}
+              placeholder="*نوع الحساب"
+              onChangeValue={value => setSelectedValue(value)}
             />
-            </View>
+          </View>
 
-
-            <View style={TitleStyles.shadowOffset}>
+          <View style={TitleStyles.shadowOffset}>
             <TextInput
               placeholder="البريد الالكتروني "
-              placeholderTextColor={"#C3C7CA"} 
-              style={TitleStyles.input }
-              onChangeText={(text) => setEmail(text)}
+              placeholderTextColor={'#C3C7CA'}
+              style={TitleStyles.input}
+              onChangeText={text => setEmail(text)}
               value={Email}
               underlineColorAndroid="transparent"
               color="black"
             />
-            </View>
+          </View>
 
-            <View style={TitleStyles.shadowOffset}>
-             <TextInput
-              placeholder="رقم الجوال"
-              placeholderTextColor={"#C3C7CA"} 
+          <View style={TitleStyles.shadowOffset}>
+            <TextInput
+              placeholder="* رقم الجوال مثال : ٠٥٠ او ٩٦٦"
+              placeholderTextColor={'#C3C7CA'}
               style={TitleStyles.input}
-              onChangeText={(text) => setPhone(text)}
-              keyboardType='number-pad'
+              onChangeText={text => setPhone(text)}
+              keyboardType="number-pad"
               value={Phone}
               underlineColorAndroid="transparent"
-              secureTextEntry={true}
               color="black"
             />
-            </View>
+          </View>
 
-       <View style={TitleStyles.shadowOffset}>
+          <View style={TitleStyles.shadowOffset}>
             <TextInput
-              placeholder=" كلمة المرور"
-              placeholderTextColor={"#C3C7CA"} 
+              placeholder="*كلمة المرور"
+              placeholderTextColor={'#C3C7CA'}
               style={TitleStyles.input}
-              onChangeText={(text) => setPassword(text)}
+              onChangeText={text => setPassword(text)}
               value={Password}
-              keyboardType='number-pad'
               underlineColorAndroid="transparent"
               secureTextEntry={true}
               color="black"
             />
-            </View>
-            <View style={TitleStyles.shadowOffset}>
+          </View>
+          <View style={TitleStyles.shadowOffset}>
             <TextInput
-              placeholder="تأكيد كلمة المرور"
-              placeholderTextColor={"#C3C7CA"} 
+              placeholder="*تأكيد كلمة المرور"
+              placeholderTextColor={'#C3C7CA'}
               style={TitleStyles.input}
-              onChangeText={(text) => setConfirmPassword(text)}
+              onChangeText={text => setConfirmPassword(text)}
               value={ConfirmPassword}
-              keyboardType='number-pad'
               underlineColorAndroid="transparent"
-              secureTextEntry={true}
               color="black"
             />
-            </View>
+          </View>
 
-    
-
-            <TouchableOpacity
-            style={[TitleStyles.Button ,  TitleStyles.shadowOffset , {marginBottom:30, marginTop:30}]}
-            onPress={() => submit()} >
-             <Text  style={TitleStyles.ButtonText} >إنشاء حساب</Text>
-            </TouchableOpacity>
-
-            
-            </View>
-
-            
-        </SafeAreaView>
+          <TouchableOpacity
+            style={[
+              TitleStyles.Button,
+              TitleStyles.shadowOffset,
+              {marginBottom: 30, marginTop: 30},
+            ]}
+            onPress={() => submit()}>
+            <Text style={TitleStyles.ButtonText}>إنشاء حساب</Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
     </View>
   );
 };
-
-
 
 export default SignUp;

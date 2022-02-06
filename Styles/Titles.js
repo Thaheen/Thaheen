@@ -70,7 +70,7 @@ export default StyleSheet.create({
 
   ButtonText: {
     fontFamily: 'AJannatLT-Bold',
-    fontSize: 28,
+    fontSize: 23,
     color: '#43515F',
     textAlign: 'center',
   },
@@ -116,5 +116,12 @@ export default StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 9,
     elevation: 9,
+  },
+  WarningText:{
+fontFamily: 'AJannatLT-Bold',
+    fontSize: 16,
+    color: '#EFA17A',
+    textAlign: 'right',
+
   },
 });
