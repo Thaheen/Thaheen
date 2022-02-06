@@ -128,7 +128,7 @@ const SignUp: () => Node = () => {
       return;
     }
 
-    if (SelectedValue == "'ولي/ـة امر'") {
+    if (SelectedValue == "ولي/ـة امر") {
       auth()
         .createUserWithEmailAndPassword(Email, Password)
         .then(response => {
@@ -170,6 +170,7 @@ const SignUp: () => Node = () => {
           }
         });
     } else {
+
       auth()
         .createUserWithEmailAndPassword(Email, Password)
         .then(response => {
