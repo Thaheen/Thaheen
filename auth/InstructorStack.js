@@ -10,7 +10,7 @@ const InstructorStack = () => {
 //Please put  here all the screens related to instructor homepage, classroom..etc
   return (
       <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Home" component={Home} options={{headerShown: false}}/>
       </Stack.Navigator>
   );
 }

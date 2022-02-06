@@ -12,10 +12,10 @@ const ParentStack = () => {
 
 //Please put  here all the screens related to parent homepage, childlist..etc
   return (
-      <Stack.Navigator initialRouteName="ChildList">
-        <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="ChildList" component={ChildList} />
-        <Stack.Screen name="AddChildAccount" component={AddChildAccount} />
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen name="Home" component={Home} options={{headerShown: false}}/>
+        <Stack.Screen name="ChildList" component={ChildList} options={{headerShown: false}}/>
+        <Stack.Screen name="AddChildAccount" component={AddChildAccount} options={{headerShown: false}}/>
       </Stack.Navigator>
   );
 }
