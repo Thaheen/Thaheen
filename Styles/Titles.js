@@ -30,8 +30,6 @@ export default StyleSheet.create({
   input: {
     overflow: 'hidden',
     backgroundColor: '#f8f4f4',
-    borderWidth: 1,
-    borderColor: '#fff',
     height: 52,
     borderRadius: 10,
     fontFamily: 'AJannatLT-Bold',
