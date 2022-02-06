@@ -132,7 +132,7 @@ const SignUp: () => Node = () => {
       auth()
         .createUserWithEmailAndPassword(Email, Password)
         .then(response => {
-          firestore().collection('Instructors Accounts').add({
+          firestore().collection('Parents Accounts').add({
             fullName: FullName,
             email: Email,
             phone: Phone,
@@ -171,21 +171,46 @@ const SignUp: () => Node = () => {
         });
     } else {
 
-      auth()
+       auth()
         .createUserWithEmailAndPassword(Email, Password)
         .then(response => {
-          firestore()
-            .collection('Instructors Accounts')
-            .add({
-              fullName: FullName,
-              email: Email,
-              phone: Phone,
-              type: SelectedValue,
-            })
-            .then(() => {
-              setModalVisible(!modalVisible);
-            });
-        }); // then end
+          firestore().collection('Instructors Accounts').add({
+            fullName: FullName,
+            email: Email,
+            phone: Phone,
+            type: SelectedValue,
+          });
+        })
+        .then(() => {
+          setModalVisible(!modalVisible);
+        })
+        .catch(error => {
+          switch (error.code) {
+            case 'auth/invalid-email':
+              setErrorMessage('البريد الألكتروني غير صحيح ');
+              setErrormodalVisible(!ErrormodalVisible);
+                     console.log('User account signed in!')
+              break;
+
+            case 'auth/network-request-failed':
+              setErrorMessage('الرجاء التحقق من الأتصال بالانترنت');
+              setErrormodalVisible(!ErrormodalVisible);
+                     console.log('User account signed in!')
+              break;
+
+            case 'auth/email-already-in-use':
+              setErrorMessage('البريد الألكتروني مسجل من قبل');
+              setErrormodalVisible(!ErrormodalVisible);
+                     console.log('User account signed in!')
+              break;
+
+            case 'auth/phone-number-already-exists':
+              setErrorMessage('رقم الجوال مسجل من قبل');
+              setErrormodalVisible(!ErrormodalVisible);
+                     console.log('User account signed in!')
+              break;
+          }
+        });
     } // else end
   };
 
