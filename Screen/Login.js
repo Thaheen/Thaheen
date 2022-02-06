@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -9,21 +9,22 @@ import {
   TouchableOpacity,
   useColorScheme,
   View,
-  Platform
-} from 'react-native'
-import TitleStyles from '../Styles/Titles'
+  Platform,
+} from 'react-native';
+import TitleStyles from '../Styles/Titles';
 
-import BouncyCheckbox from 'react-native-bouncy-checkbox'
-import Top2Lines from '../assets/images/top2Lines.svg'
-import Bottom2Lines from '../assets/images/bottom2Lines.svg'
-import auth from '@react-native-firebase/auth'
+import BouncyCheckbox from 'react-native-bouncy-checkbox';
+import Top2Lines from '../assets/images/top2Lines.svg';
+import Bottom2Lines from '../assets/images/bottom2Lines.svg';
+import auth from '@react-native-firebase/auth';
 import ErrorModel from '../Components/ErrorModel';
 import Error from '../Components/ErrorModel';
+import {default as ForgotPassword} from '../Screen/ForgotPassword.js';
 
-const Login = () => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-    // Error model
+const Login = ({navigation}) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  // Error model
 
   const [ErrormodalVisible, setErrormodalVisible] = useState(false);
   const [ErrorMessage, setErrorMessage] = useState('');
@@ -33,25 +34,25 @@ const Login = () => {
       auth()
         .signInWithEmailAndPassword(email, password)
         .then(() => {
-          console.log('User account signed in!')
+          console.log('User account signed in!');
         })
         .catch(error => {
           if (error.code === 'auth/email-already-in-use') {
-            console.log('That email address is already in use!')
+            console.log('That email address is already in use!');
           }
 
           if (error.code === 'auth/invalid-email') {
-              setErrorMessage('إيميل غيرر صالح');
-              setErrormodalVisible(!ErrormodalVisible);
-            console.log('That email address is invalid!')
+            setErrorMessage('إيميل غيرر صالح');
+            setErrormodalVisible(!ErrormodalVisible);
+            console.log('That email address is invalid!');
           }
 
-          console.error(error)
-        })
+          console.error(error);
+        });
     } else {
-      console.error('empty email or password or both')
+      console.error('empty email or password or both');
     }
-  }
+  };
 
   return (
     <SafeAreaView
@@ -73,11 +74,11 @@ const Login = () => {
           {position: 'absolute', bottom: 0, right: 0},
         ]}
       />
-          <ErrorModel
-          message={ErrorMessage}
-          modalVisible={ErrormodalVisible}
-          setModalVisible={setErrormodalVisible}
-        />
+      <ErrorModel
+        message={ErrorMessage}
+        modalVisible={ErrormodalVisible}
+        setModalVisible={setErrormodalVisible}
+      />
       <StatusBar />
       <ScrollView>
         <View
@@ -108,29 +109,37 @@ const Login = () => {
 
           <View style={Platform.OS === 'ios' ? TitleStyles.shadowOffset : null}>
             <TextInput
-              placeholder='البريد الإلكتروني'
+              placeholder="البريد الإلكتروني"
               placeholderTextColor={'#C8CBCD'}
-              style={[Platform.OS === 'android' ? TitleStyles.shadowOffset : null, TitleStyles.input,{shadowColor: '#000'}]}
-              color='black'
+              style={[
+                Platform.OS === 'android' ? TitleStyles.shadowOffset : null,
+                TitleStyles.input,
+                {shadowColor: '#000'},
+              ]}
+              color="black"
               onChangeText={text => setEmail(text)}
               value={email}
-              textContentType='emailAddress'
-              clearButtonMode='while-editing'
-              keyboardType='email-address'
+              textContentType="emailAddress"
+              clearButtonMode="while-editing"
+              keyboardType="email-address"
             />
           </View>
 
           <View style={TitleStyles.shadowOffset}>
             <TextInput
-              placeholder='كلمة المرور'
+              placeholder="كلمة المرور"
               placeholderTextColor={'#C8CBCD'}
-              style={[Platform.OS === 'android' ? TitleStyles.shadowOffset : null, TitleStyles.input,{shadowColor: '#000'}]}
-              color='black'
+              style={[
+                Platform.OS === 'android' ? TitleStyles.shadowOffset : null,
+                TitleStyles.input,
+                {shadowColor: '#000'},
+              ]}
+              color="black"
               onChangeText={text => setPassword(text)}
               value={password}
               secureTextEntry={true}
-              textContentType='password'
-              clearButtonMode='while-editing'
+              textContentType="password"
+              clearButtonMode="while-editing"
             />
           </View>
 
@@ -143,16 +152,16 @@ const Login = () => {
             }}>
             <BouncyCheckbox
               size={20}
-              fillColor='#F5C5AD'
+              fillColor="#F5C5AD"
               style={{flexDirection: 'row-reverse'}}
               iconStyle={{borderRadius: 3, marginLeft: 10}}
-              text='تذكرني'
+              text="تذكرني"
               textStyle={styles.smallText}
             />
 
             <Text
               onPress={() => {
-                alert('You tapped the button!')
+                navigation.navigate('ForgotPassword');
               }}
               style={styles.smallText}>
               نسيت كلمة المرور؟
@@ -168,8 +177,8 @@ const Login = () => {
         </View>
       </ScrollView>
     </SafeAreaView>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   smallText: {
@@ -178,6 +187,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textDecorationLine: 'none',
   },
-})
+});
 
-export default Login
+export default Login;

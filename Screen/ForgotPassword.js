@@ -19,8 +19,9 @@ import BackBtn from '../assets/images/BackBtn.svg';
 import auth from '@react-native-firebase/auth';
 import ErrorModel from '../Components/ErrorModel';
 import SuccessModel from '../Components/SuccessModel';
+import {default as Login} from '../Screen/Login.js';
 
-const ForgotPassword = () => {
+const ForgotPassword = ({navigation}) => {
   const [email, setEmail] = useState('');
   //Success modal
   const [modalVisible, setModalVisible] = useState(false);
@@ -74,12 +75,17 @@ const ForgotPassword = () => {
         alignItems: 'center',
       }}>
       <View>
-        <BackBtn
-          style={[
-            TitleStyles.shadowOffset,
-            {position: 'absolute', bottom: 350, left: 330},
-          ]}
-        />
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('Login');
+          }}>
+          <BackBtn
+            style={[
+              TitleStyles.shadowOffset,
+              {position: 'absolute', bottom: 350, left: 330},
+            ]}
+          />
+        </TouchableOpacity>
       </View>
       <Top2Lines
         style={[

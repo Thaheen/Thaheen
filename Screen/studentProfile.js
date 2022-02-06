@@ -10,7 +10,7 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
-import {FloatingLabelInput} from 'react-native-floating-label-input';
+
 import TitleStyles from '../Styles/Titles';
 import Top2Lines from '../assets/images/top2Lines.svg';
 import TopBox from '../assets/images/TopBox.svg';
@@ -34,4 +34,5 @@ const studentProfile = () => {
     </SafeAreaView>
   );
 };
+
 export default studentProfile;
