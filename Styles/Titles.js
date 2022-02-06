@@ -56,53 +56,65 @@ export default StyleSheet.create({
   Button: {
     backgroundColor: '#F5C5AD',
     marginTop: 20,
-    marginBottom:10,
-    borderRadius:13,
-    shadowColor: "#00000",
-            shadowOffset: {
-	          width: 0,
-	          height: 4,
-              },
-            shadowOpacity: 0.25,
-            shadowRadius: 9,
-            elevation: 9,
+    marginBottom: 10,
+    borderRadius: 13,
+    shadowColor: '#00000',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 9,
+    elevation: 9,
   },
 
-  ButtonText:{
-     fontFamily: 'AJannatLT-Bold',
-     fontSize:28,
-     color:"#43515F",
-     textAlign:'center'
+  ButtonText: {
+    fontFamily: 'AJannatLT-Bold',
+    fontSize: 28,
+    color: '#43515F',
+    textAlign: 'center',
+  },
 
+  AlertButton: {
+    backgroundColor: '#F5C5AD',
+    marginTop: 20,
+    marginBottom: 10,
+    borderRadius: 25,
+    // shadowColor: "#00000",
+    //        shadowOffset: {
+    //        width: 0,
+    //        height: 4,
+    //         },
+    //       shadowOpacity: 0.25,
+    //       shadowRadius: 9,
+    //       elevation: 9,
+  },
 
-   },
-
-    modalContent: {
+  modalContent: {
     margin: 20,
     marginBottom: 'auto',
     marginTop: 'auto',
-    backgroundColor: "white",
+    backgroundColor: 'white',
     borderRadius: 20,
     padding: 35,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 2
+      height: 2,
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    elevation: 5
+    elevation: 5,
   },
 
-  shadowOffset:{
-    shadowColor: "#00000",
-            shadowOffset: {
-	          width: 0,
-	          height: 4,
-              },
-            shadowOpacity: 0.25,
-            shadowRadius: 9,
-            elevation: 9,
+  shadowOffset: {
+    shadowColor: '#00000',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 9,
+    elevation: 9,
   },
-  
 });

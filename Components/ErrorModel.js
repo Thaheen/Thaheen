@@ -17,9 +17,9 @@ import {
 import TitleStyles from '../Styles/Titles';
 import firestore from '@react-native-firebase/firestore';
 import {SvgUri} from 'react-native-svg';
-import CheckVector from '../assets/images/CheckVector.svg';
+import ErrorVector from '../assets/images/ErrorVector.svg';
 
-const SuccessModel = ({message, modalVisible, setModalVisible}) => {
+const ErrorModel = ({message, modalVisible, setModalVisible}) => {
   //Success modal
   return (
     <View>
@@ -27,7 +27,7 @@ const SuccessModel = ({message, modalVisible, setModalVisible}) => {
         <View
           style={{backgroundColor: 'rgba(52, 52, 52, 0.5)', height: '100%'}}>
           <View style={TitleStyles.modalContent}>
-            <CheckVector
+            <ErrorVector
               width={120}
               height={120}
               style={{marginLeft: 80, marginTop: -75}}
@@ -51,4 +51,4 @@ const SuccessModel = ({message, modalVisible, setModalVisible}) => {
   );
 };
 
-export default SuccessModel;
+export default ErrorModel;
