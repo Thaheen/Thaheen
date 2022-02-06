@@ -60,3 +60,7 @@ buck-out/
 /ios/Pods/
 *.json
 *.json
+*.lock
+ios/Thaheen.xcodeproj/project.pbxproj
+*.json
+package.json
