@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -9,14 +9,62 @@ import {
   TouchableOpacity,
   useColorScheme,
   View,
+  Alert,
 } from 'react-native';
 import TitleStyles from '../Styles/Titles';
 import Top2Lines from '../assets/images/top2Lines.svg';
 import Bottom2Lines from '../assets/images/bottom2Lines.svg';
 import Envelope from '../assets/images/Envelope.svg';
 import BackBtn from '../assets/images/BackBtn.svg';
+import auth from '@react-native-firebase/auth';
+import ErrorModel from '../Components/ErrorModel';
+import SuccessModel from '../Components/SuccessModel';
 
 const ForgotPassword = () => {
+  const [email, setEmail] = useState('');
+  //Success modal
+  const [modalVisible, setModalVisible] = useState(false);
+
+  // Error model
+  const [ErrormodalVisible, setErrormodalVisible] = useState(false);
+  const [ErrorMessage, setErrorMessage] = useState('');
+
+  const resetPassword = () => {
+    if (email !== '') {
+      auth()
+        .sendPasswordResetEmail(email)
+
+        .then(function () {
+          //set the alert modal
+          //Check if the email received
+          setErrorMessage(
+            'تم إرسال رابط إعادة تعيين كلمة المرور، يرجى التحقق من بريدك الإلكتروني',
+          );
+          setErrormodalVisible(!ErrormodalVisible);
+        })
+
+        .catch(function (error) {
+          // Error occurred. Inspect error.code.
+          if (error.code == 'auth/invalid-email') {
+            //set the alert modal
+            setErrorMessage('الرجاء إدخال البريد الإلكتروني بالشكل الصحيح');
+            setErrormodalVisible(!ErrormodalVisible);
+          }
+
+          if (error.code == 'auth/user-not-found') {
+            //set the alert modal
+            setErrorMessage('لا يوجد مستخدم بهذا البريد الإلكتروني');
+            setErrormodalVisible(!ErrormodalVisible);
+          }
+        });
+    } else {
+      //set the alert modal
+      //if empty
+      setErrorMessage('الرجاء تعبئة البريد الإلكتروني');
+      setErrormodalVisible(!ErrormodalVisible);
+    }
+  };
+
   return (
     <SafeAreaView
       style={{
@@ -38,6 +86,20 @@ const ForgotPassword = () => {
           TitleStyles.shadowOffset,
           {position: 'absolute', top: 0, left: 0},
         ]}
+      />
+
+      <SuccessModel
+        message={
+          'تم إرسال رابط إعادة تعيين كلمة المرور، يرجى التحقق من بريدك الإلكتروني'
+        }
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+      />
+
+      <ErrorModel
+        message={ErrorMessage}
+        modalVisible={ErrormodalVisible}
+        setModalVisible={setErrormodalVisible}
       />
 
       <Bottom2Lines
@@ -91,9 +153,14 @@ const ForgotPassword = () => {
             },
           ]}
           color="black"
+          onChangeText={text => setEmail(text)}
+          value={email}
+          underlineColorAndroid="transparent"
+          textContentType="emailAddress"
+          clearButtonMode="while-editing"
         />
 
-        <TouchableOpacity style={TitleStyles.Button}>
+        <TouchableOpacity style={TitleStyles.Button} onPress={resetPassword}>
           <Text style={TitleStyles.ButtonText}>استرجاع</Text>
         </TouchableOpacity>
       </View>
