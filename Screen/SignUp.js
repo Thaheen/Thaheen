@@ -24,7 +24,7 @@ import ErrorModel from '../Components/ErrorModel';
 import Error from '../Components/ErrorModel';
 import Top2Lines from '../assets/images/top2Lines.svg';
 import Bottom2Lines from '../assets/images/bottom2Lines.svg';
-import 'firebase/compat/auth';
+
 const SignUp: () => Node = () => {
   DropDownPicker.setListMode('SCROLLVIEW');
   const [FullName, setFullName] = useState('');
