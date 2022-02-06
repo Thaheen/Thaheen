@@ -17,10 +17,16 @@ import BouncyCheckbox from 'react-native-bouncy-checkbox'
 import Top2Lines from '../assets/images/top2Lines.svg'
 import Bottom2Lines from '../assets/images/bottom2Lines.svg'
 import auth from '@react-native-firebase/auth'
+import ErrorModel from '../Components/ErrorModel';
+import Error from '../Components/ErrorModel';
 
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+    // Error model
+
+  const [ErrormodalVisible, setErrormodalVisible] = useState(false);
+  const [ErrorMessage, setErrorMessage] = useState('');
 
   const onLogin = () => {
     if (email !== '' && password !== '') {
@@ -35,6 +41,8 @@ const Login = () => {
           }
 
           if (error.code === 'auth/invalid-email') {
+              setErrorMessage('إيميل غيرر صالح');
+              setErrormodalVisible(!ErrormodalVisible);
             console.log('That email address is invalid!')
           }
 
@@ -65,6 +73,11 @@ const Login = () => {
           {position: 'absolute', bottom: 0, right: 0},
         ]}
       />
+          <ErrorModel
+          message={ErrorMessage}
+          modalVisible={ErrormodalVisible}
+          setModalVisible={setErrormodalVisible}
+        />
       <StatusBar />
       <ScrollView>
         <View
