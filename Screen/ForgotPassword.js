@@ -19,7 +19,7 @@ import BackBtn from '../assets/images/BackBtn.svg';
 import auth from '@react-native-firebase/auth';
 import ErrorModel from '../Components/ErrorModel';
 import SuccessModel from '../Components/SuccessModel';
-import {default as Login} from '../Screen/Login.js';
+
 
 const ForgotPassword = ({navigation}) => {
   const [email, setEmail] = useState('');
@@ -77,7 +77,7 @@ const ForgotPassword = ({navigation}) => {
       <View>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate('Login');
+            navigation.goBack();
           }}>
           <BackBtn
             style={[
