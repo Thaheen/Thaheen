@@ -67,13 +67,13 @@ const Login = ({navigation}) => {
       <Top2Lines
         style={[
           Platform.OS === 'ios' ? TitleStyles.shadowOffset : null,
-          {position: 'absolute', top: 0, left: 0},
+          {position: 'absolute', top: 0, right: 0},
         ]}
       />
       <Bottom2Lines
         style={[
           Platform.OS === 'ios' ? TitleStyles.shadowOffset : null,
-          {position: 'absolute', bottom: 0, right: 0},
+          {position: 'absolute', bottom: 0, left: 0},
         ]}
       />
       <ErrorModel
