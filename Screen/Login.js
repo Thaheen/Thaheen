@@ -35,6 +35,7 @@ const Login = ({navigation}) => {
         .signInWithEmailAndPassword(email, password)
         .then(() => {
           console.log('User account signed in!');
+          navigation.navigate('ChildList');
         })
         .catch(error => {
           if (error.code === 'auth/email-already-in-use') {
@@ -170,7 +171,10 @@ const Login = ({navigation}) => {
           <TouchableOpacity style={TitleStyles.Button} onPress={onLogin}>
             <Text style={TitleStyles.ButtonText}>دخــــول</Text>
           </TouchableOpacity>
-          <Text style={[{textAlign: 'center'}, styles.smallText]}>
+          <Text style={[{textAlign: 'center'}, styles.smallText]}
+          onPress={() => {
+                navigation.navigate('SignUp');
+              }}>
             ليس لديك حساب مسبق؟{' '}
             <Text style={{textDecorationLine: 'underline'}}>إنشاء حساب</Text>
           </Text>

@@ -25,8 +25,8 @@ import SuccessModel from '../Components/SuccessModel';
 import ErrorModel from '../Components/ErrorModel';
 import auth from '@react-native-firebase/auth';
 
-const AddChildAccount: () => Node = () => {
-  //const user = AfaadFirebase.auth().currentUser ;
+const AddChildAccount = ({navigation}) => {
+  const user = auth().currentUser; 
 
   DropDownPicker.setListMode('SCROLLVIEW');
   const [ChildName, setChildName] = useState('');
@@ -55,10 +55,9 @@ const AddChildAccount: () => Node = () => {
 
   // Error model
 
-const [ErrormodalVisible, setErrormodalVisible] = useState(false);
+  const [ErrormodalVisible, setErrormodalVisible] = useState(false);
 
-const [ErrorMessage , setErrorMessage] =useState('');
-
+  const [ErrorMessage, setErrorMessage] = useState('');
 
   // Check if name contain numbers
   const IsValidfield = field => {
@@ -82,47 +81,42 @@ const [ErrorMessage , setErrorMessage] =useState('');
       repeatChildPasscode == '' ||
       grade == ''
     ) {
-      
       setErrorMessage('جميع الحقول مطلوبة');
       setErrormodalVisible(!ErrormodalVisible);
 
       return;
     }
     if (IsValidfield(ChildName) == false) {
-
-      setErrorMessage( 'حقل "اسم الطفل" يجب ان يحتوي على حروف فقط');
+      setErrorMessage('حقل "اسم الطفل" يجب ان يحتوي على حروف فقط');
       setErrormodalVisible(!ErrormodalVisible);
       return;
     }
 
     if (onValidUsername(ChildAccount) == false) {
-     
-      setErrorMessage( 'حقل "اسم المستخدم" يجب ان يحتوي على حروف انجليزية و ارقام فقط');
+      setErrorMessage(
+        'حقل "اسم المستخدم" يجب ان يحتوي على حروف انجليزية و ارقام فقط',
+      );
       setErrormodalVisible(!ErrormodalVisible);
-     
+
       return;
     }
     if (
       ChildName.replace(/\s+/g, '').length > 30 ||
       ChildName.replace(/\s+/g, '').length < 2
     ) {
-     
-      setErrorMessage( 'حقل اسم الطفل يجب ألا يقل عن حرفين وألا يتجاوز ٣٠ حرف');
+      setErrorMessage('حقل اسم الطفل يجب ألا يقل عن حرفين وألا يتجاوز ٣٠ حرف');
       setErrormodalVisible(!ErrormodalVisible);
       return;
-
-      
     }
 
     if (ChildPasscode !== repeatChildPasscode) {
-
-      setErrorMessage( '.رمز الدخول وتأكيد رمز الدخول يجب أن تتطابق');
+      setErrorMessage('.رمز الدخول وتأكيد رمز الدخول يجب أن تتطابق');
       setErrormodalVisible(!ErrormodalVisible);
       return;
     }
 
     if (ChildPasscode.length != 6) {
-      setErrorMessage( 'رمز الدخول يجب ان يكون مكون من ٦ ارقام فقط');
+      setErrorMessage('رمز الدخول يجب ان يكون مكون من ٦ ارقام فقط');
       setErrormodalVisible(!ErrormodalVisible);
       return;
     }
@@ -135,7 +129,7 @@ const [ErrorMessage , setErrorMessage] =useState('');
         Grade: grade,
         SchoolName: ChildSchool,
         Passcode: ChildPasscode,
-        // ParentID: user.uid
+         ParentID: user.uid
       })
       .then(() => {
         setModalVisible(!modalVisible);
@@ -157,6 +151,9 @@ const [ErrorMessage , setErrorMessage] =useState('');
               TitleStyles.shadowOffset,
               {position: 'absolute', left: 138},
             ]}
+            onPress={() => {
+              navigation.pop();
+            }}
           />
         </View>
 
@@ -179,12 +176,11 @@ const [ErrorMessage , setErrorMessage] =useState('');
           setModalVisible={setModalVisible}
         />
 
-
-      <ErrorModel
-      message={ErrorMessage}
-      modalVisible={ErrormodalVisible}
-      setModalVisible={setErrormodalVisible}
-      />
+        <ErrorModel
+          message={ErrorMessage}
+          modalVisible={ErrormodalVisible}
+          setModalVisible={setErrormodalVisible}
+        />
 
         <View
           style={{
