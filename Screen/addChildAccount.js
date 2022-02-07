@@ -72,6 +72,11 @@ const AddChildAccount = ({navigation}) => {
     return usernameRegex.test(val);
   };
 
+  const IsValidPasscode = val => {
+    const RegxPass = /^[0-9]*$/;
+    return RegxPass.test(val);
+  };
+
   //when submit button is pressed perform this
   const submit = () => {
     // Checking for empty fields
@@ -119,6 +124,13 @@ const AddChildAccount = ({navigation}) => {
     if (ChildPasscode.length != 6) {
       setErrorMessage('رمز الدخول يجب ان يكون مكون من ٦ ارقام فقط');
       setErrormodalVisible(!ErrormodalVisible);
+      return;
+    }
+
+    if (IsValidPasscode(ChildPasscode) == false) {
+      setErrorMessage('رمز الدخول يجب ان يكون مكون من ارقام انجليزية فقط');
+      setErrormodalVisible(!ErrormodalVisible);
+
       return;
     }
 
