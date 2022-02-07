@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   useColorScheme,
   View,
-  Platform
+  Platform,
 } from 'react-native';
 import TitleStyles from '../Styles/Titles';
 import Top2Lines from '../assets/images/top2Lines.svg';
@@ -22,14 +22,14 @@ import auth from '@react-native-firebase/auth';
 const ChildList = ({navigation}) => {
   children = [{name: 'يوسف'}, {name: 'محمد'}, {name: 'عبدالله'}];
   const onSignout = () => {
-      auth()
-  .signOut()
-  .then(() => console.log('User signed out!'));
-  }
+    auth()
+      .signOut()
+      .then(() => console.log('User signed out!'));
+  };
   return (
     <SafeAreaView
       style={{
-        flex:1,
+        flex: 1,
         backgroundColor: 'white',
       }}>
       <TopBox style={[{position: 'absolute', top: 0}]} />
@@ -53,13 +53,12 @@ const ChildList = ({navigation}) => {
         renderItem={({item}) => (
           <TouchableOpacity>
             <View style={[TitleStyles.childItem]}>
-            <AnimalPicker />
+              <AnimalPicker />
               <View>
                 <Text style={[{fontSize: 42, fontFamily: 'AJannatLT'}]}>
                   {item.name}
                 </Text>
               </View>
-              
             </View>
           </TouchableOpacity>
         )}
@@ -75,10 +74,24 @@ const ChildList = ({navigation}) => {
           },
         ]}
         onPress={() => {
-          
           navigation.navigate('AddChildAccount');
         }}>
         <Text style={TitleStyles.ButtonText}>إضافة حساب طفل جديد</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={[
+          TitleStyles.Button,
+          {
+            backgroundColor: '#DAE2E9',
+            alignSelf: 'center',
+            width: 300,
+          },
+        ]}
+        onPress={() => {
+          navigation.navigate('RecordVoice');
+        }}>
+        <Text style={TitleStyles.ButtonText}>تسجيل صوت جديد</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[
