@@ -149,10 +149,10 @@ const AddChildAccount = ({navigation}) => {
           <BackBtn
             style={[
               TitleStyles.shadowOffset,
-              {position: 'absolute', left: 138},
+              {position: 'absolute', right: 138},
             ]}
             onPress={() => {
-              navigation.pop();
+              navigation.goBack();
             }}
           />
         </View>
@@ -160,13 +160,13 @@ const AddChildAccount = ({navigation}) => {
         <Top2Lines
           style={[
             TitleStyles.shadowOffset,
-            {position: 'absolute', top: 0, left: 0},
+            {position: 'absolute', top: 0, right: 0},
           ]}
         />
         <Bottom2Lines
           style={[
             TitleStyles.shadowOffset,
-            {position: 'absolute', bottom: 0, right: 0},
+            {position: 'absolute', bottom: 0, left: 0},
           ]}
         />
 

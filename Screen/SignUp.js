@@ -24,7 +24,7 @@ import ErrorModel from '../Components/ErrorModel';
 import Error from '../Components/ErrorModel';
 import Top2Lines from '../assets/images/top2Lines.svg';
 import Bottom2Lines from '../assets/images/bottom2Lines.svg';
-
+import BackButton from '../Components/BackButton';
 const SignUp: () => Node = () => {
   DropDownPicker.setListMode('SCROLLVIEW');
   const [FullName, setFullName] = useState('');
@@ -225,16 +225,17 @@ const SignUp: () => Node = () => {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
+        <BackButton />
         <Top2Lines
           style={[
             TitleStyles.shadowOffset,
-            {position: 'absolute', top: 0, left: 0},
+            {position: 'absolute', top: 0, right: 0},
           ]}
         />
         <Bottom2Lines
           style={[
             TitleStyles.shadowOffset,
-            {position: 'absolute', bottom: 0, right: 0},
+            {position: 'absolute', bottom: 0, left: 0},
           ]}
         />
         <SuccessModel

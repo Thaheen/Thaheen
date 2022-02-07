@@ -41,7 +41,7 @@ export default StyleSheet.create({
   },
   dropDownStyle: {
     marginTop: 10,
-    borderColor: 'white',
+    borderColor: '#f8f4f4',
     flexDirection: 'row-reverse',
     backgroundColor: '#f8f4f4',
   },
@@ -116,16 +116,16 @@ export default StyleSheet.create({
     elevation: 9,
   },
   WarningText:{
-fontFamily: 'AJannatLT-Bold',
+    fontFamily: 'AJannatLT-Bold',
     fontSize: 16,
     color: '#EFA17A',
-    textAlign: 'right',
+    textAlign: 'left',
 
   },
 
   childItem: {
     flex: 1,
-    justifyContent: 'flex-end',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     backgroundColor:'#F3DBBD',
     borderRadius:88,

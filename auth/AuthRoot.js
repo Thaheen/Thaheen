@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import {View, Text, ActivityIndicator} from 'react-native'
 import auth from '@react-native-firebase/auth'
+import '../i18n.js';
 
 import AuthStack from './AuthStack.js'
 import InstructorStack from './InstructorStack.js'

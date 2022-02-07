@@ -10,7 +10,7 @@ const Stack = createNativeStackNavigator();
 const ParentStack = () => {
   //Please put  here all the screens related to parent homepage, childlist..etc
   return (
-    <Stack.Navigator initialRouteName="Home">
+    <Stack.Navigator initialRouteName="ChildList">
       <Stack.Screen
         name="Home"
         component={Home}

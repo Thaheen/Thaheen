@@ -10,6 +10,7 @@ import {
   useColorScheme,
   View,
   Platform,
+  I18nManager
 } from 'react-native';
 import TitleStyles from '../Styles/Titles';
 
@@ -66,13 +67,13 @@ const Login = ({navigation}) => {
       <Top2Lines
         style={[
           Platform.OS === 'ios' ? TitleStyles.shadowOffset : null,
-          {position: 'absolute', top: 0, left: 0},
+          {position: 'absolute', top: 0, right: 0},
         ]}
       />
       <Bottom2Lines
         style={[
           Platform.OS === 'ios' ? TitleStyles.shadowOffset : null,
-          {position: 'absolute', bottom: 0, right: 0},
+          {position: 'absolute', bottom: 0, left: 0},
         ]}
       />
       <ErrorModel
@@ -147,15 +148,16 @@ const Login = ({navigation}) => {
           <View
             style={{
               flex: 1,
-              flexDirection: 'row-reverse',
+              flexDirection: 'row',
               justifyContent: 'space-between',
               paddingHorizontal: 5,
+              marginTop: 10
             }}>
             <BouncyCheckbox
               size={20}
               fillColor="#F5C5AD"
-              style={{flexDirection: 'row-reverse'}}
-              iconStyle={{borderRadius: 3, marginLeft: 10}}
+              style={{flexDirection: 'row'}}
+              iconStyle={{borderRadius: 3}}
               text="تذكرني"
               textStyle={styles.smallText}
             />

@@ -13,19 +13,31 @@ import {
 } from 'react-native';
 import TitleStyles from '../Styles/Titles';
 import Top2Lines from '../assets/images/top2Lines.svg';
-import BackBtn from '../assets/images/BackBtn.svg';
+import BackButton from '../Components/BackButton.js';
 import TopBox from '../assets/images/TopBox.svg';
 import AnimalPicker from '../Screen/AnimalPicker.js';
+import auth from '@react-native-firebase/auth';
 
 const ChildList = ({navigation}) => {
   children = [{name: 'يوسف'}, {name: 'محمد'}, {name: 'عبدالله'}];
-
+  const onSignout = () => {
+      auth()
+  .signOut()
+  .then(() => console.log('User signed out!'));
+  }
   return (
     <SafeAreaView
       style={{
+        flex:1,
         backgroundColor: 'white',
       }}>
-      <TopBox style={[{position: 'absolute', top: 0, left: -25}]} />
+      <TopBox style={[{position: 'absolute', top: 0}]} />
+      <Top2Lines
+        style={[
+          TitleStyles.shadowOffset,
+          {position: 'absolute', top: 0, right: 0},
+        ]}
+      />
       <Text
         style={[
           TitleStyles.HeaderTitle,
@@ -33,18 +45,6 @@ const ChildList = ({navigation}) => {
         ]}>
         من أنت؟
       </Text>
-      <BackBtn
-        style={[
-          TitleStyles.shadowOffset,
-          {position: 'absolute', right: 15, top: 50},
-        ]}
-      />
-      <Top2Lines
-        style={[
-          TitleStyles.shadowOffset,
-          {position: 'absolute', top: 0, left: 0},
-        ]}
-      />
       <FlatList
         style={[{marginTop: 100, height: '55%'}]}
         data={children}
@@ -52,12 +52,13 @@ const ChildList = ({navigation}) => {
         renderItem={({item}) => (
           <TouchableOpacity>
             <View style={[TitleStyles.childItem]}>
+            <AnimalPicker />
               <View>
                 <Text style={[{fontSize: 42, fontFamily: 'AJannatLT'}]}>
                   {item.name}
                 </Text>
               </View>
-              <AnimalPicker />
+              
             </View>
           </TouchableOpacity>
         )}
@@ -70,8 +71,6 @@ const ChildList = ({navigation}) => {
             backgroundColor: '#DAE2E9',
             alignSelf: 'center',
             width: 300,
-            position: 'absolute',
-            top: 650,
           },
         ]}
         onPress={() => {
@@ -79,6 +78,18 @@ const ChildList = ({navigation}) => {
           navigation.navigate('AddChildAccount');
         }}>
         <Text style={TitleStyles.ButtonText}>إضافة حساب طفل جديد</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[
+          TitleStyles.Button,
+          {
+            backgroundColor: '#DAE2E9',
+            alignSelf: 'center',
+            width: 300,
+          },
+        ]}
+        onPress={onSignout}>
+        <Text style={TitleStyles.ButtonText}>تسجيل الخروج</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );

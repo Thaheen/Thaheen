@@ -15,7 +15,7 @@ import TitleStyles from '../Styles/Titles';
 import Top2Lines from '../assets/images/top2Lines.svg';
 import Bottom2Lines from '../assets/images/bottom2Lines.svg';
 import Envelope from '../assets/images/Envelope.svg';
-import BackBtn from '../assets/images/BackBtn.svg';
+import BackButton from '../Components//BackButton.js';
 import auth from '@react-native-firebase/auth';
 import ErrorModel from '../Components/ErrorModel';
 import SuccessModel from '../Components/SuccessModel';
@@ -74,23 +74,13 @@ const ForgotPassword = ({navigation}) => {
         flexDirection: 'row',
         alignItems: 'center',
       }}>
-      <View>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.goBack();
-          }}>
-          <BackBtn
-            style={[
-              TitleStyles.shadowOffset,
-              {position: 'absolute', bottom: 350, left: 330},
-            ]}
-          />
-        </TouchableOpacity>
-      </View>
+
+<BackButton/>
+
       <Top2Lines
         style={[
           TitleStyles.shadowOffset,
-          {position: 'absolute', top: 0, left: 0},
+          {position: 'absolute', top: 0, right: 0},
         ]}
       />
 
@@ -111,7 +101,7 @@ const ForgotPassword = ({navigation}) => {
       <Bottom2Lines
         style={[
           TitleStyles.shadowOffset,
-          {position: 'absolute', bottom: 0, right: 0},
+          {position: 'absolute', bottom: 0, left: 0},
         ]}
       />
       <StatusBar />
