@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   useColorScheme,
   View,
+  Platform
 } from 'react-native';
 import TitleStyles from '../Styles/Titles';
 import Top2Lines from '../assets/images/top2Lines.svg';
@@ -34,7 +35,7 @@ const ChildList = ({navigation}) => {
       <TopBox style={[{position: 'absolute', top: 0}]} />
       <Top2Lines
         style={[
-          TitleStyles.shadowOffset,
+          Platform.OS === 'ios' ? TitleStyles.shadowOffset : null,
           {position: 'absolute', top: 0, right: 0},
         ]}
       />

@@ -10,6 +10,7 @@ import {
   useColorScheme,
   View,
   Alert,
+  Platform
 } from 'react-native';
 import TitleStyles from '../Styles/Titles';
 import Top2Lines from '../assets/images/top2Lines.svg';
@@ -79,7 +80,7 @@ const ForgotPassword = ({navigation}) => {
 
       <Top2Lines
         style={[
-          TitleStyles.shadowOffset,
+          Platform.OS === 'ios' ? TitleStyles.shadowOffset : null,
           {position: 'absolute', top: 0, right: 0},
         ]}
       />
@@ -100,7 +101,7 @@ const ForgotPassword = ({navigation}) => {
 
       <Bottom2Lines
         style={[
-          TitleStyles.shadowOffset,
+          Platform.OS === 'ios' ? TitleStyles.shadowOffset : null,
           {position: 'absolute', bottom: 0, left: 0},
         ]}
       />
@@ -131,6 +132,7 @@ const ForgotPassword = ({navigation}) => {
           }}>
           استرجاع كلمة المرور
         </Text>
+        <View style={Platform.OS === 'ios' ? TitleStyles.shadowOffset : null}>
         <TextInput
           placeholder="البريد الإلكتروني"
           placeholderTextColor={'#C8CBCD'}
@@ -155,6 +157,7 @@ const ForgotPassword = ({navigation}) => {
           textContentType="emailAddress"
           clearButtonMode="while-editing"
         />
+        </View>
 
         <TouchableOpacity style={TitleStyles.Button} onPress={resetPassword}>
           <Text style={TitleStyles.ButtonText}>استرجاع</Text>

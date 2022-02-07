@@ -12,6 +12,7 @@ import {
   Alert,
   Modal,
   TouchableOpacity,
+  Platform
 } from 'react-native';
 import TitleStyles from '../Styles/Titles';
 import firestore from '@react-native-firebase/firestore';
@@ -228,15 +229,15 @@ const SignUp: () => Node = () => {
         <BackButton />
         <Top2Lines
           style={[
-            TitleStyles.shadowOffset,
-            {position: 'absolute', top: 0, right: 0},
-          ]}
+          Platform.OS === 'ios' ? TitleStyles.shadowOffset : null,
+          {position: 'absolute', top: 0, right: 0},
+        ]}
         />
         <Bottom2Lines
           style={[
-            TitleStyles.shadowOffset,
-            {position: 'absolute', bottom: 0, left: 0},
-          ]}
+          Platform.OS === 'ios' ? TitleStyles.shadowOffset : null,
+          {position: 'absolute', bottom: 0, left: 0},
+        ]}
         />
         <SuccessModel
           message={'تم إنشاء الحساب بنجاح'}
