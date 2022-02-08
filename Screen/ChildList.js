@@ -14,18 +14,31 @@ import {
   I18nManager,
 } from 'react-native';
 import TitleStyles from '../Styles/Titles';
-import RTLlayout from '../Styles/RTLlayout'
+import RTLlayout from '../Styles/RTLlayout';
 import Top2Lines from '../assets/images/top2Lines.svg';
 import BackButton from '../Components/BackButton.js';
 import TopBox from '../assets/images/TopBox.svg';
 import AnimalPicker from '../Screen/AnimalPicker.js';
 import auth from '@react-native-firebase/auth';
+import SuccessModel from '../Components/SuccessModel';
 import firestore from '@react-native-firebase/firestore';
+import {
+  Menu,
+  MenuProvider,
+  MenuOptions,
+  MenuOption,
+  MenuTrigger,
+  renderers,
+} from 'react-native-popup-menu';
+import Icon from '../assets/images/more.svg';
 
 const ChildList = ({navigation}) => {
   const user = auth().currentUser;
   const [children, setChildren] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  //Success modal **should be moved to the child list file**
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     const students = firestore()
@@ -51,6 +64,16 @@ const ChildList = ({navigation}) => {
       .signOut()
       .then(() => console.log('User signed out!'));
   };
+
+  const deleteChildAccount = ChildID => {
+    firestore()
+      .collection('Student')
+      .doc(ChildID)
+      .delete()
+      .then(() => {
+        setModalVisible(!modalVisible);
+      });
+  };
   return (
     <SafeAreaView
       style={{
@@ -72,6 +95,12 @@ const ChildList = ({navigation}) => {
         ]}>
         من أنت؟
       </Text>
+      <SuccessModel
+        message={'تم حذف الطفل بنجاح'}
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+      />
+
       <FlatList
         style={[{marginTop: 100, height: '55%'}]}
         data={children}
@@ -82,6 +111,26 @@ const ChildList = ({navigation}) => {
               console.log(item.key);
             }}>
             <View style={[TitleStyles.childItem]}>
+              <MenuProvider style={{flexDirection: 'column', padding: 30}}>
+                <Menu>
+                  <MenuTrigger>
+                    <Icon
+                      width="100%"
+                      height="100%"
+                      style={{marginLeft: -30}}
+                    />
+                  </MenuTrigger>
+
+                  <MenuOptions>
+                    <MenuOption onSelect={()=>navigation.navigate('StudentProfile')}>
+                      <Text> الملف الشخصي</Text>
+                    </MenuOption>
+                    <MenuOption onSelect={() => deleteChildAccount(item.key)}>
+                      <Text>حذف الطفل</Text>
+                    </MenuOption>
+                  </MenuOptions>
+                </Menu>
+              </MenuProvider>
               <View style={[TitleStyles.innerChildItem]}>
                 <Text style={[TitleStyles.childItemText]}>{item.Fullname}</Text>
               </View>

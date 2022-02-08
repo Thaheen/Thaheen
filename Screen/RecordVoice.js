@@ -89,7 +89,7 @@ class RecordVoice extends Component {
 
   onStartPlay = async (e) => {
     console.log('onStartPlay');
-    const path = 'Desktop/hello.m4a'
+    const path = 'hello.m4a'
     const msg = await this.audioRecorderPlayer.startPlayer(path);
     this.audioRecorderPlayer.setVolume(1.0);
     console.log(msg);
