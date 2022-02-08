@@ -13,7 +13,10 @@ import {
 import TitleStyles from '../Styles/Titles';
 import Top2Lines from '../assets/images/top2Lines.svg';
 import TopBox from '../assets/images/TopBox.svg';
-import {FloatingLabelInput} from 'react-native-floating-label-input';
+//import {FloatingLabelInput} from 'react-native-floating-label-input';
+import AnimalPicker from '../Screen/AnimalPicker.js';
+import auth from '@react-native-firebase/auth';
+//import {AfterEffectsOutlined} from 'react-basil';
 const studentProfile = () => {
   return (
     <SafeAreaView
@@ -31,47 +34,48 @@ const studentProfile = () => {
         ]}
       />
       <Text style={TitleStyles.HeaderTitle}>الملف الشخصي</Text>
-      <View>
-        <FloatingLabelInput
-          label="الاسم الأول"
-          staticLabel
-          //value={NewFirstName}
-          hintTextColor={'black'}
-          editable={true}
-          selectTextOnFocus={true}
-          //hint={userFirstName}
-          //onChangeText={text => setNewFirstName(text)}
-          caretHidden={false}
-          containerStyles={{
-            borderWidth: 0.76,
-            paddingHorizontal: 8,
-            bottom: -3,
-            textAlign: 'right',
-            borderColor: 'gray',
-            borderRadius: 8,
-            height: 50,
-          }}
-          customLabelStyles={{
-            colorFocused: 'black',
-            fontSizeFocused: 12,
-          }}
-          labelStyles={{
-            backgroundColor: '#f2f2f2',
-            paddingHorizontal: 8,
-            marginLeft: 200,
-            fontFamily: 'AJannatLT',
-          }}
-          inputStyles={{
-            color: 'black',
-            paddingHorizontal: 10,
-            fontFamily: 'AJannatLT',
-            fontSize: 14,
-            color: '#002B3E',
-            textAlign: 'right',
-            fontWeight: 'bold',
-          }}
-        />
+
+      {/* size of the animal picker need to be changed */}
+      <View style={{top: 60, left: 150, marginBottom: 50}}>
+        <AnimalPicker />
       </View>
+
+      <Text style={TitleStyles.profileText}>الاسم كامل </Text>
+      <TextInput style={TitleStyles.textInput} value={'الغالية'}>
+        {/* retrieve data */}{' '}
+      </TextInput>
+
+      <Text style={TitleStyles.profileText}> اسم المستخدم </Text>
+      <TextInput style={TitleStyles.textInput} value={'Gmohammad'}>
+        {/* retrieve data */}
+      </TextInput>
+
+      <Text style={TitleStyles.profileText}> المستوى </Text>
+      <TextInput style={TitleStyles.textInput} value={'اخرى'}>
+        {/* retrieve data */}
+      </TextInput>
+
+      <View>
+        <Text style={TitleStyles.profileText}> اسم المدرسة </Text>
+        <TextInput style={TitleStyles.textInput} value={'لا يوجد'}>
+          {/* retrieve data */}
+        </TextInput>
+      </View>
+
+      <TouchableOpacity
+        style={[
+          TitleStyles.Button,
+          {
+            backgroundColor: '#DAE2E9',
+            alignSelf: 'center',
+            width: 300,
+            marginTop: 70,
+          },
+        ]}
+        // onPress={onSignout}
+      >
+        <Text style={TitleStyles.ButtonText}>تسجيل الخروج</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
