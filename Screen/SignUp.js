@@ -12,9 +12,11 @@ import {
   Alert,
   Modal,
   TouchableOpacity,
-  Platform
+  Platform,
+  I18nManager
 } from 'react-native';
 import TitleStyles from '../Styles/Titles';
+import RTLlayout from '../Styles/RTLlayout'
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -230,13 +232,13 @@ const SignUp: () => Node = () => {
         <Top2Lines
           style={[
           Platform.OS === 'ios' ? TitleStyles.shadowOffset : null,
-          {position: 'absolute', top: 0, right: 0},
+          I18nManager.isRTL ? RTLlayout.Top2LinesAR : RTLlayout.Top2LinesEN,
         ]}
         />
         <Bottom2Lines
           style={[
           Platform.OS === 'ios' ? TitleStyles.shadowOffset : null,
-          {position: 'absolute', bottom: 0, left: 0},
+          I18nManager.isRTL ? RTLlayout.Bottom2LinesAR : RTLlayout.Bottom2LinesEN,
         ]}
         />
         <SuccessModel

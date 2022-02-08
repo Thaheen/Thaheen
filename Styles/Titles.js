@@ -13,7 +13,6 @@ export default StyleSheet.create({
   HeaderTitle: {
     fontFamily: 'AJannatLT-Bold',
     fontSize: 30,
-    fontWeight: 'bold',
     color: '#43515F',
     marginLeft: 160,
     marginTop: 10,

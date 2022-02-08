@@ -13,7 +13,7 @@ import {
   I18nManager,
 } from 'react-native'
 import TitleStyles from '../Styles/Titles'
-
+import RTLlayout from '../Styles/RTLlayout'
 import BouncyCheckbox from 'react-native-bouncy-checkbox'
 import Top2Lines from '../assets/images/top2Lines.svg'
 import Bottom2Lines from '../assets/images/bottom2Lines.svg'
@@ -67,14 +67,14 @@ const Login = ({navigation}) => {
       <Top2Lines
         style={[
           Platform.OS === 'ios' ? TitleStyles.shadowOffset : null,
-          {position: 'absolute', top: 0, right: 0},
+          I18nManager.isRTL ? RTLlayout.Top2LinesAR : RTLlayout.Top2LinesEN
         ]}
       />
       <Bottom2Lines
         style={[
           Platform.OS === 'ios' ? TitleStyles.shadowOffset : null,
-          {position: 'absolute', bottom: 0, left: 0},
-        ]}
+          I18nManager.isRTL ? RTLlayout.Bottom2LinesAR : RTLlayout.Bottom2LinesEN
+          ]}
       />
       <ErrorModel
         message={ErrorMessage}
@@ -148,7 +148,7 @@ const Login = ({navigation}) => {
           <View
             style={{
               flex: 1,
-              flexDirection: 'row',
+              flexDirection: I18nManager.isRTL ? 'row' : 'row-reverse',
               justifyContent: 'space-between',
               paddingHorizontal: 5,
               marginTop: 10,
@@ -156,8 +156,8 @@ const Login = ({navigation}) => {
             <BouncyCheckbox
               size={20}
               fillColor='#F5C5AD'
-              style={{flexDirection: 'row'}}
-              iconStyle={{borderRadius: 3}}
+              style={{flexDirection: I18nManager.isRTL ? 'row' : 'row-reverse'}}
+              iconStyle={{borderRadius: 3, marginLeft: I18nManager.isRTL ? 0 : 10}}
               text='تذكرني'
               textStyle={styles.smallText}
             />
