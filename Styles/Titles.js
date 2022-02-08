@@ -124,12 +124,21 @@ export default StyleSheet.create({
 
   childItem: {
     flex: 1,
-    justifyContent: 'flex-start',
+    justifyContent: 'flex-end',
     alignItems: 'center',
     backgroundColor: '#F3DBBD',
     borderRadius: 88,
     margin: 10,
     flexDirection: 'row',
+  },
+  childItemText:{
+    fontSize: 42,
+    fontFamily: 'AJannatLT',
+    fontWeight:'700' ,
+    color:'#43515F',
+  },
+  innerChildItem:{
+    paddingRight:10,
   },
   TextArea: {
     overflow: 'hidden',

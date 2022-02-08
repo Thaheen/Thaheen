@@ -1,4 +1,4 @@
-import React from 'react';
+import React , {useState, useEffect} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -18,14 +18,39 @@ import BackButton from '../Components/BackButton.js';
 import TopBox from '../assets/images/TopBox.svg';
 import AnimalPicker from '../Screen/AnimalPicker.js';
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 
 const ChildList = ({navigation}) => {
-  children = [{name: 'يوسف'}, {name: 'محمد'}, {name: 'عبدالله'}];
+    const user = auth().currentUser;
+    const [children , setChildren]= useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(()=> {
+        const students = firestore()
+        .collection('Student')
+        .where('ParentID', '==', user.uid)
+        .onSnapshot(querySnapshot => {
+            const child = [];
+
+            querySnapshot.forEach(documentSnapshot => {
+                child.push({
+                    ...documentSnapshot.data(),
+                    key: documentSnapshot.id,
+                });
+    });
+        setChildren(child);
+        setLoading(false);
+    });
+        return () => students();
+    }, []);
+
+
   const onSignout = () => {
       auth()
   .signOut()
   .then(() => console.log('User signed out!'));
   }
+
   return (
     <SafeAreaView
       style={{
@@ -33,10 +58,11 @@ const ChildList = ({navigation}) => {
         backgroundColor: 'white',
       }}>
       <TopBox style={[{position: 'absolute', top: 0}]} />
+      <BackButton/>
       <Top2Lines
         style={[
           Platform.OS === 'ios' ? TitleStyles.shadowOffset : null,
-          {position: 'absolute', top: 0, right: 0},
+          {position: 'absolute', top: 0, left: 0},
         ]}
       />
       <Text
@@ -51,15 +77,14 @@ const ChildList = ({navigation}) => {
         data={children}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({item}) => (
-          <TouchableOpacity>
+          <TouchableOpacity onPress ={()=> {console.log(item.key)}}> 
             <View style={[TitleStyles.childItem]}>
-            <AnimalPicker />
-              <View>
-                <Text style={[{fontSize: 42, fontFamily: 'AJannatLT'}]}>
-                  {item.name}
+              <View style={[TitleStyles.innerChildItem]}>
+                <Text style={[TitleStyles.childItemText]}>
+                  {item.Fullname}
                 </Text>
               </View>
-              
+              <AnimalPicker />
             </View>
           </TouchableOpacity>
         )}
