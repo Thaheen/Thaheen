@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, I18nManager} from 'react-native';
 
 export default StyleSheet.create({
   // Main titles
@@ -143,7 +143,7 @@ export default StyleSheet.create({
     fontFamily: 'AJannatLT-Bold',
     fontSize: 16,
     color: '#EFA17A',
-    textAlign: 'left',
+    textAlign: I18nManager.isRTL ? 'left' : 'right',
   },
 
   childItem: {
