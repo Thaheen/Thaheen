@@ -1,4 +1,4 @@
-import React , {useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -21,29 +21,28 @@ import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 
 const ChildList = ({navigation}) => {
-    const user = auth().currentUser;
-    const [children , setChildren]= useState([]);
-    const [loading, setLoading] = useState(true);
+  const user = auth().currentUser;
+  const [children, setChildren] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-    useEffect(()=> {
-        const students = firestore()
-        .collection('Student')
-        .where('ParentID', '==', user.uid)
-        .onSnapshot(querySnapshot => {
-            const child = [];
+  useEffect(() => {
+    const students = firestore()
+      .collection('Student')
+      .where('ParentID', '==', user.uid)
+      .onSnapshot(querySnapshot => {
+        const child = [];
 
-            querySnapshot.forEach(documentSnapshot => {
-                child.push({
-                    ...documentSnapshot.data(),
-                    key: documentSnapshot.id,
-                });
-    });
+        querySnapshot.forEach(documentSnapshot => {
+          child.push({
+            ...documentSnapshot.data(),
+            key: documentSnapshot.id,
+          });
+        });
         setChildren(child);
         setLoading(false);
-    });
-        return () => students();
-    }, []);
-
+      });
+    return () => students();
+  }, []);
 
   const onSignout = () => {
     auth()
@@ -57,7 +56,7 @@ const ChildList = ({navigation}) => {
         backgroundColor: 'white',
       }}>
       <TopBox style={[{position: 'absolute', top: 0}]} />
-      <BackButton/>
+      <BackButton />
       <Top2Lines
         style={[
           Platform.OS === 'ios' ? TitleStyles.shadowOffset : null,
@@ -76,18 +75,33 @@ const ChildList = ({navigation}) => {
         data={children}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({item}) => (
-          <TouchableOpacity onPress ={()=> {console.log(item.key)}}> 
+          <TouchableOpacity
+            onPress={() => {
+              console.log(item.key);
+            }}>
             <View style={[TitleStyles.childItem]}>
               <View style={[TitleStyles.innerChildItem]}>
-                <Text style={[TitleStyles.childItemText]}>
-                  {item.Fullname}
-                </Text>
+                <Text style={[TitleStyles.childItemText]}>{item.Fullname}</Text>
               </View>
               <AnimalPicker />
             </View>
           </TouchableOpacity>
         )}
       />
+      <TouchableOpacity
+        style={[
+          TitleStyles.Button,
+          {
+            backgroundColor: '#DAE2E9',
+            alignSelf: 'center',
+            width: 300,
+          },
+        ]}
+        onPress={() => {
+          navigation.navigate('StudentProfile');
+        }}>
+        <Text style={TitleStyles.ButtonText}>الملف الشخصي</Text>
+      </TouchableOpacity>
 
       <TouchableOpacity
         style={[

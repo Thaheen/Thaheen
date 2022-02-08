@@ -156,14 +156,14 @@ export default StyleSheet.create({
     margin: 10,
     flexDirection: 'row',
   },
-  childItemText:{
+  childItemText: {
     fontSize: 42,
     fontFamily: 'AJannatLT',
-    fontWeight:'700' ,
-    color:'#43515F',
+    fontWeight: '700',
+    color: '#43515F',
   },
-  innerChildItem:{
-    paddingRight:10,
+  innerChildItem: {
+    paddingRight: 10,
   },
   TextArea: {
     overflow: 'hidden',
