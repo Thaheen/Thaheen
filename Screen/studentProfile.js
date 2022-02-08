@@ -17,7 +17,7 @@ import TopBox from '../assets/images/TopBox.svg';
 import AnimalPicker from '../Screen/AnimalPicker.js';
 import auth from '@react-native-firebase/auth';
 //import {AfterEffectsOutlined} from 'react-basil';
-const studentProfile = () => {
+const StudentProfile = ({navigation}) => {
   return (
     <SafeAreaView
       style={{
@@ -74,9 +74,15 @@ const studentProfile = () => {
         ]}
         // onPress={onSignout}
       >
-        <Text style={TitleStyles.ButtonText}>تسجيل الخروج</Text>
+        <Text
+          style={TitleStyles.ButtonText}
+          onPress={() => {
+            navigation.navigate('ChildList');
+          }}>
+          تسجيل الخروج
+        </Text>
       </TouchableOpacity>
     </SafeAreaView>
   );
 };
-export default studentProfile;
+export default StudentProfile;

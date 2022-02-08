@@ -5,6 +5,7 @@ import {default as Home} from '../Screen/Home.js';
 import {default as ChildList} from '../Screen/ChildList.js';
 import {default as AddChildAccount} from '../Screen/AddChildAccount.js';
 import {default as RecordVoice} from '../Screen/RecordVoice.js';
+import {default as StudentProfile} from '../Screen/StudentProfile.js';
 
 const Stack = createNativeStackNavigator();
 
@@ -31,6 +32,12 @@ const ParentStack = () => {
       <Stack.Screen
         name="RecordVoice"
         component={RecordVoice}
+        options={{headerShown: false}}
+      />
+
+      <Stack.Screen
+        name="StudentProfile"
+        component={StudentProfile}
         options={{headerShown: false}}
       />
     </Stack.Navigator>
