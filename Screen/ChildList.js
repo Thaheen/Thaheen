@@ -11,8 +11,10 @@ import {
   useColorScheme,
   View,
   Platform,
+  I18nManager,
 } from 'react-native';
 import TitleStyles from '../Styles/Titles';
+import RTLlayout from '../Styles/RTLlayout'
 import Top2Lines from '../assets/images/top2Lines.svg';
 import BackButton from '../Components/BackButton.js';
 import TopBox from '../assets/images/TopBox.svg';
@@ -60,13 +62,13 @@ const ChildList = ({navigation}) => {
       <Top2Lines
         style={[
           Platform.OS === 'ios' ? TitleStyles.shadowOffset : null,
-          {position: 'absolute', top: 0, left: 0},
+          I18nManager.isRTL ? RTLlayout.Top2LinesAR : RTLlayout.Top2LinesEN,
         ]}
       />
       <Text
         style={[
           TitleStyles.HeaderTitle,
-          {textAlign: 'right', paddingRight: 50},
+          {textAlign: I18nManager.isRTL ? 'left' : 'right', paddingRight: 50},
         ]}>
         من أنت؟
       </Text>

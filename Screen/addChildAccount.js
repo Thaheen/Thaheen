@@ -12,10 +12,12 @@ import {
   Alert,
   Modal,
   TouchableOpacity,
-  Platform
+  Platform,
+  I18nManager
 } from 'react-native';
 
 import TitleStyles from '../Styles/Titles';
+import RTLlayout from '../Styles/RTLlayout'
 import firestore from '@react-native-firebase/firestore';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {SvgUri} from 'react-native-svg';
@@ -25,6 +27,7 @@ import BackBtn from '../assets/images/BackBtn.svg';
 import SuccessModel from '../Components/SuccessModel';
 import ErrorModel from '../Components/ErrorModel';
 import auth from '@react-native-firebase/auth';
+import BackButton from '../Components/BackButton';
 
 const AddChildAccount = ({navigation}) => {
   const user = auth().currentUser; 
@@ -158,28 +161,17 @@ const AddChildAccount = ({navigation}) => {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        <View>
-          <BackBtn
-            style={[
-              TitleStyles.shadowOffset,
-              {position: 'absolute', right: 138},
-            ]}
-            onPress={() => {
-              navigation.goBack();
-            }}
-          />
-        </View>
-
+        <BackButton />
         <Top2Lines
           style={[
           Platform.OS === 'ios' ? TitleStyles.shadowOffset : null,
-          {position: 'absolute', top: 0, right: 0},
+          I18nManager.isRTL ? RTLlayout.Top2LinesAR : RTLlayout.Top2LinesEN,
         ]}
         />
         <Bottom2Lines
           style={[
           Platform.OS === 'ios' ? TitleStyles.shadowOffset : null,
-          {position: 'absolute', bottom: 0, left: 0},
+          I18nManager.isRTL ? RTLlayout.Bottom2LinesAR : RTLlayout.Bottom2LinesEN,
         ]}
         />
 
