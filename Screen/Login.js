@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {
   SafeAreaView,
   ScrollView,
@@ -20,23 +20,34 @@ import Bottom2Lines from '../assets/images/bottom2Lines.svg'
 import auth from '@react-native-firebase/auth'
 import ErrorModel from '../Components/ErrorModel'
 import Error from '../Components/ErrorModel'
-import {default as ForgotPassword} from '../Screen/ForgotPassword.js'
+import {UserInfoContext} from '../auth/UserInfoContext'
 
 const Login = ({navigation}) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [rememeber, setRememebr] = useState(false) ;
+  const {rememberEmail, setRememberEmail} = React.useContext(UserInfoContext)
   // Error model
-
   const [ErrormodalVisible, setErrormodalVisible] = useState(false)
   const [ErrorMessage, setErrorMessage] = useState('')
 
+  useEffect(() => {
+    if(rememberEmail)
+    setEmail(rememberEmail)
+    return
+  }, [])
+
   const onLogin = () => {
+    if(rememeber){
+      setRememberEmail(email) 
+    }else{
+      setRememberEmail('')
+    }
     if (email !== '' && password !== '') {
       auth()
         .signInWithEmailAndPassword(email, password)
         .then(() => {
           console.log('User account signed in!')
-          navigation.navigate('ChildList')
         })
         .catch(error => {
           if (error.code === 'auth/email-already-in-use') {
@@ -121,7 +132,7 @@ const Login = ({navigation}) => {
               ]}
               color='black'
               onChangeText={text => setEmail(text)}
-              value={email}
+              value={rememberEmail? rememberEmail : email}
               textContentType='emailAddress'
               clearButtonMode='while-editing'
               keyboardType='email-address'
@@ -161,6 +172,7 @@ const Login = ({navigation}) => {
               iconStyle={{borderRadius: 3, marginLeft: I18nManager.isRTL ? 0 : 10}}
               text='تذكرني'
               textStyle={styles.smallText}
+              onPress={(isChecked: boolean) => {setRememebr(isChecked)}}
             />
 
             <Text
