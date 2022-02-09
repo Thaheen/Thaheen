@@ -22,10 +22,9 @@ import TopBox from '../assets/images/TopBox.svg';
 import AnimalPicker from '../Screen/AnimalPicker.js';
 import auth from '@react-native-firebase/auth';
 import SuccessModel from '../Components/SuccessModel';
-import ConfirmVector from '../assets/images/ConfirmVector.svg';
 import firestore from '@react-native-firebase/firestore';
 import AccessModel from '../Components/AccessModel';
-
+import ConfirmModel from '../Components/ConfirmModel';
 import {
   Menu,
   MenuProvider,
@@ -85,112 +84,67 @@ const ChildList = ({navigation}) => {
       });
   };
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: 'white',
-      }}>
-      <TopBox style={[{position: 'absolute', top: 0}]} />
-      {/*<BackButton />*/}
-      <Top2Lines
-        style={[
-          Platform.OS === 'ios' ? TitleStyles.shadowOffset : null,
-          I18nManager.isRTL ? RTLlayout.Top2LinesAR : RTLlayout.Top2LinesEN,
-        ]}
-      />
-      <Text
-        style={[
-          TitleStyles.HeaderTitle,
-          {textAlign: I18nManager.isRTL ? 'left' : 'right', paddingRight: 50},
-        ]}>
-        من أنت؟
-      </Text>
+    <MenuProvider>
+      <SafeAreaView
+        style={{
+          flex: 1,
+          backgroundColor: 'white',
+        }}>
+        <TopBox style={[{position: 'absolute', top: 0}]} />
+        {/*<BackButton />*/}
+        <Top2Lines
+          style={[
+            Platform.OS === 'ios' ? TitleStyles.shadowOffset : null,
+            I18nManager.isRTL ? RTLlayout.Top2LinesAR : RTLlayout.Top2LinesEN,
+          ]}
+        />
+        <Text
+          style={[
+            TitleStyles.HeaderTitle,
+            {textAlign: I18nManager.isRTL ? 'left' : 'right', paddingRight: 50},
+          ]}>
+          من أنت؟
+        </Text>
 
-      <AccessModel
-        modalVisible={AccessModalVisible}
-        setModalVisible={setAccessModalVisible}
-      />
+        <AccessModel
+          modalVisible={AccessModalVisible}
+          setModalVisible={setAccessModalVisible}
+        />
 
-      <SuccessModel
-        message={'تم حذف الطفل بنجاح'}
-        modalVisible={modalVisible}
-        setModalVisible={setModalVisible}
-      />
+        <SuccessModel
+          message={'تم حذف الطفل بنجاح'}
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+        />
 
-      <FlatList
-        style={[{marginTop: 100, height: '55%'}]}
-        data={children}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({item}) => (
-          <TouchableOpacity
-            onPress={() => {
-              console.log(item.key);
-              setAccessModalVisible(!AccessModalVisible);
-            }}>
-            <Modal
-              animationType="fade"
-              transparent={true}
-              visible={ConfirmmodalVisible}>
-              <View
-                style={{
-                  backgroundColor: 'rgba(52, 52, 52, 0.5)',
-                  height: '100%',
-                }}>
-                <View style={TitleStyles.modalContent}>
-                  <ConfirmVector
-                    width={120}
-                    height={120}
-                    style={{marginLeft: 80, marginTop: -75}}
-                  />
-                  <Text
-                    style={[
-                      TitleStyles.subTitle,
-                      {textAlign: 'center', fontWeight: 'bold'},
-                    ]}>
-                    هل انت متأكد من حذف الطفل؟
-                  </Text>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      backgroundColor: '#DAE2E9',
-                      borderRadius: 50,
-                    }}>
-                    <TouchableOpacity
-                      style={[
-                        {
-                          backgroundColor: '#FFFFFF',
-                          width: '50%',
-                          borderWidth: 1,
-                          borderColor: '#DAE2E9',
-                          borderRadius: 25,
-                        },
-                      ]}
-                      onPress={() =>
-                        setConfirmmodalVisible(!ConfirmmodalVisible)
-                      }>
-                      <Text style={TitleStyles.ButtonText}>الغاء </Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                      style={[{width: '50%', borderRadius: 25}]}
-                      onPress={() => deleteChildAccount(item.key)}>
-                      <Text style={TitleStyles.ButtonText}>حسنا </Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              </View>
-            </Modal>
-            <View style={[TitleStyles.childItem]}>
-              <MenuProvider style={{flexDirection: 'column', padding: 30}}>
-                <Menu>
+        <FlatList
+          style={[{marginTop: 100, height: '55%'}]}
+          data={children}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({item}) => (
+            <TouchableOpacity
+              onPress={() => {
+                console.log(item.key);
+                setAccessModalVisible(!AccessModalVisible);
+              }}>
+              <ConfirmModel
+                message={'هل انت متأكد من حذف الطفل؟'}
+                modalVisible={ConfirmmodalVisible}
+                setModalVisible={setConfirmmodalVisible}
+                sentFunction={deleteChildAccount}
+                ID={item.key}
+              />
+              <View style={[TitleStyles.childItem, {flex: 1}]}>
+                <Menu
+                  style={{
+                    flexDirection: 'column',
+                    padding: 25,
+                    width: '30%',
+                  }}
+                  renderer={renderers.Popover}
+                  rendererProps={{placement: 'bottom'}}>
                   <MenuTrigger>
-                    <Icon
-                      width="100%"
-                      height="100%"
-                      style={{marginLeft: -30}}
-                    />
+                    <Icon width="100%" height="100%" />
                   </MenuTrigger>
 
                   <MenuOptions>
@@ -210,58 +164,61 @@ const ChildList = ({navigation}) => {
                     </MenuOption>
                   </MenuOptions>
                 </Menu>
-              </MenuProvider>
-              <View style={[TitleStyles.innerChildItem]}>
-                <Text style={[TitleStyles.childItemText]}>{item.Fullname}</Text>
+
+                <View style={[TitleStyles.innerChildItem]}>
+                  <Text style={[TitleStyles.childItemText]}>
+                    {item.Fullname}
+                  </Text>
+                </View>
+                <AnimalPicker />
               </View>
-              <AnimalPicker />
-            </View>
-          </TouchableOpacity>
-        )}
-      />
+            </TouchableOpacity>
+          )}
+        />
 
-      <TouchableOpacity
-        style={[
-          TitleStyles.Button,
-          {
-            backgroundColor: '#DAE2E9',
-            alignSelf: 'center',
-            width: 300,
-          },
-        ]}
-        onPress={() => {
-          navigation.navigate('AddChildAccount');
-        }}>
-        <Text style={TitleStyles.ButtonText}>إضافة حساب طفل جديد</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={[
+            TitleStyles.Button,
+            {
+              backgroundColor: '#DAE2E9',
+              alignSelf: 'center',
+              width: 300,
+            },
+          ]}
+          onPress={() => {
+            navigation.navigate('AddChildAccount');
+          }}>
+          <Text style={TitleStyles.ButtonText}>إضافة حساب طفل جديد</Text>
+        </TouchableOpacity>
 
-      <TouchableOpacity
-        style={[
-          TitleStyles.Button,
-          {
-            backgroundColor: '#DAE2E9',
-            alignSelf: 'center',
-            width: 300,
-          },
-        ]}
-        onPress={() => {
-          navigation.navigate('RecordVoice');
-        }}>
-        <Text style={TitleStyles.ButtonText}>تسجيل صوت جديد</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={[
-          TitleStyles.Button,
-          {
-            backgroundColor: '#DAE2E9',
-            alignSelf: 'center',
-            width: 300,
-          },
-        ]}
-        onPress={onSignout}>
-        <Text style={TitleStyles.ButtonText}>تسجيل الخروج</Text>
-      </TouchableOpacity>
-    </SafeAreaView>
+        <TouchableOpacity
+          style={[
+            TitleStyles.Button,
+            {
+              backgroundColor: '#DAE2E9',
+              alignSelf: 'center',
+              width: 300,
+            },
+          ]}
+          onPress={() => {
+            navigation.navigate('RecordVoice');
+          }}>
+          <Text style={TitleStyles.ButtonText}>تسجيل صوت جديد</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[
+            TitleStyles.Button,
+            {
+              backgroundColor: '#DAE2E9',
+              alignSelf: 'center',
+              width: 300,
+            },
+          ]}
+          onPress={onSignout}>
+          <Text style={TitleStyles.ButtonText}>تسجيل الخروج</Text>
+        </TouchableOpacity>
+      </SafeAreaView>
+    </MenuProvider>
   );
 };
 
