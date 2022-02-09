@@ -66,7 +66,7 @@ export default StyleSheet.create({
   dropDownStyle: {
     marginTop: 10,
     borderColor: '#f8f4f4',
-    flexDirection: I18nManager.isRTL ? 'row' :'row-reverse',
+    flexDirection: I18nManager.isRTL ? 'row' : 'row-reverse',
     backgroundColor: '#f8f4f4',
   },
   categoryText: {
@@ -190,5 +190,28 @@ export default StyleSheet.create({
     marginBottom: 10,
     width: '80%',
     height: '6%',
+  },
+
+  /////Access Passcode Style////
+  containerInput: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  cellView: {
+    paddingVertical: 11,
+    width: 40,
+    height: 50,
+    margin: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: '#E5E5E5',
+    borderWidth: 1,
+    borderRadius: 10,
+  },
+
+  cellText: {
+    textAlign: 'center',
+    fontSize: 16,
   },
 });

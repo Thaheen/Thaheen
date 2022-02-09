@@ -44,13 +44,10 @@ const ChildList = ({navigation}) => {
   //Success modal **should be moved to the child list file**
   const [modalVisible, setModalVisible] = useState(false);
 
-<<<<<<< Updated upstream
   //Confirm modal **should be moved to the child list file**
   const [ConfirmmodalVisible, setConfirmmodalVisible] = useState(false);
-=======
   // Access passcode model
   const [AccessModalVisible, setAccessModalVisible] = useState(false);
->>>>>>> Stashed changes
 
   useEffect(() => {
     const students = firestore()
@@ -94,7 +91,7 @@ const ChildList = ({navigation}) => {
         backgroundColor: 'white',
       }}>
       <TopBox style={[{position: 'absolute', top: 0}]} />
-      <BackButton />
+      {/*<BackButton />*/}
       <Top2Lines
         style={[
           Platform.OS === 'ios' ? TitleStyles.shadowOffset : null,

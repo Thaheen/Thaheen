@@ -16,7 +16,7 @@ import TopBox from '../assets/images/TopBox.svg';
 import AnimalPicker from '../Screen/AnimalPicker.js';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-
+import BackButton from '../Components/BackButton.js';
 //import {AfterEffectsOutlined} from 'react-basil';
 
 const StudentProfile = ({navigation, route}) => {
@@ -42,7 +42,7 @@ const StudentProfile = ({navigation, route}) => {
         setGrade(snapshot.data().Grade);
         setSchoolName(snapshot.data().SchoolName);
       });
-    return fullName;
+    return studentsInfo;
   }, []);
 
   return (
@@ -54,12 +54,14 @@ const StudentProfile = ({navigation, route}) => {
         // alignItems: 'center',
       }}>
       <TopBox style={[{position: 'absolute', top: 0, Right: 250}]}></TopBox>
+
       <Top2Lines
         style={[
           TitleStyles.shadowOffset,
           {position: 'absolute', top: 0, left: 0},
         ]}
       />
+
       <Text style={TitleStyles.HeaderTitle}>الملف الشخصي</Text>
 
       {/* size of the animal picker need to be changed */}
@@ -100,7 +102,7 @@ const StudentProfile = ({navigation, route}) => {
           onPress={() => {
             navigation.navigate('ChildList');
           }}>
-          تسجيل الخروج
+          رجوع
         </Text>
       </TouchableOpacity>
     </SafeAreaView>
