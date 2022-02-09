@@ -27,18 +27,20 @@ import Error from '../Components/ErrorModel';
 import Top2Lines from '../assets/images/top2Lines.svg';
 import Bottom2Lines from '../assets/images/bottom2Lines.svg';
 import BackButton from '../Components/BackButton';
-import AudioRecorderPlayer, { 
- AVEncoderAudioQualityIOSType,
- AVEncodingOption, 
- AudioEncoderAndroidType,
- AudioSet,
- AudioSourceAndroidType, 
+import AudioRecorderPlayer, {
+  AVEncoderAudioQualityIOSType,
+  AVEncodingOption,
+  AudioEncoderAndroidType,
+  AudioSet,
+  AudioSourceAndroidType,
 } from 'react-native-audio-recorder-player';
 
+import Microphone from '../assets/images/Microphone.svg';
+import RecordingMicrophone from '../assets/images/RecordingMicrophone.svg';
+
 class RecordVoice extends Component {
-  
-//const [Title, setTitle] = useState('');
-//const [HomeWork, setHomeWork] = useState('');
+  //const [Title, setTitle] = useState('');
+  //const [HomeWork, setHomeWork] = useState('');
 
   constructor(props) {
     super(props);
@@ -50,13 +52,14 @@ class RecordVoice extends Component {
       currentDurationSec: 0,
       playTime: '00:00:00',
       duration: '00:00:00',
+      modalVisible: false,
     };
     this.audioRecorderPlayer = new AudioRecorderPlayer();
     this.audioRecorderPlayer.setSubscriptionDuration(0.09); // optional. Default is 0.1
   }
 
-   onStartRecord = async () => {
-    
+  onStartRecord = async () => {
+    this.state.modalVisible = !this.state.modalVisible;
     const path = 'hello.m4a';
     const audioSet = {
       AudioEncoderAndroid: AudioEncoderAndroidType.AAC,
@@ -67,7 +70,7 @@ class RecordVoice extends Component {
     };
     console.log('audioSet', audioSet);
     const uri = await this.audioRecorderPlayer.startRecorder(path, audioSet);
-    this.audioRecorderPlayer.addRecordBackListener((e) => {
+    this.audioRecorderPlayer.addRecordBackListener(e => {
       this.setState({
         recordSecs: e.current_position,
         recordTime: this.audioRecorderPlayer.mmssss(
@@ -79,6 +82,7 @@ class RecordVoice extends Component {
   };
 
   onStopRecord = async () => {
+    this.state.modalVisible = !this.state.modalVisible;
     const result = await this.audioRecorderPlayer.stopRecorder();
     this.audioRecorderPlayer.removeRecordBackListener();
     this.setState({
@@ -87,13 +91,13 @@ class RecordVoice extends Component {
     console.log(result);
   };
 
-  onStartPlay = async (e) => {
+  onStartPlay = async e => {
     console.log('onStartPlay');
-    const path = 'hello.m4a'
+    const path = 'hello.m4a';
     const msg = await this.audioRecorderPlayer.startPlayer(path);
     this.audioRecorderPlayer.setVolume(1.0);
     console.log(msg);
-    this.audioRecorderPlayer.addPlayBackListener((e) => {
+    this.audioRecorderPlayer.addPlayBackListener(e => {
       if (e.current_position === e.duration) {
         console.log('finished');
         this.audioRecorderPlayer.stopPlayer();
@@ -108,95 +112,119 @@ class RecordVoice extends Component {
       });
     });
   };
-  render(){
-  return (
-    <View>
-      <SafeAreaView
-        style={{
-          backgroundColor: '#DAE2E9',
-          height: '100%',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        <BackGround
+  render() {
+    return (
+      <View>
+        <SafeAreaView
           style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 16,
-            bottom: 0,
-          }}
-        />
-        <Text style={TitleStyles.ButtonText}>إضافة واجب جديد </Text>
+            backgroundColor: '#DAE2E9',
+            height: '100%',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <BackGround
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 16,
+              bottom: 0,
+            }}
+          />
+          <Text style={TitleStyles.ButtonText}>إضافة واجب جديد </Text>
 
-        <TextInput
-          placeholder=" عنوان النص "
-          placeholderTextColor={'#C3C7CA'}
-          style={TitleStyles.Title}
-          onChangeText={text => setTitle(text)}
-          //value={Title}
-          underlineColorAndroid="transparent"
-          color="black"
-        />
+          <TextInput
+            placeholder=" عنوان النص "
+            placeholderTextColor={'#C3C7CA'}
+            style={TitleStyles.Title}
+            onChangeText={text => setTitle(text)}
+            //value={Title}
+            underlineColorAndroid="transparent"
+            color="black"
+          />
 
-        <TextInput
-          placeholder="أدخل عنوان النص "
-          placeholderTextColor={'#C3C7CA'}
-          style={TitleStyles.TextArea}
-          onChangeText={text => setHomeWork(text)}
-         // value={HomeWork}
-          underlineColorAndroid="transparent"
-          color="black"
-        />
+          <TextInput
+            placeholder="أدخل عنوان النص "
+            placeholderTextColor={'#C3C7CA'}
+            style={TitleStyles.TextArea}
+            onChangeText={text => setHomeWork(text)}
+            // value={HomeWork}
+            underlineColorAndroid="transparent"
+            color="black"
+          />
 
-        <Text>{this.state.recordTime}</Text>
-        <TouchableOpacity
-          style={[
-            TitleStyles.Button,
-            TitleStyles.shadowOffset,
-            {marginBottom: 20, marginTop: 20, width: '50%'},
-          ]}
-          onPress={() =>  this.onStartRecord()}
-          >
-          <Text style={TitleStyles.ButtonText}>تسجيل </Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              {
+                marginBottom: 20,
+                marginTop: 20,
+                width: '50%',
+                alignItems: 'center',
+              },
+            ]}
+            onPress={() => this.onStartRecord()}>
+            <Microphone width={30} height={30} />
+            <Text style={[TitleStyles.subTitle]}>تسجيل الصوت</Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity
-          style={[
-            TitleStyles.Button,
-            TitleStyles.shadowOffset,
-            {marginBottom: 20, marginTop: 20, width: '50%'},
-          ]}
-          onPress={() =>  this.onStopRecord()}
-          >
-          <Text style={TitleStyles.ButtonText}>ايقاف </Text>
-        </TouchableOpacity>
+          <Modal
+            animationType="fade"
+            transparent={true}
+            visible={this.state.modalVisible}>
+            <View
+              style={{
+                backgroundColor: 'rgba(52, 52, 52, 0.5)',
+                height: '100%',
+              }}>
+              <View style={[TitleStyles.modalContent, {alignItems: 'center'}]}>
+                <RecordingMicrophone
+                  width={120}
+                  height={120}
+                  style={{marginTop: -71}}
+                />
+                <Text
+                  style={[
+                    TitleStyles.subTitle,
+                    {textAlign: 'center', fontWeight: 'bold'},
+                  ]}>
+                  يتم التسجيل الان...
+                </Text>
 
-<Text>{this.state.playTime}</Text>
-        <TouchableOpacity
-          style={[
-            TitleStyles.Button,
-            TitleStyles.shadowOffset,
-            {marginBottom: 20, marginTop: 20, width: '50%'},
-          ]}
-          onPress={() =>  this.onStartPlay()}
-          >
-          <Text style={TitleStyles.ButtonText}>تشغيل </Text>
-        </TouchableOpacity>
+                <TouchableOpacity
+                  style={[
+                    TitleStyles.AlertButton,
+                    {backgroundColor: '#DAE2E9', width: '50%'},
+                  ]}
+                  onPress={() => this.onStopRecord()}>
+                  <Text style={TitleStyles.ButtonText}>ايقاف </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Modal>
 
-        <TouchableOpacity
-          style={[
-            TitleStyles.Button,
-            TitleStyles.shadowOffset,
-            {marginBottom: 20, marginTop: 20, width: '50%'},
-          ]}
-          onPress={() => submit()}>
-          <Text style={TitleStyles.ButtonText}>إضافـــــة </Text>
-        </TouchableOpacity>
-      </SafeAreaView>
-    </View>
-  );
+          <TouchableOpacity
+            style={[
+              TitleStyles.Button,
+              TitleStyles.shadowOffset,
+              {marginBottom: 20, marginTop: 20, width: '50%'},
+            ]}
+            onPress={() => this.onStartPlay()}>
+            <Text style={TitleStyles.ButtonText}>تشغيل </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[
+              TitleStyles.Button,
+              TitleStyles.shadowOffset,
+              {marginBottom: 20, marginTop: 20, width: '50%'},
+            ]}
+            onPress={() => submit()}>
+            <Text style={TitleStyles.ButtonText}>إضافـــــة </Text>
+          </TouchableOpacity>
+        </SafeAreaView>
+      </View>
+    );
   }
-};
+}
 
 export default RecordVoice;

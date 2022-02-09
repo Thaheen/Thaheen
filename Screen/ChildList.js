@@ -12,6 +12,7 @@ import {
   View,
   Platform,
   I18nManager,
+  Modal,
 } from 'react-native';
 import TitleStyles from '../Styles/Titles';
 import RTLlayout from '../Styles/RTLlayout';
@@ -21,6 +22,7 @@ import TopBox from '../assets/images/TopBox.svg';
 import AnimalPicker from '../Screen/AnimalPicker.js';
 import auth from '@react-native-firebase/auth';
 import SuccessModel from '../Components/SuccessModel';
+import ConfirmVector from '../assets/images/ConfirmVector.svg';
 import firestore from '@react-native-firebase/firestore';
 import {
   Menu,
@@ -39,6 +41,9 @@ const ChildList = ({navigation}) => {
 
   //Success modal **should be moved to the child list file**
   const [modalVisible, setModalVisible] = useState(false);
+
+  //Confirm modal **should be moved to the child list file**
+  const [ConfirmmodalVisible, setConfirmmodalVisible] = useState(false);
 
   useEffect(() => {
     const students = firestore()
@@ -66,6 +71,7 @@ const ChildList = ({navigation}) => {
   };
 
   const deleteChildAccount = ChildID => {
+    setConfirmmodalVisible(!ConfirmmodalVisible);
     firestore()
       .collection('Student')
       .doc(ChildID)
@@ -110,6 +116,52 @@ const ChildList = ({navigation}) => {
             onPress={() => {
               console.log(item.key);
             }}>
+            <Modal
+              animationType="fade"
+              transparent={true}
+              visible={ConfirmmodalVisible}>
+              <View
+                style={{
+                  backgroundColor: 'rgba(52, 52, 52, 0.5)',
+                  height: '100%',
+                }}>
+                <View style={TitleStyles.modalContent}>
+                  <ConfirmVector
+                    width={120}
+                    height={120}
+                    style={{marginLeft: 80, marginTop: -75}}
+                  />
+                  <Text
+                    style={[
+                      TitleStyles.subTitle,
+                      {textAlign: 'center', fontWeight: 'bold'},
+                    ]}>
+                    هل انت متأكد من حذف الطفل؟
+                  </Text>
+                 <View style={{ flexDirection:"row" , alignItems:'center' , justifyContent:'center' , backgroundColor: '#DAE2E9' , borderRadius:50}} >
+                  <TouchableOpacity
+                    style={[
+                     
+                      {backgroundColor: '#FFFFFF' , width:'50%' , borderWidth:1 , borderColor:'#DAE2E9', borderRadius:25},
+                    ]}
+                    onPress={() =>
+                      setConfirmmodalVisible(!ConfirmmodalVisible)
+                    }>
+                    <Text style={TitleStyles.ButtonText}>الغاء </Text>
+                  </TouchableOpacity>
+
+                   <TouchableOpacity
+                    style={[
+                      { width:'50%' , borderRadius:25},
+                      
+                    ]}
+                    onPress={() => deleteChildAccount(item.key)}>
+                    <Text style={TitleStyles.ButtonText}>حسنا </Text>
+                  </TouchableOpacity>
+                  </View>
+                </View>
+              </View>
+            </Modal>
             <View style={[TitleStyles.childItem]}>
               <MenuProvider style={{flexDirection: 'column', padding: 30}}>
                 <Menu>
@@ -130,7 +182,10 @@ const ChildList = ({navigation}) => {
                       }>
                       <Text> الملف الشخصي</Text>
                     </MenuOption>
-                    <MenuOption onSelect={() => deleteChildAccount(item.key)}>
+                    <MenuOption
+                      onSelect={() =>
+                        setConfirmmodalVisible(!ConfirmmodalVisible)
+                      }>
                       <Text>حذف الطفل</Text>
                     </MenuOption>
                   </MenuOptions>
