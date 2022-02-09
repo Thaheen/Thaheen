@@ -66,11 +66,11 @@ export default StyleSheet.create({
   dropDownStyle: {
     marginTop: 10,
     borderColor: '#f8f4f4',
-    flexDirection: 'row-reverse',
+    flexDirection: I18nManager.isRTL ? 'row' :'row-reverse',
     backgroundColor: '#f8f4f4',
   },
   categoryText: {
-    textAlign: 'right',
+    textAlign: I18nManager.isRTL ? 'left' : 'right',
     fontFamily: 'AJannatLT-Bold',
     fontSize: 18,
   },
