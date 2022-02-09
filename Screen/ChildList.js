@@ -122,7 +122,12 @@ const ChildList = ({navigation}) => {
                   </MenuTrigger>
 
                   <MenuOptions>
-                    <MenuOption onSelect={()=>navigation.navigate('StudentProfile')}>
+                    <MenuOption
+                      onSelect={() =>
+                        navigation.navigate('StudentProfile', {
+                          studentID: item.key,
+                        })
+                      }>
                       <Text> الملف الشخصي</Text>
                     </MenuOption>
                     <MenuOption onSelect={() => deleteChildAccount(item.key)}>
@@ -139,20 +144,6 @@ const ChildList = ({navigation}) => {
           </TouchableOpacity>
         )}
       />
-      <TouchableOpacity
-        style={[
-          TitleStyles.Button,
-          {
-            backgroundColor: '#DAE2E9',
-            alignSelf: 'center',
-            width: 300,
-          },
-        ]}
-        onPress={() => {
-          navigation.navigate('StudentProfile');
-        }}>
-        <Text style={TitleStyles.ButtonText}>الملف الشخصي</Text>
-      </TouchableOpacity>
 
       <TouchableOpacity
         style={[

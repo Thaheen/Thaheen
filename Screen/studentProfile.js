@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -13,11 +13,38 @@ import {
 import TitleStyles from '../Styles/Titles';
 import Top2Lines from '../assets/images/top2Lines.svg';
 import TopBox from '../assets/images/TopBox.svg';
-//import {FloatingLabelInput} from 'react-native-floating-label-input';
 import AnimalPicker from '../Screen/AnimalPicker.js';
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
+
 //import {AfterEffectsOutlined} from 'react-basil';
-const StudentProfile = ({navigation}) => {
+
+const StudentProfile = ({navigation, route}) => {
+  const user = auth().currentUser;
+
+  const [fullName, setFullName] = useState('');
+  const [userName, setUserName] = useState('');
+  const [userGrade, setGrade] = useState('');
+  const [userSchoolName, setSchoolName] = useState('');
+
+  //const studentID = route.params.studentID;
+  //console.log('-------------------');
+  //console.log(route.params.studentID);
+  //console.log('-------------------');
+
+  useEffect(() => {
+    const studentsInfo = firestore()
+      .collection('Student')
+      .doc(route.params.studentID)
+      .onSnapshot(snapshot => {
+        setFullName(snapshot.data().Fullname);
+        setUserName(snapshot.data().Username);
+        setGrade(snapshot.data().Grade);
+        setSchoolName(snapshot.data().SchoolName);
+      });
+    return fullName;
+  }, []);
+
   return (
     <SafeAreaView
       style={{
@@ -41,25 +68,19 @@ const StudentProfile = ({navigation}) => {
       </View>
 
       <Text style={TitleStyles.profileText}>الاسم كامل </Text>
-      <TextInput style={TitleStyles.textInput} value={'الغالية'}>
-        {/* retrieve data */}{' '}
-      </TextInput>
+      <TextInput style={TitleStyles.textInput} value={fullName}></TextInput>
 
       <Text style={TitleStyles.profileText}> اسم المستخدم </Text>
-      <TextInput style={TitleStyles.textInput} value={'Gmohammad'}>
-        {/* retrieve data */}
-      </TextInput>
+      <TextInput style={TitleStyles.textInput} value={userName}></TextInput>
 
       <Text style={TitleStyles.profileText}> المستوى </Text>
-      <TextInput style={TitleStyles.textInput} value={'اخرى'}>
-        {/* retrieve data */}
-      </TextInput>
+      <TextInput style={TitleStyles.textInput} value={userGrade}></TextInput>
 
       <View>
         <Text style={TitleStyles.profileText}> اسم المدرسة </Text>
-        <TextInput style={TitleStyles.textInput} value={'لا يوجد'}>
-          {/* retrieve data */}
-        </TextInput>
+        <TextInput
+          style={TitleStyles.textInput}
+          value={userSchoolName}></TextInput>
       </View>
 
       <TouchableOpacity
