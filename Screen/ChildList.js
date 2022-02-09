@@ -138,26 +138,35 @@ const ChildList = ({navigation}) => {
                     ]}>
                     هل انت متأكد من حذف الطفل؟
                   </Text>
-                 <View style={{ flexDirection:"row" , alignItems:'center' , justifyContent:'center' , backgroundColor: '#DAE2E9' , borderRadius:50}} >
-                  <TouchableOpacity
-                    style={[
-                     
-                      {backgroundColor: '#FFFFFF' , width:'50%' , borderWidth:1 , borderColor:'#DAE2E9', borderRadius:25},
-                    ]}
-                    onPress={() =>
-                      setConfirmmodalVisible(!ConfirmmodalVisible)
-                    }>
-                    <Text style={TitleStyles.ButtonText}>الغاء </Text>
-                  </TouchableOpacity>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      backgroundColor: '#DAE2E9',
+                      borderRadius: 50,
+                    }}>
+                    <TouchableOpacity
+                      style={[
+                        {
+                          backgroundColor: '#FFFFFF',
+                          width: '50%',
+                          borderWidth: 1,
+                          borderColor: '#DAE2E9',
+                          borderRadius: 25,
+                        },
+                      ]}
+                      onPress={() =>
+                        setConfirmmodalVisible(!ConfirmmodalVisible)
+                      }>
+                      <Text style={TitleStyles.ButtonText}>الغاء </Text>
+                    </TouchableOpacity>
 
-                   <TouchableOpacity
-                    style={[
-                      { width:'50%' , borderRadius:25},
-                      
-                    ]}
-                    onPress={() => deleteChildAccount(item.key)}>
-                    <Text style={TitleStyles.ButtonText}>حسنا </Text>
-                  </TouchableOpacity>
+                    <TouchableOpacity
+                      style={[{width: '50%', borderRadius: 25}]}
+                      onPress={() => deleteChildAccount(item.key)}>
+                      <Text style={TitleStyles.ButtonText}>حسنا </Text>
+                    </TouchableOpacity>
                   </View>
                 </View>
               </View>
