@@ -24,6 +24,8 @@ import auth from '@react-native-firebase/auth';
 import SuccessModel from '../Components/SuccessModel';
 import ConfirmVector from '../assets/images/ConfirmVector.svg';
 import firestore from '@react-native-firebase/firestore';
+import AccessModel from '../Components/AccessModel';
+
 import {
   Menu,
   MenuProvider,
@@ -42,8 +44,13 @@ const ChildList = ({navigation}) => {
   //Success modal **should be moved to the child list file**
   const [modalVisible, setModalVisible] = useState(false);
 
+<<<<<<< Updated upstream
   //Confirm modal **should be moved to the child list file**
   const [ConfirmmodalVisible, setConfirmmodalVisible] = useState(false);
+=======
+  // Access passcode model
+  const [AccessModalVisible, setAccessModalVisible] = useState(false);
+>>>>>>> Stashed changes
 
   useEffect(() => {
     const students = firestore()
@@ -101,6 +108,12 @@ const ChildList = ({navigation}) => {
         ]}>
         من أنت؟
       </Text>
+
+      <AccessModel
+        modalVisible={AccessModalVisible}
+        setModalVisible={setAccessModalVisible}
+      />
+
       <SuccessModel
         message={'تم حذف الطفل بنجاح'}
         modalVisible={modalVisible}
@@ -115,6 +128,7 @@ const ChildList = ({navigation}) => {
           <TouchableOpacity
             onPress={() => {
               console.log(item.key);
+              setAccessModalVisible(!AccessModalVisible);
             }}>
             <Modal
               animationType="fade"
