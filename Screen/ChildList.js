@@ -90,6 +90,8 @@ const ChildList = ({navigation}) => {
           flex: 1,
           backgroundColor: 'white',
         }}>
+      <StatusBar
+        backgroundColor='#DAE2E9' />
         <TopBox style={[{position: 'absolute', top: 0}]} />
         {/*<BackButton />*/}
         <Top2Lines
