@@ -13,11 +13,11 @@ import {
   Modal,
   TouchableOpacity,
   Platform,
-  I18nManager
+  I18nManager,
 } from 'react-native';
 
 import TitleStyles from '../Styles/Titles';
-import RTLlayout from '../Styles/RTLlayout'
+import RTLlayout from '../Styles/RTLlayout';
 import firestore from '@react-native-firebase/firestore';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {SvgUri} from 'react-native-svg';
@@ -30,7 +30,7 @@ import auth from '@react-native-firebase/auth';
 import BackButton from '../Components/BackButton';
 
 const AddChildAccount = ({navigation}) => {
-  const user = auth().currentUser; 
+  const user = auth().currentUser;
 
   DropDownPicker.setListMode('SCROLLVIEW');
   const [ChildName, setChildName] = useState('');
@@ -63,12 +63,24 @@ const AddChildAccount = ({navigation}) => {
 
   const [ErrorMessage, setErrorMessage] = useState('');
 
+  const [isUnique, setisUnique] = useState(true);
+
+  firestore()
+    .collection('Student')
+    .where('Username', '==', ChildAccount)
+    .get()
+    .then(querySnapshot => {
+      if (querySnapshot.size != 0) {
+        setisUnique(false);
+      } else setisUnique(true);
+    });
   // Check if name contain numbers
   const IsValidfield = field => {
     const RegxOfNames = /^[a-zA-Z\s\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF]*$/;
     return RegxOfNames.test(field);
   };
 
+  const isUniqueUsername = username => {};
   //chech if Username only use letters and numbers
   const onValidUsername = val => {
     const usernameRegex = /^[a-zA-Z0-9]+$/;
@@ -97,6 +109,11 @@ const AddChildAccount = ({navigation}) => {
     }
     if (IsValidfield(ChildName) == false) {
       setErrorMessage('حقل "اسم الطفل" يجب ان يحتوي على حروف فقط');
+      setErrormodalVisible(!ErrormodalVisible);
+      return;
+    }
+    if (isUnique == false) {
+      setErrorMessage('حقل "اسم المستخدم" مسجل مسبقا');
       setErrormodalVisible(!ErrormodalVisible);
       return;
     }
@@ -136,6 +153,29 @@ const AddChildAccount = ({navigation}) => {
 
       return;
     }
+    if (ChildSchool.length != 0) {
+      if (
+        IsValidfield(ChildSchool) == false ||
+        ChildSchool.replace(/\s+/g, '').length == 0
+      ) {
+        setErrorMessage('حقل "اسم المدرسة" يجب ان يحتوي على حروف فقط');
+        setErrormodalVisible(!ErrormodalVisible);
+        return;
+      }
+    }
+
+    const animalPick = [
+      'Bear.png',
+      'Cat.png',
+      'Fox.png',
+      'Panda.png',
+      'Raccoon.png',
+      'Raindeer.png',
+      'Zebra.png',
+      'Elephant.png',
+    ];
+    const randomImage =
+      animalPick[Math.floor(Math.random() * animalPick.length)];
 
     firestore()
       .collection('Student')
@@ -145,7 +185,8 @@ const AddChildAccount = ({navigation}) => {
         Grade: grade,
         SchoolName: ChildSchool,
         Passcode: ChildPasscode,
-         ParentID: user.uid
+        ParentID: user.uid,
+        pic: randomImage,
       })
       .then(() => {
         setModalVisible(!modalVisible);
@@ -164,15 +205,17 @@ const AddChildAccount = ({navigation}) => {
         <BackButton />
         <Top2Lines
           style={[
-          Platform.OS === 'ios' ? TitleStyles.shadowOffset : null,
-          I18nManager.isRTL ? RTLlayout.Top2LinesAR : RTLlayout.Top2LinesEN,
-        ]}
+            Platform.OS === 'ios' ? TitleStyles.shadowOffset : null,
+            I18nManager.isRTL ? RTLlayout.Top2LinesAR : RTLlayout.Top2LinesEN,
+          ]}
         />
         <Bottom2Lines
           style={[
-          Platform.OS === 'ios' ? TitleStyles.shadowOffset : null,
-          I18nManager.isRTL ? RTLlayout.Bottom2LinesAR : RTLlayout.Bottom2LinesEN,
-        ]}
+            Platform.OS === 'ios' ? TitleStyles.shadowOffset : null,
+            I18nManager.isRTL
+              ? RTLlayout.Bottom2LinesAR
+              : RTLlayout.Bottom2LinesEN,
+          ]}
         />
 
         <SuccessModel
