@@ -154,6 +154,7 @@ const ChildList = ({navigation}) => {
                       onSelect={() =>
                         navigation.navigate('StudentProfile', {
                           studentID: item.key,
+                          studentPic:item.pic
                         })
                       }>
                       <Text> الملف الشخصي</Text>

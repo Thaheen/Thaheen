@@ -68,7 +68,7 @@ const StudentProfile = ({navigation, route}) => {
 
       {/* size of the animal picker need to be changed */}
       <View style={{top: 60, left: 150, marginBottom: 50}}>
-        <AnimalPicker pic={userPic} />
+        <AnimalPicker pic={route.params.studentPic} />
       </View>
 
       <Text style={TitleStyles.profileText}>الاسم كامل </Text>
