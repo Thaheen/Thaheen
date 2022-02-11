@@ -276,7 +276,11 @@ const SignUp: () => Node = () => {
             <TextInput
               placeholder="*الاسم الكامل"
               placeholderTextColor={'#C3C7CA'}
-              style={[TitleStyles.input]}
+              style={[
+                Platform.OS === 'android' ? TitleStyles.shadowOffset : null,
+                TitleStyles.input,
+                {shadowColor: '#000'},
+              ]}
               onChangeText={text => setFullName(text)}
               value={FullName}
               underlineColorAndroid="transparent"
@@ -286,7 +290,7 @@ const SignUp: () => Node = () => {
           <View
             style={[TitleStyles.shadowOffset, {zIndex: 1000, elevation: 1000}]}>
             <DropDownPicker
-              style={TitleStyles.dropDownStyle}
+              style={[TitleStyles.dropDownStyle, Platform.OS === 'android' ? TitleStyles.shadowOffset : null]}
               textStyle={TitleStyles.categoryText}
               containerStyle={{}}
               dropDownContainerStyle={{
@@ -309,7 +313,11 @@ const SignUp: () => Node = () => {
             <TextInput
               placeholder="البريد الالكتروني "
               placeholderTextColor={'#C3C7CA'}
-              style={TitleStyles.input}
+              style={[
+                Platform.OS === 'android' ? TitleStyles.shadowOffset : null,
+                TitleStyles.input,
+                {shadowColor: '#000'},
+              ]}
               onChangeText={text => setEmail(text)}
               value={Email}
               underlineColorAndroid="transparent"
@@ -321,7 +329,11 @@ const SignUp: () => Node = () => {
             <TextInput
               placeholder="* رقم الجوال مثال : ٠٥٠ او ٩٦٦"
               placeholderTextColor={'#C3C7CA'}
-              style={TitleStyles.input}
+              style={[
+                Platform.OS === 'android' ? TitleStyles.shadowOffset : null,
+                TitleStyles.input,
+                {shadowColor: '#000'},
+              ]}
               onChangeText={text => setPhone(text)}
               keyboardType="number-pad"
               value={Phone}
@@ -334,7 +346,11 @@ const SignUp: () => Node = () => {
             <TextInput
               placeholder="*كلمة المرور"
               placeholderTextColor={'#C3C7CA'}
-              style={TitleStyles.input}
+              style={[
+                Platform.OS === 'android' ? TitleStyles.shadowOffset : null,
+                TitleStyles.input,
+                {shadowColor: '#000'},
+              ]}
               onChangeText={text => setPassword(text)}
               value={Password}
               underlineColorAndroid="transparent"
@@ -346,7 +362,11 @@ const SignUp: () => Node = () => {
             <TextInput
               placeholder="*تأكيد كلمة المرور"
               placeholderTextColor={'#C3C7CA'}
-              style={TitleStyles.input}
+              style={[
+                Platform.OS === 'android' ? TitleStyles.shadowOffset : null,
+                TitleStyles.input,
+                {shadowColor: '#000'},
+              ]}
               onChangeText={text => setConfirmPassword(text)}
               value={ConfirmPassword}
               underlineColorAndroid="transparent"

@@ -253,7 +253,11 @@ const AddChildAccount = ({navigation}) => {
             <TextInput
               placeholder="اسم الطفل"
               placeholderTextColor={'#C3C7CA'}
-              style={[TitleStyles.input]}
+              style={[
+                Platform.OS === 'android' ? TitleStyles.shadowOffset : null,
+                TitleStyles.input,
+                {shadowColor: '#000'},
+              ]}
               onChangeText={text => setChildName(text)}
               value={ChildName}
               underlineColorAndroid="transparent"
@@ -265,7 +269,11 @@ const AddChildAccount = ({navigation}) => {
             <TextInput
               placeholder="@ اسم المستخدم "
               placeholderTextColor={'#C3C7CA'}
-              style={TitleStyles.input}
+              style={[
+                Platform.OS === 'android' ? TitleStyles.shadowOffset : null,
+                TitleStyles.input,
+                {shadowColor: '#000'},
+              ]}
               onChangeText={text => setChildAccount(text)}
               value={ChildAccount}
               underlineColorAndroid="transparent"
@@ -277,7 +285,11 @@ const AddChildAccount = ({navigation}) => {
             <TextInput
               placeholder="رمز الدخول "
               placeholderTextColor={'#C3C7CA'}
-              style={TitleStyles.input}
+              style={[
+                Platform.OS === 'android' ? TitleStyles.shadowOffset : null,
+                TitleStyles.input,
+                {shadowColor: '#000'},
+              ]}
               onChangeText={text => setChildPasscode(text)}
               keyboardType="number-pad"
               maxLength={6}
@@ -292,7 +304,11 @@ const AddChildAccount = ({navigation}) => {
             <TextInput
               placeholder="تأكيد رمز الدخول "
               placeholderTextColor={'#C3C7CA'}
-              style={TitleStyles.input}
+              style={[
+                Platform.OS === 'android' ? TitleStyles.shadowOffset : null,
+                TitleStyles.input,
+                {shadowColor: '#000'},
+              ]}
               onChangeText={text => setrepeatChildPasscode(text)}
               value={repeatChildPasscode}
               keyboardType="number-pad"
@@ -306,7 +322,7 @@ const AddChildAccount = ({navigation}) => {
           <View
             style={[TitleStyles.shadowOffset, {zIndex: 1000, elevation: 1000}]}>
             <DropDownPicker
-              style={TitleStyles.dropDownStyle}
+              style={[TitleStyles.dropDownStyle, Platform.OS === 'android' ? TitleStyles.shadowOffset : null]}
               textStyle={TitleStyles.categoryText}
               containerStyle={{}}
               dropDownContainerStyle={{
@@ -329,7 +345,11 @@ const AddChildAccount = ({navigation}) => {
             <TextInput
               placeholder="اسم المدرسة (اختياري)"
               placeholderTextColor={'#C3C7CA'}
-              style={TitleStyles.input}
+              style={[
+                Platform.OS === 'android' ? TitleStyles.shadowOffset : null,
+                TitleStyles.input,
+                {shadowColor: '#000'},
+              ]}
               onChangeText={text => setChildSchool(text)}
               value={ChildSchool}
               underlineColorAndroid="transparent"
