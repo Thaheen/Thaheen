@@ -26,6 +26,7 @@ const StudentProfile = ({navigation, route}) => {
   const [userName, setUserName] = useState('');
   const [userGrade, setGrade] = useState('');
   const [userSchoolName, setSchoolName] = useState('');
+  const [userPic, setuserPic] = useState('');
 
   //const studentID = route.params.studentID;
   //console.log('-------------------');
@@ -41,6 +42,7 @@ const StudentProfile = ({navigation, route}) => {
         setUserName(snapshot.data().Username);
         setGrade(snapshot.data().Grade);
         setSchoolName(snapshot.data().SchoolName);
+        setuserPic(snapshot.data().pic);
       });
     return studentsInfo;
   }, []);
@@ -66,7 +68,7 @@ const StudentProfile = ({navigation, route}) => {
 
       {/* size of the animal picker need to be changed */}
       <View style={{top: 60, left: 150, marginBottom: 50}}>
-        <AnimalPicker />
+        <AnimalPicker pic={userPic} />
       </View>
 
       <Text style={TitleStyles.profileText}>الاسم كامل </Text>

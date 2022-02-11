@@ -136,7 +136,7 @@ const ChildList = ({navigation}) => {
                 sentFunction={deleteChildAccount}
                 ID={item.key}
               />
-              <View style={[TitleStyles.childItem, {flex: 1, direction: I18nManager.isRTL ? 'ltr' : 'rtl'}]}>
+              <View style={[TitleStyles.childItem, {flex: 1, direction: I18nManager.isRTL ? 'ltr' : 'rtl' , justifyContent:'space-between'}]}>
                 <Menu
                   style={{
                     flexDirection: 'column',
@@ -172,7 +172,8 @@ const ChildList = ({navigation}) => {
                     {item.Fullname}
                   </Text>
                 </View>
-                <AnimalPicker />
+                <AnimalPicker 
+                pic={item.pic} />
               </View>
             </TouchableOpacity>
           )}
