@@ -349,6 +349,7 @@ const SignUp: () => Node = () => {
               style={TitleStyles.input}
               onChangeText={text => setConfirmPassword(text)}
               value={ConfirmPassword}
+              secureTextEntry={true}
               underlineColorAndroid="transparent"
               color="black"
             />
