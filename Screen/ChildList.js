@@ -134,7 +134,7 @@ const ChildList = ({navigation}) => {
                 sentFunction={deleteChildAccount}
                 ID={item.key}
               />
-              <View style={[TitleStyles.childItem, {flex: 1}]}>
+              <View style={[TitleStyles.childItem, {flex: 1, direction: I18nManager.isRTL ? 'ltr' : 'rtl'}]}>
                 <Menu
                   style={{
                     flexDirection: 'column',
