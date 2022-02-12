@@ -144,7 +144,7 @@ const ChildList = ({navigation}) => {
               />
 
             
-              <View style={[TitleStyles.childItem, {flex: 1, direction: I18nManager.isRTL ? 'ltr' : 'rtl' , justifyContent:'space-between'}]}>
+              <View style={[TitleStyles.childItem, {flex: 1, flexDirection: I18nManager.isRTL ? 'row-reverse' : 'row' , justifyContent:'space-between'}]}>
                 <Menu
                   style={{
                     flexDirection: 'column',
