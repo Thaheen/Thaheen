@@ -130,7 +130,9 @@ const AddChildAccount = ({navigation}) => {
       ChildName.replace(/\s+/g, '').length > 30 ||
       ChildName.replace(/\s+/g, '').length < 2
     ) {
-      setErrorMessage('حقل اسم الطفل يجب ألا يقل عن حرفين وألا يتجاوز ٣٠ حرف');
+      setErrorMessage(
+        'حقل "اسم الطفل" يجب ألا يقل عن حرفين وألا يتجاوز ٣٠ حرف',
+      );
       setErrormodalVisible(!ErrormodalVisible);
       return;
     }
@@ -163,6 +165,32 @@ const AddChildAccount = ({navigation}) => {
         return;
       }
     }
+
+     if (
+      ChildAccount.replace(/\s+/g, '').length > 30 ||
+      ChildAccount.replace(/\s+/g, '').length < 2
+    ) {
+      setErrorMessage(
+        'حقل "اسم المستخدم" يجب ألا يقل عن حرفين وألا يتجاوز ٣٠ حرف',
+      );
+      setErrormodalVisible(!ErrormodalVisible);
+      return;
+    }
+
+    if (ChildSchool.length != 0) {
+      if (
+        ChildSchool.replace(/\s+/g, '').length > 30 ||
+        ChildSchool.replace(/\s+/g, '').length < 2
+      ) {
+        setErrorMessage(
+          'حقل "اسم المدرسة" يجب ألا يقل عن حرفين وألا يتجاوز ٣٠ حرف',
+        );
+        setErrormodalVisible(!ErrormodalVisible);
+        return;
+      }
+    }
+
+   
 
     const animalPick = [
       'Bear.png',
@@ -322,7 +350,10 @@ const AddChildAccount = ({navigation}) => {
           <View
             style={[TitleStyles.shadowOffset, {zIndex: 1000, elevation: 1000}]}>
             <DropDownPicker
-              style={[TitleStyles.dropDownStyle, Platform.OS === 'android' ? TitleStyles.shadowOffset : null]}
+              style={[
+                TitleStyles.dropDownStyle,
+                Platform.OS === 'android' ? TitleStyles.shadowOffset : null,
+              ]}
               textStyle={TitleStyles.categoryText}
               containerStyle={{}}
               dropDownContainerStyle={{
