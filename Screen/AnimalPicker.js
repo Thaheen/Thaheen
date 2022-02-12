@@ -1,4 +1,4 @@
-import React , {useState , useEffect} from 'react';
+import React  from 'react';
 import type {Node} from 'react';
 import {
   SafeAreaView,
@@ -15,28 +15,26 @@ import {
   Image
 } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
-import storage from '@react-native-firebase/storage';
 
 
-
-const AnimalPicker = (pic) =>  {
-  const [imageUrl, setImageUrl] = useState(undefined);
-
- 
-useEffect(() => {
-    storage()
-      .ref('Animals/'+Object.values(pic)) //name in storage in firebase console
-      .getDownloadURL()
-      .then((url) => {
-        setImageUrl(url);
-        
-      })
-      .catch((e) => console.log('Errors while downloading => ', e));
-  }, []);
+const AnimalPicker = () =>  {
+  const animalPick = [
+  require('../assets/images/animals/Bear.png'),
+  require('../assets/images/animals/Cat.png'),
+  require('../assets/images/animals/Fox.png'),
+  require('../assets/images/animals/Panda.png'),
+  require('../assets/images/animals/Raccoon.png'),
+  require('../assets/images/animals/Raindeer.png'),
+  require('../assets/images/animals/Zebra.png'),
+  require('../assets/images/animals/Elephant.png'),
+];
+  const randomImage =
+    animalPick[Math.floor(Math.random() * animalPick.length)];
+  console.log(randomImage);
 
   return (
     <View >
-      <Image source={{uri: imageUrl}} style={{height: 90, width: 90}} />
+      <Image source={randomImage} style={{height: 90, width: 90}} />
     </View>
   );
 }

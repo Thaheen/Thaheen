@@ -35,7 +35,7 @@ const SuccessModel = ({message, modalVisible, setModalVisible}) => {
             <Text
               style={[
                 TitleStyles.subTitle,
-                {textAlign: 'center', fontFamily: 'AJannatLT-Bold'},
+                {textAlign: 'center', fontWeight: 'bold'},
               ]}>
               {message}
             </Text>

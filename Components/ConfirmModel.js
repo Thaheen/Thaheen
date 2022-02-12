@@ -41,7 +41,7 @@ const ConfirmModel = ({message, modalVisible, setModalVisible ,sentFunction , ID
             <Text
               style={[
                 TitleStyles.subTitle,
-                {textAlign: 'center', fontFamily: 'AJannatLT-Bold'},
+                {textAlign: 'center', fontWeight: 'bold'},
               ]}>
               {message}
             </Text>
