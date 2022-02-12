@@ -22,25 +22,12 @@ import firestore from '@react-native-firebase/firestore';
 import {SvgUri} from 'react-native-svg';
 import ErrorVector from '../assets/images/ErrorVector.svg';
 import CheckVector from '../assets/images/CheckVector.svg';
-import {useNavigation} from '@react-navigation/native';
 
-const AccessModel = ({modalVisible, setModalVisible, studentID}) => {
+const AccessModel = ({modalVisible, setModalVisible}) => {
   //Success modal
   let textInput = useRef(null);
   const InputLenght = 6;
   const [passcodeVal, setPasscodeval] = useState('');
-  const [isValidPasscode, setIsValidPasscode] = useState('');
-  const navigation = useNavigation();
-
-  useEffect(() => {
-    const studentsPasscode = firestore()
-      .collection('Student')
-      .doc(studentID)
-      .onSnapshot(snapshot => {
-        setIsValidPasscode(snapshot.data().Passcode);
-      });
-    return studentsPasscode;
-  }, []);
 
   const onChangeText = val => {
     setPasscodeval(val);
@@ -49,16 +36,6 @@ const AccessModel = ({modalVisible, setModalVisible, studentID}) => {
   componentDidMount = () => {
     textInput.focus();
   };
-
-  console.log(passcodeVal);
-
-  if (isValidPasscode == passcodeVal) {
-    navigation.navigate('StudentWelcomeScreen');
-    //setModalVisible(!modalVisible);
-    console.log('VALID');
-  } else {
-    console.log('INVALID');
-  }
 
   return (
     <View style={{flex: 1}}>
@@ -120,9 +97,8 @@ const AccessModel = ({modalVisible, setModalVisible, studentID}) => {
                 */}
               <TouchableOpacity
                 style={[TitleStyles.AlertButton, {backgroundColor: '#DAE2E9'}]}
-                //onPress={() => navigation.navigate('StudentWelcomeScreen')}
-              >
-                <Text style={TitleStyles.ButtonText}>دخول </Text>
+                onPress={() => setModalVisible(!modalVisible)}>
+                <Text style={TitleStyles.ButtonText}>إلغاء </Text>
               </TouchableOpacity>
             </View>
           </KeyboardAvoidingView>
