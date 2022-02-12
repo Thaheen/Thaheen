@@ -76,7 +76,7 @@ const AccessModel = ({modalVisible, setModalVisible, studentID}) => {
               <Text
                 style={[
                   TitleStyles.subTitle,
-                  {textAlign: 'right', fontWeight: 'bold'},
+                  {textAlign: 'right', fontFamily: 'AJannatLT-Bold'},
                 ]}>
                 ادخل رمز الدخول
               </Text>

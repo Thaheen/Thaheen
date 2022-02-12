@@ -35,7 +35,7 @@ const ErrorModel = ({message, modalVisible, setModalVisible}) => {
             <Text
               style={[
                 TitleStyles.subTitle,
-                {textAlign: 'center', fontWeight: 'bold'},
+                {textAlign: 'center', fontFamily: 'AJannatLT-Bold'},
               ]}>
               {message}
             </Text>

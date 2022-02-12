@@ -90,6 +90,8 @@ const ChildList = ({navigation}) => {
           flex: 1,
           backgroundColor: 'white',
         }}>
+      <StatusBar
+        backgroundColor='#DAE2E9' />
         <TopBox style={[{position: 'absolute', top: 0}]} />
         {/*<BackButton />*/}
         <Top2Lines
@@ -136,7 +138,8 @@ const ChildList = ({navigation}) => {
                 studentID={item.key}
               />
 
-              <View style={[TitleStyles.childItem, {flex: 1}]}>
+            
+              <View style={[TitleStyles.childItem, {flex: 1, direction: I18nManager.isRTL ? 'ltr' : 'rtl' , justifyContent:'space-between'}]}>
                 <Menu
                   style={{
                     flexDirection: 'column',
@@ -154,6 +157,7 @@ const ChildList = ({navigation}) => {
                       onSelect={() =>
                         navigation.navigate('StudentProfile', {
                           studentID: item.key,
+                          studentPic:item.pic
                         })
                       }>
                       <Text> الملف الشخصي</Text>
@@ -172,7 +176,8 @@ const ChildList = ({navigation}) => {
                     {item.Fullname}
                   </Text>
                 </View>
-                <AnimalPicker />
+                <AnimalPicker 
+                pic={item.pic} />
               </View>
             </TouchableOpacity>
           )}
