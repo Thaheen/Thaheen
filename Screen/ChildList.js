@@ -106,11 +106,6 @@ const ChildList = ({navigation}) => {
           من أنت؟
         </Text>
 
-        <AccessModel
-          modalVisible={AccessModalVisible}
-          setModalVisible={setAccessModalVisible}
-        />
-
         <SuccessModel
           message={'تم حذف الطفل بنجاح'}
           modalVisible={modalVisible}
@@ -134,6 +129,13 @@ const ChildList = ({navigation}) => {
                 sentFunction={deleteChildAccount}
                 ID={item.key}
               />
+
+              <AccessModel
+                modalVisible={AccessModalVisible}
+                setModalVisible={setAccessModalVisible}
+                studentID={item.key}
+              />
+
               <View style={[TitleStyles.childItem, {flex: 1}]}>
                 <Menu
                   style={{

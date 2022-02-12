@@ -213,5 +213,6 @@ export default StyleSheet.create({
   cellText: {
     textAlign: 'center',
     fontSize: 16,
+    width: 40,
   },
 });
