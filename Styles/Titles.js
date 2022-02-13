@@ -153,7 +153,7 @@ export default StyleSheet.create({
     backgroundColor: '#F3DBBD',
     borderRadius: 88,
     margin: 10,
-    height:80,
+    height: 80,
     flexDirection: 'row',
   },
   childItemText: {
@@ -214,5 +214,6 @@ export default StyleSheet.create({
   cellText: {
     textAlign: 'center',
     fontSize: 16,
+    width: 40,
   },
 });
