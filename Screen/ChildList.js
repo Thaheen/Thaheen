@@ -90,8 +90,7 @@ const ChildList = ({navigation}) => {
           flex: 1,
           backgroundColor: 'white',
         }}>
-      <StatusBar
-        backgroundColor='#DAE2E9' />
+        <StatusBar backgroundColor="#DAE2E9" />
         <TopBox style={[{position: 'absolute', top: 0}]} />
         {/*<BackButton />*/}
         <Top2Lines
@@ -107,11 +106,6 @@ const ChildList = ({navigation}) => {
           ]}>
           من أنت؟
         </Text>
-
-        <AccessModel
-          modalVisible={AccessModalVisible}
-          setModalVisible={setAccessModalVisible}
-        />
 
         <SuccessModel
           message={'تم حذف الطفل بنجاح'}
@@ -143,8 +137,15 @@ const ChildList = ({navigation}) => {
                 studentID={item.key}
               />
 
-            
-              <View style={[TitleStyles.childItem, {flex: 1, flexDirection: I18nManager.isRTL ? 'row-reverse' : 'row' , justifyContent:'space-between'}]}>
+              <View
+                style={[
+                  TitleStyles.childItem,
+                  {
+                    flex: 1,
+                    flexDirection: I18nManager.isRTL ? 'row-reverse' : 'row',
+                    justifyContent: 'space-between',
+                  },
+                ]}>
                 <Menu
                   style={{
                     flexDirection: 'column',
@@ -162,7 +163,7 @@ const ChildList = ({navigation}) => {
                       onSelect={() =>
                         navigation.navigate('StudentProfile', {
                           studentID: item.key,
-                          studentPic:item.pic
+                          studentPic: item.pic,
                         })
                       }>
                       <Text> الملف الشخصي</Text>
@@ -181,8 +182,7 @@ const ChildList = ({navigation}) => {
                     {item.Fullname}
                   </Text>
                 </View>
-                <AnimalPicker 
-                pic={item.pic} />
+                <AnimalPicker pic={item.pic} />
               </View>
             </TouchableOpacity>
           )}
