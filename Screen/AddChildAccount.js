@@ -155,16 +155,6 @@ const AddChildAccount = ({navigation}) => {
 
       return;
     }
-    if (ChildSchool.length != 0) {
-      if (
-        IsValidfield(ChildSchool) == false ||
-        ChildSchool.replace(/\s+/g, '').length == 0
-      ) {
-        setErrorMessage('حقل "اسم المدرسة" يجب ان يحتوي على حروف فقط');
-        setErrormodalVisible(!ErrormodalVisible);
-        return;
-      }
-    }
 
      if (
       ChildAccount.replace(/\s+/g, '').length > 30 ||
