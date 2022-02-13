@@ -28,6 +28,7 @@ import Error from '../Components/ErrorModel';
 import Top2Lines from '../assets/images/top2Lines.svg';
 import Bottom2Lines from '../assets/images/bottom2Lines.svg';
 import BackButton from '../Components/BackButton';
+import storage from '@react-native-firebase/storage';
 import AudioRecorderPlayer, {
   AVEncoderAudioQualityIOSType,
   AVEncodingOption,
@@ -118,6 +119,49 @@ class RecordVoice extends Component {
       recordSecs: 0,
     });
     console.log(result);
+ 
+    try {
+      const blob = await new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.onload = () => {
+          try {
+            resolve(xhr.response);
+          } catch (error) {
+            console.log("error:", error);
+          }
+        };
+        xhr.onerror = (e) => {
+          console.log(e);
+          reject(new TypeError("Network request failed"));
+        };
+        xhr.responseType = "blob";
+        xhr.open("GET", result, true);
+        xhr.send(null);
+      });
+      if (blob != null)  {
+    console.log("the bloob "+blob);
+
+        const uriParts = result.split(".");
+        // const fileType = uriParts[uriParts.length - 1];
+    var storageRef = storage().ref();
+          storageRef.child('records/hello.m4a')
+          .put(blob, {
+            contentType: `audio/m4a`,
+          })
+          .then(() => {
+            console.log("Sent!");
+          })
+          .catch((e) => console.log("error:", e));
+      } 
+      
+      else {
+        console.log("erroor with blob");
+      }
+    } catch (error) {
+      console.log("error:", error);
+    }
+
+
   };
 
   onStartPlay = async e => {
@@ -141,6 +185,11 @@ class RecordVoice extends Component {
       });
     });
   };
+
+ uploadAudio = async uri => {
+
+  };
+
   render() {
     return (
       <View>
