@@ -171,7 +171,7 @@ class RecordVoice extends Component {
       if (blob != null)  {
     console.log("the bloob "+blob);
 
-        const uriParts = this.record.split(".");
+        // const uriParts = this.record.split(".");
         // const fileType = uriParts[uriParts.length - 1];
     var storageRef = storage().ref();
           storageRef.child('records/helloModhi.m4a')
