@@ -39,10 +39,10 @@ import AudioRecorderPlayer, {
 
 import Microphone from '../assets/images/Microphone.svg';
 import RecordingMicrophone from '../assets/images/RecordingMicrophone.svg';
-
+//the ref of record voice code
+// https://instamobile.io/react-native-tutorials/react-native-record-audio-play/?ref=hackernoon.com
 class RecordVoice extends Component {
-  //const [Title, setTitle] = useState('');
-  //const [HomeWork, setHomeWork] = useState('');
+
 
   constructor(props) {
     super(props);
@@ -149,46 +149,58 @@ class RecordVoice extends Component {
 
  uploadAudio = async () => {
 
-
- try {
-      const blob = await new Promise((resolve, reject) => {
-        const xhr = new XMLHttpRequest();
-        xhr.onload = () => {
-          try {
-            resolve(xhr.response);
-          } catch (error) {
-            console.log("error:", error);
-          }
-        };
-        xhr.onerror = (e) => {
-          console.log(e);
-          reject(new TypeError("Network request failed"));
-        };
-        xhr.responseType = "blob";
-        xhr.open("GET", this.record, true);
-        xhr.send(null);
-      });
-      if (blob != null)  {
-    console.log("the bloob "+blob);
-
-        // const uriParts = this.record.split(".");
-        // const fileType = uriParts[uriParts.length - 1];
-    var storageRef = storage().ref();
+ var storageRef = storage().ref();
           storageRef.child('records/helloModhi.m4a')
           .putFile(this.record)
           .then(() => {
             console.log("Sent!");
           })
           .catch((e) => console.log("error:", e));
-      } 
-      
-      else {
-        console.log("erroor with blob");
-      }
-    } catch (error) {
-      console.log("error:", error);
-    }
   };
+
+
+//  uploadAudio = async () => {
+
+
+//  try {
+//       const blob = await new Promise((resolve, reject) => {
+//         const xhr = new XMLHttpRequest();
+//         xhr.onload = () => {
+//           try {
+//             resolve(xhr.response);
+//           } catch (error) {
+//             console.log("error:", error);
+//           }
+//         };
+//         xhr.onerror = (e) => {
+//           console.log(e);
+//           reject(new TypeError("Network request failed"));
+//         };
+//         xhr.responseType = "blob";
+//         xhr.open("GET", this.record, true);
+//         xhr.send(null);
+//       });
+//       if (blob != null)  {
+//     console.log("the bloob "+blob);
+
+//         // const uriParts = this.record.split(".");
+//         // const fileType = uriParts[uriParts.length - 1];
+//     var storageRef = storage().ref();
+//           storageRef.child('records/helloModhi.m4a')
+//           .putFile(this.record)
+//           .then(() => {
+//             console.log("Sent!");
+//           })
+//           .catch((e) => console.log("error:", e));
+//       } 
+      
+//       else {
+//         console.log("erroor with blob");
+//       }
+//     } catch (error) {
+//       console.log("error:", error);
+//     }
+  // };
 
   render() {
     return (
