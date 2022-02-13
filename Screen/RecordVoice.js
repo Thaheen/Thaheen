@@ -39,10 +39,10 @@ import AudioRecorderPlayer, {
 
 import Microphone from '../assets/images/Microphone.svg';
 import RecordingMicrophone from '../assets/images/RecordingMicrophone.svg';
-
+//the ref of record voice code
+// https://instamobile.io/react-native-tutorials/react-native-record-audio-play/?ref=hackernoon.com
 class RecordVoice extends Component {
-  //const [Title, setTitle] = useState('');
-  //const [HomeWork, setHomeWork] = useState('');
+
 
   constructor(props) {
     super(props);
