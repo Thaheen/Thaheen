@@ -22,16 +22,12 @@ import firestore from '@react-native-firebase/firestore';
 import {SvgUri} from 'react-native-svg';
 import ErrorVector from '../assets/images/ErrorVector.svg';
 import CheckVector from '../assets/images/CheckVector.svg';
-import {useNavigation} from '@react-navigation/native';
 
-const AccessModel = ({modalVisible, setModalVisible, studentID}) => {
+const AccessModel = ({modalVisible, setModalVisible}) => {
   //Success modal
   let textInput = useRef(null);
   const InputLenght = 6;
   const [passcodeVal, setPasscodeval] = useState('');
-
-  const [isValidPasscode, setIsValidPasscode] = useState('');
-  const navigation = useNavigation();
 
   const onChangeText = val => {
     setPasscodeval(val);
@@ -40,26 +36,6 @@ const AccessModel = ({modalVisible, setModalVisible, studentID}) => {
   componentDidMount = () => {
     textInput.focus();
   };
-
-  console.log(passcodeVal);
-
-  if (isValidPasscode == passcodeVal) {
-    // navigation.navigate('StudentWelcomeScreen');
-    //setModalVisible(!modalVisible);
-    console.log('VALID');
-  } else {
-    console.log('INVALID');
-  }
-
-  useEffect(() => {
-    const studentsPasscode = firestore()
-      .collection('Student')
-      .doc(studentID)
-      .onSnapshot(snapshot => {
-        setIsValidPasscode(snapshot.data().Passcode);
-      });
-    return studentsPasscode;
-  }, []);
 
   return (
     <View style={{flex: 1}}>
@@ -70,7 +46,7 @@ const AccessModel = ({modalVisible, setModalVisible, studentID}) => {
             height: '100%',
           }}>
           <KeyboardAvoidingView
-            KeyboardVerticalOffset={40}
+            KeyboardVerticalOffset={50}
             behavior={'padding'}
             style={{flex: 1, alignItems: 'center', padding: 10}}>
             <View style={TitleStyles.modalContent}>
