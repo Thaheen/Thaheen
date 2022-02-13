@@ -55,6 +55,7 @@ class RecordVoice extends Component {
       playTime: '00:00:00',
       duration: '00:00:00',
       modalVisible: false,
+      record: '',
     };
     this.audioRecorderPlayer = new AudioRecorderPlayer();
     this.audioRecorderPlayer.setSubscriptionDuration(0.09); // optional. Default is 0.1
@@ -119,49 +120,9 @@ class RecordVoice extends Component {
       recordSecs: 0,
     });
     console.log(result);
+
+    this.record=result;
  
-    try {
-      const blob = await new Promise((resolve, reject) => {
-        const xhr = new XMLHttpRequest();
-        xhr.onload = () => {
-          try {
-            resolve(xhr.response);
-          } catch (error) {
-            console.log("error:", error);
-          }
-        };
-        xhr.onerror = (e) => {
-          console.log(e);
-          reject(new TypeError("Network request failed"));
-        };
-        xhr.responseType = "blob";
-        xhr.open("GET", result, true);
-        xhr.send(null);
-      });
-      if (blob != null)  {
-    console.log("the bloob "+blob);
-
-        const uriParts = result.split(".");
-        // const fileType = uriParts[uriParts.length - 1];
-    var storageRef = storage().ref();
-          storageRef.child('records/hello.m4a')
-          .put(blob, {
-            contentType: `audio/m4a`,
-          })
-          .then(() => {
-            console.log("Sent!");
-          })
-          .catch((e) => console.log("error:", e));
-      } 
-      
-      else {
-        console.log("erroor with blob");
-      }
-    } catch (error) {
-      console.log("error:", error);
-    }
-
-
   };
 
   onStartPlay = async e => {
@@ -186,8 +147,47 @@ class RecordVoice extends Component {
     });
   };
 
- uploadAudio = async uri => {
+ uploadAudio = async () => {
 
+
+ try {
+      const blob = await new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.onload = () => {
+          try {
+            resolve(xhr.response);
+          } catch (error) {
+            console.log("error:", error);
+          }
+        };
+        xhr.onerror = (e) => {
+          console.log(e);
+          reject(new TypeError("Network request failed"));
+        };
+        xhr.responseType = "blob";
+        xhr.open("GET", this.record, true);
+        xhr.send(null);
+      });
+      if (blob != null)  {
+    console.log("the bloob "+blob);
+
+        const uriParts = this.record.split(".");
+        // const fileType = uriParts[uriParts.length - 1];
+    var storageRef = storage().ref();
+          storageRef.child('records/helloModhi.m4a')
+          .putFile(this.record)
+          .then(() => {
+            console.log("Sent!");
+          })
+          .catch((e) => console.log("error:", e));
+      } 
+      
+      else {
+        console.log("erroor with blob");
+      }
+    } catch (error) {
+      console.log("error:", error);
+    }
   };
 
   render() {
@@ -296,7 +296,7 @@ class RecordVoice extends Component {
               TitleStyles.shadowOffset,
               {marginBottom: 20, marginTop: 20, width: '50%'},
             ]}
-            onPress={() => submit()}>
+            onPress={() => this.uploadAudio()}>
             <Text style={TitleStyles.ButtonText}>إضافـــــة </Text>
           </TouchableOpacity>
         </SafeAreaView>
