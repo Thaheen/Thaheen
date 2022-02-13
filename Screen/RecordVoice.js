@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import type {Node} from 'react';
 import {Component} from 'react';
 import {
@@ -14,7 +14,7 @@ import {
   Modal,
   TouchableOpacity,
   Platform,
-  PermissionsAndroid
+  PermissionsAndroid,
 } from 'react-native';
 import TitleStyles from '../Styles/Titles';
 import firestore from '@react-native-firebase/firestore';
@@ -62,7 +62,7 @@ class RecordVoice extends Component {
   }
 
   onStartRecord = async () => {
-        if (Platform.OS === 'android') {
+    if (Platform.OS === 'android') {
       try {
         const grants = await PermissionsAndroid.requestMultiple([
           PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
@@ -91,7 +91,7 @@ class RecordVoice extends Component {
       }
     }
     this.state.modalVisible = !this.state.modalVisible;
-    const path = Platform.OS === 'android'? null : 'hello.m4a';
+    const path = Platform.OS === 'android' ? null : 'hello.m4a';
     const audioSet = {
       AudioEncoderAndroid: AudioEncoderAndroidType.AAC,
       AudioSourceAndroid: AudioSourceAndroidType.MIC,
@@ -121,13 +121,12 @@ class RecordVoice extends Component {
     });
     console.log(result);
 
-    this.record=result;
- 
+    this.record = result;
   };
 
   onStartPlay = async e => {
     console.log('onStartPlay');
-    const path = Platform.OS === 'android'? null : 'hello.m4a';
+    const path = Platform.OS === 'android' ? null : 'hello.m4a';
     const msg = await this.audioRecorderPlayer.startPlayer(path);
     this.audioRecorderPlayer.setVolume(1.0);
     console.log(msg);
@@ -147,47 +146,71 @@ class RecordVoice extends Component {
     });
   };
 
- uploadAudio = async () => {
-
-
- try {
+  uploadAudio = async () => {
+    try {
       const blob = await new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
         xhr.onload = () => {
           try {
             resolve(xhr.response);
           } catch (error) {
-            console.log("error:", error);
+            console.log('error:', error);
           }
         };
-        xhr.onerror = (e) => {
+        xhr.onerror = e => {
           console.log(e);
-          reject(new TypeError("Network request failed"));
+          reject(new TypeError('Network request failed'));
         };
-        xhr.responseType = "blob";
-        xhr.open("GET", this.record, true);
+        xhr.responseType = 'blob';
+        xhr.open('GET', this.record, true);
         xhr.send(null);
       });
-      if (blob != null)  {
-    console.log("the bloob "+blob);
+      if (blob != null) {
+        console.log('the bloob ' + blob);
 
         // const uriParts = this.record.split(".");
         // const fileType = uriParts[uriParts.length - 1];
-    var storageRef = storage().ref();
-          storageRef.child('records/helloModhi.m4a')
+        var storageRef = storage().ref();
+        storageRef
+          .child('records/helloModhi2.m4a')
           .putFile(this.record)
           .then(() => {
-            console.log("Sent!");
+            console.log('Sent!');
           })
-          .catch((e) => console.log("error:", e));
-      } 
-      
-      else {
-        console.log("erroor with blob");
+          .catch(e => console.log('error:', e));
+      } else {
+        console.log('erroor with blob');
       }
     } catch (error) {
-      console.log("error:", error);
+      console.log('error:', error);
     }
+  };
+
+  retrieveRecord = async () => {
+    console.log('onStartPlay');
+    storage()
+      .ref('records/helloModhi2.m4a') //name in storage in firebase console
+      .getDownloadURL()
+      .then(url => {
+        const msg = this.audioRecorderPlayer.startPlayer(url);
+        this.audioRecorderPlayer.setVolume(1.0);
+        console.log(msg);
+        this.audioRecorderPlayer.addPlayBackListener(e => {
+          if (e.current_position === e.duration) {
+            console.log('finished');
+            this.audioRecorderPlayer.stopPlayer();
+          }
+          this.setState({
+            currentPositionSec: e.current_position,
+            currentDurationSec: e.duration,
+            playTime: this.audioRecorderPlayer.mmssss(
+              Math.floor(e.current_position),
+            ),
+            duration: this.audioRecorderPlayer.mmssss(Math.floor(e.duration)),
+          });
+        });
+      })
+      .catch(e => console.log('Errors while downloading => ', e));
   };
 
   render() {
@@ -288,6 +311,16 @@ class RecordVoice extends Component {
             ]}
             onPress={() => this.onStartPlay()}>
             <Text style={TitleStyles.ButtonText}>تشغيل </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[
+              TitleStyles.Button,
+              TitleStyles.shadowOffset,
+              {marginBottom: 20, marginTop: 20, width: '50%'},
+            ]}
+            onPress={() => this.retrieveRecord()}>
+            <Text style={TitleStyles.ButtonText}>rerteive </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
