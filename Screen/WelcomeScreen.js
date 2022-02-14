@@ -50,7 +50,7 @@ const WelcomeScreen = () => {
       <Text
         style={[
           TitleStyles.HeaderTitle,
-          {textAlign: 'center', marginLeft: 0, marginTop: '15%', fontSize: 40},
+          {textAlign: 'center', marginTop: Platform.OS === 'ios' ? '15%' : '25%', fontSize: 40},
         ]}>
         هل أنت مستعد؟
       </Text>

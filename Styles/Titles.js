@@ -1,4 +1,4 @@
-import {StyleSheet, I18nManager, Platform} from 'react-native'
+import {StyleSheet, I18nManager, Platform, StatusBar} from 'react-native'
 
 export default StyleSheet.create({
   // Main titles
@@ -14,8 +14,7 @@ export default StyleSheet.create({
     fontFamily: 'AJannatLT-Bold',
     fontSize: 30,
     color: '#43515F',
-    marginLeft: 160,
-    marginTop: 10,
+    marginTop: Platform.OS === 'ios' ? 10 : StatusBar.currentHeight,
   },
 
   // sub headings
@@ -37,24 +36,22 @@ export default StyleSheet.create({
     fontFamily: 'AJannatLT',
     fontSize: 16,
     color: '#808182',
-    textAlign: 'right',
+    textAlign: I18nManager.isRTL ? 'left' : 'right',
     marginTop: 20,
-    marginRight: 20,
+    ...(I18nManager.isRTL ? {marginLeft: 20} : {marginRight: 20}),
   },
 
   textInput: {
     borderBottomWidth: 1,
-    height: 30,
     width: '90%',
     marginLeft: 20,
     //
     color: '#808182',
     paddingHorizontal: 10,
-    fontFamily: 'AJannatLT',
+    fontFamily: 'AJannatLT-Bold',
     fontSize: 14,
     color: '#808182',
     textAlign: 'right',
-    fontWeight: 'bold',
     borderColor: 'rgb(186, 183, 176)',
   },
 

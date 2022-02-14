@@ -9,8 +9,10 @@ import {
   TouchableOpacity,
   useColorScheme,
   View,
+  I18nManager
 } from 'react-native';
 import TitleStyles from '../Styles/Titles';
+import RTLlayout from '../Styles/RTLlayout';
 import Top2Lines from '../assets/images/top2Lines.svg';
 import TopBox from '../assets/images/TopBox.svg';
 import AnimalPicker from '../Screen/AnimalPicker.js';
@@ -59,18 +61,18 @@ const StudentProfile = ({navigation, route}) => {
 
       <Top2Lines
         style={[
-          TitleStyles.shadowOffset,
-          {position: 'absolute', top: 0, left: 0},
+          Platform.OS === 'ios' ? TitleStyles.shadowOffset : null,
+          I18nManager.isRTL ? RTLlayout.Top2LinesAR : RTLlayout.Top2LinesEN
         ]}
       />
 
-      <Text style={TitleStyles.HeaderTitle}>الملف الشخصي</Text>
+      <Text style={[TitleStyles.HeaderTitle, Platform.OS === 'android' ? (I18nManager.isRTL? {marginLeft: 30} : {marginRight: 30}) : null]}>الملف الشخصي</Text>
 
       {/* size of the animal picker need to be changed */}
       <View style={{top: 60, left: 150, marginBottom: 50}}>
         <AnimalPicker pic={route.params.studentPic} />
       </View>
-
+      <ScrollView>
       <Text style={TitleStyles.profileText}>الاسم كامل </Text>
       <TextInput style={TitleStyles.textInput} value={fullName}></TextInput>
 
@@ -95,6 +97,7 @@ const StudentProfile = ({navigation, route}) => {
             alignSelf: 'center',
             width: 300,
             marginTop: 70,
+            marginBottom: 40,
           },
         ]}
         // onPress={onSignout}
@@ -107,6 +110,7 @@ const StudentProfile = ({navigation, route}) => {
           رجوع
         </Text>
       </TouchableOpacity>
+      </ScrollView>
     </SafeAreaView>
   );
 };
