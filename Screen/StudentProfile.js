@@ -66,7 +66,10 @@ const StudentProfile = ({navigation, route}) => {
         ]}
       />
 
-      <Text style={[TitleStyles.HeaderTitle, Platform.OS === 'android' ? (I18nManager.isRTL? {marginLeft: 30} : {marginRight: 30}) : null]}>الملف الشخصي</Text>
+      <Text style={[
+            TitleStyles.HeaderTitle,
+            {textAlign: I18nManager.isRTL ? 'left' : 'right', paddingRight: 30},
+          ]}>الملف الشخصي</Text>
 
       {/* size of the animal picker need to be changed */}
       <View style={{top: 60, left: 150, marginBottom: 50}}>
