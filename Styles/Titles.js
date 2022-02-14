@@ -1,4 +1,4 @@
-import {StyleSheet, I18nManager} from 'react-native';
+import {StyleSheet, I18nManager, Platform} from 'react-native'
 
 export default StyleSheet.create({
   // Main titles
@@ -24,6 +24,13 @@ export default StyleSheet.create({
     fontSize: 18,
     color: '#637081',
     textAlign: 'right',
+  },
+
+  smallText: {
+    fontFamily: 'AJannatLT-Bold',
+    color: '#43515F',
+    fontSize: 16,
+    textDecorationLine: 'none',
   },
 
   profileText: {
@@ -158,8 +165,9 @@ export default StyleSheet.create({
   },
   childItemText: {
     fontSize: 35,
-    fontFamily: 'AJannatLT',
-    fontWeight: '700',
+    ...(Platform.OS === 'ios'
+      ? {fontFamily: 'AJannatLT', fontWeight: '700'}
+      : {fontFamily: 'AJannatLT-Bold'}),
     color: '#43515F',
   },
   innerChildItem: {
@@ -216,4 +224,25 @@ export default StyleSheet.create({
     fontSize: 16,
     width: 40,
   },
-});
+
+  HomeSectioner: {
+    flexDirection: 'row-reverse',
+    justifyContent: 'space-between',
+    backgroundColor: 'rgba(243, 218, 171, 0.47)',
+    alignItems: 'center',
+    marginTop: 20,
+    marginBottom: 20,
+    paddingHorizontal: 15,
+  },
+
+  SoftShadow: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.05,
+    shadowRadius: 2.22,
+    elevation: 3,
+  },
+})
