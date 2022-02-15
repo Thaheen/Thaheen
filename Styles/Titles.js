@@ -200,7 +200,7 @@ export default StyleSheet.create({
 
   /////Access Passcode Style////
   containerInput: {
-    flexDirection: 'row',
+    flexDirection: I18nManager.isRTL? 'row-reverse' : 'row',
     alignItems: 'center',
     justifyContent: 'center',
   },

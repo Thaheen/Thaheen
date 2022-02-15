@@ -15,6 +15,7 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
+  I18nManager
 } from 'react-native';
 
 import TitleStyles from '../Styles/Titles';
@@ -78,7 +79,7 @@ useEffect(() => {
               <Text
                 style={[
                   TitleStyles.subTitle,
-                  {textAlign: 'right', fontFamily: 'AJannatLT-Bold'},
+                  {textAlign: I18nManager.isRTL? 'left' : 'right', fontFamily: 'AJannatLT-Bold'},
                 ]}>
                 ادخل رمز الدخول
               </Text>

@@ -12,6 +12,7 @@ import {
   Alert,
   Modal,
   TouchableOpacity,
+  I18nManager
 } from 'react-native';
 
 import TitleStyles from '../Styles/Titles';
@@ -47,7 +48,7 @@ const ConfirmModel = ({message, modalVisible, setModalVisible ,sentFunction , ID
             </Text>
             <View
               style={{
-                flexDirection: 'row',
+                flexDirection: I18nManager.isRTL? 'row-reverse' : 'row',
                 alignItems: 'center',
                 justifyContent: 'center',
                 backgroundColor: '#DAE2E9',

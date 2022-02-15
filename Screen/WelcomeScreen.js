@@ -18,12 +18,7 @@ import ThaheenStanding from '../assets/images/ThaheenStanding.svg'
 import auth from '@react-native-firebase/auth'
 import BackButton from '../Components/BackButton'
 
-const WelcomeScreen = () => {
-  const onSignout = () => {
-    auth()
-      .signOut()
-      .then(() => console.log('User signed out!'))
-  }
+const WelcomeScreen = ({navigation}) => {
   return (
     <SafeAreaView
       style={{
@@ -50,7 +45,11 @@ const WelcomeScreen = () => {
       <Text
         style={[
           TitleStyles.HeaderTitle,
-          {textAlign: 'center', marginTop: Platform.OS === 'ios' ? '15%' : '25%', fontSize: 40},
+          {
+            textAlign: 'center',
+            marginTop: Platform.OS === 'ios' ? '15%' : '25%',
+            fontSize: 40,
+          },
         ]}>
         هل أنت مستعد؟
       </Text>
@@ -73,7 +72,12 @@ const WelcomeScreen = () => {
               marginTop: 0,
             },
           ]}
-          onPress={onSignout}>
+          onPress={() => {
+            navigation.reset({
+              index: 0,
+              routes: [{name: 'StudentHome'}],
+            })
+          }}>
           <Text style={TitleStyles.ButtonText}>ابدأ التعلم</Text>
         </TouchableOpacity>
       </View>
