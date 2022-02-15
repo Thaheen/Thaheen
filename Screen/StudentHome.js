@@ -15,8 +15,14 @@ import ThaheenStanding from '../assets/images/ThaheenStanding'
 import Badage from '../assets/images/badage'
 import TextCard from '../Components/TextCard'
 import HomeSection from '../Components/HomeSection'
+import auth from '@react-native-firebase/auth';
 
 const StudentHome = () => {
+    const onSignout = () => {
+    auth()
+      .signOut()
+      .then(() => console.log('User signed out!'));
+  };
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}>
       <StatusBar backgroundColor='#FFFFFF' />
@@ -32,6 +38,7 @@ const StudentHome = () => {
           <Text
             style={[
               TitleStyles.sectionTitle,
+               I18nManager.isRTL ? {textAlign: 'left'} : {textAlign: 'right'},
               {fontWeight: null, textAlign: null},
             ]}>
             مرحبًا يوسف
@@ -39,14 +46,16 @@ const StudentHome = () => {
           <Text
             style={[
               TitleStyles.subTitle,
-              {fontFamily: 'AJannatLT-Bold', marginRight: 60},
+              I18nManager.isRTL ? {marginLeft: 60} : {marginRight: 60},
+              {fontFamily: 'AJannatLT-Bold'},
             ]}>
             المستوى: ممتاز
           </Text>
           <Text
             style={[
               TitleStyles.subTitle,
-              {fontFamily: 'AJannatLT-Bold', marginRight: 60, marginBottom: 20},
+              I18nManager.isRTL ? {marginLeft: 60} : {marginRight: 60},
+              {fontFamily: 'AJannatLT-Bold', marginBottom: 20},
             ]}>
             اللقب: الطالب الذكي
           </Text>
@@ -92,7 +101,8 @@ const StudentHome = () => {
           TitleStyles.SoftShadow,
         ]}>
         <Text
-          style={[TitleStyles.sectionTitle, {fontSize: 24, fontWeight: null}]}>
+          style={[TitleStyles.sectionTitle, {fontSize: 24, fontWeight: null}]}
+          onPress={onSignout}>
           لم تنضم إلى أي صفوف بعد
         </Text>
       </View>

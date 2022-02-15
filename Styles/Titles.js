@@ -22,7 +22,7 @@ export default StyleSheet.create({
     fontFamily: 'AJannatLT',
     fontSize: 18,
     color: '#637081',
-    textAlign: 'right',
+    textAlign: I18nManager.isRTL ? 'left' : 'right',
   },
 
   smallText: {
@@ -223,7 +223,7 @@ export default StyleSheet.create({
   },
 
   HomeSectioner: {
-    flexDirection: 'row-reverse',
+    flexDirection: I18nManager.isRTL ? 'row' : 'row-reverse',
     justifyContent: 'space-between',
     backgroundColor: 'rgba(243, 218, 171, 0.47)',
     alignItems: 'center',
@@ -238,7 +238,7 @@ export default StyleSheet.create({
       width: 0,
       height: 1,
     },
-    shadowOpacity: 0.05,
+    shadowOpacity: 0.15,
     shadowRadius: 2.22,
     elevation: 3,
   },

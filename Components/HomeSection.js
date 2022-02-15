@@ -8,7 +8,7 @@ import Trophy from '../assets/images/Trophy'
 const HomeSection = ({title, iconName}) => {
   return (
     <View style={TitleStyles.HomeSectioner}>
-      <View style={{flexDirection: 'row-reverse', alignItems: 'center'}}>
+      <View style={{flexDirection: I18nManager.isRTL ? 'row' : 'row-reverse', alignItems: 'center'}}>
         {iconName === 'Plus' ? <TouchableOpacity><Plus /></TouchableOpacity> : <Trophy />}
         <Text style={[TitleStyles.smallText, {fontSize: 24, marginRight: 15}]}>
           {title}

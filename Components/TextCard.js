@@ -15,31 +15,41 @@ const TextCard = () => {
           marginTop: 0,
           borderRadius: 25,
           width: 250,
-          alignSelf: 'flex-end',
+          alignSelf: I18nManager.isRTL ? 'flex-start' : 'flex-end',
         },
         TitleStyles.SoftShadow,
       ]}>
       <View
         style={{
-          flexDirection: 'row-reverse',
+          flexDirection: I18nManager.isRTL ? 'row' : 'row-reverse',
           marginBottom: 20,
           alignItems: 'center',
         }}>
         <BookReader />
-        <Text style={[TitleStyles.smallText, {fontSize: 18, marginRight: 15}]}>
+        <Text
+          style={[
+            TitleStyles.smallText,
+            I18nManager.isRTL ? {marginLeft: 15} : {marginRight: 15},
+            {fontSize: 18},
+          ]}>
           حفظ النشيد الوطني
         </Text>
       </View>
 
       <View
-        style={{flexDirection: 'row-reverse', justifyContent: 'space-between'}}>
+        style={{
+          flexDirection: I18nManager.isRTL ? 'row' : 'row-reverse',
+          justifyContent: 'space-between',
+        }}>
         <TouchableOpacity
-          style={{
-            backgroundColor: '#FFFFFF',
-            borderRadius: 25,
-            paddingHorizontal: 12,
-            marginLeft: 10,
-          }}>
+          style={[
+            I18nManager.isRTL ? {marginRight: 10} : {marginLeft: 10},
+            {
+              backgroundColor: '#FFFFFF',
+              borderRadius: 25,
+              paddingHorizontal: 12,
+            },
+          ]}>
           <Text style={TitleStyles.smallText}>ابدأ المراجعة</Text>
         </TouchableOpacity>
         <TouchableOpacity
