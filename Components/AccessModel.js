@@ -42,16 +42,17 @@ const AccessModel = ({modalVisible, setModalVisible, studentID}) => {
       });
     return studentsPasscode;
   }, []);
-  console.log(studentID); //قاعد يطبع كل id حق لسته الاطفال
+  console.log('---------------------------');
+  console.log(studentID);
 
   const onChangeText = val => {
     setPasscodeval(val);
   };
 
-  componentDidMount = () => {
+  /* componentDidMount = () => {
     textInput.focus();
-  };
-
+  };*/
+  console.log(passcodeVal);
   if (isValidPasscode == passcodeVal) {
     // navigation.navigate('StudentWelcomeScreen');
     //setModalVisible(!modalVisible);
@@ -68,7 +69,7 @@ const AccessModel = ({modalVisible, setModalVisible, studentID}) => {
             height: '100%',
           }}>
           <KeyboardAvoidingView
-            KeyboardVerticalOffset={40}
+            KeyboardVerticalOffset={50}
             behavior={'padding'}
             style={{flex: 1, alignItems: 'center', padding: 10}}>
             <View style={TitleStyles.modalContent}>
