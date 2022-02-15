@@ -109,7 +109,7 @@ const setChild = ChildID => {
             TitleStyles.HeaderTitle,
             {textAlign: I18nManager.isRTL ? 'left' : 'right', paddingRight: 50},
           ]}>
-          من أنت؟
+         أطفالي
         </Text>
 
         <SuccessModel
