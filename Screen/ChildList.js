@@ -88,6 +88,13 @@ const setChild = ChildID => {
         setModalVisible(!modalVisible);
       });
   };
+
+  const showAcessModal = (id) =>{
+    setChildID(id)
+    setAccessModalVisible(!AccessModalVisible);
+
+  }
+  
   return (
     <MenuProvider>
       <SafeAreaView
@@ -95,7 +102,8 @@ const setChild = ChildID => {
           flex: 1,
           backgroundColor: 'white',
         }}>
-        <StatusBar backgroundColor="#DAE2E9" />
+       <StatusBar hidden />
+
         <TopBox style={[{position: 'absolute', top: 0}]} />
         {/*<BackButton />*/}
         <Top2Lines
@@ -117,6 +125,26 @@ const setChild = ChildID => {
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
         />
+{
+  AccessModalVisible ? (
+    <AccessModel
+      modalVisible={AccessModalVisible}
+      setModalVisible={setAccessModalVisible}
+      studentID={ChildID}
+    />
+  ) : null
+}
+{
+  ConfirmmodalVisible ? (
+    <ConfirmModel
+      message={'هل انت متأكد من حذف الطفل؟'}
+      modalVisible={ConfirmmodalVisible}
+      setModalVisible={setConfirmmodalVisible}
+      sentFunction={deleteChildAccount}
+      ID={ChildID}
+    />
+  ) : null
+}
 
         <FlatList
           style={[{marginTop: 100, height: '55%'}]}
@@ -126,21 +154,11 @@ const setChild = ChildID => {
             <TouchableOpacity
               onPress={() => {
                 console.log(item.key);
-                setAccessModalVisible(!AccessModalVisible);
-              }}>
-              <ConfirmModel
-                message={'هل انت متأكد من حذف الطفل؟'}
-                modalVisible={ConfirmmodalVisible}
-                setModalVisible={setConfirmmodalVisible}
-                sentFunction={deleteChildAccount}
-                ID={ChildID}
-              />
+                showAcessModal(item.key) ;
+                console.log('after show access modal call');
 
-              <AccessModel
-                modalVisible={AccessModalVisible}
-                setModalVisible={setAccessModalVisible}
-                studentID={item.key}
-              />
+              }}>
+
 
               <View
                 style={[
@@ -234,6 +252,7 @@ const setChild = ChildID => {
           onPress={onSignout}>
           <Text style={TitleStyles.ButtonText}>تسجيل الخروج</Text>
         </TouchableOpacity>
+        
       </SafeAreaView>
     </MenuProvider>
   );

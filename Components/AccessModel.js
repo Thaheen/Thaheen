@@ -41,25 +41,27 @@ const AccessModel = ({modalVisible, setModalVisible, studentID}) => {
         setIsValidPasscode(snapshot.data().Passcode);
       });
     return studentsPasscode;
-  }, []);
-  console.log('---------------------------');
-  console.log(studentID);
-
-  const onChangeText = val => {
+  },[]);
+  
+  const onChangeText = (val) => {
     setPasscodeval(val);
   };
 
   /* componentDidMount = () => {
     textInput.focus();
-  };*/
-  console.log(passcodeVal);
-  if (isValidPasscode == passcodeVal) {
-    // navigation.navigate('StudentWelcomeScreen');
-    //setModalVisible(!modalVisible);
-    console.log('VALID');
+  };*/  
+useEffect(() => {
+  if (passcodeVal != '' && isValidPasscode == passcodeVal) {
+    console.log('VALID')
+    setModalVisible(!modalVisible)
+    setPasscodeval('')
+    navigation.navigate('WelcomeScreen')
+    return
   } else {
-    console.log('INVALID');
+    console.log('INVALID')
   }
+}, [passcodeVal])
+
   return (
     <View style={{flex: 1}}>
       <Modal animationType="fade" transparent={true} visible={modalVisible}>
