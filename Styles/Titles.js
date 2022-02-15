@@ -157,7 +157,7 @@ export default StyleSheet.create({
     backgroundColor: '#F3DBBD',
     borderRadius: 88,
     margin: 10,
-    height: 80,
+    height: 65,
     flexDirection: 'row',
   },
   childItemText: {

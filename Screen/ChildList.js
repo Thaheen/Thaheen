@@ -154,7 +154,7 @@ const setChild = ChildID => {
                 <Menu
                   style={{
                     flexDirection: 'column',
-                    padding: 25,
+                    padding: 15,
                     width: '30%',
                   }}
                   renderer={renderers.Popover}
