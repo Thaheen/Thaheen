@@ -39,7 +39,7 @@ const ChildList = ({navigation}) => {
   const user = auth().currentUser;
   const [children, setChildren] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const [ChildID, setChildID] = useState('');
   //Success modal **should be moved to the child list file**
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -73,8 +73,13 @@ const ChildList = ({navigation}) => {
       .then(() => console.log('User signed out!'));
   };
 
+const setChild = ChildID => {
+    setChildID(ChildID);
+    setConfirmmodalVisible(!ConfirmmodalVisible);
+  };
   const deleteChildAccount = ChildID => {
     setConfirmmodalVisible(!ConfirmmodalVisible);
+    console.log(ChildID)
     firestore()
       .collection('Student')
       .doc(ChildID)
@@ -128,7 +133,7 @@ const ChildList = ({navigation}) => {
                 modalVisible={ConfirmmodalVisible}
                 setModalVisible={setConfirmmodalVisible}
                 sentFunction={deleteChildAccount}
-                ID={item.key}
+                ID={ChildID}
               />
 
               <AccessModel
@@ -170,7 +175,7 @@ const ChildList = ({navigation}) => {
                     </MenuOption>
                     <MenuOption
                       onSelect={() =>
-                        setConfirmmodalVisible(!ConfirmmodalVisible)
+                        setChild(item.key)
                       }>
                       <Text>حذف الطفل</Text>
                     </MenuOption>
