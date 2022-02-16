@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   useColorScheme,
   View,
-  I18nManager
+  I18nManager,
 } from 'react-native';
 import TitleStyles from '../Styles/Titles';
 import RTLlayout from '../Styles/RTLlayout';
@@ -62,57 +62,70 @@ const StudentProfile = ({navigation, route}) => {
       <Top2Lines
         style={[
           Platform.OS === 'ios' ? TitleStyles.shadowOffset : null,
-          I18nManager.isRTL ? RTLlayout.Top2LinesAR : RTLlayout.Top2LinesEN
+          I18nManager.isRTL ? RTLlayout.Top2LinesAR : RTLlayout.Top2LinesEN,
         ]}
       />
 
-      <Text style={[
-            TitleStyles.HeaderTitle,
-            {textAlign: I18nManager.isRTL ? 'left' : 'right', paddingRight: 30},
-          ]}>الملف الشخصي</Text>
+      <Text
+        style={[
+          TitleStyles.HeaderTitle,
+          {textAlign: I18nManager.isRTL ? 'left' : 'right', paddingRight: 30},
+        ]}>
+        الملف الشخصي
+      </Text>
 
       {/* size of the animal picker need to be changed */}
       <View style={{top: 60, left: 150, marginBottom: 50}}>
         <AnimalPicker pic={route.params.studentPic} />
       </View>
       <ScrollView>
-      <Text style={TitleStyles.profileText}>الاسم كامل </Text>
-      <TextInput style={TitleStyles.textInput} value={fullName}></TextInput>
-
-      <Text style={TitleStyles.profileText}> اسم المستخدم </Text>
-      <TextInput style={TitleStyles.textInput} value={userName}></TextInput>
-
-      <Text style={TitleStyles.profileText}> المستوى </Text>
-      <TextInput style={TitleStyles.textInput} value={userGrade}></TextInput>
-
-      <View>
-        <Text style={TitleStyles.profileText}> اسم المدرسة </Text>
+        <Text style={TitleStyles.profileText}>الاسم كامل </Text>
         <TextInput
           style={TitleStyles.textInput}
-          value={userSchoolName}></TextInput>
-      </View>
+          value={fullName}
+          editable={false}></TextInput>
 
-      <TouchableOpacity
-        style={[
-          TitleStyles.Button,
-          {
-            backgroundColor: '#DAE2E9',
-            alignSelf: 'center',
-            width: 300,
-            marginTop: 70,
-            marginBottom: 40,
-          },
-        ]}
-        // onPress={onSignout}
-      >
-        <Text
-          style={TitleStyles.ButtonText}
-          onPress={() => {
-            navigation.navigate('ChildList');
-          }}>
-          رجوع
-        </Text>
-      </TouchableOpacity>
+        <Text style={TitleStyles.profileText}> اسم المستخدم </Text>
+        <TextInput
+          style={TitleStyles.textInput}
+          value={userName}
+          editable={false}></TextInput>
+
+        <Text style={TitleStyles.profileText}> المستوى </Text>
+        <TextInput
+          style={TitleStyles.textInput}
+          value={userGrade}
+          editable={false}></TextInput>
+
+        <View>
+          <Text style={TitleStyles.profileText}> اسم المدرسة </Text>
+          <TextInput
+            style={TitleStyles.textInput}
+            value={userSchoolName}
+            editable={false}></TextInput>
+        </View>
+
+        <TouchableOpacity
+          style={[
+            TitleStyles.Button,
+            {
+              backgroundColor: '#DAE2E9',
+              alignSelf: 'center',
+              width: 300,
+              marginTop: 70,
+              marginBottom: 40,
+            },
+          ]}
+          // onPress={onSignout}
+        >
+          <Text
+            style={TitleStyles.ButtonText}
+            onPress={() => {
+              navigation.navigate('ChildList');
+            }}>
+            رجوع
+          </Text>
+        </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   );
