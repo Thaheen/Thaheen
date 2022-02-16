@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -9,23 +9,24 @@ import {
   View,
   Platform,
   I18nManager,
-} from 'react-native'
-import TitleStyles from '../Styles/Titles'
-import ThaheenStanding from '../assets/images/ThaheenStanding'
-import Badage from '../assets/images/badage'
-import TextCard from '../Components/TextCard'
-import HomeSection from '../Components/HomeSection'
+} from 'react-native';
+import TitleStyles from '../Styles/Titles';
+import ThaheenStanding from '../assets/images/ThaheenStanding';
+import Badage from '../assets/images/badage';
+import TextCard from '../Components/TextCard';
+import HomeSection from '../Components/HomeSection';
 import auth from '@react-native-firebase/auth';
-
+import BottomBar from '../Components/BottomBar';
+import {NavigationContainer} from '@react-navigation/native';
 const StudentHome = () => {
-    const onSignout = () => {
+  const onSignout = () => {
     auth()
       .signOut()
       .then(() => console.log('User signed out!'));
   };
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}>
-      <StatusBar backgroundColor='#FFFFFF' />
+      <StatusBar backgroundColor="#FFFFFF" />
 
       {/* start top container */}
       <View style={{padding: 30}}>
@@ -38,7 +39,7 @@ const StudentHome = () => {
           <Text
             style={[
               TitleStyles.sectionTitle,
-               I18nManager.isRTL ? {textAlign: 'left'} : {textAlign: 'right'},
+              I18nManager.isRTL ? {textAlign: 'left'} : {textAlign: 'right'},
               {fontWeight: null, textAlign: null},
             ]}>
             مرحبًا يوسف
@@ -78,15 +79,13 @@ const StudentHome = () => {
       </View>
       {/* end top container */}
 
-
       {/* start mid container */}
-      <HomeSection title='نصوصي' iconName='Plus' />
+      <HomeSection title="نصوصي" iconName="Plus" />
       <TextCard />
       {/* end mid container */}
 
-
       {/* start bottom container */}
-      <HomeSection title='مستوى تقدمي' iconName='Trophy' />
+      <HomeSection title="مستوى تقدمي" iconName="Trophy" />
 
       <View
         style={[
@@ -108,8 +107,10 @@ const StudentHome = () => {
       </View>
 
       {/* end bottom container */}
-    </SafeAreaView>
-  )
-}
 
-export default StudentHome
+      <BottomBar />
+    </SafeAreaView>
+  );
+};
+
+export default StudentHome;

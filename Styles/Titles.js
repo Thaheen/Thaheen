@@ -1,4 +1,4 @@
-import {StyleSheet, I18nManager, Platform, StatusBar} from 'react-native'
+import {StyleSheet, I18nManager, Platform, StatusBar} from 'react-native';
 
 export default StyleSheet.create({
   // Main titles
@@ -200,7 +200,7 @@ export default StyleSheet.create({
 
   /////Access Passcode Style////
   containerInput: {
-    flexDirection: I18nManager.isRTL? 'row-reverse' : 'row',
+    flexDirection: I18nManager.isRTL ? 'row-reverse' : 'row',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -242,4 +242,41 @@ export default StyleSheet.create({
     shadowRadius: 2.22,
     elevation: 3,
   },
-})
+
+  //BottomBar Style
+
+  Bottom1: {
+    backgroundColor: 'rgb(218,226,233)',
+    width: 390,
+    height: 90,
+    marginLeft: 0,
+    marginRight: 0,
+    marginTop: 20,
+    borderTopLeftRadius: 35,
+    borderTopRightRadius: 35,
+  },
+
+  Bottom2: {
+    backgroundColor: '#FFFFFF',
+    width: 390,
+    height: 90,
+    marginTop: 10,
+    borderTopLeftRadius: 35,
+    borderTopRightRadius: 35,
+    flex: 1,
+    justifyContent: 'space-around',
+    flexDirection: 'row',
+  },
+
+  ProfileIcon: {
+    marginTop: 15,
+    // marginLeft: 15,
+  },
+
+  profileText: {
+    color: '#43515F',
+    fontFamily: 'AJannatLT',
+    fontSize: 11,
+    //marginLeft: 24,
+  },
+});
