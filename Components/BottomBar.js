@@ -35,22 +35,22 @@ const BottomBar = () => {
             }}*/
           >
             <ProfileOutline style={[TitleStyles.ProfileIcon]} />
-            <Text style={[TitleStyles.profileText]}>البيانات الشخصية</Text>
+            <Text style={[TitleStyles.profileTextIcon]}>البيانات الشخصية</Text>
           </TouchableOpacity>
 
           <TouchableOpacity>
             <NotfyOutline style={[TitleStyles.ProfileIcon]} />
-            <Text style={[TitleStyles.profileText]}>التنبيهات </Text>
+            <Text style={[TitleStyles.profileTextIcon]}>التنبيهات </Text>
           </TouchableOpacity>
 
           <TouchableOpacity>
             <ClassOutline style={[TitleStyles.ProfileIcon]} />
-            <Text style={[TitleStyles.profileText]}>فصلي </Text>
+            <Text style={[TitleStyles.profileTextIcon]}>فصلي </Text>
           </TouchableOpacity>
 
           <TouchableOpacity>
             <HomeOutline style={[TitleStyles.ProfileIcon]} />
-            <Text style={[TitleStyles.profileText]}>الرئيسية </Text>
+            <Text style={[TitleStyles.profileTextIcon]}>الرئيسية </Text>
           </TouchableOpacity>
         </View>
       </View>

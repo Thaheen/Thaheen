@@ -273,7 +273,7 @@ export default StyleSheet.create({
     // marginLeft: 15,
   },
 
-  profileText: {
+  profileTextIcon: {
     color: '#43515F',
     fontFamily: 'AJannatLT',
     fontSize: 11,
