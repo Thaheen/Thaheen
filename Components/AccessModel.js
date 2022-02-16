@@ -15,7 +15,7 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
-  I18nManager
+  I18nManager,
 } from 'react-native';
 
 import TitleStyles from '../Styles/Titles';
@@ -24,6 +24,7 @@ import {SvgUri} from 'react-native-svg';
 import ErrorVector from '../assets/images/ErrorVector.svg';
 import CheckVector from '../assets/images/CheckVector.svg';
 import {useNavigation} from '@react-navigation/native';
+import ErrorModel from '../Components/ErrorModel';
 
 const AccessModel = ({modalVisible, setModalVisible, studentID}) => {
   //Success modal
@@ -34,6 +35,9 @@ const AccessModel = ({modalVisible, setModalVisible, studentID}) => {
   const [isValidPasscode, setIsValidPasscode] = useState('');
   const navigation = useNavigation();
 
+  // Error model
+  const [ErrormodalVisible, setErrormodalVisible] = useState(false);
+
   useEffect(() => {
     const studentsPasscode = firestore()
       .collection('Student')
@@ -42,26 +46,27 @@ const AccessModel = ({modalVisible, setModalVisible, studentID}) => {
         setIsValidPasscode(snapshot.data().Passcode);
       });
     return studentsPasscode;
-  },[]);
-  
-  const onChangeText = (val) => {
+  }, []);
+
+  const onChangeText = val => {
     setPasscodeval(val);
   };
 
   /* componentDidMount = () => {
     textInput.focus();
-  };*/  
-useEffect(() => {
-  if (passcodeVal != '' && isValidPasscode == passcodeVal) {
-    console.log('VALID')
-    setModalVisible(!modalVisible)
-    setPasscodeval('')
-    navigation.navigate('WelcomeScreen')
-    return
-  } else {
-    console.log('INVALID')
-  }
-}, [passcodeVal])
+  };*/
+  useEffect(() => {
+    if (passcodeVal.length == 6 && isValidPasscode == passcodeVal) {
+      console.log('VALID');
+      setModalVisible(!modalVisible);
+      setPasscodeval('');
+      navigation.navigate('WelcomeScreen');
+      return;
+    } else if (passcodeVal.length == 6 && isValidPasscode != passcodeVal) {
+      console.log('INVALID');
+      setErrormodalVisible(!ErrormodalVisible);
+    }
+  }, [passcodeVal]);
 
   return (
     <View style={{flex: 1}}>
@@ -79,7 +84,10 @@ useEffect(() => {
               <Text
                 style={[
                   TitleStyles.subTitle,
-                  {textAlign: I18nManager.isRTL? 'left' : 'right', fontFamily: 'AJannatLT-Bold'},
+                  {
+                    textAlign: I18nManager.isRTL ? 'left' : 'right',
+                    fontFamily: 'AJannatLT-Bold',
+                  },
                 ]}>
                 ادخل رمز الدخول
               </Text>
@@ -129,6 +137,11 @@ useEffect(() => {
             </View>
           </KeyboardAvoidingView>
         </View>
+        <ErrorModel
+          message={'رمز الدخول غير صحيح، حاول مره اخرى'}
+          modalVisible={ErrormodalVisible}
+          setModalVisible={setErrormodalVisible}
+        />
       </Modal>
     </View>
   );
