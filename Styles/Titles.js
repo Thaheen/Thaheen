@@ -2,6 +2,7 @@ import {StyleSheet, I18nManager, Platform, StatusBar} from 'react-native';
 
 export default StyleSheet.create({
   // Main titles
+
   sectionTitle: {
     fontFamily: 'AJannatLT-Bold',
     fontSize: 35,
@@ -31,7 +32,13 @@ export default StyleSheet.create({
     fontSize: 16,
     textDecorationLine: 'none',
   },
-
+  //Profile Title
+  ProfileTitle: {
+    fontFamily: 'AJannatLT',
+    fontSize: 24,
+    color: '#43515F',
+    textAlign: 'center',
+  },
   profileText: {
     fontFamily: 'AJannatLT',
     fontSize: 16,
@@ -278,5 +285,57 @@ export default StyleSheet.create({
     fontFamily: 'AJannatLT',
     fontSize: 11,
     //marginLeft: 24,
+  },
+
+  //Student Profile page ui style
+  BlueContianer: {
+    width: 390,
+    height: 220,
+    backgroundColor: '#DAE2E9',
+    //flex: 5,
+    //marginBottom: 9,
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
+  },
+  WhiteContianer: {
+    width: 330,
+    height: 253,
+    borderRadius: 25,
+    backgroundColor: '#FFFFFF',
+    alignSelf: 'center',
+    shadowOffset: {
+      width: 3,
+      height: 9,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 10,
+    elevation: 10,
+    marginTop: 36,
+  },
+
+  Profilename: {
+    textAlign: 'center',
+    marginTop: 20,
+    fontFamily: 'AJannatLT-Bold',
+    fontSize: 20,
+    color: '#808182',
+  },
+  ProfileUsername: {
+    fontFamily: 'AJannatLT',
+    textAlign: 'center',
+    color: '#808182',
+    fontSize: 18,
+    //marginBottom: ,
+    marginTop: -4,
+  },
+
+  EditBtn: {
+    borderColor: '#DAE2E9',
+    borderWidth: 1,
+    width: 136,
+    height: 29,
+    borderRadius: 25,
+    alignSelf: 'center',
+    marginTop: 10,
   },
 });

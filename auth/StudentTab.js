@@ -1,75 +1,75 @@
-import * as React from 'react'
-import {createNativeStackNavigator} from '@react-navigation/native-stack'
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
+import * as React from 'react';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
-import ProfileOutline from '../assets/images/ProfileOutline.svg'
-import NotfyOutline from '../assets/images/NotfyOutline.svg'
-import ClassOutline from '../assets/images/ClassOutline.svg'
-import HomeOutline from '../assets/images/HomeOutline.svg'
-import TitleStyles from '../Styles/Titles'
+import ProfileOutline from '../assets/images/ProfileOutline.svg';
+import NotfyOutline from '../assets/images/NotfyOutline.svg';
+import ClassOutline from '../assets/images/ClassOutline.svg';
+import HomeOutline from '../assets/images/HomeOutline.svg';
+import TitleStyles from '../Styles/Titles';
 
-import {default as StudentProfile} from '../Screen/StudentProfile.js'
-import {default as WelcomeScreen} from '../Screen/WelcomeScreen.js'
-import {default as StudentHome} from '../Screen/StudentHome.js'
-import {default as StudentClass} from '../Screen/StudentClass.js'
-import {default as StudentNotifications} from '../Screen/StudentNotifications.js'
+import {default as StudentEditProfile} from '../Screen/StudentEditProfile.js';
+import {default as WelcomeScreen} from '../Screen/WelcomeScreen.js';
+import {default as StudentHome} from '../Screen/StudentHome.js';
+import {default as StudentClass} from '../Screen/StudentClass.js';
+import {default as StudentNotifications} from '../Screen/StudentNotifications.js';
 
-const HomeStack = createNativeStackNavigator()
-const ClassStack = createNativeStackNavigator()
-const NotifyStack = createNativeStackNavigator()
-const ProfileStack = createNativeStackNavigator()
+const HomeStack = createNativeStackNavigator();
+const ClassStack = createNativeStackNavigator();
+const NotifyStack = createNativeStackNavigator();
+const ProfileStack = createNativeStackNavigator();
 
-const Tab = createBottomTabNavigator()
+const Tab = createBottomTabNavigator();
 
 const HomeStackScreens = () => {
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen
-        name='WelcomeScreen'
+        name="WelcomeScreen"
         component={WelcomeScreen}
         options={{headerShown: false}}
       />
       <HomeStack.Screen
-        name='StudentHome'
+        name="StudentHome"
         component={StudentHome}
         options={{headerShown: false}}
       />
     </HomeStack.Navigator>
-  )
-}
+  );
+};
 const ClassStackScreens = () => {
   return (
     <ClassStack.Navigator>
       <ClassStack.Screen
-        name='StudentClass'
+        name="StudentClass"
         component={StudentClass}
         options={{headerShown: false}}
       />
     </ClassStack.Navigator>
-  )
-}
+  );
+};
 const NotifyStackScreens = () => {
   return (
     <NotifyStack.Navigator>
       <NotifyStack.Screen
-        name='StudentNotifications'
+        name="StudentNotifications"
         component={StudentNotifications}
         options={{headerShown: false}}
       />
     </NotifyStack.Navigator>
-  )
-}
+  );
+};
 const ProfileStackScreens = () => {
   return (
-    <ProfileStack.Navigator initialRouteName='StudentProfile'>
+    <ProfileStack.Navigator initialRouteName="StudentEditProfile">
       <ProfileStack.Screen
-        name='StudentProfile'
-        component={StudentProfile}
+        name="StudentEditProfile"
+        component={StudentEditProfile}
         options={{headerShown: false}}
       />
     </ProfileStack.Navigator>
-  )
-}
+  );
+};
 
 const StudentTab = () => {
   return (
@@ -87,7 +87,7 @@ const StudentTab = () => {
         },
       }}>
       <Tab.Screen
-        name='Home'
+        name="Home"
         component={HomeStackScreens}
         options={{
           tabBarLabel: 'الرئيسية',
@@ -99,7 +99,7 @@ const StudentTab = () => {
         }}
       />
       <Tab.Screen
-        name='Class'
+        name="Class"
         component={ClassStackScreens}
         options={{
           tabBarLabel: 'فصلي',
@@ -111,7 +111,7 @@ const StudentTab = () => {
         }}
       />
       <Tab.Screen
-        name='Notify'
+        name="Notify"
         component={NotifyStackScreens}
         options={{
           tabBarLabel: 'التنبيهات',
@@ -123,17 +123,19 @@ const StudentTab = () => {
         }}
       />
       <Tab.Screen
-        name='Profile'
+        name="Profile"
         component={ProfileStackScreens}
         options={{
           tabBarLabel: 'البيانات الشخصية',
-          tabBarIcon: ({focused}) => <ProfileOutline fill={focused ? '#43515F' : 'none'}/>,
+          tabBarIcon: ({focused}) => (
+            <ProfileOutline fill={focused ? '#43515F' : 'none'} />
+          ),
           tabBarLabelStyle: TitleStyles.profileTextIcon,
           headerShown: false,
         }}
       />
     </Tab.Navigator>
-  )
-}
+  );
+};
 
-export default StudentTab
+export default StudentTab;

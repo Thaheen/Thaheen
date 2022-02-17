@@ -20,7 +20,8 @@ import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import BackButton from '../Components/BackButton.js';
 import {UserInfoContext} from '../auth/UserInfoContext';
-const StudentProfile = ({navigation, route}) => {
+
+const StudentEditProfile = ({navigation, route}) => {
   const user = auth().currentUser;
 
   const [fullName, setFullName] = useState('');
@@ -29,10 +30,11 @@ const StudentProfile = ({navigation, route}) => {
   const [userSchoolName, setSchoolName] = useState('');
   const [userPic, setuserPic] = useState('');
   const {student} = React.useContext(UserInfoContext);
-  //const studentID = route.params.studentID;
-  //console.log('-------------------');
-  //console.log(route.params.studentID);
-  //console.log('-------------------');
+  //New Data
+  const [NewfullName, setNewFullName] = useState('');
+  const [NewuserName, setNewUserName] = useState('');
+  const [NewuserGrade, setNewGrade] = useState('');
+  const [NewuserSchoolName, setNewSchoolName] = useState('');
 
   useEffect(() => {
     const studentsInfo = firestore()
@@ -51,7 +53,6 @@ const StudentProfile = ({navigation, route}) => {
   if (userSchoolName.length == 0) {
     setSchoolName('لا يوجد');
   }
-
   return (
     <SafeAreaView
       style={{
@@ -60,8 +61,34 @@ const StudentProfile = ({navigation, route}) => {
         // justifyContent: 'center',
         // alignItems: 'center',
       }}>
-      <TopBox style={[{position: 'absolute', top: 0, Right: 250}]}> </TopBox>
+      <View style={[TitleStyles.BlueContianer]}>
+        <Text style={[TitleStyles.ProfileTitle]}>البيانات الشخصية</Text>
+        <View style={[TitleStyles.WhiteContianer]}>
+          <View style={{top: 15, alignSelf: 'center', marginBottom: 0}}>
+            <AnimalPicker
+              pic={student ? student.data().pic : route.params.studentPic}
+            />
+          </View>
 
+          <Text style={[TitleStyles.Profilename]}>{fullName}</Text>
+          <Text style={[TitleStyles.ProfileUsername]}>{userName}</Text>
+
+          <TouchableOpacity
+            style={[
+              TitleStyles.EditBtn,
+              {
+                backgroundColor: '#FFFFFF',
+                // alignSelf: 'center',
+                // width: 300,
+                //marginTop: 10,
+                // marginBottom: 40,
+              },
+            ]}
+            onPress={() => {}}>
+            <Text style={[TitleStyles.ProfileUsername]}>تحديث البيانات</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
       <Top2Lines
         style={[
           Platform.OS === 'ios' ? TitleStyles.shadowOffset : null,
@@ -69,20 +96,8 @@ const StudentProfile = ({navigation, route}) => {
         ]}
       />
 
-      <Text
-        style={[
-          TitleStyles.HeaderTitle,
-          {textAlign: I18nManager.isRTL ? 'left' : 'right', paddingRight: 30},
-        ]}>
-        الملف الشخصي
-      </Text>
-
       {/* size of the animal picker need to be changed */}
-      <View style={{top: 60, left: 150, marginBottom: 50}}>
-        <AnimalPicker
-          pic={student ? student.data().pic : route.params.studentPic}
-        />
-      </View>
+      <View style={{top: 60, left: 150, marginBottom: 100}}></View>
       <ScrollView>
         <Text style={TitleStyles.profileText}>الاسم كامل </Text>
         <TextInput
@@ -103,7 +118,7 @@ const StudentProfile = ({navigation, route}) => {
           editable={false}></TextInput>
 
         <View>
-          <Text style={TitleStyles.profileText}> المرحلة الدراسية </Text>
+          <Text style={TitleStyles.profileText}> اسم المدرسة </Text>
           <TextInput
             style={TitleStyles.textInput}
             value={userSchoolName}
@@ -117,8 +132,9 @@ const StudentProfile = ({navigation, route}) => {
               backgroundColor: '#DAE2E9',
               alignSelf: 'center',
               width: 300,
-              marginTop: 70,
-              marginBottom: 40,
+              // height: 40,
+              ///   marginTop: 20,
+              //marginBottom: 20,
             },
           ]}
           // onPress={onSignout}
@@ -126,13 +142,13 @@ const StudentProfile = ({navigation, route}) => {
           <Text
             style={TitleStyles.ButtonText}
             onPress={() => {
-              navigation.navigate('ChildList');
+              // navigation.navigate('ChildList');
             }}>
-            رجوع
+            تسجيل خروج
           </Text>
         </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   );
 };
-export default StudentProfile;
+export default StudentEditProfile;
