@@ -1,7 +1,6 @@
 import * as React from 'react'
 import {createNativeStackNavigator} from '@react-navigation/native-stack'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
-import {useBottomTabBarHeight} from '@react-navigation/bottom-tabs'
 
 import ProfileOutline from '../assets/images/ProfileOutline.svg'
 import NotfyOutline from '../assets/images/NotfyOutline.svg'
@@ -128,7 +127,7 @@ const StudentTab = () => {
         component={ProfileStackScreens}
         options={{
           tabBarLabel: 'البيانات الشخصية',
-          tabBarIcon: () => <ProfileOutline />,
+          tabBarIcon: ({focused}) => <ProfileOutline fill={focused ? '#43515F' : 'none'}/>,
           tabBarLabelStyle: TitleStyles.profileTextIcon,
           headerShown: false,
         }}
