@@ -20,18 +20,16 @@ import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import BackButton from '../Components/BackButton.js';
 
-
 const InstructorProfile = ({navigation, route}) => {
+  //VIEW , EDIT PROFILE
 
-    //VIEW , EDIT PROFILE 
-    
   const user = auth().currentUser;
 
-  const [fullName, setFullName] = useState('');
-  const [Email, setEmail = useState('');
-  const [PhoneNum, setPhoneNum] = useState('');
- 
+  //const [fullName, setFullName] = useState('');
+  // const [Email, setEmail = useState('');
+  // const [PhoneNum, setPhoneNum] = useState('');
 
+  /*
   useEffect(() => {
     const InstructorInfo = firestore()
       .collection('Instructors Accounts')
@@ -42,7 +40,7 @@ const InstructorProfile = ({navigation, route}) => {
         setPhoneNum(snapshot.data().Phone);
       });
     return InstructorInfo;
-  }, []);
+  }, []);*/
 
   return (
     <SafeAreaView
@@ -53,8 +51,6 @@ const InstructorProfile = ({navigation, route}) => {
         // alignItems: 'center',
       }}>
       <Text> HERE IS THE INSTRUCTOR PROFILE</Text>
-     
-      
     </SafeAreaView>
   );
 };
