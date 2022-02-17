@@ -42,16 +42,7 @@ const ParentStack = () => {
         component={StudentProfile}
         options={{headerShown: false}}
       />
-      <Stack.Screen
-        name="WelcomeScreen"
-        component={WelcomeScreen}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="StudentHome"
-        component={StudentHome}
-        options={{headerShown: false}}
-      />
+      
     </Stack.Navigator>
   );
 };

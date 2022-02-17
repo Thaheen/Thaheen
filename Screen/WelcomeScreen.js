@@ -15,8 +15,6 @@ import OrangeBackground from '../assets/images/orangeBackground.svg'
 import DotsGroup from '../assets/images/dotsGroup.svg'
 import WhiteANDblue from '../assets/images/whiteANDblue.svg'
 import ThaheenStanding from '../assets/images/ThaheenStanding.svg'
-import auth from '@react-native-firebase/auth'
-import BackButton from '../Components/BackButton'
 
 const WelcomeScreen = ({navigation}) => {
   return (
@@ -26,7 +24,6 @@ const WelcomeScreen = ({navigation}) => {
         backgroundColor: '#DAE2E9',
       }}>
       <StatusBar />
-      <BackButton />
       <WhiteBackground style={{position: 'absolute', bottom: 0}} />
       <OrangeBackground style={{position: 'absolute', bottom: 0}} />
       <DotsGroup

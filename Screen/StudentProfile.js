@@ -19,6 +19,8 @@ import AnimalPicker from '../Screen/AnimalPicker.js';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import BackButton from '../Components/BackButton.js';
+import {UserInfoContext} from '../auth/UserInfoContext';
+
 //import {AfterEffectsOutlined} from 'react-basil';
 
 const StudentProfile = ({navigation, route}) => {
@@ -29,6 +31,7 @@ const StudentProfile = ({navigation, route}) => {
   const [userGrade, setGrade] = useState('');
   const [userSchoolName, setSchoolName] = useState('');
   const [userPic, setuserPic] = useState('');
+  const {student} = React.useContext(UserInfoContext)
 
   //const studentID = route.params.studentID;
   //console.log('-------------------');
@@ -38,7 +41,7 @@ const StudentProfile = ({navigation, route}) => {
   useEffect(() => {
     const studentsInfo = firestore()
       .collection('Student')
-      .doc(route.params.studentID)
+      .doc(student ? student.id : route.params.studentID)
       .onSnapshot(snapshot => {
         setFullName(snapshot.data().Fullname);
         setUserName(snapshot.data().Username);
@@ -76,7 +79,7 @@ const StudentProfile = ({navigation, route}) => {
 
       {/* size of the animal picker need to be changed */}
       <View style={{top: 60, left: 150, marginBottom: 50}}>
-        <AnimalPicker pic={route.params.studentPic} />
+        <AnimalPicker pic={student? student.data().pic : route.params.studentPic} />
       </View>
       <ScrollView>
         <Text style={TitleStyles.profileText}>الاسم كامل </Text>

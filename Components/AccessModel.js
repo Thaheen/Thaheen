@@ -25,15 +25,17 @@ import ErrorVector from '../assets/images/ErrorVector.svg';
 import CheckVector from '../assets/images/CheckVector.svg';
 import {useNavigation} from '@react-navigation/native';
 import ErrorModel from '../Components/ErrorModel';
+import {UserInfoContext} from '../auth/UserInfoContext';
 
 const AccessModel = ({modalVisible, setModalVisible, studentID}) => {
   //Success modal
   let textInput = useRef(null);
   const InputLenght = 6;
   const [passcodeVal, setPasscodeval] = useState('');
-
+  const {setStudent} = React.useContext(UserInfoContext)
   const [isValidPasscode, setIsValidPasscode] = useState('');
   const navigation = useNavigation();
+  const [studentSnapShot, setStudnetSnapShot]= useState() ;
 
   // Error model
   const [ErrormodalVisible, setErrormodalVisible] = useState(false);
@@ -44,6 +46,7 @@ const AccessModel = ({modalVisible, setModalVisible, studentID}) => {
       .doc(studentID)
       .onSnapshot(snapshot => {
         setIsValidPasscode(snapshot.data().Passcode);
+        setStudnetSnapShot(snapshot)
       });
     return studentsPasscode;
   }, []);
@@ -60,7 +63,7 @@ const AccessModel = ({modalVisible, setModalVisible, studentID}) => {
       console.log('VALID');
       setModalVisible(!modalVisible);
       setPasscodeval('');
-      navigation.navigate('WelcomeScreen');
+      setStudent(studentSnapShot);
       return;
     } else if (passcodeVal.length == 6 && isValidPasscode != passcodeVal) {
       console.log('INVALID');
