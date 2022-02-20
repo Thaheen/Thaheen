@@ -20,6 +20,7 @@ import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import BackButton from '../Components/BackButton.js';
 import {UserInfoContext} from '../auth/UserInfoContext';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 const StudentEditProfile = ({navigation, route}) => {
   const user = auth().currentUser;
@@ -35,6 +36,19 @@ const StudentEditProfile = ({navigation, route}) => {
   const [NewuserName, setNewUserName] = useState('');
   const [NewuserGrade, setNewGrade] = useState('');
   const [NewuserSchoolName, setNewSchoolName] = useState('');
+
+  const [open, setOpen] = useState(false);
+  DropDownPicker.setListMode('SCROLLVIEW');
+  const [gradeValue, setgradeValue] = useState(null);
+  const [ChildGrade, setChildGrade] = useState([
+    {label: 'أولى ابتدائي', value: 'أولى ابتدائي'},
+    {label: 'ثاني إبتدائي', value: 'ثاني إبتدائي'},
+    {label: 'ثالث إبتدائي', value: 'ثالث إبتدائي'},
+    {label: 'رابع إبتدائي', value: 'رابع إبتدائي'},
+    {label: 'خامس إبتدائي', value: 'خامس إبتدائي'},
+    {label: 'سادس إبتدائي', value: 'سادس إبتدائي'},
+    {label: 'آخرى', value: 'آخرى'},
+  ]);
 
   useEffect(() => {
     const studentsInfo = firestore()
@@ -61,6 +75,7 @@ const StudentEditProfile = ({navigation, route}) => {
         // justifyContent: 'center',
         // alignItems: 'center',
       }}>
+      <StatusBar backgroundColor="#DAE2E9" />
       <View style={[TitleStyles.BlueContianer]}>
         <Text style={[TitleStyles.ProfileTitle]}>البيانات الشخصية</Text>
         <View style={[TitleStyles.WhiteContianer]}>
@@ -103,26 +118,48 @@ const StudentEditProfile = ({navigation, route}) => {
         <TextInput
           style={TitleStyles.textInput}
           value={fullName}
-          editable={false}></TextInput>
+          editable={true}></TextInput>
 
         <Text style={TitleStyles.profileText}> اسم المستخدم </Text>
         <TextInput
           style={TitleStyles.textInput}
           value={userName}
-          editable={false}></TextInput>
+          editable={true}></TextInput>
 
-        <Text style={TitleStyles.profileText}> المستوى </Text>
-        <TextInput
-          style={TitleStyles.textInput}
-          value={userGrade}
-          editable={false}></TextInput>
+        <Text style={TitleStyles.profileText}> المرحلة الدارسية </Text>
+
+        <View
+        // style={[TitleStyles.shadowOffset, {zIndex: 1000, elevation: 1000}]}
+        >
+          <DropDownPicker
+            style={[
+              TitleStyles.dropDownStyle2,
+              Platform.OS === 'android' ? TitleStyles.shadowOffset : null,
+            ]}
+            textStyle={TitleStyles.categoryText}
+            containerStyle={{}}
+            dropDownContainerStyle={{
+              borderColor: '#C7C7CD',
+              backgroundColor: '#f2f4f7',
+            }}
+            placeholderStyle={{color: '#808182'}}
+            open={open}
+            value={gradeValue}
+            items={ChildGrade}
+            setOpen={setOpen}
+            setValue={setgradeValue}
+            setItems={setChildGrade}
+            placeholder={userGrade}
+            onChangeValue={value => setGrade(value)}
+          />
+        </View>
 
         <View>
           <Text style={TitleStyles.profileText}> اسم المدرسة </Text>
           <TextInput
             style={TitleStyles.textInput}
             value={userSchoolName}
-            editable={false}></TextInput>
+            editable={true}></TextInput>
         </View>
 
         <TouchableOpacity
@@ -131,7 +168,7 @@ const StudentEditProfile = ({navigation, route}) => {
             {
               backgroundColor: '#DAE2E9',
               alignSelf: 'center',
-              width: 300,
+              width: 283,
               // height: 40,
               ///   marginTop: 20,
               //marginBottom: 20,

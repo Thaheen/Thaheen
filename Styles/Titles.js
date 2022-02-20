@@ -44,7 +44,7 @@ export default StyleSheet.create({
     fontSize: 16,
     color: '#808182',
     textAlign: I18nManager.isRTL ? 'left' : 'right',
-    marginTop: 20,
+    marginTop: 15,
     ...(I18nManager.isRTL ? {marginLeft: 20} : {marginRight: 20}),
   },
 
@@ -299,7 +299,7 @@ export default StyleSheet.create({
   },
   WhiteContianer: {
     width: 330,
-    height: 253,
+    height: 245,
     borderRadius: 25,
     backgroundColor: '#FFFFFF',
     alignSelf: 'center',
@@ -337,5 +337,26 @@ export default StyleSheet.create({
     borderRadius: 25,
     alignSelf: 'center',
     marginTop: 10,
+  },
+
+  dropDownStyle2: {
+    // marginTop: 10,
+    // borderColor: '#f8f4f4',
+    borderBottomWidth: 1,
+    borderWidth: 0,
+    width: '90%',
+    //  flexDirection: I18nManager.isRTL ? 'row' : 'row-reverse',
+    //backgroundColor: '#f8f4f4',
+    borderBottomWidth: 1,
+    width: '90%',
+    marginLeft: 20,
+    //
+    color: '#808182',
+    paddingHorizontal: 10,
+    fontFamily: 'AJannatLT-Bold',
+    fontSize: 14,
+    color: '#808182',
+    textAlign: 'right',
+    borderColor: 'rgb(186, 183, 176)',
   },
 });
