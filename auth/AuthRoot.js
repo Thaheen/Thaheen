@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from 'react'
 import {View, Text, ActivityIndicator} from 'react-native'
 import auth from '@react-native-firebase/auth'
+import firestore from '@react-native-firebase/firestore'
 import '../i18n.js'
 import AuthStack from './AuthStack.js'
 
-import InstructorStack from './InstructorStack.js'
+import InstructorTab from './InstructorTab.js'
 import ParentStack from './ParentStack.js'
 import StudentTab from './StudentTab.js'
 
@@ -17,9 +18,23 @@ const AuthRoot = () => {
   const [initializing, setInitializing] = useState(true)
 
   // Handle user state changes
-  function onAuthStateChanged (user) {
-    //Before i set the user i can put "rememeber me" option as a conodition to know wether to set the user or not
-    setUser(user)
+  function onAuthStateChanged (userstate) {
+    if (userstate != null) {
+      firestore()
+        .collection('Parents Accounts')
+        .doc(userstate.uid)
+        .onSnapshot(documentSnapshot => {
+          if (documentSnapshot.exists) setUser(documentSnapshot)
+        })
+      firestore()
+        .collection('Instructors Accounts')
+        .doc(userstate.uid)
+        .onSnapshot(documentSnapshot => {
+          if (documentSnapshot.exists) setUser(documentSnapshot)
+        })
+    } else {
+      setUser(userstate)
+    }
     if (initializing) setInitializing(false)
   }
 
@@ -35,10 +50,21 @@ const AuthRoot = () => {
       </View>
     )
 
-  //initially only log in to the parent stack -> instructor screens not yet implemented
   return (
     <NavigationContainer>
-      {user ? (student ? <StudentTab /> : <ParentStack />) : <AuthStack />}
+      {user ? (
+        user.ref.parent.id === 'Parents Accounts' ? (
+          student ? (
+            <StudentTab />
+          ) : (
+            <ParentStack />
+          )
+        ) : (
+          <InstructorTab />
+        )
+      ) : (
+        <AuthStack />
+      )}
     </NavigationContainer>
   )
 }
