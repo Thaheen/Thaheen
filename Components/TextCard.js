@@ -3,7 +3,7 @@ import {Text, TouchableOpacity, View, Platform, I18nManager} from 'react-native'
 import TitleStyles from '../Styles/Titles'
 import BookReader from '../assets/images/BookReader'
 
-const TextCard = () => {
+const TextCard = ({title}) => {
   return (
     <View
       style={[
@@ -32,7 +32,7 @@ const TextCard = () => {
             I18nManager.isRTL ? {marginLeft: 15} : {marginRight: 15},
             {fontSize: 18},
           ]}>
-          حفظ النشيد الوطني
+         {title}
         </Text>
       </View>
 

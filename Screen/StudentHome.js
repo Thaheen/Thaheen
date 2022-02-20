@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -9,31 +9,52 @@ import {
   View,
   Platform,
   I18nManager,
-} from 'react-native'
-import TitleStyles from '../Styles/Titles'
-import ThaheenStanding from '../assets/images/ThaheenStanding'
-import Badage from '../assets/images/badage'
-import TextCard from '../Components/TextCard'
-import HomeSection from '../Components/HomeSection'
-import auth from '@react-native-firebase/auth'
-import BottomBar from '../Components/BottomBar'
-import {NavigationContainer} from '@react-navigation/native'
-import {UserInfoContext} from '../auth/UserInfoContext'
-
+} from 'react-native';
+import TitleStyles from '../Styles/Titles';
+import ThaheenStanding from '../assets/images/ThaheenStanding';
+import Badage from '../assets/images/badage';
+import TextCard from '../Components/TextCard';
+import HomeSection from '../Components/HomeSection';
+import auth from '@react-native-firebase/auth';
+import BottomBar from '../Components/BottomBar';
+import {NavigationContainer} from '@react-navigation/native';
+import {UserInfoContext} from '../auth/UserInfoContext';
+import firestore from '@react-native-firebase/firestore';
 const StudentHome = () => {
+  const [TextList, setTextList] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-
-  const {setStudent} = React.useContext(UserInfoContext)
+  const {student} = React.useContext(UserInfoContext);
 
   const onSignout = () => {
-    setStudent()
-  }
+    setStudent();
+  };
+
+  useEffect(() => {
+    const textAssignment = firestore()
+      .collection('Text')
+      .where('StudentID', '==', student.id)
+      .onSnapshot(querySnapshot => {
+        const homework = [];
+
+        querySnapshot.forEach(documentSnapshot => {
+          console.log(documentSnapshot.data())
+          homework.push({
+            
+            ...documentSnapshot.data(),
+            key: documentSnapshot.id,
+          });
+        });
+        setTextList(homework);
+        setLoading(false);
+      });
+    return () => textAssignment();
+  }, []);
 
   return (
-    
     <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}>
-      <StatusBar backgroundColor='#FFFFFF' />
-      <ScrollView>
+      <StatusBar backgroundColor="#FFFFFF" />
+      
         {/* start top container */}
         <View style={{padding: 30}}>
           <View
@@ -48,7 +69,7 @@ const StudentHome = () => {
                 I18nManager.isRTL ? {textAlign: 'left'} : {textAlign: 'right'},
                 {fontWeight: null, textAlign: null},
               ]}>
-              مرحبًا يوسف
+              مرحبًا {student.data().Fullname}
             </Text>
             <Text
               style={[
@@ -86,12 +107,28 @@ const StudentHome = () => {
         {/* end top container */}
 
         {/* start mid container */}
-        <HomeSection title='نصوصي' iconName='Plus' />
-        <TextCard />
+        <HomeSection title="نصوصي" iconName="Plus" />
+        
+
+        <FlatList
+          
+          data={TextList}
+          
+          keyExtractor={(item, index) => index.toString()}
+          horizontal={true}
+        scrollEnabled
+          renderItem={({item}) => (
+            <TouchableOpacity>
+          
+                <TextCard title={item.TextHead} />
+           
+            </TouchableOpacity>
+          )}
+        />
         {/* end mid container */}
 
         {/* start bottom container */}
-        <HomeSection title='مستوى تقدمي' iconName='Trophy' />
+        <HomeSection title="مستوى تقدمي" iconName="Trophy" />
 
         <View
           style={[
@@ -113,10 +150,10 @@ const StudentHome = () => {
         </View>
 
         {/* end bottom container */}
-      </ScrollView>
+  
       {/* <BottomBar /> */}
     </SafeAreaView>
-  )
-}
+  );
+};
 
-export default StudentHome
+export default StudentHome;
