@@ -21,7 +21,8 @@ import firestore from '@react-native-firebase/firestore';
 import BackButton from '../Components/BackButton.js';
 import {UserInfoContext} from '../auth/UserInfoContext';
 import DropDownPicker from 'react-native-dropdown-picker';
-
+import SuccessModel from '../Components/SuccessModel';
+import ErrorModel from '../Components/ErrorModel';
 const StudentEditProfile = ({navigation, route}) => {
   const user = auth().currentUser;
 
@@ -34,9 +35,10 @@ const StudentEditProfile = ({navigation, route}) => {
   //New Data
   const [NewfullName, setNewFullName] = useState('');
   const [NewuserName, setNewUserName] = useState('');
-  const [NewuserGrade, setNewGrade] = useState('');
-  const [NewuserSchoolName, setNewSchoolName] = useState('');
+  const [NewGrade, setNewGrade] = useState('');
+  const [NewSchoolName, setNewSchoolName] = useState('');
 
+  //For dropwdown
   const [open, setOpen] = useState(false);
   DropDownPicker.setListMode('SCROLLVIEW');
   const [gradeValue, setgradeValue] = useState(null);
@@ -49,6 +51,16 @@ const StudentEditProfile = ({navigation, route}) => {
     {label: 'سادس إبتدائي', value: 'سادس إبتدائي'},
     {label: 'آخرى', value: 'آخرى'},
   ]);
+
+  //Success modal
+  const [modalVisible, setModalVisible] = useState(false);
+
+  // Error model
+  const [ErrormodalVisible, setErrormodalVisible] = useState(false);
+  const [ErrorMessage, setErrorMessage] = useState('');
+
+  //Check for username uniquness
+  const [isUnique, setisUnique] = useState(true);
 
   useEffect(() => {
     const studentsInfo = firestore()
@@ -67,6 +79,147 @@ const StudentEditProfile = ({navigation, route}) => {
   if (userSchoolName.length == 0) {
     setSchoolName('لا يوجد');
   }
+
+  // Check if name contain numbers
+  const IsValidfield = field => {
+    const RegxOfNames = /^[a-zA-Z\s\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF]*$/;
+    return RegxOfNames.test(field);
+  };
+
+  firestore()
+    .collection('Student')
+    .where('Username', '==', NewuserName)
+    .get()
+    .then(querySnapshot => {
+      if (querySnapshot.size != 0) {
+        setisUnique(false);
+      } else setisUnique(true);
+    });
+
+  const isUniqueUsername = username => {};
+  //chech if Username only use letters and numbers
+  const onValidUsername = val => {
+    const usernameRegex = /^[a-zA-Z0-9]+$/;
+    return usernameRegex.test(val);
+  };
+
+  const UpdateInfo = () => {
+    // Checking for empty fields
+    if (
+      (NewfullName == '') &
+      (NewuserName == '') &
+      (NewGrade == '') &
+      (NewSchoolName == '')
+    ) {
+      setErrorMessage(' لم يتم اصافة معلومات جديدة ');
+      setErrormodalVisible(!ErrormodalVisible);
+
+      return;
+    }
+
+    if (NewfullName != '') {
+      if (IsValidfield(NewfullName) == false) {
+        setErrorMessage('حقل "اسم الطفل" يجب ان يحتوي على حروف فقط');
+        setErrormodalVisible(!ErrormodalVisible);
+        return;
+      }
+
+      if (
+        NewfullName.replace(/\s+/g, '').length > 30 ||
+        NewfullName.replace(/\s+/g, '').length < 2
+      ) {
+        setErrorMessage(
+          'حقل "اسم الطفل" يجب ألا يقل عن حرفين وألا يتجاوز ٣٠ حرف',
+        );
+        setErrormodalVisible(!ErrormodalVisible);
+        return;
+      }
+
+      firestore()
+        .collection('Student')
+        .doc(student ? student.id : route.params.studentID)
+        .update({
+          Fullname: NewfullName,
+        });
+      setModalVisible(!modalVisible);
+    }
+    if (NewuserName != '') {
+      if (isUnique == false) {
+        setErrorMessage('حقل "اسم المستخدم" مسجل مسبقا');
+        setErrormodalVisible(!ErrormodalVisible);
+        return;
+      }
+
+      if (
+        NewuserName.replace(/\s+/g, '').length > 30 ||
+        NewuserName.replace(/\s+/g, '').length < 2
+      ) {
+        setErrorMessage(
+          'حقل "اسم المستخدم" يجب ألا يقل عن حرفين وألا يتجاوز ٣٠ حرف',
+        );
+        setErrormodalVisible(!ErrormodalVisible);
+        return;
+      }
+
+      if (onValidUsername(NewuserName) == false) {
+        setErrorMessage(
+          'حقل "اسم المستخدم" يجب ان يحتوي على حروف انجليزية و ارقام فقط',
+        );
+        setErrormodalVisible(!ErrormodalVisible);
+
+        return;
+      }
+      firestore()
+        .collection('Student')
+        .doc(student ? student.id : route.params.studentID)
+        .update({
+          Username: NewuserName,
+        });
+      setModalVisible(!modalVisible);
+    }
+
+    if (NewSchoolName.length != 0) {
+      if (
+        NewSchoolName.replace(/\s+/g, '').length > 30 ||
+        NewSchoolName.replace(/\s+/g, '').length < 2
+      ) {
+        setErrorMessage(
+          'حقل "اسم المدرسة" يجب ألا يقل عن حرفين وألا يتجاوز ٣٠ حرف',
+        );
+        setErrormodalVisible(!ErrormodalVisible);
+        return;
+      }
+
+      firestore()
+        .collection('Student')
+        .doc(student ? student.id : route.params.studentID)
+        .update({
+          SchoolName: NewSchoolName,
+        });
+      setModalVisible(!modalVisible);
+    }
+
+    if (NewGrade != '') {
+      firestore()
+        .collection('Student')
+        .doc(student ? student.id : route.params.studentID)
+        .update({
+          Grade: NewGrade,
+        });
+      setModalVisible(!modalVisible);
+    }
+  };
+  /*const UpdateGrade = () => {
+    firestore()
+      .collection('Student')
+      .doc(student ? student.id : route.params.studentID)
+      .update({
+        Grade: NewGrade,
+      });
+    setModalVisible(!modalVisible);
+    return;
+  };*/
+
   return (
     <SafeAreaView
       style={{
@@ -75,34 +228,47 @@ const StudentEditProfile = ({navigation, route}) => {
         // justifyContent: 'center',
         // alignItems: 'center',
       }}>
+      <SuccessModel
+        message={'Your informartion is updated check DB'}
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+      />
+
+      <ErrorModel
+        message={ErrorMessage}
+        modalVisible={ErrormodalVisible}
+        setModalVisible={setErrormodalVisible}
+      />
       <StatusBar backgroundColor="#DAE2E9" />
       <View style={[TitleStyles.BlueContianer, {position: 'absolute'}]} />
-        <Text style={[TitleStyles.ProfileTitle]}>البيانات الشخصية</Text>
-        <View style={[TitleStyles.WhiteContianer]}>
-          <View style={{top: 15, alignSelf: 'center', marginBottom: 0}}>
-            <AnimalPicker
-              pic={student ? student.data().pic : route.params.studentPic}
-            />
-          </View>
-
-          <Text style={[TitleStyles.Profilename]}>{fullName}</Text>
-          <Text style={[TitleStyles.ProfileUsername]}>{userName}</Text>
-
-          <TouchableOpacity
-            style={[
-              TitleStyles.EditBtn,
-              {
-                backgroundColor: '#FFFFFF',
-                // alignSelf: 'center',
-                // width: 300,
-                //marginTop: 10,
-                // marginBottom: 40,
-              },
-            ]}
-            onPress={() => {}}>
-            <Text style={[TitleStyles.ProfileUsername]}>تحديث البيانات</Text>
-          </TouchableOpacity>
+      <Text style={[TitleStyles.ProfileTitle]}>البيانات الشخصية</Text>
+      <View style={[TitleStyles.WhiteContianer]}>
+        <View style={{top: 15, alignSelf: 'center', marginBottom: 0}}>
+          <AnimalPicker
+            pic={student ? student.data().pic : route.params.studentPic}
+          />
         </View>
+
+        <Text style={[TitleStyles.Profilename]}>{fullName}</Text>
+        <Text style={[TitleStyles.ProfileUsername]}>{userName}</Text>
+
+        <TouchableOpacity
+          style={[
+            TitleStyles.EditBtn,
+            {
+              backgroundColor: '#FFFFFF',
+              // alignSelf: 'center',
+              // width: 300,
+              //marginTop: 10,
+              // marginBottom: 40,
+            },
+          ]}
+          onPress={() => {
+            UpdateInfo();
+          }}>
+          <Text style={[TitleStyles.ProfileUsername]}>تحديث البيانات</Text>
+        </TouchableOpacity>
+      </View>
       <Top2Lines
         style={[
           Platform.OS === 'ios' ? TitleStyles.shadowOffset : null,
@@ -115,14 +281,22 @@ const StudentEditProfile = ({navigation, route}) => {
         <Text style={TitleStyles.profileText}>الاسم كامل </Text>
         <TextInput
           style={TitleStyles.textInput}
-          value={fullName}
-          editable={true}></TextInput>
+          placeholder={fullName}
+          placeholderTextColor={'#808182'}
+          value={NewfullName}
+          editable={true}
+          selectTextOnFocus={true}
+          onChangeText={text => setNewFullName(text)}></TextInput>
 
         <Text style={TitleStyles.profileText}> اسم المستخدم </Text>
         <TextInput
           style={TitleStyles.textInput}
-          value={userName}
-          editable={true}></TextInput>
+          placeholder={userName}
+          placeholderTextColor={'#808182'}
+          value={NewuserName}
+          editable={true}
+          selectTextOnFocus={true}
+          onChangeText={text => setNewUserName(text)}></TextInput>
 
         <Text style={TitleStyles.profileText}> المرحلة الدارسية </Text>
 
@@ -148,7 +322,7 @@ const StudentEditProfile = ({navigation, route}) => {
             setValue={setgradeValue}
             setItems={setChildGrade}
             placeholder={userGrade}
-            onChangeValue={value => setGrade(value)}
+            onChangeValue={value => setNewGrade(value)}
           />
         </View>
 
@@ -156,8 +330,12 @@ const StudentEditProfile = ({navigation, route}) => {
           <Text style={TitleStyles.profileText}> اسم المدرسة </Text>
           <TextInput
             style={TitleStyles.textInput}
-            value={userSchoolName}
-            editable={true}></TextInput>
+            value={NewSchoolName}
+            editable={true}
+            placeholder={userSchoolName}
+            placeholderTextColor={'#808182'}
+            selectTextOnFocus={true}
+            onChangeText={text => setNewSchoolName(text)}></TextInput>
         </View>
 
         <TouchableOpacity
@@ -177,7 +355,7 @@ const StudentEditProfile = ({navigation, route}) => {
           <Text
             style={TitleStyles.ButtonText}
             onPress={() => {
-             setStudent();
+              setStudent();
             }}>
             تسجيل خروج
           </Text>
