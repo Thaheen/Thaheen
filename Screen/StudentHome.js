@@ -23,7 +23,7 @@ import firestore from '@react-native-firebase/firestore';
 const StudentHome = () => {
   const [TextList, setTextList] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const [counter, setCounter] = useState(0);
   const {student} = React.useContext(UserInfoContext);
 
   const onSignout = () => {
@@ -38,9 +38,8 @@ const StudentHome = () => {
         const homework = [];
 
         querySnapshot.forEach(documentSnapshot => {
-          console.log(documentSnapshot.data())
+          setCounter(1);
           homework.push({
-            
             ...documentSnapshot.data(),
             key: documentSnapshot.id,
           });
@@ -54,82 +53,76 @@ const StudentHome = () => {
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}>
       <StatusBar backgroundColor="#FFFFFF" />
-      
-        {/* start top container */}
-        <View style={{padding: 30}}>
-          <View
-            style={{
-              backgroundColor: '#DAE2E9',
-              borderRadius: 25,
-              paddingHorizontal: 25,
-            }}>
-            <Text
-              style={[
-                TitleStyles.sectionTitle,
-                I18nManager.isRTL ? {textAlign: 'left'} : {textAlign: 'right'},
-                {fontWeight: null, textAlign: null},
-              ]}>
-              مرحبًا {student.data().Fullname}
-            </Text>
-            <Text
-              style={[
-                TitleStyles.subTitle,
-                I18nManager.isRTL ? {marginLeft: 60} : {marginRight: 60},
-                {fontFamily: 'AJannatLT-Bold'},
-              ]}>
-              المستوى: ممتاز
-            </Text>
-            <Text
-              style={[
-                TitleStyles.subTitle,
-                I18nManager.isRTL ? {marginLeft: 60} : {marginRight: 60},
-                {fontFamily: 'AJannatLT-Bold', marginBottom: 20},
-              ]}>
-              اللقب: الطالب الذكي
-            </Text>
-          </View>
 
-          <ThaheenStanding
+      {/* start top container */}
+      <View style={{padding: 30}}>
+        <View
+          style={{
+            backgroundColor: '#DAE2E9',
+            borderRadius: 25,
+            paddingHorizontal: 25,
+          }}>
+          <Text
             style={[
-              {position: 'absolute', bottom: 0},
-              I18nManager.isRTL ? {left: -20} : {right: -20},
-            ]}
-            width={139}
-            height={139}
-          />
-          <Badage
+              TitleStyles.sectionTitle,
+              I18nManager.isRTL ? {textAlign: 'left'} : {textAlign: 'right'},
+              {fontWeight: null, textAlign: null},
+            ]}>
+            مرحبًا {student.data().Fullname}
+          </Text>
+          <Text
             style={[
-              {position: 'absolute', bottom: 10},
-              I18nManager.isRTL ? {right: 0} : {left: 0},
-            ]}
-          />
+              TitleStyles.subTitle,
+              I18nManager.isRTL ? {marginLeft: 60} : {marginRight: 60},
+              {fontFamily: 'AJannatLT-Bold'},
+            ]}>
+            المستوى: ممتاز
+          </Text>
+          <Text
+            style={[
+              TitleStyles.subTitle,
+              I18nManager.isRTL ? {marginLeft: 60} : {marginRight: 60},
+              {fontFamily: 'AJannatLT-Bold', marginBottom: 20},
+            ]}>
+            اللقب: الطالب الذكي
+          </Text>
         </View>
-        {/* end top container */}
 
-        {/* start mid container */}
-        <HomeSection title="نصوصي" iconName="Plus" />
-        
+        <ThaheenStanding
+          style={[
+            {position: 'absolute', bottom: 0},
+            I18nManager.isRTL ? {left: -20} : {right: -20},
+          ]}
+          width={139}
+          height={139}
+        />
+        <Badage
+          style={[
+            {position: 'absolute', bottom: 10},
+            I18nManager.isRTL ? {right: 0} : {left: 0},
+          ]}
+        />
+      </View>
+      {/* end top container */}
 
+      {/* start mid container */}
+      <HomeSection title="نصوصي" iconName="Plus" />
+
+      {counter != 0 && (
         <FlatList
-          
           data={TextList}
-          
           keyExtractor={(item, index) => index.toString()}
           horizontal={true}
-        scrollEnabled
+          scrollEnabled
           renderItem={({item}) => (
             <TouchableOpacity>
-          
-                <TextCard title={item.TextHead} />
-           
+              <TextCard title={item.TextHead} />
             </TouchableOpacity>
           )}
         />
-        {/* end mid container */}
+      )}
 
-        {/* start bottom container */}
-        <HomeSection title="مستوى تقدمي" iconName="Trophy" />
-
+      {TextList == 0 && (
         <View
           style={[
             {
@@ -145,12 +138,36 @@ const StudentHome = () => {
           <Text
             style={[TitleStyles.sectionTitle, {fontSize: 24, fontWeight: null}]}
             onPress={onSignout}>
-            لم تنضم إلى أي صفوف بعد
+            لم تضيف اي نص بعد{' '}
           </Text>
         </View>
+      )}
+      {/* end mid container */}
 
-        {/* end bottom container */}
-  
+      {/* start bottom container */}
+      <HomeSection title="مستوى تقدمي" iconName="Trophy" />
+
+      <View
+        style={[
+          {
+            borderRadius: 25,
+            marginLeft: 25,
+            marginRight: 25,
+            padding: 15,
+            paddingVertical: 50,
+            backgroundColor: 'white',
+          },
+          TitleStyles.SoftShadow,
+        ]}>
+        <Text
+          style={[TitleStyles.sectionTitle, {fontSize: 24, fontWeight: null}]}
+          onPress={onSignout}>
+          لم تنضم إلى أي صفوف بعد
+        </Text>
+      </View>
+
+      {/* end bottom container */}
+
       {/* <BottomBar /> */}
     </SafeAreaView>
   );
