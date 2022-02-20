@@ -30,7 +30,7 @@ const StudentEditProfile = ({navigation, route}) => {
   const [userGrade, setGrade] = useState('');
   const [userSchoolName, setSchoolName] = useState('');
   const [userPic, setuserPic] = useState('');
-  const {student} = React.useContext(UserInfoContext);
+  const {student, setStudent} = React.useContext(UserInfoContext);
   //New Data
   const [NewfullName, setNewFullName] = useState('');
   const [NewuserName, setNewUserName] = useState('');
@@ -76,7 +76,7 @@ const StudentEditProfile = ({navigation, route}) => {
         // alignItems: 'center',
       }}>
       <StatusBar backgroundColor="#DAE2E9" />
-      <View style={[TitleStyles.BlueContianer]}>
+      <View style={[TitleStyles.BlueContianer, {position: 'absolute'}]} />
         <Text style={[TitleStyles.ProfileTitle]}>البيانات الشخصية</Text>
         <View style={[TitleStyles.WhiteContianer]}>
           <View style={{top: 15, alignSelf: 'center', marginBottom: 0}}>
@@ -103,7 +103,6 @@ const StudentEditProfile = ({navigation, route}) => {
             <Text style={[TitleStyles.ProfileUsername]}>تحديث البيانات</Text>
           </TouchableOpacity>
         </View>
-      </View>
       <Top2Lines
         style={[
           Platform.OS === 'ios' ? TitleStyles.shadowOffset : null,
@@ -112,7 +111,6 @@ const StudentEditProfile = ({navigation, route}) => {
       />
 
       {/* size of the animal picker need to be changed */}
-      <View style={{top: 60, left: 150, marginBottom: 100}}></View>
       <ScrollView>
         <Text style={TitleStyles.profileText}>الاسم كامل </Text>
         <TextInput
@@ -179,7 +177,7 @@ const StudentEditProfile = ({navigation, route}) => {
           <Text
             style={TitleStyles.ButtonText}
             onPress={() => {
-              // navigation.navigate('ChildList');
+             setStudent();
             }}>
             تسجيل خروج
           </Text>

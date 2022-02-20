@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Platform } from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
@@ -83,7 +84,7 @@ const StudentTab = () => {
           borderLeftWidth: 1,
           borderTopColor: '#f3f6f8',
           borderColor: '#ffffff',
-          height: 100,
+          height: Platform.OS === 'ios' ? 100 : 65,
         },
       }}>
       <Tab.Screen

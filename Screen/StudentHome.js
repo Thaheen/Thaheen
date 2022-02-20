@@ -26,10 +26,6 @@ const StudentHome = () => {
   const [counter, setCounter] = useState(0);
   const {student} = React.useContext(UserInfoContext);
 
-  const onSignout = () => {
-    setStudent();
-  };
-
   useEffect(() => {
     const textAssignment = firestore()
       .collection('Text')
@@ -137,7 +133,7 @@ const StudentHome = () => {
           ]}>
           <Text
             style={[TitleStyles.sectionTitle, {fontSize: 24, fontWeight: null}]}
-            onPress={onSignout}>
+          >
             لم تضيف اي نص بعد{' '}
           </Text>
         </View>
@@ -161,7 +157,7 @@ const StudentHome = () => {
         ]}>
         <Text
           style={[TitleStyles.sectionTitle, {fontSize: 24, fontWeight: null}]}
-          onPress={onSignout}>
+        >
           لم تنضم إلى أي صفوف بعد
         </Text>
       </View>
