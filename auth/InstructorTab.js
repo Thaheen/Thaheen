@@ -10,6 +10,7 @@ import TitleStyles from '../Styles/Titles'
 
 import {default as Home} from '../Screen/Home.js'
 import {default as InstructorProfile} from '../Screen/InstructorProfile.js'
+import {default as CreateClass} from '../Screen/CreateClass.js'
 
 const Stack = createNativeStackNavigator()
 
@@ -34,8 +35,8 @@ const CreateClassStackScreens = () => {
   return (
     <CreateClassStack.Navigator>
       <CreateClassStack.Screen
-        name='Home'
-        component={Home}
+        name='CreateClass'
+        component={CreateClass}
         options={{headerShown: false}}
       />
     </CreateClassStack.Navigator>

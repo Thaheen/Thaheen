@@ -23,6 +23,11 @@ import BackButton from '../Components/BackButton.js';
 const InstructorProfile = ({navigation, route}) => {
   //VIEW , EDIT PROFILE
 
+    const onSignout = () => {
+      auth()
+      .signOut()
+      .then(() => console.log('User signed out!'));}
+
   const user = auth().currentUser;
 
   //const [fullName, setFullName] = useState('');
@@ -51,6 +56,19 @@ const InstructorProfile = ({navigation, route}) => {
         // alignItems: 'center',
       }}>
       <Text> HERE IS THE INSTRUCTOR PROFILE</Text>
+      <TouchableOpacity
+            style={{
+              width: 230,
+              backgroundColor: '#43515F',
+              borderRadius: 9,
+              padding: 5,
+              margin: 70,
+            }}
+            onPress={onSignout}>
+            <Text style={{color: 'white', fontSize: 30, textAlign: 'center'}}>
+              تسجيل الخروج
+            </Text>
+          </TouchableOpacity>
     </SafeAreaView>
   );
 };

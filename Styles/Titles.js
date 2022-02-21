@@ -359,4 +359,22 @@ export default StyleSheet.create({
     textAlign: 'right',
     borderColor: 'rgb(186, 183, 176)',
   },
+
+  InstructorCard :{
+    flexDirection:'row-reverse', 
+    alignSelf:'center' , 
+    padding:30 ,
+    backgroundColor:'#FFFFFF', 
+    position:'absolute', 
+    top:80 , 
+    borderRadius:25,
+  },
+
+  InstructorSubCard :{
+    height:100,
+    width:100,  
+    alignItems:'center', 
+    borderRightWidth:0.5, 
+    borderRightColor:'#BFBFBF',
+  }
 });
