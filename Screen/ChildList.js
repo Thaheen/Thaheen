@@ -73,13 +73,13 @@ const ChildList = ({navigation}) => {
       .then(() => console.log('User signed out!'));
   };
 
-const setChild = ChildID => {
+  const setChild = ChildID => {
     setChildID(ChildID);
     setConfirmmodalVisible(!ConfirmmodalVisible);
   };
   const deleteChildAccount = ChildID => {
     setConfirmmodalVisible(!ConfirmmodalVisible);
-    console.log(ChildID)
+    console.log(ChildID);
     firestore()
       .collection('Student')
       .doc(ChildID)
@@ -89,12 +89,11 @@ const setChild = ChildID => {
       });
   };
 
-  const showAcessModal = (id) =>{
-    setChildID(id)
+  const showAcessModal = id => {
+    setChildID(id);
     setAccessModalVisible(!AccessModalVisible);
+  };
 
-  }
-  
   return (
     <MenuProvider>
       <SafeAreaView
@@ -102,7 +101,7 @@ const setChild = ChildID => {
           flex: 1,
           backgroundColor: 'white',
         }}>
-       <StatusBar hidden />
+        <StatusBar hidden />
 
         <TopBox style={[{position: 'absolute', top: 0}]} />
         <Top2Lines
@@ -116,7 +115,7 @@ const setChild = ChildID => {
             TitleStyles.HeaderTitle,
             {textAlign: I18nManager.isRTL ? 'left' : 'right', paddingRight: 50},
           ]}>
-         أطفالي
+          أطفالي
         </Text>
 
         <SuccessModel
@@ -124,26 +123,22 @@ const setChild = ChildID => {
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
         />
-{
-  AccessModalVisible ? (
-    <AccessModel
-      modalVisible={AccessModalVisible}
-      setModalVisible={setAccessModalVisible}
-      studentID={ChildID}
-    />
-  ) : null
-}
-{
-  ConfirmmodalVisible ? (
-    <ConfirmModel
-      message={'هل انت متأكد من حذف الطفل؟'}
-      modalVisible={ConfirmmodalVisible}
-      setModalVisible={setConfirmmodalVisible}
-      sentFunction={deleteChildAccount}
-      ID={ChildID}
-    />
-  ) : null
-}
+        {AccessModalVisible ? (
+          <AccessModel
+            modalVisible={AccessModalVisible}
+            setModalVisible={setAccessModalVisible}
+            studentID={ChildID}
+          />
+        ) : null}
+        {ConfirmmodalVisible ? (
+          <ConfirmModel
+            message={'هل انت متأكد من حذف الطفل؟'}
+            modalVisible={ConfirmmodalVisible}
+            setModalVisible={setConfirmmodalVisible}
+            sentFunction={deleteChildAccount}
+            ID={ChildID}
+          />
+        ) : null}
 
         <FlatList
           style={[{marginTop: 100, height: '55%'}]}
@@ -153,12 +148,9 @@ const setChild = ChildID => {
             <TouchableOpacity
               onPress={() => {
                 console.log(item.key);
-                showAcessModal(item.key) ;
+                showAcessModal(item.key);
                 console.log('after show access modal call');
-
               }}>
-
-
               <View
                 style={[
                   TitleStyles.childItem,
@@ -190,10 +182,7 @@ const setChild = ChildID => {
                       }>
                       <Text> الملف الشخصي</Text>
                     </MenuOption>
-                    <MenuOption
-                      onSelect={() =>
-                        setChild(item.key)
-                      }>
+                    <MenuOption onSelect={() => setChild(item.key)}>
                       <Text>حذف الطفل</Text>
                     </MenuOption>
                   </MenuOptions>
@@ -251,7 +240,6 @@ const setChild = ChildID => {
           onPress={onSignout}>
           <Text style={TitleStyles.ButtonText}>تسجيل الخروج</Text>
         </TouchableOpacity>
-        
       </SafeAreaView>
     </MenuProvider>
   );

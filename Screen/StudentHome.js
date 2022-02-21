@@ -22,8 +22,8 @@ import {UserInfoContext} from '../auth/UserInfoContext';
 import firestore from '@react-native-firebase/firestore';
 const StudentHome = () => {
   const [TextList, setTextList] = useState([]);
+  const [ClassList, setClassList] = useState('');
   const [loading, setLoading] = useState(true);
-  const [counter, setCounter] = useState(0);
   const {student} = React.useContext(UserInfoContext);
 
   useEffect(() => {
@@ -34,7 +34,6 @@ const StudentHome = () => {
         const homework = [];
 
         querySnapshot.forEach(documentSnapshot => {
-          setCounter(1);
           homework.push({
             ...documentSnapshot.data(),
             key: documentSnapshot.id,
@@ -46,6 +45,35 @@ const StudentHome = () => {
     return () => textAssignment();
   }, []);
 
+  useEffect(() => {
+    const classcomm = firestore()
+      .collection('ClassCommunity')
+      .onSnapshot(querySnapshot => {
+        const StudentClass = [];
+        querySnapshot.forEach(documentSnapshot => {
+          firestore()
+            .collection('ClassCommunity')
+            .doc(documentSnapshot.id)
+            .collection('StudentList')
+            .onSnapshot(snapshot => {
+              snapshot.forEach(queryDocumentSnapshot => {
+                if (
+                  queryDocumentSnapshot.data().StudentUsername ==
+                  student.data().Username
+                ) {
+                  StudentClass.push({
+                    ...documentSnapshot.data(),
+                    key: documentSnapshot.id,
+                  });
+                }
+              });
+            });
+        });
+        setLoading(false);
+        setClassList(StudentClass);
+      });
+    return classcomm;
+  }, []);
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}>
       <StatusBar backgroundColor="#FFFFFF" />
@@ -104,7 +132,7 @@ const StudentHome = () => {
       {/* start mid container */}
       <HomeSection title="نصوصي" iconName="Plus" />
 
-      {counter != 0 && (
+      {TextList != 0 && (
         <FlatList
           data={TextList}
           keyExtractor={(item, index) => index.toString()}
@@ -132,8 +160,10 @@ const StudentHome = () => {
             TitleStyles.SoftShadow,
           ]}>
           <Text
-            style={[TitleStyles.sectionTitle, {fontSize: 24, fontWeight: null}]}
-          >
+            style={[
+              TitleStyles.sectionTitle,
+              {fontSize: 24, fontWeight: null},
+            ]}>
             لم تضيف اي نص بعد{' '}
           </Text>
         </View>
@@ -143,24 +173,41 @@ const StudentHome = () => {
       {/* start bottom container */}
       <HomeSection title="مستوى تقدمي" iconName="Trophy" />
 
-      <View
-        style={[
-          {
-            borderRadius: 25,
-            marginLeft: 25,
-            marginRight: 25,
-            padding: 15,
-            paddingVertical: 50,
-            backgroundColor: 'white',
-          },
-          TitleStyles.SoftShadow,
-        ]}>
-        <Text
-          style={[TitleStyles.sectionTitle, {fontSize: 24, fontWeight: null}]}
-        >
-          لم تنضم إلى أي صفوف بعد
-        </Text>
-      </View>
+      {ClassList != 0 && (
+        <FlatList
+          data={ClassList}
+          keyExtractor={(item, index) => index.toString()}
+          horizontal={true}
+          scrollEnabled
+          renderItem={({item}) => (
+            <TouchableOpacity>
+              <TextCard title={item.Name} />
+            </TouchableOpacity>
+          )}
+        />
+      )}
+      {ClassList == 0 && (
+        <View
+          style={[
+            {
+              borderRadius: 25,
+              marginLeft: 25,
+              marginRight: 25,
+              padding: 15,
+              paddingVertical: 50,
+              backgroundColor: 'white',
+            },
+            TitleStyles.SoftShadow,
+          ]}>
+          <Text
+            style={[
+              TitleStyles.sectionTitle,
+              {fontSize: 24, fontWeight: null},
+            ]}>
+            لم تنضم إلى أي صفوف بعد{' '}
+          </Text>
+        </View>
+      )}
 
       {/* end bottom container */}
 
