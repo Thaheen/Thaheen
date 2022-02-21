@@ -340,41 +340,38 @@ export default StyleSheet.create({
   },
 
   dropDownStyle2: {
-    // marginTop: 10,
-    // borderColor: '#f8f4f4',
     borderBottomWidth: 1,
     borderWidth: 0,
     width: '90%',
-    //  flexDirection: I18nManager.isRTL ? 'row' : 'row-reverse',
-    //backgroundColor: '#f8f4f4',
     borderBottomWidth: 1,
-    width: '90%',
     marginLeft: 20,
-    //
-    color: '#808182',
-    paddingHorizontal: 10,
-    fontFamily: 'AJannatLT-Bold',
-    fontSize: 14,
-    color: '#808182',
-    textAlign: 'right',
     borderColor: 'rgb(186, 183, 176)',
+
+    //flexDirection: I18nManager.isRTL ? 'row' : 'row-reverse',
+    // marginTop: 10,
+    //borderColor: '#f8f4f4',
+    //color: '#808182',
+    //paddingHorizontal: 10,
+    //fontFamily: 'AJannatLT-Bold',
+    //fontSize: 14,
+    //textAlign: 'right',
   },
 
-  InstructorCard :{
-    flexDirection:'row-reverse', 
-    alignSelf:'center' , 
-    padding:30 ,
-    backgroundColor:'#FFFFFF', 
-    position:'absolute', 
-    top:80 , 
-    borderRadius:25,
+  InstructorCard: {
+    flexDirection: 'row-reverse',
+    alignSelf: 'center',
+    padding: 30,
+    backgroundColor: '#FFFFFF',
+    position: 'absolute',
+    top: 80,
+    borderRadius: 25,
   },
 
-  InstructorSubCard :{
-    height:100,
-    width:100,  
-    alignItems:'center', 
-    borderRightWidth:0.5, 
-    borderRightColor:'#BFBFBF',
-  }
+  InstructorSubCard: {
+    height: 100,
+    width: 100,
+    alignItems: 'center',
+    borderRightWidth: 0.5,
+    borderRightColor: '#BFBFBF',
+  },
 });

@@ -229,7 +229,7 @@ const StudentEditProfile = ({navigation, route}) => {
         // alignItems: 'center',
       }}>
       <SuccessModel
-        message={'Your informartion is updated check DB'}
+        message={'تم تحديث معلوماتك بنجاج'}
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
       />
@@ -300,21 +300,21 @@ const StudentEditProfile = ({navigation, route}) => {
 
         <Text style={TitleStyles.profileText}> المرحلة الدارسية </Text>
 
-        <View
-        // style={[TitleStyles.shadowOffset, {zIndex: 1000, elevation: 1000}]}
-        >
+        <View style={[{zIndex: 1000, elevation: 1000}]}>
           <DropDownPicker
             style={[
               TitleStyles.dropDownStyle2,
               Platform.OS === 'android' ? TitleStyles.shadowOffset : null,
             ]}
             textStyle={TitleStyles.categoryText}
-            containerStyle={{}}
             dropDownContainerStyle={{
               borderColor: '#C7C7CD',
               backgroundColor: '#f2f4f7',
+              width: '90%',
+              marginLeft: 20,
             }}
-            placeholderStyle={{color: '#808182'}}
+            labelStyle={{fontSize: 14, color: '#808182'}}
+            placeholderStyle={{fontSize: 14, color: '#808182'}}
             open={open}
             value={gradeValue}
             items={ChildGrade}
