@@ -26,38 +26,27 @@ import {UserInfoContext} from '../auth/UserInfoContext';
 import TextCard from '../Components/TextCard';
 
 const StudentClass = () => {
-  const [ClassList, setClassList] = useState('');
-  const [ClassComm, setClassComm] = useState('');
+  const [ClassList, setClassList] = useState([]);
+  const [finalClassList, setfinalClassList] = useState([]);
+
   const [loading, setLoading] = useState(true);
   const [Exist, setExist] = useState('false');
   const {student} = React.useContext(UserInfoContext);
-
   useEffect(() => {
     const classcomm = firestore()
       .collection('ClassCommunity')
+      .where('StudentList', 'array-contains', student.data().Username)
       .onSnapshot(querySnapshot => {
-        const StudentClass = [];
+        const StudentClassroom = [];
         querySnapshot.forEach(documentSnapshot => {
-          firestore()
-            .collection('ClassCommunity')
-            .doc(documentSnapshot.id)
-            .collection('StudentList')
-            .onSnapshot(snapshot => {
-              snapshot.forEach(queryDocumentSnapshot => {
-                if (
-                  queryDocumentSnapshot.data().StudentUsername ==
-                  student.data().Username
-                ) {
-                  StudentClass.push({
-                    ...documentSnapshot.data(),
-                    key: documentSnapshot.id,
-                  });
-                 
-                } 
-              });
-            }); 
+          StudentClassroom.push({
+            ...documentSnapshot.data(),
+            key: documentSnapshot.id,
+          });
         });
-        setClassList(StudentClass);
+        setClassList(StudentClassroom);
+
+        console.log(finalClassList);
       });
     return classcomm;
   }, []);
@@ -95,7 +84,6 @@ const StudentClass = () => {
           renderItem={({item}) => (
             <TouchableOpacity>
               <TextCard title={item.Name} />
-              {console.log(item.Name)}
             </TouchableOpacity>
           )}
         />
