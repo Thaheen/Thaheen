@@ -374,4 +374,33 @@ export default StyleSheet.create({
     borderRightWidth: 0.5,
     borderRightColor: '#BFBFBF',
   },
+
+  //Instructor Profile style ////
+  circle: {
+    width: 89,
+    height: 88,
+    borderRadius: 200,
+    backgroundColor: '#FFFFFF',
+    alignSelf: 'center',
+    marginTop: 35,
+    alignItems: 'center',
+    paddingVertical: 15,
+
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+
+  Profilename2: {
+    textAlign: 'center',
+    marginTop: 20,
+    fontFamily: 'AJannatLT-Bold',
+    fontSize: 20,
+    color: '#43515F',
+  },
 });
