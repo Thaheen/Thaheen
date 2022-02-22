@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react'
 import {
   StyleSheet,
   Text,
@@ -6,62 +6,77 @@ import {
   View,
   TouchableOpacity,
   Image,
-} from 'react-native';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-import ml from '@react-native-firebase/ml';
-export default function RecordVoice() {
-  const [image, setImage] = useState();
-  const [result, setResult] = useState({});
+} from 'react-native'
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker'
+import ml from '@react-native-firebase/ml'
 
-  const onTakePhoto = () => launchCamera({mediaType: 'image'}, onMediaSelect);
+import {firebase} from '@react-native-firebase/functions'
+
+export default function RecordVoice () {
+  const [response, setResponse] = useState()
+  const [result, setResult] = useState({})
+  const [localpath, setLocalpath] = useState({})
 
   const onSelectImagePress = () =>
-    launchImageLibrary({mediaType: 'image'}, onMediaSelect);
+    launchImageLibrary('photo', onMediaSelectCallBack)
 
-  //onMediaSelect is a callback
-  console.log('the image ');
+  const onMediaSelectCallBack = media => {
+    setResponse(media)
+    media.assets.map(({uri}) => {
+      setLocalpath(uri)
+    })
+  }
 
-  const onMediaSelect = async media => {
-    try {
-      if (!media.didCancel) {
-        console.log('the image ' + media.uri);
-        setImage(media.uri);
-        const result = await ml().cloudDocumentTextRecognizerProcessImage(
-          media.uri,
-          {
-            languageHints: ['en'], // string[]
-            apiKeyOverride: 'AIzaSyAHRHxTUVdJSjWg6rflJXNWNR1jhhZoGn0', // undefined | string,
-            enforceCertFingerprintMatch: true, // undefined | false | true,
-          },
-        );
-        console.log('the image ' + media.uri);
-        setResult(result);
-      }
-    } catch (error) {}
-  };
-  console.log('the image ');
+  const onProcessPhoto = async () => {
+    console.log(localpath)
+    await firebase
+      .functions()
+      .httpsCallable('annotateImage')(localpath)
+      .then(response => {
+        const detections = response.textAnnotations
+        console.log(response)
+        console.log('Text:')
+        detections.forEach(text => console.log(text))
+      })
+      .catch(err => console.log(err))
 
+    // const result = await ml().cloudDocumentTextRecognizerProcessImage(
+    //           uri,
+    //           {
+    //             languageHints: ['en'], // string[]
+    //             apiKeyOverride: 'AIzaSyAHRHxTUVdJSjWg6rflJXNWNR1jhhZoGn0', // undefined | string,
+    //             enforceCertFingerprintMatch: true, // undefined | false | true,
+    //           },
+    //         );
+  }
   return (
     <ScrollView contentContainerStyle={styles.screen}>
       <Text style={styles.title}>Text Recognition</Text>
       <View>
-        <TouchableOpacity style={styles.button} onPress={onTakePhoto}>
-          <Text style={styles.buttonText}>Take Photo</Text>
-        </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={onSelectImagePress}>
           <Text style={styles.buttonText}>Pick a Photo</Text>
         </TouchableOpacity>
-        <Image
-          resizeMode="contain"
-          source={{uri: image}}
-          style={styles.image}
-        />
+        <TouchableOpacity style={styles.button} onPress={onProcessPhoto}>
+          <Text style={styles.buttonText}>Process Photo</Text>
+        </TouchableOpacity>
+        {response?.assets &&
+          response?.assets.map(({uri}) => (
+            <View key={uri} style={styles.image}>
+              <Image
+                resizeMode='cover'
+                resizeMethod='scale'
+                style={{width: 200, height: 200}}
+                source={{uri: uri}}
+              />
+            </View>
+          ))}
       </View>
+
       <View style={{marginTop: 30}}>
         <Text style={{fontSize: 30}}>{result.text}</Text>
       </View>
     </ScrollView>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -91,5 +106,4 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#fff',
   },
-});
-
+})
