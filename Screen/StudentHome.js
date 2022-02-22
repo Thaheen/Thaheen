@@ -20,6 +20,8 @@ import BottomBar from '../Components/BottomBar';
 import {NavigationContainer} from '@react-navigation/native';
 import {UserInfoContext} from '../auth/UserInfoContext';
 import firestore from '@react-native-firebase/firestore';
+import FocusAwareStatusBar from '../Components/FocusAwareStatusBar';
+
 const StudentHome = () => {
   const [TextList, setTextList] = useState([]);
   const [ClassList, setClassList] = useState('');
@@ -62,8 +64,8 @@ const StudentHome = () => {
     return classcomm;
   }, []);
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}>
-      <StatusBar backgroundColor="#FFFFFF" />
+    <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF', ...Platform.OS === 'android' ? {paddingTop: 20, } : null}}>
+      <FocusAwareStatusBar backgroundColor="#FFFFFF" barStyle="dark-content" translucent />
 
       {/* start top container */}
       <View style={{padding: 30}}>

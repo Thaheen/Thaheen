@@ -225,6 +225,7 @@ const StudentEditProfile = ({navigation, route}) => {
       style={{
         backgroundColor: '#FFFFFF',
         height: '100%',
+        ...Platform.OS === 'android' ? {paddingTop: 20, } : null
         // justifyContent: 'center',
         // alignItems: 'center',
       }}>
@@ -239,7 +240,7 @@ const StudentEditProfile = ({navigation, route}) => {
         modalVisible={ErrormodalVisible}
         setModalVisible={setErrormodalVisible}
       />
-      <StatusBar backgroundColor="#DAE2E9" />
+      <StatusBar translucent backgroundColor="#DAE2E9" />
       <View style={[TitleStyles.BlueContianer, {position: 'absolute'}]} />
       <Text style={[TitleStyles.ProfileTitle]}>البيانات الشخصية</Text>
       <View style={[TitleStyles.WhiteContianer]}>

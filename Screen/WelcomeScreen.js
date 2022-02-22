@@ -15,6 +15,7 @@ import OrangeBackground from '../assets/images/orangeBackground.svg'
 import DotsGroup from '../assets/images/dotsGroup.svg'
 import WhiteANDblue from '../assets/images/whiteANDblue.svg'
 import ThaheenStanding from '../assets/images/ThaheenStanding.svg'
+import FocusAwareStatusBar from '../Components/FocusAwareStatusBar';
 
 const WelcomeScreen = ({navigation}) => {
   return (
@@ -23,7 +24,7 @@ const WelcomeScreen = ({navigation}) => {
         flex: 1,
         backgroundColor: '#DAE2E9',
       }}>
-      <StatusBar />
+      <FocusAwareStatusBar backgroundColor='#DAE2E9' translucent />
       <WhiteBackground style={{position: 'absolute', bottom: 0}} />
       <OrangeBackground style={{position: 'absolute', bottom: 0}} />
       <DotsGroup

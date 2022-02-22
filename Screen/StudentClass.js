@@ -52,8 +52,9 @@ const StudentClass = () => {
       style={{
         flex: 1,
         backgroundColor: '#FFFFFF',
+        ...Platform.OS === 'android' ? {paddingTop: 20, } : null
       }}>
-      <StatusBar hidden />
+      <StatusBar backgroundColor='#DAE2E9' translucent />
       <TopBox style={[{position: 'absolute', top: 0}]} />
       <Top2Lines
         style={[

@@ -222,6 +222,7 @@ class RecordVoice extends Component {
             height: '100%',
             justifyContent: 'center',
             alignItems: 'center',
+            ...Platform.OS === 'android' ? {paddingTop: 20, } : null
           }}>
           <BackGround
             style={{

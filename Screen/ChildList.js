@@ -100,8 +100,9 @@ const ChildList = ({navigation}) => {
         style={{
           flex: 1,
           backgroundColor: 'white',
+          ...Platform.OS === 'android' ? {paddingTop: 20, } : null
         }}>
-        <StatusBar hidden />
+        <StatusBar translucent backgroundColor='#DAE2E9' />
 
         <TopBox style={[{position: 'absolute', top: 0}]} />
         <Top2Lines

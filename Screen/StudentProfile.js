@@ -57,6 +57,7 @@ const StudentProfile = ({navigation, route}) => {
       style={{
         backgroundColor: '#FFFFFF',
         height: '100%',
+        ...Platform.OS === 'android' ? {paddingTop: 20, } : null
         // justifyContent: 'center',
         // alignItems: 'center',
       }}>

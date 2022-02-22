@@ -100,6 +100,7 @@ const Login = ({navigation}) => {
         setModalVisible={setErrormodalVisible}
       />
       <StatusBar
+      translucent
       backgroundColor='#DAE2E9' />
       <ScrollView>
         <View

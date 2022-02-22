@@ -61,6 +61,7 @@ const InstructorProfile = ({navigation, route}) => {
       style={{
         backgroundColor: '#FFFFFF',
         height: '100%',
+        ...Platform.OS === 'android' ? {marginTop: 20, } : null
         // justifyContent: 'center',
         // alignItems: 'center',
       }}>
@@ -71,7 +72,7 @@ const InstructorProfile = ({navigation, route}) => {
         <ProfileColor />
       </View>
       <Text style={[TitleStyles.ProfileTitle]}>البيانات الشخصية</Text>
-
+<ScrollView>
       <View style={[TitleStyles.circle]}>
         <Podium />
       </View>
@@ -159,6 +160,7 @@ const InstructorProfile = ({navigation, route}) => {
           تسجيل خروج
         </Text>
       </TouchableOpacity>
+      </ScrollView>
     </SafeAreaView>
   );
 };

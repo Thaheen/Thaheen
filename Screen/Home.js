@@ -6,7 +6,7 @@ import {
   ScrollView,
   StatusBar,
   TouchableOpacity,
-  I18nManager,
+  Platform,
 } from 'react-native'
 import TitleStyles from '../Styles/Titles';
 import Ombre from '../assets/images/OmbreBackground.svg';
@@ -33,18 +33,18 @@ const Home = () => {
   const classNo= 3;
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{...Platform.OS === 'android' ? {marginTop: 20, } : null}}>
     <Ombre
         style={[    
             {position: 'absolute', top: 0},
           ]}
       
       />
-      <StatusBar />
+      <StatusBar backgroundColor='#DAE2E9' translucent/>
       <ScrollView>
         {/* Start of Instructor info Section */}
         <View>
-        <Podium style={[ TitleStyles.SoftShadow , {position:'absolute', top:10, left:15}]}/>
+        <Podium style={[Platform.OS === 'ios' ? TitleStyles.SoftShadow : null , {position:'absolute', top:10, left:15}]}/>
         <Text style={[
               TitleStyles.HeaderTitle,
               {position:'absolute', top:0, left:90},
