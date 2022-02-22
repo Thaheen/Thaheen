@@ -48,29 +48,16 @@ const StudentHome = () => {
   useEffect(() => {
     const classcomm = firestore()
       .collection('ClassCommunity')
+      .where('StudentList', 'array-contains', student.data().Username)
       .onSnapshot(querySnapshot => {
-        const StudentClass = [];
+        const StudentClassroom = [];
         querySnapshot.forEach(documentSnapshot => {
-          firestore()
-            .collection('ClassCommunity')
-            .doc(documentSnapshot.id)
-            .collection('StudentList')
-            .onSnapshot(snapshot => {
-              snapshot.forEach(queryDocumentSnapshot => {
-                if (
-                  queryDocumentSnapshot.data().StudentUsername ==
-                  student.data().Username
-                ) {
-                  StudentClass.push({
-                    ...documentSnapshot.data(),
-                    key: documentSnapshot.id,
-                  });
-                }
-              });
-            });
+          StudentClassroom.push({
+            ...documentSnapshot.data(),
+            key: documentSnapshot.id,
+          });
         });
-        setLoading(false);
-        setClassList(StudentClass);
+        setClassList(StudentClassroom);
       });
     return classcomm;
   }, []);
@@ -173,41 +160,23 @@ const StudentHome = () => {
       {/* start bottom container */}
       <HomeSection title="مستوى تقدمي" iconName="Trophy" />
 
-      {ClassList != 0 && (
-        <FlatList
-          data={ClassList}
-          keyExtractor={(item, index) => index.toString()}
-          horizontal={true}
-          scrollEnabled
-          renderItem={({item}) => (
-            <TouchableOpacity>
-              <TextCard title={item.Name} />
-            </TouchableOpacity>
-          )}
-        />
-      )}
-      {ClassList == 0 && (
-        <View
-          style={[
-            {
-              borderRadius: 25,
-              marginLeft: 25,
-              marginRight: 25,
-              padding: 15,
-              paddingVertical: 50,
-              backgroundColor: 'white',
-            },
-            TitleStyles.SoftShadow,
-          ]}>
-          <Text
-            style={[
-              TitleStyles.sectionTitle,
-              {fontSize: 24, fontWeight: null},
-            ]}>
-            لم تنضم إلى أي صفوف بعد{' '}
-          </Text>
-        </View>
-      )}
+      <View
+        style={[
+          {
+            borderRadius: 25,
+            marginLeft: 25,
+            marginRight: 25,
+            padding: 15,
+            paddingVertical: 50,
+            backgroundColor: 'white',
+          },
+          TitleStyles.SoftShadow,
+        ]}>
+        <Text
+          style={[TitleStyles.sectionTitle, {fontSize: 24, fontWeight: null}]}>
+          لم تنضم إلى أي صفوف بعد{' '}
+        </Text>
+      </View>
 
       {/* end bottom container */}
 

@@ -23,12 +23,10 @@ import firestore from '@react-native-firebase/firestore';
 import AccessModel from '../Components/AccessModel';
 import RTLlayout from '../Styles/RTLlayout';
 import {UserInfoContext} from '../auth/UserInfoContext';
-import TextCard from '../Components/TextCard';
+import ClassCard from '../Components/ClassCard';
 
 const StudentClass = () => {
   const [ClassList, setClassList] = useState([]);
-  const [finalClassList, setfinalClassList] = useState([]);
-
   const [loading, setLoading] = useState(true);
   const [Exist, setExist] = useState('false');
   const {student} = React.useContext(UserInfoContext);
@@ -45,8 +43,6 @@ const StudentClass = () => {
           });
         });
         setClassList(StudentClassroom);
-
-        console.log(finalClassList);
       });
     return classcomm;
   }, []);
@@ -83,7 +79,7 @@ const StudentClass = () => {
           keyExtractor={(item, index) => index.toString()}
           renderItem={({item}) => (
             <TouchableOpacity>
-              <TextCard title={item.Name} />
+              <ClassCard title={item.Name} />
             </TouchableOpacity>
           )}
         />
