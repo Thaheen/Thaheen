@@ -57,8 +57,6 @@ const StudentClass = () => {
       }}>
       <StatusBar backgroundColor="#DAE2E9" translucent />
 
-    
-
       <TopBox style={[{position: 'absolute', top: 0}]} />
       <Top2Lines
         style={[
@@ -78,9 +76,9 @@ const StudentClass = () => {
         فصلي
       </Text>
 
-  
       {ClassList != 0 && (
         <FlatList
+          numColumns={2}
           data={ClassList}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({item}) => (
@@ -120,7 +118,7 @@ const StudentClass = () => {
         style={[
           {
             position: 'absolute',
-            bottom: 25,
+            bottom: 0,
             right: 10,
           },
         ]}
@@ -134,7 +132,7 @@ const StudentClass = () => {
             backgroundColor: '#DAE2E9',
             alignSelf: 'center',
             width: 300,
-            marginBottom: 40,
+            marginBottom: 10,
           },
         ]}
         onPress={() => {
