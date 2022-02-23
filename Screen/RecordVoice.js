@@ -227,18 +227,21 @@ class RecordVoice extends Component {
     launchImageLibrary('photo', this.onMediaSelectCallBack);
 
   // contain pic uri
-  onMediaSelectCallBack = async ( media) => {
+  onMediaSelectCallBack = async (media) => {
     
     this.MideaRespons = media;
      media.assets.map(({uri}) => {
       this.setLocalpath = uri;
    });
 
-    const reference = storage().ref('OCR/temp');
+    const reference = await storage().ref('OCR/temp');
           // path to existing file on filesystem
           const pathToFile = this.setLocalpath;
           // uploads file
           await reference.putFile(pathToFile);
+           this.submitToGoogle()
+        
+        
       
 
     }
@@ -246,21 +249,16 @@ class RecordVoice extends Component {
 
   submitToGoogle = async () => {
     try {
-      this.setState({uploading: true});
-      let {image} = this.state;
 
-
-     await storage()
+     this.DownLoadURI = await storage()
       .ref('OCR/temp') //name in storage in firebase console
       .getDownloadURL()
-      .then((url) => {
-        this.DownLoadURI=url;
-        
-        
-      })
+      
+ 
       .catch((e) => console.log('Errors while downloading => ', e));
 
 console.log("in google "+this.DownLoadURI);
+
       let body = JSON.stringify({
         requests: [
           {
