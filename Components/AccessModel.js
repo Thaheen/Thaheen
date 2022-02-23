@@ -27,26 +27,30 @@ import {useNavigation} from '@react-navigation/native';
 import ErrorModel from '../Components/ErrorModel';
 import {UserInfoContext} from '../auth/UserInfoContext';
 
-const AccessModel = ({modalVisible, setModalVisible, studentID}) => {
+const AccessModel = ({modalVisible, setModalVisible, studentID, type}) => {
   //Success modal
   let textInput = useRef(null);
   const InputLenght = 6;
   const [passcodeVal, setPasscodeval] = useState('');
-  const {setStudent} = React.useContext(UserInfoContext)
+  const {setStudent} = React.useContext(UserInfoContext);
   const [isValidPasscode, setIsValidPasscode] = useState('');
+  const [StudentUsername, setStudentUsername] = useState('');
+
   const navigation = useNavigation();
-  const [studentSnapShot, setStudnetSnapShot]= useState() ;
+  const [studentSnapShot, setStudnetSnapShot] = useState();
 
   // Error model
   const [ErrormodalVisible, setErrormodalVisible] = useState(false);
+  const [ErrorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     const studentsPasscode = firestore()
       .collection('Student')
       .doc(studentID)
       .onSnapshot(snapshot => {
+        setStudentUsername(snapshot.data().Username);
         setIsValidPasscode(snapshot.data().Passcode);
-        setStudnetSnapShot(snapshot)
+        setStudnetSnapShot(snapshot);
       });
     return studentsPasscode;
   }, []);
@@ -59,15 +63,61 @@ const AccessModel = ({modalVisible, setModalVisible, studentID}) => {
     textInput.focus();
   };*/
   useEffect(() => {
-    if (passcodeVal.length == 6 && isValidPasscode == passcodeVal) {
-      console.log('VALID');
-      setModalVisible(!modalVisible);
-      setPasscodeval('');
-      setStudent(studentSnapShot);
-      return;
-    } else if (passcodeVal.length == 6 && isValidPasscode != passcodeVal) {
-      console.log('INVALID');
-      setErrormodalVisible(!ErrormodalVisible);
+    if (type == 'class') {
+      if (passcodeVal.length == 6) {
+        firestore()
+          .collection('ClassCommunity')
+          .where('Passcode', '==', passcodeVal)
+          .get()
+          .then(snapshot => {
+            if (snapshot.size != 0) {
+              console.log('HELLO');
+              snapshot.forEach(documentSnapshot => {
+                firestore()
+                  .collection('ClassCommunity')
+                  .doc(documentSnapshot.id)
+                  .onSnapshot(insidesnapshot => {
+                    if (
+                      insidesnapshot
+                        .data()
+                        .StudentList.includes(StudentUsername)
+                    ) {
+                      console.log('student exists');
+                      setErrorMessage('لقد سبق لك التسجيل في هذا الفصل');
+                      setErrormodalVisible(!ErrormodalVisible);
+                      return;
+                    } else {
+                      insidesnapshot.ref
+                        .update({
+                          StudentList:
+                            firestore.FieldValue.arrayUnion(StudentUsername),
+                        })
+                        .then(() => {
+                          setModalVisible(!modalVisible);
+                          setPasscodeval('');
+                          return;
+                        });
+                    }
+                  });
+              });
+            } else {
+              setErrorMessage('رمز الدخول غير صحيح، حاول مره اخرى');
+              setErrormodalVisible(!ErrormodalVisible);
+            }
+          });
+      }
+    } else {
+      if (passcodeVal.length == 6 && isValidPasscode == passcodeVal) {
+        console.log('VALID');
+        setModalVisible(!modalVisible);
+        setPasscodeval('');
+        setStudent(studentSnapShot);
+        return;
+      } else if (passcodeVal.length == 6 && isValidPasscode != passcodeVal) {
+        console.log('INVALID');
+        setErrorMessage('رمز الدخول غير صحيح، حاول مره اخرى');
+        setErrormodalVisible(!ErrormodalVisible);
+      }
     }
   }, [passcodeVal]);
 
@@ -141,7 +191,7 @@ const AccessModel = ({modalVisible, setModalVisible, studentID}) => {
           </KeyboardAvoidingView>
         </View>
         <ErrorModel
-          message={'رمز الدخول غير صحيح، حاول مره اخرى'}
+          message={ErrorMessage}
           modalVisible={ErrormodalVisible}
           setModalVisible={setErrormodalVisible}
         />

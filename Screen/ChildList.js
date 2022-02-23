@@ -129,6 +129,7 @@ const ChildList = ({navigation}) => {
             modalVisible={AccessModalVisible}
             setModalVisible={setAccessModalVisible}
             studentID={ChildID}
+            type={'student'}
           />
         ) : null}
         {ConfirmmodalVisible ? (

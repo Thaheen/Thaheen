@@ -26,6 +26,7 @@ import {UserInfoContext} from '../auth/UserInfoContext';
 import ClassCard from '../Components/ClassCard';
 
 const StudentClass = () => {
+  const [AccessModalVisible, setAccessModalVisible] = useState(false);
   const [ClassList, setClassList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [Exist, setExist] = useState('false');
@@ -52,9 +53,12 @@ const StudentClass = () => {
       style={{
         flex: 1,
         backgroundColor: '#FFFFFF',
-        ...Platform.OS === 'android' ? {paddingTop: 20, } : null
+        ...(Platform.OS === 'android' ? {paddingTop: 20} : null),
       }}>
-      <StatusBar backgroundColor='#DAE2E9' translucent />
+      <StatusBar backgroundColor="#DAE2E9" translucent />
+
+    
+
       <TopBox style={[{position: 'absolute', top: 0}]} />
       <Top2Lines
         style={[
@@ -74,6 +78,7 @@ const StudentClass = () => {
         فصلي
       </Text>
 
+  
       {ClassList != 0 && (
         <FlatList
           data={ClassList}
@@ -132,10 +137,21 @@ const StudentClass = () => {
             marginBottom: 40,
           },
         ]}
-        // onPress={onSignout}
-      >
+        onPress={() => {
+          setAccessModalVisible(!AccessModalVisible);
+          console.log('after show access modal call');
+        }}>
         <Text style={TitleStyles.ButtonText}>إضافة فصل جديد</Text>
       </TouchableOpacity>
+
+      {AccessModalVisible ? (
+        <AccessModel
+          modalVisible={AccessModalVisible}
+          setModalVisible={setAccessModalVisible}
+          studentID={student.id}
+          type={'class'}
+        />
+      ) : null}
     </SafeAreaView>
   );
 };
