@@ -13,6 +13,7 @@ import ml from '@react-native-firebase/ml'
 import {firebase} from '@react-native-firebase/functions'
 
 export default function RecordVoice () {
+
   const [response, setResponse] = useState()
   const [result, setResult] = useState({})
   const [localpath, setLocalpath] = useState({})
@@ -56,7 +57,10 @@ export default function RecordVoice () {
         <TouchableOpacity style={styles.button} onPress={onSelectImagePress}>
           <Text style={styles.buttonText}>Pick a Photo</Text>
         </TouchableOpacity>
+
+        
         <TouchableOpacity style={styles.button} onPress={onProcessPhoto}>
+    
           <Text style={styles.buttonText}>Process Photo</Text>
         </TouchableOpacity>
         {response?.assets &&

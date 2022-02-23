@@ -6,6 +6,7 @@ import {
   ScrollView,
   StatusBar,
   StyleSheet,
+  Image,
   Text,
   useColorScheme,
   View,
@@ -28,6 +29,7 @@ import Error from '../Components/ErrorModel';
 import Top2Lines from '../assets/images/top2Lines.svg';
 import Bottom2Lines from '../assets/images/bottom2Lines.svg';
 import BackButton from '../Components/BackButton';
+import { utils } from '@react-native-firebase/app';
 import storage from '@react-native-firebase/storage';
 import AudioRecorderPlayer, {
   AVEncoderAudioQualityIOSType,
@@ -36,14 +38,13 @@ import AudioRecorderPlayer, {
   AudioSet,
   AudioSourceAndroidType,
 } from 'react-native-audio-recorder-player';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 import Microphone from '../assets/images/Microphone.svg';
 import RecordingMicrophone from '../assets/images/RecordingMicrophone.svg';
 //the ref of record voice code
 // https://instamobile.io/react-native-tutorials/react-native-record-audio-play/?ref=hackernoon.com
 class RecordVoice extends Component {
-
-
   constructor(props) {
     super(props);
     this.state = {
@@ -56,11 +57,18 @@ class RecordVoice extends Component {
       duration: '00:00:00',
       modalVisible: false,
       record: '',
+      setLocalpath: '',
+      MideaResponse: '',
+      image: null,
+      uploading: false,
+      googleResponse: null,
+      ImageUri:"",
+      DownLoadURI:""
     };
     this.audioRecorderPlayer = new AudioRecorderPlayer();
     this.audioRecorderPlayer.setSubscriptionDuration(0.09); // optional. Default is 0.1
   }
-
+  //contain a uri
   onStartRecord = async () => {
     if (Platform.OS === 'android') {
       try {
@@ -69,9 +77,7 @@ class RecordVoice extends Component {
           PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
           PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
         ]);
-
         console.log('write external stroage', grants);
-
         if (
           grants['android.permission.WRITE_EXTERNAL_STORAGE'] ===
             PermissionsAndroid.RESULTS.GRANTED &&
@@ -187,6 +193,7 @@ class RecordVoice extends Component {
   };
 
   retrieveRecord = async () => {
+
     console.log('onStartPlay');
     storage()
       .ref('records/helloModhi2.m4a') //name in storage in firebase console
@@ -213,7 +220,97 @@ class RecordVoice extends Component {
       .catch(e => console.log('Errors while downloading => ', e));
   };
 
+
+  ////////////////////
+
+    onSelectImagePress = () =>
+    launchImageLibrary('photo', this.onMediaSelectCallBack);
+
+  // contain pic uri
+  onMediaSelectCallBack = async ( media) => {
+    
+    this.MideaRespons = media;
+     media.assets.map(({uri}) => {
+      this.setLocalpath = uri;
+   });
+
+    const reference = storage().ref('OCR/temp');
+          // path to existing file on filesystem
+          const pathToFile = this.setLocalpath;
+          // uploads file
+          await reference.putFile(pathToFile);
+      
+
+    }
+  
+
+  submitToGoogle = async () => {
+    try {
+      this.setState({uploading: true});
+      let {image} = this.state;
+
+
+     await storage()
+      .ref('OCR/temp') //name in storage in firebase console
+      .getDownloadURL()
+      .then((url) => {
+        this.DownLoadURI=url;
+        
+        
+      })
+      .catch((e) => console.log('Errors while downloading => ', e));
+
+console.log("in google "+this.DownLoadURI);
+      let body = JSON.stringify({
+        requests: [
+          {
+            features: [
+              {type: 'LABEL_DETECTION', maxResults: 10},
+              {type: 'LANDMARK_DETECTION', maxResults: 5},
+              {type: 'FACE_DETECTION', maxResults: 5},
+              {type: 'LOGO_DETECTION', maxResults: 5},
+              {type: 'TEXT_DETECTION', maxResults: 5},
+              {type: 'DOCUMENT_TEXT_DETECTION', maxResults: 5},
+              {type: 'SAFE_SEARCH_DETECTION', maxResults: 5},
+              {type: 'IMAGE_PROPERTIES', maxResults: 5},
+              {type: 'CROP_HINTS', maxResults: 5},
+              {type: 'WEB_DETECTION', maxResults: 5},
+            ],
+            image: {
+              source: {
+                imageUri:this.DownLoadURI,
+              },
+            },
+          },
+        ],
+      });
+      let response = await fetch(
+        'https://vision.googleapis.com/v1/images:annotate?key=' +
+          'AIzaSyCLNN-xsz-fNLI-NsPLzcp1xnBrewZ2npQ',
+        {
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          method: 'POST',
+          body: body,
+        },
+      );
+      let responseJson = await response.json();
+
+      console.log(responseJson.responses[0].fullTextAnnotation.text);
+
+      this.setState({
+        googleResponse: responseJson,
+        uploading: false,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   render() {
+    let {image} = this.state;
     return (
       <View>
         <SafeAreaView
@@ -222,7 +319,7 @@ class RecordVoice extends Component {
             height: '100%',
             justifyContent: 'center',
             alignItems: 'center',
-            ...Platform.OS === 'android' ? {paddingTop: 20, } : null
+            ...(Platform.OS === 'android' ? {paddingTop: 20} : null),
           }}>
           <BackGround
             style={{
@@ -234,7 +331,7 @@ class RecordVoice extends Component {
             }}
           />
           <Text style={TitleStyles.ButtonText}>إضافة واجب جديد </Text>
-
+          {/* 
           <TextInput
             placeholder=" عنوان النص "
             placeholderTextColor={'#C3C7CA'}
@@ -253,8 +350,27 @@ class RecordVoice extends Component {
             // value={HomeWork}
             underlineColorAndroid="transparent"
             color="black"
-          />
+          /> */}
 
+
+              
+           {/* {this.MideaResponse?.assets &&
+          this.MideaResponse?.assets.map(({uri}) => ( */}
+            
+            <View>
+            
+              <Image
+                resizeMode="cover"
+                resizeMethod="scale"
+                style={{width: 200, height: 200}}
+                 source={{uri: this.ImageUrl}}
+                
+
+              />
+            </View>
+          {/* ))} */}
+    
+{/* 
           <TouchableOpacity
             style={[
               {
@@ -302,8 +418,29 @@ class RecordVoice extends Component {
                 </TouchableOpacity>
               </View>
             </View>
-          </Modal>
+          </Modal> */}
 
+          <TouchableOpacity
+            style={[
+              TitleStyles.Button,
+              TitleStyles.shadowOffset,
+              {marginBottom: 20, marginTop: 20, width: '50%'},
+            ]}
+            onPress={() => this.onSelectImagePress()}>
+            <Text style={TitleStyles.ButtonText}>صورة </Text>
+          </TouchableOpacity>
+
+
+          <TouchableOpacity
+            style={[
+              TitleStyles.Button,
+              TitleStyles.shadowOffset,
+              {marginBottom: 20, marginTop: 20, width: '50%'},
+            ]}
+            onPress={() => this.submitToGoogle()}>
+            <Text style={TitleStyles.ButtonText}>قوقل </Text>
+          </TouchableOpacity>
+{/* 
           <TouchableOpacity
             style={[
               TitleStyles.Button,
@@ -332,7 +469,7 @@ class RecordVoice extends Component {
             ]}
             onPress={() => this.uploadAudio()}>
             <Text style={TitleStyles.ButtonText}>إضافـــــة </Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </SafeAreaView>
       </View>
     );
