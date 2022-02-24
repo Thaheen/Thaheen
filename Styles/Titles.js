@@ -403,4 +403,23 @@ export default StyleSheet.create({
     fontSize: 20,
     color: '#43515F',
   },
+
+  NotAvailableAlert:{
+    fontSize: 24, 
+    fontFamily: 'AJannatLT', 
+    color: '#43515F', 
+    position:'absolute', 
+    top:420, 
+    left:40,
+  },
+
+  EnterClassBtn: {
+    borderColor: '#DAE2E9',
+    borderWidth: 0.5,
+    width: 100,
+    height: 29,
+    borderRadius: 25,
+    alignSelf: 'flex-start',
+    marginTop: 30,
+  },
 });
