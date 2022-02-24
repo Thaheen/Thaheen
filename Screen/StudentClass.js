@@ -79,10 +79,15 @@ const StudentClass = () => {
       {ClassList != 0 && (
         <FlatList
           numColumns={2}
+          style={{ height: "85%" }}
           data={ClassList}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({item}) => (
-            <TouchableOpacity>
+            <TouchableOpacity style={{
+              top:50,
+              marginTop:20,
+              marginLeft:30
+            }}>
               <ClassCard title={item.Name} />
             </TouchableOpacity>
           )}

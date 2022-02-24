@@ -15,15 +15,10 @@ const TextCard = ({title}) => {
       style={[
         {
           backgroundColor: '#f7d3c1',
-          flexDirection: 'row',
-          marginTop: 90,
-          marginBottom: -70,
-          marginLeft: 30,
           borderRadius: 25,
           width: 150,
           height: 150,
           justifyContent: 'center',
-          alignItems: 'center',
         },
         TitleStyles.SoftShadow,
       ]}>

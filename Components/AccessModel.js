@@ -63,7 +63,8 @@ const AccessModel = ({modalVisible, setModalVisible, studentID, type}) => {
     textInput.focus();
   };*/
   useEffect(() => {
-    let isCancelled = false;
+    let isCancelled = true;
+    let unmounted = false;
     if (type == 'class') {
       if (passcodeVal.length == 6) {
         firestore()
@@ -78,35 +79,47 @@ const AccessModel = ({modalVisible, setModalVisible, studentID, type}) => {
                   .onSnapshot(insidesnapshot => {
                     if (insidesnapshot.get('StudentList') != null) {
                       if (
-                        insidesnapshot
+                        !insidesnapshot
                           .data()
                           .StudentList.includes(StudentUsername)
                       ) {
-                        console.log('student exists');
-                        setPasscodeval('');
-                        setErrorMessage('لقد سبق لك التسجيل في هذا الفصل');
-                        setErrormodalVisible(!ErrormodalVisible);
-                        return;
-                      } else {
                         console.log('student added');
-                        insidesnapshot.ref.update({
-                          StudentList:
-                            firestore.FieldValue.arrayUnion(StudentUsername),
-                        });
+                        insidesnapshot.ref
+                          .update({
+                            StudentList:
+                              firestore.FieldValue.arrayUnion(StudentUsername),
+                          })
+                          .then(() => {
+                            setModalVisible(!modalVisible);
+                            setPasscodeval('');
+                            return () => {
+                              unmounted = true;
+                            };
+                          });
 
-                        setModalVisible(!modalVisible);
-                        setPasscodeval('');
-                        return;
+                        isCancelled = false;
+                      } else {
+                        if (isCancelled) {
+                          console.log('student exists');
+                          setPasscodeval('');
+                          setErrorMessage('لقد سبق لك التسجيل في هذا الفصل');
+                          setErrormodalVisible(!ErrormodalVisible);
+                          return () => {
+                            unmounted = true;
+                          };
+                        }
                       }
                     } else {
-                      insidesnapshot.ref.update({
-                        StudentList:
-                          firestore.FieldValue.arrayUnion(StudentUsername),
-                      });
-
-                      setModalVisible(!modalVisible);
-                      setPasscodeval('');
-                      return;
+                      insidesnapshot.ref
+                        .update({
+                          StudentList:
+                            firestore.FieldValue.arrayUnion(StudentUsername),
+                        })
+                        .then(() => {
+                          setModalVisible(!modalVisible);
+                          setPasscodeval('');
+                          return;
+                        });
                     }
                   });
               });
@@ -129,10 +142,7 @@ const AccessModel = ({modalVisible, setModalVisible, studentID, type}) => {
         setErrormodalVisible(!ErrormodalVisible);
       }
     }
-
-    return () => {
-      isCancelled.current = true;
-    };
+    isCancelled = true;
   }, [passcodeVal]);
 
   return (
