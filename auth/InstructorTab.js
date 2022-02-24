@@ -61,6 +61,7 @@ const InstructorTab = () => {
     <Tab.Navigator
       screenOptions={{
         tabBarStyle: {
+          position: 'absolute',
           borderTopLeftRadius: 35,
           borderTopRightRadius: 35,
           borderTopWidth: 10,
@@ -70,6 +71,7 @@ const InstructorTab = () => {
           borderColor: '#ffffff',
           height: Platform.OS === 'ios' ? 100 : 65,
         },
+        tabBarHideOnKeyboard: true
       }}>
       <Tab.Screen
         name='HomeStackScreens'

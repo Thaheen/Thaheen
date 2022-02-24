@@ -225,6 +225,7 @@ const StudentEditProfile = ({navigation, route}) => {
       style={{
         backgroundColor: '#FFFFFF',
         height: '100%',
+        paddingBottom: Platform.OS === 'ios' ? 100 : 65,
         ...Platform.OS === 'android' ? {paddingTop: 20, } : null
         // justifyContent: 'center',
         // alignItems: 'center',

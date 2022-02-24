@@ -61,6 +61,7 @@ const InstructorProfile = ({navigation, route}) => {
       style={{
         backgroundColor: '#FFFFFF',
         height: '100%',
+        paddingBottom: Platform.OS === 'ios' ? 100 : 65,
         ...Platform.OS === 'android' ? {marginTop: 20, } : null
         // justifyContent: 'center',
         // alignItems: 'center',
@@ -147,7 +148,7 @@ const InstructorProfile = ({navigation, route}) => {
             width: 283,
             // height: 40,
             //marginTop: 20,
-            // marginBottom: 30,
+            marginBottom: 50,
           },
         ]}
         // onPress={onSignout}

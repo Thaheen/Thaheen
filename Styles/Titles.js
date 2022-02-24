@@ -6,7 +6,6 @@ export default StyleSheet.create({
   sectionTitle: {
     fontFamily: 'AJannatLT-Bold',
     fontSize: 35,
-    fontWeight: 'bold',
     textAlign: 'center',
     color: '#43515F',
   },

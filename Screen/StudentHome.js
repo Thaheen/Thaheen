@@ -78,8 +78,7 @@ const StudentHome = () => {
           <Text
             style={[
               TitleStyles.sectionTitle,
-              I18nManager.isRTL ? {textAlign: 'left'} : {textAlign: 'right'},
-              {fontWeight: null, textAlign: null},
+              {textAlign: 'right',fontWeight: null, textAlign: null},
             ]}>
             مرحبًا {student.data().Fullname}
           </Text>
