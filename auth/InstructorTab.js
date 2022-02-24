@@ -6,6 +6,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import ProfileOutline from '../assets/images/ProfileOutline.svg';
 import HomeOutline from '../assets/images/HomeOutline.svg';
 import Plus from '../assets/images/Plus.svg';
+import PlusFilled from '../assets/images/PlusFilled.svg';
 import TitleStyles from '../Styles/Titles'
 
 import {default as Home} from '../Screen/Home.js'
@@ -88,7 +89,7 @@ const InstructorTab = () => {
         options={{
           tabBarLabel: 'اضافة فصل',
           tabBarIcon: ({focused}) => (
-            <Plus fill={focused ? '#43515F' : 'none'} />
+            focused? <PlusFilled /> : <Plus />
           ),
           tabBarLabelStyle: TitleStyles.profileTextIcon,
           headerShown: false,

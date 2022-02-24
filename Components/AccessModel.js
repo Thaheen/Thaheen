@@ -63,29 +63,52 @@ const AccessModel = ({modalVisible, setModalVisible, studentID, type}) => {
     textInput.focus();
   };*/
   useEffect(() => {
+    let isCancelled = true;
+    let unmounted = false;
     if (type == 'class') {
       if (passcodeVal.length == 6) {
         firestore()
           .collection('ClassCommunity')
           .where('Passcode', '==', passcodeVal)
-          .get()
-          .then(snapshot => {
+          .onSnapshot(snapshot => {
             if (snapshot.size != 0) {
-              console.log('HELLO');
               snapshot.forEach(documentSnapshot => {
                 firestore()
                   .collection('ClassCommunity')
                   .doc(documentSnapshot.id)
                   .onSnapshot(insidesnapshot => {
-                    if (
-                      insidesnapshot
-                        .data()
-                        .StudentList.includes(StudentUsername)
-                    ) {
-                      console.log('student exists');
-                      setErrorMessage('لقد سبق لك التسجيل في هذا الفصل');
-                      setErrormodalVisible(!ErrormodalVisible);
-                      return;
+                    if (insidesnapshot.get('StudentList') != null) {
+                      if (
+                        !insidesnapshot
+                          .data()
+                          .StudentList.includes(StudentUsername)
+                      ) {
+                        console.log('student added');
+                        insidesnapshot.ref
+                          .update({
+                            StudentList:
+                              firestore.FieldValue.arrayUnion(StudentUsername),
+                          })
+                          .then(() => {
+                            setModalVisible(!modalVisible);
+                            setPasscodeval('');
+                            return () => {
+                              unmounted = true;
+                            };
+                          });
+
+                        isCancelled = false;
+                      } else {
+                        if (isCancelled) {
+                          console.log('student exists');
+                          setPasscodeval('');
+                          setErrorMessage('لقد سبق لك التسجيل في هذا الفصل');
+                          setErrormodalVisible(!ErrormodalVisible);
+                          return () => {
+                            unmounted = true;
+                          };
+                        }
+                      }
                     } else {
                       insidesnapshot.ref
                         .update({
@@ -119,6 +142,7 @@ const AccessModel = ({modalVisible, setModalVisible, studentID, type}) => {
         setErrormodalVisible(!ErrormodalVisible);
       }
     }
+    isCancelled = true;
   }, [passcodeVal]);
 
   return (

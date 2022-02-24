@@ -20,22 +20,22 @@ import Plus from '../assets/images/Plus.svg';
 import Unlock from '../assets/images/Unlock.svg';
 import DropDownPicker from 'react-native-dropdown-picker';
 import SuccessModel from '../Components/SuccessModel';
+import AddChildModel from '../Components/AddChildModel';
 import ErrorModel from '../Components/ErrorModel';
 
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 
 const CreateClass = ({navigation, route}) => {
-
   const user = auth().currentUser;
 
   // Class Community attributes
   const [className, setClassName] = useState('');
   const [capacity, setCapacity] = useState('');
-  const [schoolName, setSchoolName] = useState(''); 
+  const [schoolName, setSchoolName] = useState('');
   DropDownPicker.setListMode('SCROLLVIEW');
   const [open, setOpen] = useState(false);
-  const [subject, setSubject] = useState(''); 
+  const [subject, setSubject] = useState('');
   const [subjects, setSubjects] = useState([
     {label: 'القرآن', value: 'القرآن'},
     {label: 'التوحيد', value: 'التوحيد'},
@@ -52,15 +52,15 @@ const CreateClass = ({navigation, route}) => {
     {label: 'الاسرية', value: 'الاسرية'},
     {label: 'آخرى', value: 'آخرى'},
   ]);
+    const [StudentList, setStudentList] = useState([]);
   const [passcode, setPasscode] = useState();
 
   const [onePass, setOnePass] = useState(0);
 
-  if (onePass == 0){
-  setPasscode(Math.floor(100000 + Math.random() * 90000).toString());
-  setOnePass(1);
+  if (onePass == 0) {
+    setPasscode(Math.floor(100000 + Math.random() * 90000).toString());
+    setOnePass(1);
   }
-
 
   //Alert Success modal
   const [modalVisible, setModalVisible] = useState(false);
@@ -69,9 +69,13 @@ const CreateClass = ({navigation, route}) => {
   const [ErrormodalVisible, setErrormodalVisible] = useState(false);
   const [ErrorMessage, setErrorMessage] = useState('');
 
+  // Add Child Model
+  const [AddmodalVisible, setAddmodalVisible] = useState(false);
+
   // To Check If The Field Contains Symbols
   const IsValidfield = field => {
-    const RegxOfNames = /^[a-zA-Z0-9\s\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF\u0621-\u064A\u0660-\u0669 ]*$/;
+    const RegxOfNames =
+      /^[a-zA-Z0-9\s\u0600-\u065F\u066A-\u06EF\u06FA-\u06FF\u0621-\u064A\u0660-\u0669 ]*$/;
     return RegxOfNames.test(field);
   };
 
@@ -81,27 +85,28 @@ const CreateClass = ({navigation, route}) => {
   };
 
 
+const setStudentArray = userArray =>{
+  setStudentList(userArray)
+  console.log('StudentList')
+  console.log(StudentList)
+
+}
   const submit = () => {
     //Checking If Any Required Field Is Empty
-      if(
-      className == '' ||
-      subject == '' ||
-      capacity == ''
-      )
-      {
+    if (className == '' || subject == '' || capacity == '') {
       setErrorMessage('جميع الحقول مطلوبة');
       setErrormodalVisible(!ErrormodalVisible);
       return;
-      }
+    }
 
-      // Checking Validaty Of Fields
-      if(IsValidfield(schoolName)== false){
-        setErrorMessage('يجب ان يحتوي اسم المدرسة على حروف وأرقام فقط');
-        setErrormodalVisible(!ErrormodalVisible);
-        return;
-      }
+    // Checking Validaty Of Fields
+    if (IsValidfield(schoolName) == false) {
+      setErrorMessage('يجب ان يحتوي اسم المدرسة على حروف وأرقام فقط');
+      setErrormodalVisible(!ErrormodalVisible);
+      return;
+    }
 
-      if (IsValidCapacity(capacity) == false) {
+    if (IsValidCapacity(capacity) == false) {
       setErrorMessage('سعة الفصل يجب ان تكون مكونة من ارقام انجليزية فقط');
       setErrormodalVisible(!ErrormodalVisible);
       return;
@@ -120,28 +125,24 @@ const CreateClass = ({navigation, route}) => {
       return;
     }
 
-    if (
-      schoolName.replace(/\s+/g, '').length > 40
-    ) {
-      setErrorMessage(
-        'حقل "اسم المدرسة" يجب ألا يتجاوز ٤٠ حرف',
-      );
+    if (schoolName.replace(/\s+/g, '').length > 40) {
+      setErrorMessage('حقل "اسم المدرسة" يجب ألا يتجاوز ٤٠ حرف');
       setErrormodalVisible(!ErrormodalVisible);
       return;
     }
 
-    if (
-      capacity < 2 ||
-      capacity > 100
-    ) {
+    if (capacity < 2 || capacity > 100) {
       setErrorMessage(
         'سعة الفصل يجب ألا تقل عن طالبين وألا تتجاوز عن ١٠٠ طالب',
       );
       setErrormodalVisible(!ErrormodalVisible);
       return;
     }
+     console.log('StudentList2')
+      console.log(StudentList)
 
-      firestore()
+
+    firestore()
       .collection('ClassCommunity')
       .add({
         Name: className,
@@ -149,39 +150,30 @@ const CreateClass = ({navigation, route}) => {
         Capacity: capacity,
         SchoolName: schoolName,
         Passcode: passcode,
-        StudentList: [],
+        StudentList: StudentList,
         InstructorID: user.uid,
       })
       .then(() => {
         setModalVisible(!modalVisible);
       });
-
-
-  }
-
-
-
-
+  };
 
   return (
-    <SafeAreaView  style={{
-          height: '100%',
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor:'#FFF',
-        }}>
-
-    <Ombre style={[    
-          {position: 'absolute', top: 0},]}/>
+    <SafeAreaView
+      style={{
+        height: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
+      <Ombre style={[{position: 'absolute', top: 0}]} />
 
       <StatusBar />
       <ScrollView>
-
         <View
           style={{
             backgroundColor: '#FFFFFF',
             width: 350,
-            height:500,
+            height: 500,
             borderRadius: 25,
             shadowColor: '#000',
             shadowOffset: {
@@ -194,26 +186,35 @@ const CreateClass = ({navigation, route}) => {
             padding: 25,
             marginTop: 70,
           }}>
-
-
           <SuccessModel
-          message={'تم إنشاء الفصل بنجاح،\n رمز الدخول للفصل هو \n' + passcode}
-          modalVisible={modalVisible}
-          setModalVisible={setModalVisible}
-        />
+            message={
+              'تم إنشاء الفصل بنجاح،\n رمز الدخول للفصل هو \n' + passcode
+            }
+            modalVisible={modalVisible}
+            setModalVisible={setModalVisible}
+          />
 
-        <ErrorModel
-          message={ErrorMessage}
-          modalVisible={ErrormodalVisible}
-          setModalVisible={setErrormodalVisible}
-        />
-          <Cell width='300' height='80' viewBox="0 0 38 37" style={[
-            {position: 'relative', top: -60 , marginBottom:-60},
-            I18nManager.isRTL ? {right: 0} : {left: 0},
-          ]}/>
-          <Text style={[TitleStyles.sectionTitle]}>
-            إنشاء فصل
-          </Text>
+          <AddChildModel
+            modalVisible={AddmodalVisible}
+            setModalVisible={setAddmodalVisible}
+            sentFunction={setStudentArray}
+          />
+
+          <ErrorModel
+            message={ErrorMessage}
+            modalVisible={ErrormodalVisible}
+            setModalVisible={setErrormodalVisible}
+          />
+          <Cell
+            width="300"
+            height="80"
+            viewBox="0 0 38 37"
+            style={[
+              {position: 'relative', top: -60, marginBottom: -60},
+              I18nManager.isRTL ? {right: 0} : {left: 0},
+            ]}
+          />
+          <Text style={[TitleStyles.sectionTitle]}>إنشاء فصل</Text>
 
           {/*CLASS NAME INPUT*/}
           <View style={TitleStyles.shadowOffset}>
@@ -223,7 +224,7 @@ const CreateClass = ({navigation, route}) => {
               style={[
                 Platform.OS === 'android' ? TitleStyles.shadowOffset : null,
                 TitleStyles.input,
-                {shadowColor: '#000' , padding:10},
+                {shadowColor: '#000', padding: 10},
               ]}
               onChangeText={text => setClassName(text)}
               value={className}
@@ -238,7 +239,8 @@ const CreateClass = ({navigation, route}) => {
             <DropDownPicker
               style={[
                 TitleStyles.dropDownStyle,
-                Platform.OS === 'android' ? TitleStyles.shadowOffset : null, {marginTop:15,}
+                Platform.OS === 'android' ? TitleStyles.shadowOffset : null,
+                {marginTop: 15},
               ]}
               textStyle={TitleStyles.categoryText}
               containerStyle={{}}
@@ -258,7 +260,6 @@ const CreateClass = ({navigation, route}) => {
             />
           </View>
 
-
           {/*SCHOOL NAME INPUT*/}
           <View style={TitleStyles.shadowOffset}>
             <TextInput
@@ -267,7 +268,7 @@ const CreateClass = ({navigation, route}) => {
               style={[
                 Platform.OS === 'android' ? TitleStyles.shadowOffset : null,
                 TitleStyles.input,
-                {shadowColor: '#000' , padding:10 , marginTop:15},
+                {shadowColor: '#000', padding: 10, marginTop: 15},
               ]}
               onChangeText={text => setSchoolName(text)}
               value={schoolName}
@@ -284,7 +285,7 @@ const CreateClass = ({navigation, route}) => {
               style={[
                 Platform.OS === 'android' ? TitleStyles.shadowOffset : null,
                 TitleStyles.input,
-                {shadowColor: '#000', padding:10, marginTop:15},
+                {shadowColor: '#000', padding: 10, marginTop: 15},
               ]}
               onChangeText={number => setCapacity(number)}
               keyboardType="number-pad"
@@ -294,55 +295,64 @@ const CreateClass = ({navigation, route}) => {
               color="black"
             />
           </View>
-          
-        <View style={[TitleStyles.InstructorCard , 
-        {position:'relative' , marginTop:-50 , backgroundColor:'rgba(255, 255, 255, 0)',
-        width:300, padding:0}]}>
 
+          <View
+            style={[
+              TitleStyles.InstructorCard,
+              {
+                position: 'relative',
+                marginTop: -50,
+                backgroundColor: 'rgba(255, 255, 255, 0)',
+                width: 300,
+                padding: 0,
+              },
+            ]}>
+            <TouchableOpacity>
+              <View
+                style={[
+                  TitleStyles.InstructorSubCard,
+                  {height: 50, width: 150, borderRightWidth: 0},
+                ]}>
+                <Unlock />
+                <Text style={TitleStyles.smallText}>إنشاء رمز للفصل</Text>
+              </View>
+            </TouchableOpacity>
 
-        <TouchableOpacity>
-         <View style={[TitleStyles.InstructorSubCard,{height:50, width:150, borderRightWidth:0}]}>
-          <Unlock />
-          <Text style={TitleStyles.smallText}>إنشاء رمز للفصل</Text> 
-         </View>
-        </TouchableOpacity>
-
-
-        <TouchableOpacity>
-         <View style={[TitleStyles.InstructorSubCard,{height:50,width:150, borderRightWidth:0}]}>
-          <Plus width='35'  height='37'/>
-          <Text style={TitleStyles.smallText}>أضف طلاب</Text> 
-         </View>
-        </TouchableOpacity>
-        
+            <TouchableOpacity
+              onPress={() => {
+                setAddmodalVisible(!AddmodalVisible);
+              }}>
+              <View
+                style={[
+                  TitleStyles.InstructorSubCard,
+                  {height: 50, width: 150, borderRightWidth: 0},
+                ]}>
+                <Plus width="35" height="37" />
+                <Text style={TitleStyles.smallText}>أضف طلاب</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
         </View>
 
-
-          
-          
-          </View>
-
-          <TouchableOpacity
-        style={[
-          TitleStyles.Button,
-          {
-            backgroundColor: '#DAE2E9',
-            alignSelf: 'center',
-            padding:5,
-            width: 285,
-            marginTop:40,
-          },
-        ]}
-      >
-        <Text
-          style={TitleStyles.ButtonText}
-          onPress={() => {
-            submit();
-          }}>
-        إنشاء الفصل        
-        </Text>
-      </TouchableOpacity>
-
+        <TouchableOpacity
+          style={[
+            TitleStyles.Button,
+            {
+              backgroundColor: '#DAE2E9',
+              alignSelf: 'center',
+              padding: 5,
+              width: 285,
+              marginTop: 40,
+            },
+          ]}>
+          <Text
+            style={TitleStyles.ButtonText}
+            onPress={() => {
+              submit();
+            }}>
+            إنشاء الفصل
+          </Text>
+        </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   );
