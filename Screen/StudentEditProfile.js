@@ -226,7 +226,7 @@ const StudentEditProfile = ({navigation, route}) => {
         backgroundColor: '#FFFFFF',
         height: '100%',
         paddingBottom: Platform.OS === 'ios' ? 100 : 65,
-        ...Platform.OS === 'android' ? {paddingTop: 20, } : null
+        ...(Platform.OS === 'android' ? {paddingTop: 20} : null),
         // justifyContent: 'center',
         // alignItems: 'center',
       }}>
@@ -315,8 +315,8 @@ const StudentEditProfile = ({navigation, route}) => {
               width: '90%',
               marginLeft: 20,
             }}
-            labelStyle={{fontSize: 14, color: '#808182'}}
-            placeholderStyle={{fontSize: 14, color: '#808182'}}
+            labelStyle={{fontSize: 16, color: '#808182'}}
+            placeholderStyle={{fontSize: 16, color: '#808182'}}
             open={open}
             value={gradeValue}
             items={ChildGrade}
@@ -359,9 +359,9 @@ const StudentEditProfile = ({navigation, route}) => {
             onPress={() => {
               setStudent();
               navigation.reset({
-              index: 0,
-              routes: [{name: 'ChildList'}],
-            })
+                index: 0,
+                routes: [{name: 'ChildList'}],
+              });
             }}>
             تسجيل خروج
           </Text>

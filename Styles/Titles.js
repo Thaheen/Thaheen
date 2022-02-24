@@ -40,7 +40,7 @@ export default StyleSheet.create({
   },
   profileText: {
     fontFamily: 'AJannatLT',
-    fontSize: 16,
+    fontSize: 17,
     color: '#808182',
     textAlign: I18nManager.isRTL ? 'left' : 'right',
     marginTop: 15,
@@ -55,7 +55,7 @@ export default StyleSheet.create({
     color: '#808182',
     paddingHorizontal: 10,
     fontFamily: 'AJannatLT-Bold',
-    fontSize: 14,
+    fontSize: 16,
     color: '#808182',
     textAlign: 'right',
     borderColor: 'rgb(186, 183, 176)',
@@ -403,13 +403,13 @@ export default StyleSheet.create({
     color: '#43515F',
   },
 
-  NotAvailableAlert:{
-    fontSize: 24, 
-    fontFamily: 'AJannatLT', 
-    color: '#43515F', 
-    position:'absolute', 
-    top:420, 
-    left:40,
+  NotAvailableAlert: {
+    fontSize: 24,
+    fontFamily: 'AJannatLT',
+    color: '#43515F',
+    position: 'absolute',
+    top: 420,
+    left: 40,
   },
 
   EnterClassBtn: {
