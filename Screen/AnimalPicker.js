@@ -36,7 +36,7 @@ useEffect(() => {
 
   return (
     <View >
-      <Image source={{uri: imageUrl}} style={{height: 90, width: 90}} />
+      <Image source={{uri: imageUrl}} style={{height: 83, width: 83 , marginLeft:-5, marginTop:-3}} />
     </View>
   );
 }

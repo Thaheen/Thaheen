@@ -114,7 +114,7 @@ const ChildList = ({navigation}) => {
         <Text
           style={[
             TitleStyles.HeaderTitle,
-            {textAlign: I18nManager.isRTL ? 'left' : 'right', paddingRight: 50},
+            {textAlign: I18nManager.isRTL ? 'left' : 'right', paddingLeft: 40},
           ]}>
           أطفالي
         </Text>
@@ -141,6 +141,15 @@ const ChildList = ({navigation}) => {
             ID={ChildID}
           />
         ) : null}
+        
+        {/*children.length*/}
+
+        { children.length ==0 ? 
+        <Text
+            style={[TitleStyles.NotAvailableAlert]}
+        >
+            لم تضف اي حساب طفل بعد
+        </Text> : null }
 
         <FlatList
           style={[{marginTop: 100, height: '55%'}]}

@@ -164,6 +164,7 @@ const setStudentArray = userArray =>{
         height: '100%',
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor:'#FFF',
       }}>
       <Ombre style={[{position: 'absolute', top: 0}]} />
 
