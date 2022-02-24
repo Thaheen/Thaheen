@@ -358,6 +358,10 @@ const StudentEditProfile = ({navigation, route}) => {
             style={TitleStyles.ButtonText}
             onPress={() => {
               setStudent();
+              navigation.reset({
+              index: 0,
+              routes: [{name: 'ChildList'}],
+            })
             }}>
             تسجيل خروج
           </Text>

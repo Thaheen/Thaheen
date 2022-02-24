@@ -9,7 +9,7 @@ import Plus from '../assets/images/Plus.svg';
 import PlusFilled from '../assets/images/PlusFilled.svg';
 import TitleStyles from '../Styles/Titles'
 
-import {default as Home} from '../Screen/Home.js'
+import {default as InstructorHome} from '../Screen/InstructorHome.js'
 import {default as InstructorProfile} from '../Screen/InstructorProfile.js'
 import {default as CreateClass} from '../Screen/CreateClass.js'
 
@@ -25,8 +25,8 @@ const HomeStackScreens = () => {
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen
-        name='Home'
-        component={Home}
+        name='InstructorHome'
+        component={InstructorHome}
         options={{headerShown: false}}
       />
     </HomeStack.Navigator>

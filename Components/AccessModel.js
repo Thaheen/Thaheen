@@ -135,6 +135,10 @@ const AccessModel = ({modalVisible, setModalVisible, studentID, type}) => {
         setModalVisible(!modalVisible);
         setPasscodeval('');
         setStudent(studentSnapShot);
+        navigation.reset({
+          index: 0,
+          routes: [{name: 'StudentTab'}],
+        })
         return;
       } else if (passcodeVal.length == 6 && isValidPasscode != passcodeVal) {
         console.log('INVALID');

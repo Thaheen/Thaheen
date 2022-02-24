@@ -7,7 +7,6 @@ import AuthStack from './AuthStack.js'
 
 import InstructorTab from './InstructorTab.js'
 import ParentStack from './ParentStack.js'
-import StudentTab from './StudentTab.js'
 
 import {UserInfoContext} from './UserInfoContext'
 import {NavigationContainer} from '@react-navigation/native'
@@ -54,11 +53,7 @@ const AuthRoot = () => {
     <NavigationContainer>
       {user ? (
         user.ref.parent.id === 'Parents Accounts' ? (
-          student ? (
-            <StudentTab />
-          ) : (
-            <ParentStack />
-          )
+          <ParentStack />
         ) : (
           <InstructorTab />
         )

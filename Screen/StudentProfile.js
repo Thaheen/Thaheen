@@ -73,7 +73,7 @@ const StudentProfile = ({navigation, route}) => {
       <Text
         style={[
           TitleStyles.HeaderTitle,
-          {textAlign: I18nManager.isRTL ? 'left' : 'right', paddingRight: 30},
+          {textAlign: I18nManager.isRTL ? 'left' : 'right', paddingLeft: 30},
         ]}>
         الملف الشخصي
       </Text>
