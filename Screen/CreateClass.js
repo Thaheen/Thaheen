@@ -149,6 +149,7 @@ const CreateClass = ({navigation, route}) => {
         Capacity: capacity,
         SchoolName: schoolName,
         Passcode: passcode,
+        StudentList: [],
         InstructorID: user.uid,
       })
       .then(() => {
@@ -167,6 +168,7 @@ const CreateClass = ({navigation, route}) => {
           height: '100%',
           justifyContent: 'center',
           alignItems: 'center',
+          backgroundColor:'#FFF',
         }}>
 
     <Ombre style={[    
