@@ -55,7 +55,6 @@ const ConfirmModel = ({modalVisible, setModalVisible, sentFunction}) => {
     if (ChildAccount == '') {
       setErrorMessage('الرجاء اضافة اسم مستخدم');
       setErrormodalVisible(!ErrormodalVisible);
-      setChildAccount('');
       return;
     }
 
@@ -69,14 +68,16 @@ const ConfirmModel = ({modalVisible, setModalVisible, sentFunction}) => {
     }
 
     if (studentUsername.includes(ChildAccount)) {
-      setErrorMessage('تم تسجيل اسم الطالب');
+      setErrorMessage('تم تسجيل اسم الطالب مسبقا');
       setErrormodalVisible(!ErrormodalVisible);
+      setChildAccount('');
       return;
     }
 
     if (isFound == false) {
       setErrorMessage('اسم المستخدم غير موجود');
       setErrormodalVisible(!ErrormodalVisible);
+      setChildAccount('');
       return;
     }
 
@@ -88,9 +89,9 @@ const ConfirmModel = ({modalVisible, setModalVisible, sentFunction}) => {
 
   const Close = () => {
     setModalVisible(!modalVisible);
-    sentFunction(studentUsername)
-    setChildAccount('')
-    setstudentUsername([])
+    sentFunction(studentUsername);
+    setChildAccount('');
+    setstudentUsername([]);
   };
 
   //Success modal
