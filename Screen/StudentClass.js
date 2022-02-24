@@ -123,7 +123,7 @@ const StudentClass = () => {
         style={[
           {
             position: 'absolute',
-            bottom: 0,
+            bottom: 85,
             right: 10,
           },
         ]}
@@ -133,7 +133,7 @@ const StudentClass = () => {
           TitleStyles.Button,
           {
             position: 'absolute',
-            bottom: 10,
+            bottom: 100,
             backgroundColor: '#DAE2E9',
             alignSelf: 'center',
             width: 300,
