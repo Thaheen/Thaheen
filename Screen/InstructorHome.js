@@ -26,14 +26,14 @@ import {UserInfoContext} from '../auth/UserInfoContext'
 
 
 
-const Home = () => {
+const Home = ({navigation, route}) => {
   
   const {user} = React.useContext(UserInfoContext);
   const IName = user['_data']['fullName'];
   const cUser = auth().currentUser;
 
 
-  // ======= Change Later To Dynamic info =======
+  // ======= Change HW Later To Dynamic info =======
   const [hwNo, setHwNo] = useState(0); // Total number of Homeworks
   let homeworks = 0; 
   const [stuNo, setStuNo] = useState(0); // Total number of students in all classes
@@ -132,7 +132,7 @@ const Home = () => {
 
           <FlatList
           key={'#'}
-          style={{ position:'relative' , top: 240, width:370 , height:'40%'}}
+          style={{ position:'relative' , top: 240, width:370 , height:'90%'}}
           data={allClasses}
           ListHeaderComponent={<Text style={[
               TitleStyles.HeaderTitle,
@@ -145,7 +145,7 @@ const Home = () => {
           scrollEnabled={false} 
           keyExtractor={(item, index) => index.toString()}
           renderItem={({item}) => (
-            <TouchableOpacity>
+            <TouchableOpacity style={{top:100}}>
               <InsClassCard color={item.color} title={item.Name} students={item.StudentList}  />
             </TouchableOpacity>
           )}

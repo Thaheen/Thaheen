@@ -19,12 +19,11 @@ return (
       style={[
         {
           backgroundColor: color,
-          marginTop: 90,
-          marginBottom: -70,
-          marginLeft: 10,
           borderRadius: 25,
           width: 113,
           height: 190,
+          marginLeft:10,
+          marginBottom:10,
           paddingTop:5,
           paddingLeft:7,
         }      ]}>
@@ -40,7 +39,7 @@ return (
         <TouchableOpacity style={[
           TitleStyles.EnterClassBtn,
           {backgroundColor: '#FFFFFF'},]}
-        onPress={() => {  }}>
+        >
         <Text style={[TitleStyles.smallText], {fontFamily: 'AJannatLT-Bold' , textAlign: 'center', color: '#808182'}}>دخول الفصل</Text>
         </TouchableOpacity>
       
