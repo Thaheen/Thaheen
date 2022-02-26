@@ -208,11 +208,12 @@ const InstructorProfile = ({navigation, route}) => {
           <TextInput
             style={TitleStyles.textInput}
             placeholder={Email}
-            placeholderTextColor={'#808182'}
+            placeholderTextColor={'#AEAEAE'}
             //  value={NewfullName}
             editable={false}
             selectTextOnFocus={true}
-            onChangeText={text => setNewEmail(text)}></TextInput>
+            // onChangeText={text => setNewEmail(text)}
+          ></TextInput>
 
           <Text style={TitleStyles.profileText}> رقم الهاتف </Text>
           <TextInput

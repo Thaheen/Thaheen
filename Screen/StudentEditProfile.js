@@ -34,7 +34,7 @@ const StudentEditProfile = ({navigation, route}) => {
   const {student, setStudent} = React.useContext(UserInfoContext);
   //New Data
   const [NewfullName, setNewFullName] = useState('');
-  const [NewuserName, setNewUserName] = useState('');
+  //const [NewuserName, setNewUserName] = useState('');
   const [NewGrade, setNewGrade] = useState('');
   const [NewSchoolName, setNewSchoolName] = useState('');
 
@@ -86,7 +86,7 @@ const StudentEditProfile = ({navigation, route}) => {
     return RegxOfNames.test(field);
   };
 
-  firestore()
+  /*firestore()
     .collection('Student')
     .where('Username', '==', NewuserName)
     .get()
@@ -94,7 +94,7 @@ const StudentEditProfile = ({navigation, route}) => {
       if (querySnapshot.size != 0) {
         setisUnique(false);
       } else setisUnique(true);
-    });
+    });*/
 
   const isUniqueUsername = username => {};
   //chech if Username only use letters and numbers
@@ -107,7 +107,7 @@ const StudentEditProfile = ({navigation, route}) => {
     // Checking for empty fields
     if (
       (NewfullName == '') &
-      (NewuserName == '') &
+      // (NewuserName == '') &
       (NewGrade == '') &
       (NewSchoolName == '')
     ) {
@@ -143,7 +143,7 @@ const StudentEditProfile = ({navigation, route}) => {
         });
       setModalVisible(!modalVisible);
     }
-    if (NewuserName != '') {
+    /*if (NewuserName != '') {
       if (isUnique == false) {
         setErrorMessage('حقل "اسم المستخدم" مسجل مسبقا');
         setErrormodalVisible(!ErrormodalVisible);
@@ -176,7 +176,7 @@ const StudentEditProfile = ({navigation, route}) => {
           Username: NewuserName,
         });
       setModalVisible(!modalVisible);
-    }
+    }*/
 
     if (NewSchoolName.length != 0) {
       if (
@@ -294,11 +294,12 @@ const StudentEditProfile = ({navigation, route}) => {
         <TextInput
           style={TitleStyles.textInput}
           placeholder={userName}
-          placeholderTextColor={'#808182'}
-          value={NewuserName}
-          editable={true}
+          placeholderTextColor={'#AEAEAE'}
+          //value={NewuserName}
+          editable={false}
           selectTextOnFocus={true}
-          onChangeText={text => setNewUserName(text)}></TextInput>
+          // onChangeText={text => setNewUserName(text)}
+        ></TextInput>
 
         <Text style={TitleStyles.profileText}> المرحلة الدارسية </Text>
 
