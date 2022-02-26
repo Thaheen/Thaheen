@@ -132,7 +132,7 @@ const Home = ({navigation, route}) => {
 
           <FlatList
           key={'#'}
-          style={{ position:'relative' , top: 240, width:370 , height:'90%'}}
+          style={{ position:'relative' , top: 70, width:370 , height:'90%'}}
           data={allClasses}
           ListHeaderComponent={<Text style={[
               TitleStyles.HeaderTitle,
@@ -145,7 +145,11 @@ const Home = ({navigation, route}) => {
           scrollEnabled={false} 
           keyExtractor={(item, index) => index.toString()}
           renderItem={({item}) => (
-            <TouchableOpacity style={{top:100}}>
+            <TouchableOpacity style={{top:100}} onPress={() => {
+            navigation.navigate('InsClassInfo', {
+              classKey : item.key
+            });
+          }}>
               <InsClassCard color={item.color} title={item.Name} students={item.StudentList}  />
             </TouchableOpacity>
           )}

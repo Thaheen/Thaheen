@@ -328,6 +328,7 @@ console.log("in google "+this.DownLoadURI);
               bottom: 0,
             }}
           />
+          <BackButton/>
           <Text style={TitleStyles.ButtonText}>إضافة واجب جديد </Text>
           {/* 
           <TextInput

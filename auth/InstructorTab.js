@@ -12,12 +12,14 @@ import TitleStyles from '../Styles/Titles'
 import {default as InstructorHome} from '../Screen/InstructorHome.js'
 import {default as InstructorProfile} from '../Screen/InstructorProfile.js'
 import {default as CreateClass} from '../Screen/CreateClass.js'
+import {default as InsClassInfo} from '../Screen/InsClassInfo.js';
 
 const Stack = createNativeStackNavigator()
 
 const HomeStack = createNativeStackNavigator()
 const CreateClassStack = createNativeStackNavigator()
 const ProfileStack = createNativeStackNavigator()
+const ClassInfoStack = createNativeStackNavigator()
 
 const Tab = createBottomTabNavigator()
 
@@ -27,6 +29,12 @@ const HomeStackScreens = () => {
       <HomeStack.Screen
         name='InstructorHome'
         component={InstructorHome}
+        options={{headerShown: false}}
+      />
+      {/* Added a nested screen to home stack */}
+      <HomeStack.Screen
+        name='InsClassInfo'
+        component={InsClassInfo}
         options={{headerShown: false}}
       />
     </HomeStack.Navigator>
