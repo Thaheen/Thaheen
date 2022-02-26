@@ -29,8 +29,13 @@ import Error from '../Components/ErrorModel';
 import Top2Lines from '../assets/images/top2Lines.svg';
 import Bottom2Lines from '../assets/images/bottom2Lines.svg';
 import BackButton from '../Components/BackButton';
-import { utils } from '@react-native-firebase/app';
+import {utils} from '@react-native-firebase/app';
+import {UserInfoContext} from '../auth/UserInfoContext';
 import storage from '@react-native-firebase/storage';
+import {useNavigation} from '@react-navigation/native';
+import ErrorVector from '../assets/images/ErrorVector.svg';
+
+
 import AudioRecorderPlayer, {
   AVEncoderAudioQualityIOSType,
   AVEncodingOption,
@@ -38,13 +43,17 @@ import AudioRecorderPlayer, {
   AudioSet,
   AudioSourceAndroidType,
 } from 'react-native-audio-recorder-player';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import Microphone from '../assets/images/Microphone.svg';
+import OldHomeWorks from '../assets/images/OldHomeWorks.svg';
 import RecordingMicrophone from '../assets/images/RecordingMicrophone.svg';
+import Camera from '../assets/images/Camera.svg';
+
 //the ref of record voice code
 // https://instamobile.io/react-native-tutorials/react-native-record-audio-play/?ref=hackernoon.com
 class RecordVoice extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -62,12 +71,15 @@ class RecordVoice extends Component {
       image: null,
       uploading: false,
       googleResponse: null,
-      ImageUri:"",
-      DownLoadURI:""
+      ImageUri: '',
+      DownLoadURI: '',
+      HomeWork: null,
+      Title: null,
     };
     this.audioRecorderPlayer = new AudioRecorderPlayer();
     this.audioRecorderPlayer.setSubscriptionDuration(0.09); // optional. Default is 0.1
   }
+
   //contain a uri
   onStartRecord = async () => {
     if (Platform.OS === 'android') {
@@ -78,6 +90,7 @@ class RecordVoice extends Component {
           PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
         ]);
         console.log('write external stroage', grants);
+
         if (
           grants['android.permission.WRITE_EXTERNAL_STORAGE'] ===
             PermissionsAndroid.RESULTS.GRANTED &&
@@ -192,8 +205,25 @@ class RecordVoice extends Component {
     }
   };
 
-  retrieveRecord = async () => {
+  UploadHomeWork  = async () => {
+   
+    if (this.state.HomeWork == null || this.state.Title == null) {
+this.ErrormodalVisible=false;
+console.log("hw "+this.state.HomeWork )
 
+     
+    }
+    //      firestore().collection('Text').doc({/*UNKOWN */}).set({
+    //           TextBody: HomeWork,
+    //           TextHead: Title,
+    //           InstructorID: "??",
+    //           ClassID: "??",
+    //           Recoed:"??",
+    //         });
+  };
+
+
+  retrieveRecord = async () => {
     console.log('onStartPlay');
     storage()
       .ref('records/helloModhi2.m4a') //name in storage in firebase console
@@ -220,44 +250,35 @@ class RecordVoice extends Component {
       .catch(e => console.log('Errors while downloading => ', e));
   };
 
-
   ////////////////////
 
-    onSelectImagePress = () =>
+  onSelectImagePress = () =>
     launchImageLibrary('photo', this.onMediaSelectCallBack);
 
   // contain pic uri
-  onMediaSelectCallBack = async (media) => {
-    
+  onMediaSelectCallBack = async media => {
     this.MideaRespons = media;
-     media.assets.map(({uri}) => {
+    media.assets.map(({uri}) => {
       this.setLocalpath = uri;
-   });
+    });
 
     const reference = await storage().ref('OCR/temp');
-          // path to existing file on filesystem
-          const pathToFile = this.setLocalpath;
-          // uploads file
-          await reference.putFile(pathToFile);
-           this.submitToGoogle()
-        
-        
-      
-
-    }
-  
+    // path to existing file on filesystem
+    const pathToFile = this.setLocalpath;
+    // uploads file
+    await reference.putFile(pathToFile);
+    this.submitToGoogle();
+  };
 
   submitToGoogle = async () => {
     try {
+      this.DownLoadURI = await storage()
+        .ref('OCR/temp') //name in storage in firebase console
+        .getDownloadURL()
 
-     this.DownLoadURI = await storage()
-      .ref('OCR/temp') //name in storage in firebase console
-      .getDownloadURL()
-      
- 
-      .catch((e) => console.log('Errors while downloading => ', e));
+        .catch(e => console.log('Errors while downloading => ', e));
 
-console.log("in google "+this.DownLoadURI);
+      console.log('in google ' + this.DownLoadURI);
 
       let body = JSON.stringify({
         requests: [
@@ -268,15 +289,16 @@ console.log("in google "+this.DownLoadURI);
               {type: 'FACE_DETECTION', maxResults: 5},
               {type: 'LOGO_DETECTION', maxResults: 5},
               {type: 'TEXT_DETECTION', maxResults: 5},
+              //No need to these features
               {type: 'DOCUMENT_TEXT_DETECTION', maxResults: 5},
               {type: 'SAFE_SEARCH_DETECTION', maxResults: 5},
               {type: 'IMAGE_PROPERTIES', maxResults: 5},
-              {type: 'CROP_HINTS', maxResults: 5},
-              {type: 'WEB_DETECTION', maxResults: 5},
+              // {type: 'CROP_HINTS', maxResults: 5},
+              // {type: 'WEB_DETECTION', maxResults: 5},
             ],
             image: {
               source: {
-                imageUri:this.DownLoadURI,
+                imageUri: this.DownLoadURI,
               },
             },
           },
@@ -307,8 +329,16 @@ console.log("in google "+this.DownLoadURI);
     }
   };
 
+
   render() {
     let {image} = this.state;
+    const ErrormodalVisible=false;
+
+    const {StudentID} = this.props.route.params;
+    const {ClassID} = this.props.route.params;
+
+    console.log('student id ' + StudentID);
+    console.log('class id ' + ClassID);
     return (
       <View>
         <SafeAreaView
@@ -328,15 +358,43 @@ console.log("in google "+this.DownLoadURI);
               bottom: 0,
             }}
           />
-          <BackButton/>
+          <BackButton />
+
+
+ <Modal animationType="fade" transparent={true} visible={this.state.ErrormodalVisible}>
+        <View
+          style={{backgroundColor: 'rgba(52, 52, 52, 0.5)', height: '100%'}}>
+          <View style={TitleStyles.modalContent}>
+            <ErrorVector
+              width={120}
+              height={120}
+              style={{marginLeft: 80, marginTop: -75}}
+            />
+            <Text
+              style={[
+                TitleStyles.subTitle,
+                {textAlign: 'center', fontFamily: 'AJannatLT-Bold'},
+              ]}>
+              {"عذراً جميع الحقول مطلوبة"}
+            </Text>
+            <TouchableOpacity
+              style={[TitleStyles.AlertButton, {backgroundColor: '#DAE2E9'}]}
+              onPress={() => this.state.ErrormodalVisible=false}>
+              <Text style={TitleStyles.ButtonText}>حسنا </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
+
           <Text style={TitleStyles.ButtonText}>إضافة واجب جديد </Text>
-          {/* 
+          <View></View>
           <TextInput
             placeholder=" عنوان النص "
             placeholderTextColor={'#C3C7CA'}
             style={TitleStyles.Title}
-            onChangeText={text => setTitle(text)}
-            //value={Title}
+            onChangeText={text => (this.state.Title = text)}
+            value={this.state.Title}
             underlineColorAndroid="transparent"
             color="black"
           />
@@ -345,16 +403,40 @@ console.log("in google "+this.DownLoadURI);
             placeholder="أدخل عنوان النص "
             placeholderTextColor={'#C3C7CA'}
             style={TitleStyles.TextArea}
-            onChangeText={text => setHomeWork(text)}
-            // value={HomeWork}
+            onChangeText={text => (this.state.HomeWork = text)}
+            value={this.state.HomeWork}
             underlineColorAndroid="transparent"
             color="black"
-          /> */}
+          />
 
+          <View
+            style={{
+              flexDirection: 'row',
+              backgroundColor: '#DAE2E9',
+              borderRadius: 10,
 
-              
-           {/* {this.MideaResponse?.assets &&
-          this.MideaResponse?.assets.map(({uri}) => ( */}
+              width: '80%',
+              justifyContent: 'space-evenly',
+              marginTop: -58,
+            }}>
+            <TouchableOpacity onPress={() => this.onStartRecord()}>
+              <Microphone />
+            </TouchableOpacity>
+
+            <TouchableOpacity>
+              <OldHomeWorks />
+            </TouchableOpacity>
+
+            {StudentID != null && (
+              <TouchableOpacity onPress={() => this.onSelectImagePress()}>
+                <Camera />
+              </TouchableOpacity>
+            )}
+          </View>
+
+          {/*               
+         {this.MideaResponse?.assets &&
+          this.MideaResponse?.assets.map(({uri}) => ( 
             
             <View>
             
@@ -367,22 +449,7 @@ console.log("in google "+this.DownLoadURI);
 
               />
             </View>
-          {/* ))} */}
-    
-{/* 
-          <TouchableOpacity
-            style={[
-              {
-                marginBottom: 20,
-                marginTop: 20,
-                width: '50%',
-                alignItems: 'center',
-              },
-            ]}
-            onPress={() => this.onStartRecord()}>
-            <Microphone width={30} height={30} />
-            <Text style={[TitleStyles.subTitle]}>تسجيل الصوت</Text>
-          </TouchableOpacity>
+           ))}  */}
 
           <Modal
             animationType="fade"
@@ -415,42 +482,43 @@ console.log("in google "+this.DownLoadURI);
                   onPress={() => this.onStopRecord()}>
                   <Text style={TitleStyles.ButtonText}>ايقاف </Text>
                 </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={[
+                    TitleStyles.AlertButton,
+                    {backgroundColor: '#DAE2E9', width: '50%'},
+                  ]}
+                  onPress={() => this.onStartPlay()}>
+                  <Text style={TitleStyles.ButtonText}>تشغيل </Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={[
+                    TitleStyles.AlertButton,
+                    {backgroundColor: '#DAE2E9', width: '50%'},
+                  ]}
+                  onPress={() => this.onStartPlay()}>
+                  <Text style={TitleStyles.ButtonText}>اضافة الصوت  </Text>
+                </TouchableOpacity>
+
+
+
+
               </View>
             </View>
-          </Modal> */}
+          </Modal>
 
           <TouchableOpacity
             style={[
               TitleStyles.Button,
               TitleStyles.shadowOffset,
-              {marginBottom: 20, marginTop: 20, width: '50%'},
+              {marginBottom: 10, marginTop: 40, width: '50%'},
             ]}
-            onPress={() => this.onSelectImagePress()}>
-            <Text style={TitleStyles.ButtonText}>صورة </Text>
+            onPress={() => this.UploadHomeWork()}>
+            <Text style={TitleStyles.ButtonText}>إضافة الواجب </Text>
           </TouchableOpacity>
 
-
-          <TouchableOpacity
-            style={[
-              TitleStyles.Button,
-              TitleStyles.shadowOffset,
-              {marginBottom: 20, marginTop: 20, width: '50%'},
-            ]}
-            onPress={() => this.submitToGoogle()}>
-            <Text style={TitleStyles.ButtonText}>قوقل </Text>
-          </TouchableOpacity>
-{/* 
-          <TouchableOpacity
-            style={[
-              TitleStyles.Button,
-              TitleStyles.shadowOffset,
-              {marginBottom: 20, marginTop: 20, width: '50%'},
-            ]}
-            onPress={() => this.onStartPlay()}>
-            <Text style={TitleStyles.ButtonText}>تشغيل </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={[
               TitleStyles.Button,
               TitleStyles.shadowOffset,
@@ -458,16 +526,6 @@ console.log("in google "+this.DownLoadURI);
             ]}
             onPress={() => this.retrieveRecord()}>
             <Text style={TitleStyles.ButtonText}>rerteive </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[
-              TitleStyles.Button,
-              TitleStyles.shadowOffset,
-              {marginBottom: 20, marginTop: 20, width: '50%'},
-            ]}
-            onPress={() => this.uploadAudio()}>
-            <Text style={TitleStyles.ButtonText}>إضافـــــة </Text>
           </TouchableOpacity> */}
         </SafeAreaView>
       </View>

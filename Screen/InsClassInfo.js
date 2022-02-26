@@ -100,7 +100,13 @@ const InsClassInfo = ({navigation, route}) => {
         <View style={[ TitleStyles.SoftShadow , TitleStyles.InstructorCard , {padding:0 , marginTop:20 , height:200}]}>
             <InsCardBackground style={{zIndex:-1}}/>
             <View style={{position:'absolute', right:20, top:10 }}>
-                <TouchableOpacity style={{flexDirection:'row'}}>
+                <TouchableOpacity style={{flexDirection:'row'}}  onPress={() => {   
+             navigation.navigate('RecordVoice', {
+              classKey : item.key
+            });    }   }
+
+
+                  >
                     <Plus/>
                     <Text style={[TitleStyles.smallText]}>إضافة واجب</Text>
                 </TouchableOpacity>

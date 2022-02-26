@@ -177,15 +177,13 @@ export default StyleSheet.create({
     paddingRight: 10,
   },
   TextArea: {
-    overflow: 'hidden',
+
     backgroundColor: 'white',
     borderRadius: 10,
     fontFamily: 'AJannatLT-Bold',
     fontSize: 18,
     textAlign: 'right',
-    paddingRight: 10,
     paddingBottom: '60%',
-    justifyContent: 'flex-start',
     borderColor: '#DAE2E9',
     borderWidth: 2,
     width: '80%',
