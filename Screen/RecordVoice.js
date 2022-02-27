@@ -76,6 +76,8 @@ class RecordVoice extends Component {
       Title: null,
       textValue: 'يتم التسجيل الان...',
       responseReceived:false,
+      queryText:'',
+      RecFlag:false,
     };
     this.audioRecorderPlayer = new AudioRecorderPlayer();
     this.audioRecorderPlayer.setSubscriptionDuration(0.09); // optional. Default is 0.1
@@ -140,6 +142,7 @@ class RecordVoice extends Component {
     });
     console.log(result);
     this.record = result;
+    This.RecFlag=true;
   };
 
   onStartPlay = async e => {
@@ -252,6 +255,10 @@ class RecordVoice extends Component {
     this.onStartRecord();
   };
 
+
+  handleInputTextChange = (newText) => {
+    this.setState({ queryText: newText })
+  }
   ///////////////////////////////OCR SECTION //////////////////////////////////////////////
 
   onSelectImagePress = () =>
@@ -323,7 +330,7 @@ class RecordVoice extends Component {
      JSON.stringify(responseJson.responses[0].fullTextAnnotation.text);
 
       this.setState({
-        googleResponse:    responseJson.responses[0].fullTextAnnotation.text,
+        googleResponse:responseJson.responses[0].fullTextAnnotation.text,
         uploading: false,
         responseReceived:true,
       });
@@ -341,16 +348,9 @@ class RecordVoice extends Component {
       console.log('home in if ' + this.state.HomeWork);
       return;
     }
-    if ((this.state.record = !'')) {
-      var storageRef = storage().ref();
-      storageRef
-        .child('records/' + this.state.Title + '.m4a')
-        .putFile(this.record)
-        .then(() => {
-          console.log('Sent!');
-          console.log('title' + this.state.Title);
-        })
-        .catch(e => console.log('error:', e));
+    if (this.state.RecFlag == true) {
+            console.log('with record');
+     this.uploadAudio();
     }
 
     if ((this.StudentID = !null)) {
@@ -453,8 +453,12 @@ class RecordVoice extends Component {
             style={TitleStyles.TextArea}
             onChangeText={text => (this.state.HomeWork = text)}
             value= {this.state.responseReceived ? this.state.googleResponse: this.state.HomeWork}
+            
+  
             underlineColorAndroid="transparent"
             color="black"
+             multiline
+
           />
 
           <View
