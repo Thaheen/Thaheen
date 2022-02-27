@@ -65,6 +65,7 @@ class RecordVoice extends Component {
       playTime: '00:00:00',
       duration: '00:00:00',
       modalVisible: false,
+      ErrormodalVisible: false,
       record: '',
       setLocalpath: '',
       MideaResponse: '',
@@ -205,13 +206,10 @@ class RecordVoice extends Component {
     }
   };
 
-  UploadHomeWork  = async () => {
-   
+  UploadHomeWork = async () => {
     if (this.state.HomeWork == null || this.state.Title == null) {
-this.ErrormodalVisible=false;
-console.log("hw "+this.state.HomeWork )
-
-     
+      this.setState({ ErrormodalVisible: true})
+      console.log('Error model ' + this.state.ErrormodalVisible);
     }
     //      firestore().collection('Text').doc({/*UNKOWN */}).set({
     //           TextBody: HomeWork,
@@ -221,7 +219,6 @@ console.log("hw "+this.state.HomeWork )
     //           Recoed:"??",
     //         });
   };
-
 
   retrieveRecord = async () => {
     console.log('onStartPlay');
@@ -332,7 +329,6 @@ console.log("hw "+this.state.HomeWork )
 
   render() {
     let {image} = this.state;
-    const ErrormodalVisible=false;
 
     const {StudentID} = this.props.route.params;
     const {ClassID} = this.props.route.params;
@@ -360,32 +356,41 @@ console.log("hw "+this.state.HomeWork )
           />
           <BackButton />
 
-
- <Modal animationType="fade" transparent={true} visible={this.state.ErrormodalVisible}>
-        <View
-          style={{backgroundColor: 'rgba(52, 52, 52, 0.5)', height: '100%'}}>
-          <View style={TitleStyles.modalContent}>
-            <ErrorVector
-              width={120}
-              height={120}
-              style={{marginLeft: 80, marginTop: -75}}
-            />
-            <Text
-              style={[
-                TitleStyles.subTitle,
-                {textAlign: 'center', fontFamily: 'AJannatLT-Bold'},
-              ]}>
-              {"عذراً جميع الحقول مطلوبة"}
-            </Text>
-            <TouchableOpacity
-              style={[TitleStyles.AlertButton, {backgroundColor: '#DAE2E9'}]}
-              onPress={() => this.state.ErrormodalVisible=false}>
-              <Text style={TitleStyles.ButtonText}>حسنا </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
-
+          <Modal
+            animationType="fade"
+            transparent={true}
+            visible={this.state.ErrormodalVisible}>
+            <View
+              style={{
+                backgroundColor: 'rgba(52, 52, 52, 0.5)',
+                height: '100%',
+              }}>
+              <View style={TitleStyles.modalContent}>
+                <ErrorVector
+                  width={120}
+                  height={120}
+                  style={{marginLeft: 80, marginTop: -75}}
+                />
+                <Text
+                  style={[
+                    TitleStyles.subTitle,
+                    {textAlign: 'center', fontFamily: 'AJannatLT-Bold'},
+                  ]}>
+                  {'عذراً جميع الحقول مطلوبة'}
+                </Text>
+                <TouchableOpacity
+                  style={[
+                    TitleStyles.AlertButton,
+                    {backgroundColor: '#DAE2E9'},
+                  ]}
+                  onPress={() =>
+                     this.setState({ ErrormodalVisible: false})
+                  }>
+                  <Text style={TitleStyles.ButtonText}>حسنا </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Modal>
 
           <Text style={TitleStyles.ButtonText}>إضافة واجب جديد </Text>
           <View></View>
@@ -498,12 +503,8 @@ console.log("hw "+this.state.HomeWork )
                     {backgroundColor: '#DAE2E9', width: '50%'},
                   ]}
                   onPress={() => this.onStartPlay()}>
-                  <Text style={TitleStyles.ButtonText}>اضافة الصوت  </Text>
+                  <Text style={TitleStyles.ButtonText}>اضافة الصوت </Text>
                 </TouchableOpacity>
-
-
-
-
               </View>
             </View>
           </Modal>
