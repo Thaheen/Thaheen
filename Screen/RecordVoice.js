@@ -286,7 +286,7 @@ class RecordVoice extends Component {
               {type: 'FACE_DETECTION', maxResults: 5},
               {type: 'LOGO_DETECTION', maxResults: 5},
               {type: 'TEXT_DETECTION', maxResults: 5},
-              //No need to these features
+              //No need to these features fff
               {type: 'DOCUMENT_TEXT_DETECTION', maxResults: 5},
               {type: 'SAFE_SEARCH_DETECTION', maxResults: 5},
               {type: 'IMAGE_PROPERTIES', maxResults: 5},
