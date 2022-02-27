@@ -111,7 +111,7 @@ const StudentEditProfile = ({navigation, route}) => {
       (NewGrade == '') &
       (NewSchoolName == '')
     ) {
-      setErrorMessage(' لم يتم اصافة معلومات جديدة ');
+      setErrorMessage(' لم يتم اضافة معلومات جديدة ');
       setErrormodalVisible(!ErrormodalVisible);
 
       return;
