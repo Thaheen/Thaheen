@@ -37,18 +37,13 @@ const HomeStackScreens = () => {
         component={InsClassInfo}
         options={{headerShown: false}}
       />
-    </HomeStack.Navigator>
-  )
-}
-const CreateClassStackScreens = () => {
-  return (
-    <CreateClassStack.Navigator>
-      <CreateClassStack.Screen
+      <HomeStack.Screen
         name='CreateClass'
         component={CreateClass}
         options={{headerShown: false}}
-      />
-    </CreateClassStack.Navigator>
+      />     
+
+    </HomeStack.Navigator>
   )
 }
 
@@ -88,18 +83,6 @@ const InstructorTab = () => {
           tabBarLabel: 'الرئيسية',
           tabBarIcon: ({focused}) => (
             <HomeOutline fill={focused ? '#43515F' : 'none'} />
-          ),
-          tabBarLabelStyle: TitleStyles.profileTextIcon,
-          headerShown: false,
-        }}
-      />
-      <Tab.Screen
-        name='Class'
-        component={CreateClassStackScreens}
-        options={{
-          tabBarLabel: 'اضافة فصل',
-          tabBarIcon: ({focused}) => (
-            focused? <PlusFilled /> : <Plus />
           ),
           tabBarLabelStyle: TitleStyles.profileTextIcon,
           headerShown: false,

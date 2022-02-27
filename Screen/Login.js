@@ -140,7 +140,7 @@ const Login = ({navigation}) => {
               ]}
               color='black'
               onChangeText={text => setEmail(text)}
-              value={rememberEmail? rememberEmail : email}
+              value={email}
               textContentType='emailAddress'
               clearButtonMode='while-editing'
               keyboardType='email-address'
