@@ -35,7 +35,6 @@ import storage from '@react-native-firebase/storage';
 import {useNavigation} from '@react-navigation/native';
 import ErrorVector from '../assets/images/ErrorVector.svg';
 
-
 import AudioRecorderPlayer, {
   AVEncoderAudioQualityIOSType,
   AVEncodingOption,
@@ -53,7 +52,6 @@ import Camera from '../assets/images/Camera.svg';
 //the ref of record voice code
 // https://instamobile.io/react-native-tutorials/react-native-record-audio-play/?ref=hackernoon.com
 class RecordVoice extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -76,6 +74,8 @@ class RecordVoice extends Component {
       DownLoadURI: '',
       HomeWork: null,
       Title: null,
+      textValue: 'يتم التسجيل الان...',
+      responseReceived:false,
     };
     this.audioRecorderPlayer = new AudioRecorderPlayer();
     this.audioRecorderPlayer.setSubscriptionDuration(0.09); // optional. Default is 0.1
@@ -110,7 +110,7 @@ class RecordVoice extends Component {
         return;
       }
     }
-    this.state.modalVisible = !this.state.modalVisible;
+    // this.state.modalVisible = !this.state.modalVisible;
     const path = Platform.OS === 'android' ? null : 'hello.m4a';
     const audioSet = {
       AudioEncoderAndroid: AudioEncoderAndroidType.AAC,
@@ -133,14 +133,12 @@ class RecordVoice extends Component {
   };
 
   onStopRecord = async () => {
-    this.state.modalVisible = !this.state.modalVisible;
     const result = await this.audioRecorderPlayer.stopRecorder();
     this.audioRecorderPlayer.removeRecordBackListener();
     this.setState({
       recordSecs: 0,
     });
     console.log(result);
-
     this.record = result;
   };
 
@@ -192,10 +190,11 @@ class RecordVoice extends Component {
         // const fileType = uriParts[uriParts.length - 1];
         var storageRef = storage().ref();
         storageRef
-          .child('records/helloModhi2.m4a')
+          .child('records/' + this.state.Title + '.m4a')
           .putFile(this.record)
           .then(() => {
             console.log('Sent!');
+            console.log('title' + this.state.Title);
           })
           .catch(e => console.log('error:', e));
       } else {
@@ -206,24 +205,10 @@ class RecordVoice extends Component {
     }
   };
 
-  UploadHomeWork = async () => {
-    if (this.state.HomeWork == null || this.state.Title == null) {
-      this.setState({ ErrormodalVisible: true})
-      console.log('Error model ' + this.state.ErrormodalVisible);
-    }
-    //      firestore().collection('Text').doc({/*UNKOWN */}).set({
-    //           TextBody: HomeWork,
-    //           TextHead: Title,
-    //           InstructorID: "??",
-    //           ClassID: "??",
-    //           Recoed:"??",
-    //         });
-  };
-
   retrieveRecord = async () => {
     console.log('onStartPlay');
     storage()
-      .ref('records/helloModhi2.m4a') //name in storage in firebase console
+      .ref('records/' + this.title + '.m4a') //name in storage in firebase console
       .getDownloadURL()
       .then(url => {
         const msg = this.audioRecorderPlayer.startPlayer(url);
@@ -247,7 +232,27 @@ class RecordVoice extends Component {
       .catch(e => console.log('Errors while downloading => ', e));
   };
 
-  ////////////////////
+  onModalPress = () => {
+    this.setState({
+      textValue: 'تم إيقاف التسجيل...',
+    });
+    this.onStopRecord();
+  };
+  onReRecoed = () => {
+    this.setState({
+      textValue: 'يتم التسجيل الان ...',
+    });
+    this.onStartRecord();
+  };
+
+  onRecoed = () => {
+    this.setState({
+      modalVisible: true,
+    });
+    this.onStartRecord();
+  };
+
+  ///////////////////////////////OCR SECTION //////////////////////////////////////////////
 
   onSelectImagePress = () =>
     launchImageLibrary('photo', this.onMediaSelectCallBack);
@@ -259,7 +264,7 @@ class RecordVoice extends Component {
       this.setLocalpath = uri;
     });
 
-    const reference = await storage().ref('OCR/temp');
+    const reference = await storage().ref('OCR/' + this.Title);
     // path to existing file on filesystem
     const pathToFile = this.setLocalpath;
     // uploads file
@@ -270,7 +275,7 @@ class RecordVoice extends Component {
   submitToGoogle = async () => {
     try {
       this.DownLoadURI = await storage()
-        .ref('OCR/temp') //name in storage in firebase console
+        .ref('OCR/' + this.Title) //name in storage in firebase console
         .getDownloadURL()
 
         .catch(e => console.log('Errors while downloading => ', e));
@@ -315,26 +320,66 @@ class RecordVoice extends Component {
       );
       let responseJson = await response.json();
 
-      console.log(responseJson.responses[0].fullTextAnnotation.text);
+     JSON.stringify(responseJson.responses[0].fullTextAnnotation.text);
 
       this.setState({
-        googleResponse: responseJson,
+        googleResponse:    responseJson.responses[0].fullTextAnnotation.text,
         uploading: false,
+        responseReceived:true,
       });
     } catch (error) {
       console.log(error);
     }
   };
 
+  ////////////////////////////////// MAIN UPLOADING METHOD ///////////////////////////
+
+  UploadHomeWork = async () => {
+    if (this.state.HomeWork == null || this.state.Title == null) {
+      this.setState({ErrormodalVisible: true});
+      console.log('Error model ' + this.state.ErrormodalVisible);
+      console.log('home in if ' + this.state.HomeWork);
+      return;
+    }
+    if ((this.state.record = !'')) {
+      var storageRef = storage().ref();
+      storageRef
+        .child('records/' + this.state.Title + '.m4a')
+        .putFile(this.record)
+        .then(() => {
+          console.log('Sent!');
+          console.log('title' + this.state.Title);
+        })
+        .catch(e => console.log('error:', e));
+    }
+
+    if ((this.StudentID = !null)) {
+      console.log('id in if ' + this.StudentID); //true
+      firestore()
+        .collection('Student Text')
+        .add({
+          TextBody: this.state.HomeWork,
+          TextHead: this.state.Title,
+
+          Studentid: JSON.stringify(this.StudentID),
+        });
+    } else {
+      firestore().collection('Instructor Text').add({
+        TextBody: this.state.HomeWork,
+        TextHead: this.state.Title,
+        ClassId: ClassID,
+      });
+    }
+  }; //end of the method
 
   render() {
     let {image} = this.state;
 
-    const {StudentID} = this.props.route.params;
     const {ClassID} = this.props.route.params;
+    const {StudentID} = this.props.route.params;
 
-    console.log('student id ' + StudentID);
-    console.log('class id ' + ClassID);
+    // console.log('student id ' + StudentID);
+    // console.log('class id ' + ClassID);
     return (
       <View>
         <SafeAreaView
@@ -383,9 +428,7 @@ class RecordVoice extends Component {
                     TitleStyles.AlertButton,
                     {backgroundColor: '#DAE2E9'},
                   ]}
-                  onPress={() =>
-                     this.setState({ ErrormodalVisible: false})
-                  }>
+                  onPress={() => this.setState({ErrormodalVisible: false})}>
                   <Text style={TitleStyles.ButtonText}>حسنا </Text>
                 </TouchableOpacity>
               </View>
@@ -405,11 +448,11 @@ class RecordVoice extends Component {
           />
 
           <TextInput
-            placeholder="أدخل عنوان النص "
+            placeholder="أدخل النص "
             placeholderTextColor={'#C3C7CA'}
             style={TitleStyles.TextArea}
             onChangeText={text => (this.state.HomeWork = text)}
-            value={this.state.HomeWork}
+            value= {this.state.responseReceived ? this.state.googleResponse: this.state.HomeWork}
             underlineColorAndroid="transparent"
             color="black"
           />
@@ -424,7 +467,7 @@ class RecordVoice extends Component {
               justifyContent: 'space-evenly',
               marginTop: -58,
             }}>
-            <TouchableOpacity onPress={() => this.onStartRecord()}>
+            <TouchableOpacity onPress={() => this.onRecoed()}>
               <Microphone />
             </TouchableOpacity>
 
@@ -438,23 +481,6 @@ class RecordVoice extends Component {
               </TouchableOpacity>
             )}
           </View>
-
-          {/*               
-         {this.MideaResponse?.assets &&
-          this.MideaResponse?.assets.map(({uri}) => ( 
-            
-            <View>
-            
-              <Image
-                resizeMode="cover"
-                resizeMethod="scale"
-                style={{width: 200, height: 200}}
-                 source={{uri: this.ImageUrl}}
-                
-
-              />
-            </View>
-           ))}  */}
 
           <Modal
             animationType="fade"
@@ -471,12 +497,13 @@ class RecordVoice extends Component {
                   height={120}
                   style={{marginTop: -71}}
                 />
+
                 <Text
                   style={[
                     TitleStyles.subTitle,
                     {textAlign: 'center', fontWeight: 'bold'},
                   ]}>
-                  يتم التسجيل الان...
+                  {this.state.textValue}
                 </Text>
 
                 <TouchableOpacity
@@ -484,7 +511,7 @@ class RecordVoice extends Component {
                     TitleStyles.AlertButton,
                     {backgroundColor: '#DAE2E9', width: '50%'},
                   ]}
-                  onPress={() => this.onStopRecord()}>
+                  onPress={() => this.onModalPress()}>
                   <Text style={TitleStyles.ButtonText}>ايقاف </Text>
                 </TouchableOpacity>
 
@@ -502,7 +529,16 @@ class RecordVoice extends Component {
                     TitleStyles.AlertButton,
                     {backgroundColor: '#DAE2E9', width: '50%'},
                   ]}
-                  onPress={() => this.onStartPlay()}>
+                  onPress={() => this.onReRecoed()}>
+                  <Text style={TitleStyles.ButtonText}>إعادة التسجيل </Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={[
+                    TitleStyles.AlertButton,
+                    {backgroundColor: '#DAE2E9', width: '50%'},
+                  ]}
+                  onPress={() => this.setState({modalVisible: false})}>
                   <Text style={TitleStyles.ButtonText}>اضافة الصوت </Text>
                 </TouchableOpacity>
               </View>
@@ -518,16 +554,6 @@ class RecordVoice extends Component {
             onPress={() => this.UploadHomeWork()}>
             <Text style={TitleStyles.ButtonText}>إضافة الواجب </Text>
           </TouchableOpacity>
-
-          {/* <TouchableOpacity
-            style={[
-              TitleStyles.Button,
-              TitleStyles.shadowOffset,
-              {marginBottom: 20, marginTop: 20, width: '50%'},
-            ]}
-            onPress={() => this.retrieveRecord()}>
-            <Text style={TitleStyles.ButtonText}>rerteive </Text>
-          </TouchableOpacity> */}
         </SafeAreaView>
       </View>
     );
