@@ -140,8 +140,7 @@ const Home = ({navigation, route}) => {
               TitleStyles.HeaderTitle,
               {alignSelf:'flex-start'}
             ]}>
-          <Plus />
-
+          <Plus style={{ marginTop:10}} />
             فصولي
         </Text>
           </TouchableOpacity>

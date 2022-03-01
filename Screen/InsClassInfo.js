@@ -72,7 +72,7 @@ const InsClassInfo = ({navigation, route}) => {
         </View>
 
         {/* Start of class info card Section */}
-        <View style={[ TitleStyles.SoftShadow , TitleStyles.InstructorCard]}>
+        <View style={[ TitleStyles.SoftShadow , TitleStyles.InstructorCard, {marginTop:80}]}>
 
             <View style={[TitleStyles.InstructorSubCard,{borderRightWidth:0}]}>
                 <Homework style={{width:30,height:10}}/>

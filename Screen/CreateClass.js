@@ -42,14 +42,8 @@ const CreateClass = ({navigation, route}) => {
     {label: 'الفقه', value: 'الفقه'},
     {label: 'الحديث', value: 'الحديث'},
     {label: 'التجويد', value: 'التجويد'},
+    {label: 'التفسير', value: 'التفسير'},
     {label: 'لغتي', value: 'لغتي'},
-    {label: 'العلوم', value: 'العلوم'},
-    {label: 'الرياضيات', value: 'الرياضيات'},
-    {label: 'الانجليزية', value: 'الانجليزية'},
-    {label: 'الفنية', value: 'الفنية'},
-    {label: 'البدنية', value: 'البدنية'},
-    {label: 'الاجتماعية', value: 'الاجتماعية'},
-    {label: 'الاسرية', value: 'الاسرية'},
     {label: 'آخرى', value: 'آخرى'},
   ]);
     const [StudentList, setStudentList] = useState([]);
