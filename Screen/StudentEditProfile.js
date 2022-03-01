@@ -306,8 +306,7 @@ const StudentEditProfile = ({navigation, route}) => {
         <View style={[{zIndex: 1000, elevation: 1000}]}>
           <DropDownPicker
             style={[
-              TitleStyles.dropDownStyle2,
-              Platform.OS === 'android' ? TitleStyles.shadowOffset : null,
+              TitleStyles.dropDownStyle2    
             ]}
             textStyle={TitleStyles.categoryText}
             dropDownContainerStyle={{

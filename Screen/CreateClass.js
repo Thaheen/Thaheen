@@ -302,7 +302,7 @@ const setStudentArray = userArray =>{
               TitleStyles.InstructorCard,
               {
                 position: 'relative',
-                marginTop: -50,
+                marginTop: 20,
                 backgroundColor: 'rgba(255, 255, 255, 0)',
                 width: 300,
                 padding: 0,
