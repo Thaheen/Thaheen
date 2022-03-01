@@ -14,6 +14,7 @@ import TitleStyles from '../Styles/Titles';
 import Ombre from '../assets/images/OmbreBackground.svg';
 import Podium from '../assets/images/podium.svg';
 import Homework from '../assets/images/homework.svg';
+import Plus from '../assets/images/Plus.svg';
 import InfoCard from '../assets/images/infoCard.svg';
 import Cell from '../assets/images/cell.svg';
 import InsClassCard from '../Components/InsClassCard.js'
@@ -76,7 +77,7 @@ const Home = ({navigation, route}) => {
 }, [])
 
   return (
-    <SafeAreaView style={{...Platform.OS === 'android' ? {marginTop: 20, } : null , backgroundColor:'#FFF'}}>
+    <SafeAreaView style={{...Platform.OS === 'android' ? {marginTop: 20, } : null , backgroundColor:'#FFF', flex:1}}>
     <Ombre
         style={[    
             {position: 'absolute', top: 0},
@@ -90,7 +91,9 @@ const Home = ({navigation, route}) => {
         <Podium style={[Platform.OS === 'ios' ? TitleStyles.SoftShadow : null , {position:'absolute', top:10, left:15}]}/>
         <Text style={[
               TitleStyles.HeaderTitle,
-              {position:'absolute', top:0, left:90},
+              {
+                textAlign: 'left', left: 100
+              },
             ]}>
        أ. {IName}
         </Text>
@@ -98,7 +101,7 @@ const Home = ({navigation, route}) => {
         {/* End of Instructor info Section */}
 
         {/* Start of main card Section */}
-        <View style={[ TitleStyles.SoftShadow , TitleStyles.InstructorCard]}>
+        <View style={[ TitleStyles.SoftShadow , TitleStyles.InstructorCard , {marginTop:30 }]}>
         <View style={[TitleStyles.InstructorSubCard,{borderRightWidth:0}]}>
         <Homework style={{width:30,height:10}}/>
          <Text style={TitleStyles.smallText}> الواجبات </Text> 
@@ -129,23 +132,29 @@ const Home = ({navigation, route}) => {
           >
             لم تضف اي فصل بعد
           </Text> : null }
+        <TouchableOpacity onPress={() => {
+            navigation.navigate('CreateClass');
+          }}>
+          
+        <Text style={[
+              TitleStyles.HeaderTitle,
+              {alignSelf:'flex-start'}
+            ]}>
+          <Plus />
+
+            فصولي
+        </Text>
+          </TouchableOpacity>
 
           <FlatList
           key={'#'}
-          style={{ position:'relative' , top: 70, width:370 , height:'90%'}}
+          style={{ height:'90%'}}
           data={allClasses}
-          ListHeaderComponent={<Text style={[
-              TitleStyles.HeaderTitle,
-              {position:'absolute', top:250, left:30},
-            ]}>
-            فصولي
-        </Text>}
-          ListHeaderComponentStyle={{top:-240}}
           numColumns= {3}
           scrollEnabled={false} 
           keyExtractor={(item, index) => index.toString()}
           renderItem={({item}) => (
-            <TouchableOpacity style={{top:100}} onPress={() => {
+            <TouchableOpacity style={{top:10}} onPress={() => {
             navigation.navigate('InsClassInfo', {
               classKey : item.key
             });

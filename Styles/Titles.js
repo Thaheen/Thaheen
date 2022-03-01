@@ -359,7 +359,7 @@ export default StyleSheet.create({
     alignSelf: 'center',
     padding: 30,
     backgroundColor: '#FFFFFF',
-    top: 80,
+    margingTop: 90,
     borderRadius: 25,
   },
 

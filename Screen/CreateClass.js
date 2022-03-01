@@ -355,6 +355,8 @@ const setStudentArray = userArray =>{
           </Text>
         </TouchableOpacity>
       </ScrollView>
+      <BackButton/>
+
     </SafeAreaView>
   );
 };
