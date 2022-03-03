@@ -31,6 +31,10 @@ const StudentClass = () => {
   const [loading, setLoading] = useState(true);
   const [Exist, setExist] = useState('false');
   const {student} = React.useContext(UserInfoContext);
+
+  let colors = ['#F8D3C1', '#F3DAAB'];
+  let i = 0;
+
   useEffect(() => {
     const classcomm = firestore()
       .collection('ClassCommunity')
@@ -41,6 +45,7 @@ const StudentClass = () => {
           StudentClassroom.push({
             ...documentSnapshot.data(),
             key: documentSnapshot.id,
+            color: colors[i++ % 2],
           });
         });
         setClassList(StudentClassroom);
@@ -79,16 +84,17 @@ const StudentClass = () => {
       {ClassList != 0 && (
         <FlatList
           numColumns={2}
-          style={{ height: "85%" }}
+          style={{height: '85%'}}
           data={ClassList}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({item}) => (
-            <TouchableOpacity style={{
-              top:50,
-              marginTop:20,
-              marginLeft:30
-            }}>
-              <ClassCard title={item.Name} />
+            <TouchableOpacity
+              style={{
+                top: 50,
+                marginTop: 20,
+                marginLeft: 30,
+              }}>
+              <ClassCard title={item.Name} color={item.color} />
             </TouchableOpacity>
           )}
         />

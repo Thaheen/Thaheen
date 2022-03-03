@@ -9,12 +9,12 @@ import {
 import TitleStyles from '../Styles/Titles';
 import BookReader from '../assets/images/BookReader';
 
-const TextCard = ({title}) => {
+const TextCard = ({title , color  }) => {
   return (
     <View
       style={[
         {
-          backgroundColor: '#f7d3c1',
+          backgroundColor: color,
           borderRadius: 25,
           width: 150,
           height: 150,
