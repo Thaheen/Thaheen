@@ -83,6 +83,7 @@ const StudentClass = () => {
 
       {ClassList != 0 && (
         <FlatList
+         style={{flexGrow: 0}}
           numColumns={2}
           style={{height: '85%'}}
           data={ClassList}

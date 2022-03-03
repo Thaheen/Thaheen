@@ -64,8 +64,17 @@ const StudentHome = () => {
     return classcomm;
   }, []);
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF', ...Platform.OS === 'android' ? {paddingTop: 20, } : null}}>
-      <FocusAwareStatusBar backgroundColor="#FFFFFF" barStyle="dark-content" translucent />
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: '#FFFFFF',
+        ...(Platform.OS === 'android' ? {paddingTop: 20} : null),
+      }}>
+      <FocusAwareStatusBar
+        backgroundColor="#FFFFFF"
+        barStyle="dark-content"
+        translucent
+      />
 
       {/* start top container */}
       <View style={{padding: 30}}>
@@ -122,6 +131,7 @@ const StudentHome = () => {
 
       {TextList != 0 && (
         <FlatList
+          style={{flexGrow: 0}}
           data={TextList}
           keyExtractor={(item, index) => index.toString()}
           horizontal={true}
