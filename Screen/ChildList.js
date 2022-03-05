@@ -100,9 +100,9 @@ const ChildList = ({navigation}) => {
         style={{
           flex: 1,
           backgroundColor: 'white',
-          ...Platform.OS === 'android' ? {paddingTop: 20, } : null
+          ...(Platform.OS === 'android' ? {paddingTop: 20} : null),
         }}>
-        <StatusBar translucent backgroundColor='#DAE2E9' />
+        <StatusBar translucent backgroundColor="#DAE2E9" />
 
         <TopBox style={[{position: 'absolute', top: 0}]} />
         <Top2Lines
@@ -141,15 +141,14 @@ const ChildList = ({navigation}) => {
             ID={ChildID}
           />
         ) : null}
-        
+
         {/*children.length*/}
 
-        { children.length ==0 ? 
-        <Text
-            style={[TitleStyles.NotAvailableAlert]}
-        >
+        {children.length == 0 ? (
+          <Text style={[TitleStyles.NotAvailableAlert]}>
             لم تضف اي حساب طفل بعد
-        </Text> : null }
+          </Text>
+        ) : null}
 
         <FlatList
           style={[{marginTop: 100, height: '55%'}]}
@@ -192,6 +191,14 @@ const ChildList = ({navigation}) => {
                         })
                       }>
                       <Text> الملف الشخصي</Text>
+                    </MenuOption>
+                    <MenuOption
+                      onSelect={() =>
+                        navigation.navigate('ResetPasscode', {
+                          studentID: item.key,
+                        })
+                      }>
+                      <Text>إعادة تعيين رمز الدخول</Text>
                     </MenuOption>
                     <MenuOption onSelect={() => setChild(item.key)}>
                       <Text>حذف الطفل</Text>

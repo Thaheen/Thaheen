@@ -8,6 +8,7 @@ import {default as StudentProfile} from '../Screen/StudentProfile.js';
 import {default as WelcomeScreen} from '../Screen/WelcomeScreen.js';
 import {default as StudentHome} from '../Screen/StudentHome.js';
 import {default as StudentTab} from './StudentTab.js';
+import {default as ResetPasscode} from '../Screen/ResetPasscode.js';
 
 const Stack = createNativeStackNavigator();
 
@@ -15,7 +16,6 @@ const ParentStack = () => {
   //Please put  here all the screens related to parent homepage, childlist..etc
   return (
     <Stack.Navigator initialRouteName="ChildList">
-
       <Stack.Screen
         name="ChildList"
         component={ChildList}
@@ -34,6 +34,12 @@ const ParentStack = () => {
       />
 
       <Stack.Screen
+        name="ResetPasscode"
+        component={ResetPasscode}
+        options={{headerShown: false}}
+      />
+
+      <Stack.Screen
         name="StudentProfile"
         component={StudentProfile}
         options={{headerShown: false}}
@@ -44,7 +50,6 @@ const ParentStack = () => {
         component={StudentTab}
         options={{headerShown: false, animation: 'fade'}}
       />
-      
     </Stack.Navigator>
   );
 };
