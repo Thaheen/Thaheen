@@ -27,6 +27,8 @@ const StudentHome = () => {
   const [ClassList, setClassList] = useState('');
   const [loading, setLoading] = useState(true);
   const {student} = React.useContext(UserInfoContext);
+  const SName = student['_data']['Fullname'];
+  const [fullName, setFullName] = useState('');
 
   useEffect(() => {
     const textAssignment = firestore()
@@ -48,21 +50,16 @@ const StudentHome = () => {
   }, []);
 
   useEffect(() => {
-    const classcomm = firestore()
-      .collection('ClassCommunity')
-      .where('StudentList', 'array-contains', student.data().Username)
-      .onSnapshot(querySnapshot => {
-        const StudentClassroom = [];
-        querySnapshot.forEach(documentSnapshot => {
-          StudentClassroom.push({
-            ...documentSnapshot.data(),
-            key: documentSnapshot.id,
-          });
-        });
-        setClassList(StudentClassroom);
+    const studentsInfo = firestore()
+      .collection('Student')
+      .doc(student ? student.id : route.params.studentID)
+      .onSnapshot(snapshot => {
+        setFullName(snapshot.data().Fullname);
       });
-    return classcomm;
+    return studentsInfo;
   }, []);
+
+
   return (
     <SafeAreaView
       style={{
@@ -89,7 +86,7 @@ const StudentHome = () => {
               TitleStyles.sectionTitle,
               {textAlign: 'left', fontWeight: null},
             ]}>
-            مرحبًا {student.data().Fullname}
+            مرحبًا {fullName}
           </Text>
           <Text
             style={[
