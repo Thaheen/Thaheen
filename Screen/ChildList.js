@@ -198,7 +198,7 @@ const ChildList = ({navigation}) => {
                           studentID: item.key,
                         })
                       }>
-                      <Text>إعادة تعيين رمز الدخول</Text>
+                      <Text>تحديث رمز الدخول</Text>
                     </MenuOption>
                     <MenuOption onSelect={() => setChild(item.key)}>
                       <Text>حذف الطفل</Text>
@@ -232,7 +232,8 @@ const ChildList = ({navigation}) => {
           <Text style={TitleStyles.ButtonText}>إضافة حساب طفل جديد</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
+        {/* 
+      <TouchableOpacity
           style={[
             TitleStyles.Button,
             {
@@ -246,6 +247,8 @@ const ChildList = ({navigation}) => {
           }}>
           <Text style={TitleStyles.ButtonText}>تسجيل صوت جديد</Text>
         </TouchableOpacity>
+      
+      */}
         <TouchableOpacity
           style={[
             TitleStyles.Button,

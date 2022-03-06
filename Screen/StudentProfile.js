@@ -57,12 +57,48 @@ const StudentProfile = ({navigation, route}) => {
       style={{
         backgroundColor: '#FFFFFF',
         height: '100%',
-        ...Platform.OS === 'android' ? {paddingTop: 20, } : null
+        paddingBottom: Platform.OS === 'ios' ? 100 : 65,
+        ...(Platform.OS === 'android' ? {paddingTop: 20} : null),
         // justifyContent: 'center',
         // alignItems: 'center',
       }}>
-      <TopBox style={[{position: 'absolute', top: 0, Right: 250}]}> </TopBox>
+      <StatusBar translucent backgroundColor="#DAE2E9" />
+      <View style={[TitleStyles.BlueContianer, {position: 'absolute'}]} />
+      <BackButton
+        style={{
+          zIndex: 2,
+        }}
+      />
+      <Text style={[TitleStyles.ProfileTitle]}> بيانات الطالب</Text>
+      <View style={[TitleStyles.WhiteContianer]}>
+        <View style={{top: 15, alignSelf: 'center', marginBottom: 0}}>
+          <AnimalPicker
+            pic={student ? student.data().pic : route.params.studentPic}
+          />
+        </View>
 
+        <Text style={[TitleStyles.Profilename]}>{fullName}</Text>
+        <Text style={[TitleStyles.ProfileUsername]}>{userName}</Text>
+
+        <TouchableOpacity
+          style={[
+            TitleStyles.EditBtn,
+            {
+              backgroundColor: '#FFFFFF',
+              // alignSelf: 'center',
+              width: 173,
+              //marginTop: 10,
+              // marginBottom: 40,
+            },
+          ]}
+          onPress={() => {
+            navigation.navigate('ResetPasscode', {
+              studentID: route.params.studentID,
+            });
+          }}>
+          <Text style={[TitleStyles.ProfileUsername]}> تحديث رمز الدخول</Text>
+        </TouchableOpacity>
+      </View>
       <Top2Lines
         style={[
           Platform.OS === 'ios' ? TitleStyles.shadowOffset : null,
@@ -70,20 +106,6 @@ const StudentProfile = ({navigation, route}) => {
         ]}
       />
 
-      <Text
-        style={[
-          TitleStyles.HeaderTitle,
-          {textAlign: I18nManager.isRTL ? 'left' : 'right', paddingLeft: 30},
-        ]}>
-        الملف الشخصي
-      </Text>
-
-      {/* size of the animal picker need to be changed */}
-      <View style={{top: 60, left: 150, marginBottom: 50}}>
-        <AnimalPicker
-          pic={student ? student.data().pic : route.params.studentPic}
-        />
-      </View>
       <ScrollView>
         <Text style={TitleStyles.profileText}>الاسم كامل </Text>
         <TextInput

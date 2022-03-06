@@ -142,7 +142,7 @@ const ResetPasscode = ({navigation, route}) => {
             color: '#43515F',
             textAlign: 'center',
           }}>
-          إعادة تعيين رمز الدخول
+          تحديث رمز الدخول
         </Text>
         <View style={Platform.OS === 'ios' ? TitleStyles.shadowOffset : null}>
           <TextInput
@@ -173,7 +173,7 @@ const ResetPasscode = ({navigation, route}) => {
         </View>
 
         <TouchableOpacity style={TitleStyles.Button} onPress={resetPasscode}>
-          <Text style={TitleStyles.ButtonText}>إعادة تعيين رمز الدخول</Text>
+          <Text style={TitleStyles.ButtonText}>تحديث</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
