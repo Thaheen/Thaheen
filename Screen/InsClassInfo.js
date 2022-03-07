@@ -13,7 +13,7 @@ import TitleStyles from '../Styles/Titles';
 import Ombre from '../assets/images/OmbreBackground.svg';
 import Homework from '../assets/images/homework.svg';
 import InfoCard from '../assets/images/infoCard.svg';
-import Ladder from '../assets/images/Ladder.svg';
+import Unlock from '../assets/images/UnlockEclipse.svg';
 import Plus from '../assets/images/Plus.svg';
 import BackButton from '../Components/BackButton';
 import InsCardBackground from '../assets/images/InsCardBackground.svg';
@@ -27,6 +27,7 @@ import firestore from '@react-native-firebase/firestore';
 const InsClassInfo = ({navigation, route}) => {
 
   const [name, setName] = useState('');
+  const [passcode, setPasscode] = useState('');
   const [numOfStudents, setNumOfStudents] = useState('');
   const [studentsList, setStudentsList] = useState([]);
 
@@ -43,6 +44,7 @@ const InsClassInfo = ({navigation, route}) => {
             .onSnapshot(snapshot => {
                 setName(snapshot.data().Name);
                 setStudentsList(snapshot.data().StudentList);
+                setPasscode(snapshot.data().Passcode);
                 setNumOfStudents(studentsList.length);
             });
         return classInfo;
@@ -77,19 +79,19 @@ const InsClassInfo = ({navigation, route}) => {
             <View style={[TitleStyles.InstructorSubCard,{borderRightWidth:0}]}>
                 <Homework style={{width:30,height:10}}/>
                 <Text style={TitleStyles.smallText}> الواجبات </Text> 
-                <Text> {/* Use numOfHomeworks Here */} 0 </Text>
+                <Text style={TitleStyles.smallText}> {/* Use numOfHomeworks Here */} 0 </Text>
             </View>
 
             <View style={TitleStyles.InstructorSubCard}> 
-                <Ladder/>
-                <Text style={TitleStyles.smallText}> لوحة التفوق </Text> 
-                <Text> </Text>
+                <Unlock/>
+                <Text style={TitleStyles.smallText}> رمز الدخول </Text> 
+                <Text style={TitleStyles.smallText}> {passcode} </Text>
             </View>
 
             <View style={TitleStyles.InstructorSubCard}>
                 <InfoCard/>
                 <Text style={TitleStyles.smallText} > الطلاب </Text>
-                <Text> {numOfStudents} </Text>
+                <Text style={TitleStyles.smallText}> {numOfStudents} </Text>
 
             </View>
 
