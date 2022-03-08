@@ -34,6 +34,7 @@ import {UserInfoContext} from '../auth/UserInfoContext';
 import storage from '@react-native-firebase/storage';
 import {useNavigation} from '@react-navigation/native';
 import ErrorVector from '../assets/images/ErrorVector.svg';
+import CheckVector from '../assets/images/CheckVector.svg';
 
 import AudioRecorderPlayer, {
   AVEncoderAudioQualityIOSType,
@@ -75,9 +76,9 @@ class RecordVoice extends Component {
       HomeWork: null,
       Title: null,
       textValue: 'يتم التسجيل الان...',
-      responseReceived:false,
-      queryText:'',
-      RecFlag:false,
+      responseReceived: false,
+      queryText: '',
+      RecFlag: false,
     };
     this.audioRecorderPlayer = new AudioRecorderPlayer();
     this.audioRecorderPlayer.setSubscriptionDuration(0.09); // optional. Default is 0.1
@@ -142,7 +143,7 @@ class RecordVoice extends Component {
     });
     console.log(result);
     this.record = result;
-    This.RecFlag=true;
+    This.RecFlag = true;
   };
 
   onStartPlay = async e => {
@@ -255,10 +256,9 @@ class RecordVoice extends Component {
     this.onStartRecord();
   };
 
-
-  handleInputTextChange = (newText) => {
-    this.setState({ queryText: newText })
-  }
+  handleInputTextChange = newText => {
+    this.setState({queryText: newText});
+  };
   ///////////////////////////////OCR SECTION //////////////////////////////////////////////
 
   onSelectImagePress = () =>
@@ -295,13 +295,14 @@ class RecordVoice extends Component {
             features: [
               {type: 'LABEL_DETECTION', maxResults: 10},
               {type: 'LANDMARK_DETECTION', maxResults: 5},
-              {type: 'FACE_DETECTION', maxResults: 5},
-              {type: 'LOGO_DETECTION', maxResults: 5},
+              // {type: 'FACE_DETECTION', maxResults: 5},
+              // {type: 'LOGO_DETECTION', maxResults: 5},
               {type: 'TEXT_DETECTION', maxResults: 5},
-              //No need to these features fff
-              {type: 'DOCUMENT_TEXT_DETECTION', maxResults: 5},
               {type: 'SAFE_SEARCH_DETECTION', maxResults: 5},
-              {type: 'IMAGE_PROPERTIES', maxResults: 5},
+              //No need to these features fff
+              // {type: 'DOCUMENT_TEXT_DETECTION', maxResults: 5},
+
+              // {type: 'IMAGE_PROPERTIES', maxResults: 5},
               // {type: 'CROP_HINTS', maxResults: 5},
               // {type: 'WEB_DETECTION', maxResults: 5},
             ],
@@ -315,7 +316,7 @@ class RecordVoice extends Component {
       });
       let response = await fetch(
         'https://vision.googleapis.com/v1/images:annotate?key=' +
-          'AIzaSyCLNN-xsz-fNLI-NsPLzcp1xnBrewZ2npQ',
+          'AIzaSyAHRHxTUVdJSjWg6rflJXNWNR1jhhZoGn0',//AIzaSyCLNN-xsz-fNLI-NsPLzcp1xnBrewZ2npQ
         {
           headers: {
             Accept: 'application/json',
@@ -327,12 +328,12 @@ class RecordVoice extends Component {
       );
       let responseJson = await response.json();
 
-     JSON.stringify(responseJson.responses[0].fullTextAnnotation.text);
+      JSON.stringify(responseJson.responses[0].fullTextAnnotation.text);
 
       this.setState({
-        googleResponse:responseJson.responses[0].fullTextAnnotation.text,
+        googleResponse: responseJson.responses[0].fullTextAnnotation.text,
         uploading: false,
-        responseReceived:true,
+        responseReceived: true,
       });
     } catch (error) {
       console.log(error);
@@ -349,8 +350,8 @@ class RecordVoice extends Component {
       return;
     }
     if (this.state.RecFlag == true) {
-            console.log('with record');
-     this.uploadAudio();
+      console.log('with record');
+      this.uploadAudio();
     }
 
     if ((this.StudentID = !null)) {
@@ -452,13 +453,14 @@ class RecordVoice extends Component {
             placeholderTextColor={'#C3C7CA'}
             style={TitleStyles.TextArea}
             onChangeText={text => (this.state.HomeWork = text)}
-            value= {this.state.responseReceived ? this.state.googleResponse: this.state.HomeWork}
-            
-  
+            value={
+              this.state.responseReceived
+                ? this.state.googleResponse
+                : this.state.HomeWork
+            }
             underlineColorAndroid="transparent"
             color="black"
-             multiline
-
+            multiline
           />
 
           <View
@@ -548,6 +550,33 @@ class RecordVoice extends Component {
               </View>
             </View>
           </Modal>
+
+     <Modal animationType="fade" transparent={true} visible={this.state.modalVisible}>
+        <View
+          style={{backgroundColor: 'rgba(52, 52, 52, 0.5)', height: '100%'}}>
+          <View style={TitleStyles.modalContent}>
+            <CheckVector
+              width={120}
+              height={120}
+              style={{marginLeft: 80, marginTop: -75}}
+            />
+            <Text
+              style={[
+                TitleStyles.subTitle,
+                {textAlign: 'center', fontFamily: 'AJannatLT-Bold'},
+              ]}>
+              {'تمت اضافة الواجب بنجاح'}
+            </Text>
+            <TouchableOpacity
+              style={[TitleStyles.AlertButton, {backgroundColor: '#DAE2E9'}]}
+               onPress={() => this.setState({modalVisible: false})}>
+              <Text style={TitleStyles.ButtonText}>{"حسنا"} </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
+
 
           <TouchableOpacity
             style={[
