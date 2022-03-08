@@ -14,6 +14,7 @@ import {default as WelcomeScreen} from '../Screen/WelcomeScreen.js';
 import {default as StudentHome} from '../Screen/StudentHome.js';
 import {default as StudentClass} from '../Screen/StudentClass.js';
 import {default as StudentNotifications} from '../Screen/StudentNotifications.js';
+import {default as ReciteSession} from '../Screen/ReciteSession.js';
 
 const HomeStack = createNativeStackNavigator();
 const ClassStack = createNativeStackNavigator();
@@ -131,6 +132,18 @@ const StudentTab = () => {
         component={ProfileStackScreens}
         options={{
           tabBarLabel: 'البيانات الشخصية',
+          tabBarIcon: ({focused}) => (
+            <ProfileOutline fill={focused ? '#43515F' : 'none'} />
+          ),
+          tabBarLabelStyle: TitleStyles.profileTextIcon,
+          headerShown: false,
+        }}
+      />
+      <Tab.Screen
+        name="ReciteSession"
+        component={ReciteSession}
+        options={{
+          tabBarLabel: 'جلسة التسميع',
           tabBarIcon: ({focused}) => (
             <ProfileOutline fill={focused ? '#43515F' : 'none'} />
           ),

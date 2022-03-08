@@ -2,8 +2,11 @@ import React from 'react'
 import {Text, TouchableOpacity, View, Platform, I18nManager} from 'react-native'
 import TitleStyles from '../Styles/Titles'
 import BookReader from '../assets/images/BookReader'
+import {useNavigation} from '@react-navigation/native';
+
 
 const TextCard = ({title}) => {
+  const navigation = useNavigation();
   return (
     <View
       style={[
@@ -57,7 +60,11 @@ const TextCard = ({title}) => {
             backgroundColor: '#FFFFFF',
             borderRadius: 25,
             paddingHorizontal: 12,
-          }}>
+          }}
+          
+          onPress={() => {
+            navigation.navigate('ReciteSession');
+             }}>
           <Text style={TitleStyles.smallText}>ابدأ التسميع</Text>
         </TouchableOpacity>
       </View>
