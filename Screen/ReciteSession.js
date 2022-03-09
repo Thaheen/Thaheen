@@ -21,8 +21,10 @@ import firestore from '@react-native-firebase/firestore';
 import BackButton from '../Components/BackButton.js';
 import {UserInfoContext} from '../auth/UserInfoContext';
 import storage from '@react-native-firebase/storage';
+import Creds from '../auth/thaheen-af3bc-7e4c624cf1aa.json'
 
 const ReciteSession = ({navigation, route}) => {
+
   const [DownLoadURI, setDownLoadURI] = useState('');
   const submitToGoogle = async () => {
     try {
@@ -36,11 +38,13 @@ const ReciteSession = ({navigation, route}) => {
 
       let body = JSON.stringify({
         config: {
-          languageCode: 'ar-SA',
-          alternativeLanguageCodes: ['en-US'],
+          encoding: 'LINEAR16',
+          sampleRateHertz: 16000,
+          languageCode: 'en-US',
         },
         audio: {
-          uri: 'gs://thaheen-af3bc.appspot.com/records/helloModhi.m4a',
+          // audio is "how old is the Brooklyn Bridge"
+          uri: 'gs://cloud-samples-data/speech/brooklyn_bridge.raw',
         },
       });
 
@@ -49,7 +53,7 @@ const ReciteSession = ({navigation, route}) => {
           'AIzaSyAHRHxTUVdJSjWg6rflJXNWNR1jhhZoGn0',
         {
           headers: {
-            Authorization:"Bearer ya29.A0ARrdaM8rvnhkS4IeSr7lDkPp2VqDerKXlco9_Kz71SPVAffAGqGam9KRXAD-h0BftWeddU7j4PAX0kgfqjceBppDEJL8TnbrKIZB2dk19FINe1a9-zo3v-BZx3UuFp6iYql95lveKOrrY--NZIXx2BSWk5bg",
+            Authorization : Creds ,
             Accept: 'application/json',
             'Content-Type': 'application/json',
           },
@@ -59,9 +63,11 @@ const ReciteSession = ({navigation, route}) => {
       );
       let responseJson = await response.json();
 
-      JSON.stringify(responseJson);
-
-      console.log(responseJson);
+      const transcription = responseJson.results
+        .map(result => result.alternatives[0].transcript)
+          .join('\n');
+          console.log(`Transcription: ${transcription}`);
+    
     } catch (error) {
       console.log(error + '<-----here ');
     }
