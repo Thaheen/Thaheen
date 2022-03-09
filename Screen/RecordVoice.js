@@ -79,6 +79,8 @@ class RecordVoice extends Component {
       responseReceived: false,
       queryText: '',
       RecFlag: false,
+      SucessfulModalVisible:false,
+      
     };
     this.audioRecorderPlayer = new AudioRecorderPlayer();
     this.audioRecorderPlayer.setSubscriptionDuration(0.09); // optional. Default is 0.1
@@ -364,6 +366,8 @@ class RecordVoice extends Component {
 
           Studentid: JSON.stringify(this.StudentID),
         });
+         this.setState({SucessfulModalVisible: true});
+          
     } else {
       firestore().collection('Instructor Text').add({
         TextBody: this.state.HomeWork,
@@ -375,8 +379,8 @@ class RecordVoice extends Component {
 
   render() {
     let {image} = this.state;
-
     const {ClassID} = this.props.route.params;
+    
     const {StudentID} = this.props.route.params;
 
     // console.log('student id ' + StudentID);
@@ -551,7 +555,7 @@ class RecordVoice extends Component {
             </View>
           </Modal>
 
-     <Modal animationType="fade" transparent={true} visible={this.state.modalVisible}>
+     <Modal animationType="fade" transparent={true} visible={this.state.SucessfulModalVisible}>
         <View
           style={{backgroundColor: 'rgba(52, 52, 52, 0.5)', height: '100%'}}>
           <View style={TitleStyles.modalContent}>
@@ -569,14 +573,12 @@ class RecordVoice extends Component {
             </Text>
             <TouchableOpacity
               style={[TitleStyles.AlertButton, {backgroundColor: '#DAE2E9'}]}
-               onPress={() => this.setState({modalVisible: false})}>
+               onPress={() => this.setState({SucessfulModalVisible: false})}>
               <Text style={TitleStyles.ButtonText}>{"حسنا"} </Text>
             </TouchableOpacity>
           </View>
         </View>
       </Modal>
-
-
 
           <TouchableOpacity
             style={[
