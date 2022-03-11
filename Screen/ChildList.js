@@ -114,7 +114,7 @@ const ChildList = ({navigation}) => {
         <Text
           style={[
             TitleStyles.HeaderTitle,
-            {textAlign: I18nManager.isRTL ? 'left' : 'right', paddingLeft: 40},
+            {textAlign: I18nManager.isRTL ? 'left' : 'right', marginLeft: 40},
           ]}>
           أطفالي
         </Text>

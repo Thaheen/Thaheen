@@ -416,7 +416,7 @@ export default StyleSheet.create({
     height: 29,
     borderRadius: 25,
     alignSelf: 'flex-start',
-    marginTop: 30,
+    marginBottom: 8,
   },
   InsStudentItem: {
     flex: 1,

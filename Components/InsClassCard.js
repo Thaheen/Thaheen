@@ -36,12 +36,14 @@ return (
         {studentsLen} طالب
       </Text>
 
+      <View style={{flex:1, justifyContent: 'flex-end'}}>
         <TouchableOpacity style={[
           TitleStyles.EnterClassBtn,
           {backgroundColor: '#FFFFFF'},]}
         >
         <Text style={[TitleStyles.smallText], {fontFamily: 'AJannatLT-Bold' , textAlign: 'center', color: '#808182'}}>دخول الفصل</Text>
         </TouchableOpacity>
+      </View>
       
     </View>
   );

@@ -55,7 +55,7 @@ const InsClassInfo = ({navigation, route}) => {
 
   return (
     <View style={{backgroundColor:'#FFF' , height:'100%'}}>
-    <SafeAreaView style={{...Platform.OS === 'android' ? {marginTop: 20, } : null , backgroundColor:'#FFF'}}>
+    <SafeAreaView style={{backgroundColor:'#FFF'}}>
     <Ombre
         style={[    
             {position: 'absolute', top: 0},
@@ -67,14 +67,14 @@ const InsClassInfo = ({navigation, route}) => {
         <View>
             <Text style={[
                 TitleStyles.HeaderTitle,
-                {position:'absolute', top:0, left:90},
+                {position:'absolute', top: Platform.OS == 'ios' ? 0 : 20, left:90},
                 ]}>
                 {name}
             </Text>
         </View>
 
         {/* Start of class info card Section */}
-        <View style={[ TitleStyles.SoftShadow , TitleStyles.InstructorCard, {marginTop:80}]}>
+        <View style={[ TitleStyles.SoftShadow , TitleStyles.InstructorCard, {marginTop: Platform.OS== 'ios' ? 80 : 120}]}>
 
             <View style={[TitleStyles.InstructorSubCard,{borderRightWidth:0}]}>
                 <Homework style={{width:30,height:10}}/>
@@ -134,7 +134,7 @@ const InsClassInfo = ({navigation, route}) => {
         {/* End of Homework card Section */}
 
         {/* Start of Students card Section */}
-        <View style={[ TitleStyles.SoftShadow , TitleStyles.InstructorCard , {padding:0 , marginTop:20 , height:200}]}>
+        <View style={[ TitleStyles.SoftShadow , TitleStyles.InstructorCard , {padding:0 , marginTop:20 , height:200, marginBottom: Platform.OS === 'ios' ? 100 : 90}]}>
             <InsCardBackground style={{zIndex:0}}/>
             <View style={{position:'absolute', right:20, top:10, zIndex:2}}>
                 <TouchableOpacity style={{flexDirection:'row'}}>

@@ -163,9 +163,10 @@ const setStudentArray = userArray =>{
       <Ombre style={[{position: 'absolute', top: 0}]} />
 
       <StatusBar />
-      <ScrollView>
+      <ScrollView style={{alignSelf: 'stretch'}}>
         <View
           style={{
+            alignSelf: 'center',
             backgroundColor: '#FFFFFF',
             width: 350,
             height: 500,
@@ -179,7 +180,7 @@ const setStudentArray = userArray =>{
             shadowRadius: 8.3,
             elevation: 13,
             padding: 25,
-            marginTop: 70,
+            marginTop: Platform.OS === 'android' ? 120 : 70,
           }}>
           <SuccessModel
             message={
@@ -338,6 +339,7 @@ const setStudentArray = userArray =>{
               padding: 5,
               width: 285,
               marginTop: 40,
+              marginBottom: Platform.OS === 'ios' ? 100 : 90
             },
           ]}>
           <Text
