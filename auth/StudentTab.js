@@ -36,6 +36,11 @@ const HomeStackScreens = () => {
         component={StudentHome}
         options={{headerShown: false}}
       />
+        <HomeStack.Screen
+        name="ReciteSession"
+        component={ReciteSession}
+        options={{headerShown: false}}
+      />
     </HomeStack.Navigator>
   );
 };
@@ -139,18 +144,7 @@ const StudentTab = () => {
           headerShown: false,
         }}
       />
-      <Tab.Screen
-        name="ReciteSession"
-        component={ReciteSession}
-        options={{
-          tabBarLabel: 'جلسة التسميع',
-          tabBarIcon: ({focused}) => (
-            <ProfileOutline fill={focused ? '#43515F' : 'none'} />
-          ),
-          tabBarLabelStyle: TitleStyles.profileTextIcon,
-          headerShown: false,
-        }}
-      />
+     
     </Tab.Navigator>
   );
 };

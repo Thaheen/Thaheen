@@ -13,19 +13,22 @@ import {
 } from 'react-native';
 import TitleStyles from '../Styles/Titles';
 import RTLlayout from '../Styles/RTLlayout';
-import Top2Lines from '../assets/images/top2Lines.svg';
-import TopBox from '../assets/images/TopBox.svg';
-import AnimalPicker from '../Screen/AnimalPicker.js';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import BackButton from '../Components/BackButton.js';
+import ReciteRectangle from '../assets/images/ReciteRectangle.svg';
 import {UserInfoContext} from '../auth/UserInfoContext';
 import storage from '@react-native-firebase/storage';
-import Creds from '../auth/thaheen-af3bc-7e4c624cf1aa.json'
+import Creds from '../auth/thaheen-af3bc-7e4c624cf1aa.json';
+import StartMicrophone from '../assets/images/StartMicrophone.svg';
+import StopMicrophone from '../assets/images/StopMicrophone.svg';
+import Thaheen from '../assets/images/ThaheenStanding.svg';
+import SpeechBubble from '../assets/images/SpeechBubble.svg';
 
 const ReciteSession = ({navigation, route}) => {
-
   const [DownLoadURI, setDownLoadURI] = useState('');
+
+  const [IsRecording, setIsRecording] = useState(false);
   const submitToGoogle = async () => {
     try {
       setDownLoadURI(
@@ -54,7 +57,7 @@ const ReciteSession = ({navigation, route}) => {
           'AIzaSyAHRHxTUVdJSjWg6rflJXNWNR1jhhZoGn0',
         {
           headers: {
-            Authorization : Creds ,
+            Authorization: Creds,
             Accept: 'application/json',
             'Content-Type': 'application/json',
           },
@@ -64,13 +67,12 @@ const ReciteSession = ({navigation, route}) => {
       );
       let responseJson = await response.json();
 
-      console.log(responseJson)
+      console.log(responseJson);
 
       const transcription = responseJson.results
         .map(result => result.alternatives[0].transcript)
-          .join('\n');
-          console.log(`Transcription: ${transcription}`);
-    
+        .join('\n');
+      console.log(`Transcription: ${transcription}`);
     } catch (error) {
       console.log(error + '<-----here ');
     }
@@ -80,10 +82,17 @@ const ReciteSession = ({navigation, route}) => {
     <SafeAreaView
       style={{
         flex: 1,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: '#DAE2E9',
         ...(Platform.OS === 'android' ? {paddingTop: 20} : null),
       }}>
       <View>
+        <BackButton />
+
+        <SpeechBubble 
+        style={
+          TitleStyles.shadowOffset,[{
+          position:'absolute'
+        }]}/>
         <TouchableOpacity
           style={{
             backgroundColor: '#FFFFFF',
@@ -95,6 +104,35 @@ const ReciteSession = ({navigation, route}) => {
           }}>
           <Text style={TitleStyles.smallText}>ابدأ التسميع</Text>
         </TouchableOpacity>
+        <ReciteRectangle
+          style={{
+            position: 'absolute',
+            top: 200,
+            
+          }}
+        />
+        <Thaheen
+          height={200}
+          style={{
+            right: -130,
+            top: 280,
+          }}
+        />
+
+        <View
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            top:370
+          }}>
+          <TouchableOpacity onPress={() => setIsRecording(!IsRecording)}>
+            {IsRecording ? (
+              <StopMicrophone height={100} />
+            ) : (
+              <StartMicrophone height={100} />
+            )}
+          </TouchableOpacity>
+        </View>
       </View>
 
       {/* end bottom container */}
