@@ -32,8 +32,8 @@ const StudentHome = () => {
 
   useEffect(() => {
     const textAssignment = firestore()
-      .collection('Text')
-      .where('StudentID', '==', student.id)
+      .collection('Student Text')
+      .where('Studentid', '==', student.id)
       .onSnapshot(querySnapshot => {
         const homework = [];
 

@@ -27,8 +27,8 @@ import SpeechBubble from '../assets/images/SpeechBubble.svg';
 
 const ReciteSession = ({navigation, route}) => {
   const [DownLoadURI, setDownLoadURI] = useState('');
-
   const [IsRecording, setIsRecording] = useState(false);
+  const [BodyText, setBodyText] = useState('إضغط زر المايكروفون لنبدأ');
 
   const finishRecord = () => {
     setIsRecording(!IsRecording);
@@ -39,13 +39,12 @@ const ReciteSession = ({navigation, route}) => {
 
   const transcriptAudio = async () => {
     try {
-      setDownLoadURI(
-        await storage()
-          .ref('records/helloModhi.m4a') //name in storage in firebase console
-          .getDownloadURL(),
-      );
-
-      console.log('in google ' + DownLoadURI);
+      // setDownLoadURI(
+      //   await storage()
+      //     .ref('records/helloModhi.m4a') //name in storage in firebase console
+      //     .getDownloadURL(),
+      // );
+      //console.log('in google ' + DownLoadURI);
 
       let body = JSON.stringify({
         config: {
@@ -94,55 +93,63 @@ const ReciteSession = ({navigation, route}) => {
         ...(Platform.OS === 'android' ? {paddingTop: 20} : null),
       }}>
       <BackButton />
-      <View>
+
+      <View
+        style={{
+          position: 'absolute',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
         <SpeechBubble
           style={
-            (TitleStyles.shadowOffset,
+            (TitleStyles.SoftShadow,
             [
               {
-                position: 'absolute',
-                top: 50,
+                top: 80,
               },
             ])
           }
         />
+        <Text style={[TitleStyles.smallText, {fontSize: 25, top: -110}]}>
+          {BodyText}
+        </Text>
+      </View>
 
-        <ReciteRectangle
-          style={{
-            position: 'absolute',
-            top: 250,
-          }}
-        />
-        <Thaheen
-          height={200}
-          style={{
-            right: -130,
-            top: 350,
-          }}
-        />
+      <ReciteRectangle
+        style={{
+          position: 'absolute',
+          top: 290,
+        }}
+      />
+      <Thaheen
+        height={200}
+        style={{
+          right: -130,
+          top: 320,
+        }}
+      />
 
+      <View
+        style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          top: 400,
+        }}>
         <View
           style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            top: 400,
-          }}>
-          <View
-            style={{
-              position: 'absolute',
-              backgroundColor: '#DAE2E9',
-              width: 390,
-              height: 100,
-              top: 50,
-            }}></View>
-          <TouchableOpacity onPress={() => finishRecord()}>
-            {IsRecording ? (
-              <StopMicrophone height={100} />
-            ) : (
-              <StartMicrophone height={100} />
-            )}
-          </TouchableOpacity>
-        </View>
+            position: 'absolute',
+            backgroundColor: '#DAE2E9',
+            width: 390,
+            height: 100,
+            top: 50,
+          }}></View>
+        <TouchableOpacity onPress={() => finishRecord()}>
+          {IsRecording ? (
+            <StopMicrophone height={100} />
+          ) : (
+            <StartMicrophone height={100} />
+          )}
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
