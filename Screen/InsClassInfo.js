@@ -145,7 +145,9 @@ const InsClassInfo = ({navigation, route}) => {
             
             <View style={{position:'absolute', left:20, top:10, zIndex:2}}> 
                 <TouchableOpacity>
-                    <Text style={[TitleStyles.smallText]}>عرض الكل</Text>
+                    <Text style={[TitleStyles.smallText]} onPress={() => navigation.navigate('ClassStudents', {
+              classKey : route.params.classKey
+            })}>عرض الكل</Text>
                 </TouchableOpacity>
             </View>
 
