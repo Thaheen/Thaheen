@@ -38,13 +38,14 @@ const ReciteSession = ({navigation, route}) => {
 
       let body = JSON.stringify({
         config: {
-          encoding: 'LINEAR16',
-          sampleRateHertz: 16000,
-          languageCode: 'en-US',
+          encoding: 'FLAC',
+          sampleRateHertz: 44100,
+          languageCode: 'ar-SA',
+          audio_channel_count: 2,
         },
         audio: {
           // audio is "how old is the Brooklyn Bridge"
-          uri: 'gs://cloud-samples-data/speech/brooklyn_bridge.raw',
+          uri: 'gs://thaheen-recite/salam (1).flac',
         },
       });
 
@@ -62,6 +63,8 @@ const ReciteSession = ({navigation, route}) => {
         },
       );
       let responseJson = await response.json();
+
+      console.log(responseJson)
 
       const transcription = responseJson.results
         .map(result => result.alternatives[0].transcript)
