@@ -36,6 +36,7 @@ import {useNavigation} from '@react-navigation/native';
 import ErrorVector from '../assets/images/ErrorVector.svg';
 import CheckVector from '../assets/images/CheckVector.svg';
 
+
 import AudioRecorderPlayer, {
   AVEncoderAudioQualityIOSType,
   AVEncodingOption,
@@ -53,6 +54,7 @@ import Camera from '../assets/images/Camera.svg';
 //the ref of record voice code
 // https://instamobile.io/react-native-tutorials/react-native-record-audio-play/?ref=hackernoon.com
 class RecordVoice extends Component {
+    // const navigation = useNavigation();
   constructor(props) {
     super(props);
     this.state = {
@@ -261,6 +263,16 @@ class RecordVoice extends Component {
   handleInputTextChange = newText => {
     this.setState({queryText: newText});
   };
+
+onSucssfulModalPress = () => {
+    this.setState({
+      SucessfulModalVisible: false,
+    });
+
+   this.props.navigation.navigate('StudentHome')
+
+  };
+
   ///////////////////////////////OCR SECTION //////////////////////////////////////////////
 
   onSelectImagePress = () =>
@@ -573,7 +585,7 @@ class RecordVoice extends Component {
             </Text>
             <TouchableOpacity
               style={[TitleStyles.AlertButton, {backgroundColor: '#DAE2E9'}]}
-               onPress={() => this.setState({SucessfulModalVisible: false})}>
+               onPress={() => this.onSucssfulModalPress()}>
               <Text style={TitleStyles.ButtonText}>{"حسنا"} </Text>
             </TouchableOpacity>
           </View>
