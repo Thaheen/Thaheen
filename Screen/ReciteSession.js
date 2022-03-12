@@ -29,7 +29,15 @@ const ReciteSession = ({navigation, route}) => {
   const [DownLoadURI, setDownLoadURI] = useState('');
 
   const [IsRecording, setIsRecording] = useState(false);
-  const submitToGoogle = async () => {
+
+  const finishRecord = () => {
+    setIsRecording(!IsRecording);
+    if (IsRecording) {
+      transcriptAudio();
+    }
+  };
+
+  const transcriptAudio = async () => {
     try {
       setDownLoadURI(
         await storage()
@@ -85,37 +93,31 @@ const ReciteSession = ({navigation, route}) => {
         backgroundColor: '#DAE2E9',
         ...(Platform.OS === 'android' ? {paddingTop: 20} : null),
       }}>
+      <BackButton />
       <View>
-        <BackButton />
+        <SpeechBubble
+          style={
+            (TitleStyles.shadowOffset,
+            [
+              {
+                position: 'absolute',
+                top: 50,
+              },
+            ])
+          }
+        />
 
-        <SpeechBubble 
-        style={
-          TitleStyles.shadowOffset,[{
-          position:'absolute'
-        }]}/>
-        <TouchableOpacity
-          style={{
-            backgroundColor: '#FFFFFF',
-            borderRadius: 25,
-            paddingHorizontal: 12,
-          }}
-          onPress={() => {
-            submitToGoogle();
-          }}>
-          <Text style={TitleStyles.smallText}>ابدأ التسميع</Text>
-        </TouchableOpacity>
         <ReciteRectangle
           style={{
             position: 'absolute',
-            top: 200,
-            
+            top: 250,
           }}
         />
         <Thaheen
           height={200}
           style={{
             right: -130,
-            top: 280,
+            top: 350,
           }}
         />
 
@@ -123,9 +125,17 @@ const ReciteSession = ({navigation, route}) => {
           style={{
             justifyContent: 'center',
             alignItems: 'center',
-            top:370
+            top: 400,
           }}>
-          <TouchableOpacity onPress={() => setIsRecording(!IsRecording)}>
+          <View
+            style={{
+              position: 'absolute',
+              backgroundColor: '#DAE2E9',
+              width: 390,
+              height: 100,
+              top: 50,
+            }}></View>
+          <TouchableOpacity onPress={() => finishRecord()}>
             {IsRecording ? (
               <StopMicrophone height={100} />
             ) : (
@@ -134,10 +144,6 @@ const ReciteSession = ({navigation, route}) => {
           </TouchableOpacity>
         </View>
       </View>
-
-      {/* end bottom container */}
-
-      {/* <BottomBar /> */}
     </SafeAreaView>
   );
 };
