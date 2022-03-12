@@ -17,37 +17,61 @@ import BackButton from '../Components//BackButton.js'
 import FocusAwareStatusBar from '../Components/FocusAwareStatusBar'
 import TitleStyles from '../Styles/Titles'
 import firestore from '@react-native-firebase/firestore'
+import ConfirmModel from '../Components/ConfirmModel'
 
-const ClassStudents = ({navigation, route}) => {
+const ClassAllStudents = ({navigation, route}) => {
   const [studentsList, setStudentsList] = useState([])
   const [numOfStudents, setNumOfStudents] = useState('')
+  const [username, setUsername] = useState()
+  const [ConfirmmodalVisible, setConfirmmodalVisible] = useState(false)
 
-  if (route.params.classKey) {
-    useEffect(() => {
-      const classInfo = firestore()
-        .collection('ClassCommunity')
-        .doc(route.params.classKey)
-        .onSnapshot(snapshot => {
-          setStudentsList(snapshot.data().StudentList)
-          setNumOfStudents(studentsList.length)
-        })
-      return classInfo
-    }, [])
+  useEffect(() => {
+    const subscriber = firestore()
+      .collection('ClassCommunity')
+      .doc(route.params.classKey)
+      .onSnapshot(snapshot => {
+        const students = []
+        if(snapshot.data().StudentList != 0){
+        snapshot.data().StudentList.forEach(studentUsername => {
+          firestore()
+            .collection('Student')
+            .where('Username', '==', studentUsername)
+            .onSnapshot(querySnapshot => {
+              students.push({
+                ...querySnapshot.docs[0].data(),
+                key: querySnapshot.docs[0].id,
+              })
+              setStudentsList(students)
+            })
+
+        })} else{
+         setStudentsList([])
+        }
+        setNumOfStudents(studentsList.length)
+      })
+
+    return () => subscriber()
+  }, [])
+
+  const ViewStudentProfile = name => {
+    navigation.navigate('StudentProfile', {
+      studentID: name.key,
+      studentPic: name.pic,
+    })
   }
-
-//   const viewStudnetProfile = name => {
-//     firestore()
-//       .collection('Student')
-//       .where('Username', '==', name)
-//       .onSnapshot(querySnapshot => {
-//         querySnapshot.forEach(documentSnapshot => {
-//           navigation.navigate('StudentProfile', {
-//             studentID: documentSnapshot.id,
-//             studentPic: documentSnapshot.data().pic,
-//           })
-//         })
-//       })
-//   }
+  const removeStudentFromList = () => {
+    setConfirmmodalVisible(!ConfirmmodalVisible)
+    firestore()
+      .collection('ClassCommunity')
+      .doc(route.params.classKey)
+      .update({
+        StudentList: firestore.FieldValue.arrayRemove(username),
+      })
+  }
+  const showCofnirmModal = username => {
+    setUsername(username)
+    setConfirmmodalVisible(!ConfirmmodalVisible)
+  }
 
   return (
     <SafeAreaView style={{flex: 1, alignItems: 'center'}}>
@@ -70,6 +94,7 @@ const ClassStudents = ({navigation, route}) => {
             marginTop: 25,
           }}
         />
+
         <View
           style={[
             TitleStyles.SoftShadow,
@@ -97,6 +122,16 @@ const ClassStudents = ({navigation, route}) => {
             </Text>
           )}
 
+          {ConfirmmodalVisible ? (
+            <ConfirmModel
+              message={'هل انت متأكد من إزالة الطالب؟'}
+              modalVisible={ConfirmmodalVisible}
+              setModalVisible={setConfirmmodalVisible}
+              sentFunction={removeStudentFromList}
+              ID={username}
+            />
+          ) : null}
+
           <FlatList
             style={[{marginTop: 30, paddingHorizontal: 20}]}
             data={studentsList}
@@ -116,11 +151,16 @@ const ClassStudents = ({navigation, route}) => {
                   },
                 ]}>
                 <TouchableOpacity
+                  onPress={() => ViewStudentProfile(item)}
                   style={{flexDirection: 'row', alignItems: 'center'}}>
                   <ThaheenMini height={40} width={70} />
-                  <Text style={[TitleStyles.smallText]}>{item}</Text>
+                  <Text style={[TitleStyles.smallText, {fontSize: 20}]}>
+                    {item.Fullname}
+                  </Text>
                 </TouchableOpacity>
-                <TouchableOpacity>
+
+                <TouchableOpacity
+                  onPress={() => showCofnirmModal(item.Username)}>
                   <Text
                     style={[
                       TitleStyles.WarningText,
@@ -138,4 +178,4 @@ const ClassStudents = ({navigation, route}) => {
   )
 }
 
-export default ClassStudents
+export default ClassAllStudents

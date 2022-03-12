@@ -13,7 +13,7 @@ import {default as InstructorHome} from '../Screen/InstructorHome.js'
 import {default as InstructorProfile} from '../Screen/InstructorProfile.js'
 import {default as CreateClass} from '../Screen/CreateClass.js'
 import {default as InsClassInfo} from '../Screen/InsClassInfo.js';
-import {default as ClassStudents} from '../Screen/ClassStudents.js';
+import {default as ClassAllStudents} from '../Screen/ClassAllStudents.js';
 import {default as StudentProfile} from '../Screen/StudentProfile.js';
 
 const Stack = createNativeStackNavigator()
@@ -45,8 +45,8 @@ const HomeStackScreens = () => {
         options={{headerShown: false}}
       />
       <HomeStack.Screen
-        name='ClassStudents'
-        component={ClassStudents}
+        name='ClassAllStudents'
+        component={ClassAllStudents}
         options={{headerShown: false}}
       />  
       <HomeStack.Screen

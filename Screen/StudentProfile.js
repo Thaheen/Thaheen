@@ -21,14 +21,14 @@ import firestore from '@react-native-firebase/firestore';
 import BackButton from '../Components/BackButton.js';
 import {UserInfoContext} from '../auth/UserInfoContext';
 const StudentProfile = ({navigation, route}) => {
-  const user = auth().currentUser;
+ // const user = auth().currentUser;
 
   const [fullName, setFullName] = useState('');
   const [userName, setUserName] = useState('');
   const [userGrade, setGrade] = useState('');
   const [userSchoolName, setSchoolName] = useState('');
   const [userPic, setuserPic] = useState('');
-  const {student} = React.useContext(UserInfoContext);
+  const {student, user} = React.useContext(UserInfoContext);
   //const studentID = route.params.studentID;
   //console.log('-------------------');
   //console.log(route.params.studentID);
@@ -79,7 +79,7 @@ const StudentProfile = ({navigation, route}) => {
         <Text style={[TitleStyles.Profilename]}>{fullName}</Text>
         <Text style={[TitleStyles.ProfileUsername]}>{userName}</Text>
 
-        <TouchableOpacity
+       {user.ref.parent.id === 'Parents Accounts' ?  <TouchableOpacity
           style={[
             TitleStyles.EditBtn,
             {
@@ -96,7 +96,7 @@ const StudentProfile = ({navigation, route}) => {
             });
           }}>
           <Text style={[TitleStyles.ProfileUsername]}> تحديث رمز الدخول</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> : null}
       </View>
       <Top2Lines
         style={[
@@ -141,6 +141,8 @@ const StudentProfile = ({navigation, route}) => {
               width: 300,
               marginTop: 70,
               marginBottom: 40,
+              marginBottom: Platform.OS === 'ios' ? 100 : 90
+
             },
           ]}
           // onPress={onSignout}
@@ -148,7 +150,7 @@ const StudentProfile = ({navigation, route}) => {
           <Text
             style={TitleStyles.ButtonText}
             onPress={() => {
-              navigation.navigate('ChildList');
+              navigation.goBack();
             }}>
             رجوع
           </Text>
