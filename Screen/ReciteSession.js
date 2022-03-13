@@ -24,23 +24,43 @@ import StartMicrophone from '../assets/images/StartMicrophone.svg';
 import StopMicrophone from '../assets/images/StopMicrophone.svg';
 import Thaheen from '../assets/images/ThaheenStanding.svg';
 import SpeechBubble from '../assets/images/SpeechBubble.svg';
+import ob from './OpenMicrophone.js';
 
 const ReciteSession = ({navigation, route}) => {
   const [DownLoadURI, setDownLoadURI] = useState('');
   const [IsRecording, setIsRecording] = useState(false);
   const [BodyText, setBodyText] = useState('إضغط زر المايكروفون لنبدأ');
+  const [recordID, setRecordId] = useState()
+  const [onePass, setOnePass] = useState(0);
+
+  if (onePass == 0) {
+    setRecordId(Math.floor(100000 + Math.random() * 90000).toString());
+    setOnePass(1);
+  }
+
 
   const finishRecord = () => {
-    console.log('before: '+IsRecording)
+    console.log('before: ' + IsRecording);
     setIsRecording(!IsRecording);
-    
+
     if (IsRecording) {
-      transcriptAudio();
+      console.log('stopped rec ')
+      ob.onStopRecord(recordID)
+      //====================== TEMP FIX, change timeout later ====================
+      setTimeout(() => {
+      transcriptAudio()
+      }, 3000);
+    } else {
+    console.log('he is recording');
+    
+    ob.onStartRecord( Math.floor(100000 + Math.random() * 90000));
+    
     }
-   else(console.log('he is recording'))
   };
 
   const transcriptAudio = async () => {
+    console.log("=============REC ID=============")
+    console.log(recordID)
     try {
       // setDownLoadURI(
       //   await storage()
@@ -58,7 +78,7 @@ const ReciteSession = ({navigation, route}) => {
         },
         audio: {
           // audio is "how old is the Brooklyn Bridge"
-          uri: 'gs://thaheen-recite/salam (1).flac',
+          uri: 'gs://thaheen-af3bc.appspot.com/ReciteSession/'+recordID+'.flac',
         },
       });
 
@@ -95,15 +115,13 @@ const ReciteSession = ({navigation, route}) => {
         backgroundColor: '#DAE2E9',
         ...(Platform.OS === 'android' ? {paddingTop: 20} : null),
       }}>
-      
-
       <View
         style={{
           position: 'absolute',
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-          <BackButton />
+        <BackButton />
         <SpeechBubble
           style={
             (TitleStyles.SoftShadow,
