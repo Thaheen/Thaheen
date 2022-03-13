@@ -17,47 +17,59 @@ import {
 import TitleStyles from '../Styles/Titles';
 import Top2Lines from '../assets/images/top2Lines.svg';
 import TopBox from '../assets/images/TopBox.svg';
-import ThaheenMini from '../assets/images/ThaheenMini.svg';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import AccessModel from '../Components/AccessModel';
 import RTLlayout from '../Styles/RTLlayout';
 import {UserInfoContext} from '../auth/UserInfoContext';
-import ClassCard from '../Components/ClassCard';
+import BackButton from '../Components/BackButton.js';
+import Scoreboard from '../assets/images/ClassScoreboard.svg';
+import HomeworkIcon from '../assets/images/Book.svg';
 
 const StudentClass = ({navigation, route}) => {
-  const [AccessModalVisible, setAccessModalVisible] = useState(false);
-  const [ClassList, setClassList] = useState([]);
+  const [className, setclassName] = useState('');
+  const [AssignmentList, setAssignmentList] = useState([]);
+  const [StudentList, setStudentList] = useState([]);
+  const [InstructorID, setInstructorID] = useState('');
+  const [TextList, setTextList] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [ClassID , setClassID]=useState('')
-  const [Exist, setExist] = useState('false');
   const {student} = React.useContext(UserInfoContext);
+  
 
-  let colors = ['#F8D3C1', '#F3DAAB'];
+  let colors = ['#DAE2E9', '#FAE2D7'];
   let i = 0;
 
+  console.log(route.params.ClassCID)
   useEffect(() => {
     const classcomm = firestore()
       .collection('ClassCommunity')
-      .where('StudentList', 'array-contains', student.data().Username)
+      .doc(route.params.ClassCID)
       .onSnapshot(querySnapshot => {
-        const StudentClassroom = [];
+        setclassName(querySnapshot.data().Name);
+      });
+    return classcomm;
+  }, []);
+
+  useEffect(() => {
+    const textAssignment = firestore()
+      .collection('Instructor Text')
+      .where('ClassId', '==', route.params.ClassCID)
+      .onSnapshot(querySnapshot => {
+        const homework = [];
+
         querySnapshot.forEach(documentSnapshot => {
-          StudentClassroom.push({
+          homework.push({
             ...documentSnapshot.data(),
             key: documentSnapshot.id,
             color: colors[i++ % 2],
           });
         });
-        setClassList(StudentClassroom);
+        setTextList(homework);
+        setLoading(false);
       });
-    return classcomm;
+    return () => textAssignment();
   }, []);
 
-  const setClassCommunityID=ClassID=>{
-    setClassID(ClassID)
-    navigation.navigate('ViewClassCommunity' , {ClassCID:ClassID})
-  }
+
   return (
     <SafeAreaView
       style={{
@@ -83,31 +95,45 @@ const StudentClass = ({navigation, route}) => {
             fontSize: 35,
           },
         ]}>
-        فصلي
+        {className}
       </Text>
+      <BackButton />
+      <TouchableOpacity
+        style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          top:80
+        }}>
+        <Scoreboard />
+      </TouchableOpacity>
 
-      {ClassList != 0 && (
+      {TextList != 0 && (
         <FlatList
-          numColumns={2}
-          style={{height: '85%' , top:50}}
-          data={ClassList}
+          style={{height: '85%', top: 70}}
+          data={TextList}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({item}) => (
             <TouchableOpacity
-              style={{
+              style={{           
                 marginTop: 20,
                 marginLeft: 30,
+                backgroundColor:item.color,
+                borderRadius:15,
+                width:340,
+                height:70,
+                flexDirection: 'row', 
+                alignItems: 'center'
               }}
-              onPress={() => {
-                setClassCommunityID(item.key)
-              }}>
-              <ClassCard title={item.Name} color={item.color} />
+              >
+              <HomeworkIcon height={40} width={70}/>
+              <Text
+              style={[TitleStyles.smallText, {fontSize: 20}]}>{item.TextHead}</Text>
             </TouchableOpacity>
           )}
         />
       )}
 
-      {ClassList == 0 && (
+      {TextList == 0 && (
         <View
           style={[
             {
@@ -126,48 +152,10 @@ const StudentClass = ({navigation, route}) => {
               TitleStyles.sectionTitle,
               {fontSize: 24, fontWeight: null},
             ]}>
-            لم تنضم إلى أي صفوف بعد
+            لا يوجد واجب حاليا
           </Text>
         </View>
       )}
-
-      <ThaheenMini
-        width={200}
-        style={[
-          {
-            position: 'absolute',
-            bottom: 85,
-            right: 10,
-          },
-        ]}
-      />
-      <TouchableOpacity
-        style={[
-          TitleStyles.Button,
-          {
-            position: 'absolute',
-            bottom: 100,
-            backgroundColor: '#DAE2E9',
-            alignSelf: 'center',
-            width: 300,
-            marginBottom: 10,
-          },
-        ]}
-        onPress={() => {
-          setAccessModalVisible(!AccessModalVisible);
-          console.log('after show access modal call');
-        }}>
-        <Text style={TitleStyles.ButtonText}>إضافة فصل جديد</Text>
-      </TouchableOpacity>
-
-      {AccessModalVisible ? (
-        <AccessModel
-          modalVisible={AccessModalVisible}
-          setModalVisible={setAccessModalVisible}
-          studentID={student.id}
-          type={'class'}
-        />
-      ) : null}
     </SafeAreaView>
   );
 };

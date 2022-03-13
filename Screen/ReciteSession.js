@@ -31,10 +31,13 @@ const ReciteSession = ({navigation, route}) => {
   const [BodyText, setBodyText] = useState('إضغط زر المايكروفون لنبدأ');
 
   const finishRecord = () => {
+    console.log('before: '+IsRecording)
     setIsRecording(!IsRecording);
+    
     if (IsRecording) {
       transcriptAudio();
     }
+   else(console.log('he is recording'))
   };
 
   const transcriptAudio = async () => {
@@ -92,7 +95,7 @@ const ReciteSession = ({navigation, route}) => {
         backgroundColor: '#DAE2E9',
         ...(Platform.OS === 'android' ? {paddingTop: 20} : null),
       }}>
-      <BackButton />
+      
 
       <View
         style={{
@@ -100,6 +103,7 @@ const ReciteSession = ({navigation, route}) => {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
+          <BackButton />
         <SpeechBubble
           style={
             (TitleStyles.SoftShadow,

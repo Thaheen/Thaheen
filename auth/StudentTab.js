@@ -15,7 +15,7 @@ import {default as StudentHome} from '../Screen/StudentHome.js';
 import {default as StudentClass} from '../Screen/StudentClass.js';
 import {default as StudentNotifications} from '../Screen/StudentNotifications.js';
 import {default as ReciteSession} from '../Screen/ReciteSession.js';
-
+import {default as ViewClassCommunity} from '../Screen/ViewClassCommunity.js'
 const HomeStack = createNativeStackNavigator();
 const ClassStack = createNativeStackNavigator();
 const NotifyStack = createNativeStackNavigator();
@@ -50,6 +50,11 @@ const ClassStackScreens = () => {
       <ClassStack.Screen
         name="StudentClass"
         component={StudentClass}
+        options={{headerShown: false}}
+      />
+      <HomeStack.Screen
+        name="ViewClassCommunity"
+        component={ViewClassCommunity}
         options={{headerShown: false}}
       />
     </ClassStack.Navigator>
