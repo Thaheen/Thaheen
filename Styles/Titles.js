@@ -177,7 +177,6 @@ export default StyleSheet.create({
     paddingRight: 10,
   },
   TextArea: {
-
     backgroundColor: 'white',
     borderRadius: 10,
     fontFamily: 'AJannatLT-Bold',
@@ -426,7 +425,38 @@ export default StyleSheet.create({
     borderRadius: 15,
     margin: 5,
     height: 40,
-    width:320,
+    width: 320,
     flexDirection: 'row-reverse',
+  },
+
+  //Memorisation Session Style
+
+  RectanglBox: {
+    width: 167,
+    height: 272,
+    margin: 10,
+    borderRadius: 15,
+    padding: 0,
+  },
+
+  WhiteBox: {
+    width: 137,
+    height: 108,
+    borderRadius: 15,
+    backgroundColor: '#FFF',
+    marginTop: 20,
+    position: 'absolute',
+    zIndex: 1,
+    alignSelf: 'center',
+    //paddingTop: 50,
+    alignItems: 'center',
+    padding: 20,
+  },
+  StartMemorize: {
+    fontFamily: 'AJannatLT-Bold',
+    fontSize: 18,
+    color: '#43515F',
+    marginTop: -4,
+    textAlign: 'center',
   },
 });
