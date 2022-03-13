@@ -188,6 +188,7 @@ const setStudentArray = userArray =>{
             }
             modalVisible={modalVisible}
             setModalVisible={setModalVisible}
+            goBackCalled={true}
           />
 
           <AddChildModel
