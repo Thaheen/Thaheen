@@ -1,75 +1,81 @@
-import * as React from 'react'
-import {Platform} from 'react-native'
-import {createNativeStackNavigator} from '@react-navigation/native-stack'
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
+import * as React from 'react';
+import {Platform} from 'react-native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import ProfileOutline from '../assets/images/ProfileOutline.svg';
 import HomeOutline from '../assets/images/HomeOutline.svg';
 import Plus from '../assets/images/Plus.svg';
 import PlusFilled from '../assets/images/PlusFilled.svg';
-import TitleStyles from '../Styles/Titles'
+import TitleStyles from '../Styles/Titles';
 
-import {default as InstructorHome} from '../Screen/InstructorHome.js'
-import {default as InstructorProfile} from '../Screen/InstructorProfile.js'
-import {default as CreateClass} from '../Screen/CreateClass.js'
+import {default as InstructorHome} from '../Screen/InstructorHome.js';
+import {default as InstructorProfile} from '../Screen/InstructorProfile.js';
+import {default as CreateClass} from '../Screen/CreateClass.js';
 import {default as InsClassInfo} from '../Screen/InsClassInfo.js';
 import {default as ClassAllStudents} from '../Screen/ClassAllStudents.js';
 import {default as StudentProfile} from '../Screen/StudentProfile.js';
+import {default as RecordVoice} from '../Screen/RecordVoice.js';
 
-const Stack = createNativeStackNavigator()
+const Stack = createNativeStackNavigator();
 
-const HomeStack = createNativeStackNavigator()
-const CreateClassStack = createNativeStackNavigator()
-const ProfileStack = createNativeStackNavigator()
-const ClassInfoStack = createNativeStackNavigator()
+const HomeStack = createNativeStackNavigator();
+const CreateClassStack = createNativeStackNavigator();
+const ProfileStack = createNativeStackNavigator();
+const ClassInfoStack = createNativeStackNavigator();
 
-const Tab = createBottomTabNavigator()
+const Tab = createBottomTabNavigator();
 
 const HomeStackScreens = () => {
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen
-        name='InstructorHome'
+        name="InstructorHome"
         component={InstructorHome}
         options={{headerShown: false}}
       />
       {/* Added a nested screen to home stack */}
       <HomeStack.Screen
-        name='InsClassInfo'
+        name="InsClassInfo"
         component={InsClassInfo}
         options={{headerShown: false}}
       />
       <HomeStack.Screen
-        name='CreateClass'
+        name="CreateClass"
         component={CreateClass}
         options={{headerShown: false}}
       />
       <HomeStack.Screen
-        name='ClassAllStudents'
+        name="ClassAllStudents"
         component={ClassAllStudents}
         options={{headerShown: false}}
-      />  
+      />
       <HomeStack.Screen
-        name='StudentProfile'
+        name="StudentProfile"
         component={StudentProfile}
         options={{headerShown: false}}
-      />  
+      />
 
+      <HomeStack.Screen
+        name="RecordVoice"
+        component={RecordVoice}
+        options={{headerShown: false}}
+      />
     </HomeStack.Navigator>
-  )
-}
+  );
+};
 
 const ProfileStackScreens = () => {
   return (
-    <ProfileStack.Navigator initialRouteName='InstructorProfile'>
+    <ProfileStack.Navigator initialRouteName="InstructorProfile">
       <ProfileStack.Screen
-        name='InstructorProfile'
+        name="InstructorProfile"
         component={InstructorProfile}
         options={{headerShown: false}}
       />
     </ProfileStack.Navigator>
-  )
-}
+  );
+};
 
 const InstructorTab = () => {
   return (
@@ -86,10 +92,10 @@ const InstructorTab = () => {
           borderColor: '#ffffff',
           height: Platform.OS === 'ios' ? 100 : 65,
         },
-        tabBarHideOnKeyboard: true
+        tabBarHideOnKeyboard: true,
       }}>
       <Tab.Screen
-        name='HomeStackScreens'
+        name="HomeStackScreens"
         component={HomeStackScreens}
         options={{
           tabBarLabel: 'الرئيسية',
@@ -101,7 +107,7 @@ const InstructorTab = () => {
         }}
       />
       <Tab.Screen
-        name='Profile'
+        name="Profile"
         component={ProfileStackScreens}
         options={{
           tabBarLabel: 'البيانات الشخصية',
@@ -113,7 +119,7 @@ const InstructorTab = () => {
         }}
       />
     </Tab.Navigator>
-  )
-}
+  );
+};
 
-export default InstructorTab
+export default InstructorTab;

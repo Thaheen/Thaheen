@@ -30,6 +30,7 @@ const HomeSection = ({title, iconName}) => {
             onPress={() => {
            navigation.navigate('RecordVoice', {
                 StudentID: student.id,
+                keyword: 'student'
               });
             }}>
             <Plus />

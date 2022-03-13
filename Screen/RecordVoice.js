@@ -36,7 +36,6 @@ import {useNavigation} from '@react-navigation/native';
 import ErrorVector from '../assets/images/ErrorVector.svg';
 import CheckVector from '../assets/images/CheckVector.svg';
 
-
 import AudioRecorderPlayer, {
   AVEncoderAudioQualityIOSType,
   AVEncodingOption,
@@ -54,7 +53,7 @@ import Camera from '../assets/images/Camera.svg';
 //the ref of record voice code
 // https://instamobile.io/react-native-tutorials/react-native-record-audio-play/?ref=hackernoon.com
 class RecordVoice extends Component {
-    // const navigation = useNavigation();
+  // const navigation = useNavigation();
   constructor(props) {
     super(props);
     this.state = {
@@ -81,8 +80,7 @@ class RecordVoice extends Component {
       responseReceived: false,
       queryText: '',
       RecFlag: false,
-      SucessfulModalVisible:false,
-      
+      SucessfulModalVisible: false,
     };
     this.audioRecorderPlayer = new AudioRecorderPlayer();
     this.audioRecorderPlayer.setSubscriptionDuration(0.09); // optional. Default is 0.1
@@ -264,13 +262,12 @@ class RecordVoice extends Component {
     this.setState({queryText: newText});
   };
 
-onSucssfulModalPress = () => {
+  onSucssfulModalPress = () => {
     this.setState({
       SucessfulModalVisible: false,
     });
 
-   this.props.navigation.navigate('StudentHome')
-
+    this.props.navigation.goBack();
   };
 
   ///////////////////////////////OCR SECTION //////////////////////////////////////////////
@@ -330,7 +327,7 @@ onSucssfulModalPress = () => {
       });
       let response = await fetch(
         'https://vision.googleapis.com/v1/images:annotate?key=' +
-          'AIzaSyAHRHxTUVdJSjWg6rflJXNWNR1jhhZoGn0',//AIzaSyCLNN-xsz-fNLI-NsPLzcp1xnBrewZ2npQ
+          'AIzaSyAHRHxTUVdJSjWg6rflJXNWNR1jhhZoGn0', //AIzaSyCLNN-xsz-fNLI-NsPLzcp1xnBrewZ2npQ
         {
           headers: {
             Accept: 'application/json',
@@ -367,32 +364,35 @@ onSucssfulModalPress = () => {
       console.log('with record');
       this.uploadAudio();
     }
+    
 
-    if ((this.StudentID = !null)) {
-      console.log('id in if ' + this.StudentID); //true
-      firestore()
-        .collection('Student Text')
-        .add({
-          TextBody: this.state.HomeWork,
-          TextHead: this.state.Title,
+    console.log(this.props.route.params.StudentID + ','+ this.props.route.params.ClassID)
+    if (this.props.route.params.keyword == 'student') {
+      console.log('id in student ' + this.props.route.params.StudentID); //true
+      firestore().collection('Student Text').add({
+        TextBody: this.state.HomeWork,
+        TextHead: this.state.Title,
+        Studentid: this.props.route.params.StudentID,
+      });
+      this.setState({SucessfulModalVisible: true});
+    } 
 
-          Studentid: JSON.stringify(this.StudentID),
-        });
-         this.setState({SucessfulModalVisible: true});
-          
-    } else {
+
+    if(this.props.route.params.keyword == 'class'){
+      console.log('id in instructor  ' + this.props.route.params.ClassID);
       firestore().collection('Instructor Text').add({
         TextBody: this.state.HomeWork,
         TextHead: this.state.Title,
-        ClassId: ClassID,
+        ClassId: this.props.route.params.ClassID,
       });
+      this.setState({SucessfulModalVisible: true});
     }
   }; //end of the method
 
   render() {
     let {image} = this.state;
     const {ClassID} = this.props.route.params;
-    
+
     const {StudentID} = this.props.route.params;
 
     // console.log('student id ' + StudentID);
@@ -567,30 +567,39 @@ onSucssfulModalPress = () => {
             </View>
           </Modal>
 
-     <Modal animationType="fade" transparent={true} visible={this.state.SucessfulModalVisible}>
-        <View
-          style={{backgroundColor: 'rgba(52, 52, 52, 0.5)', height: '100%'}}>
-          <View style={TitleStyles.modalContent}>
-            <CheckVector
-              width={120}
-              height={120}
-              style={{marginLeft: 80, marginTop: -75}}
-            />
-            <Text
-              style={[
-                TitleStyles.subTitle,
-                {textAlign: 'center', fontFamily: 'AJannatLT-Bold'},
-              ]}>
-              {'تمت اضافة الواجب بنجاح'}
-            </Text>
-            <TouchableOpacity
-              style={[TitleStyles.AlertButton, {backgroundColor: '#DAE2E9'}]}
-               onPress={() => this.onSucssfulModalPress()}>
-              <Text style={TitleStyles.ButtonText}>{"حسنا"} </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
+          <Modal
+            animationType="fade"
+            transparent={true}
+            visible={this.state.SucessfulModalVisible}>
+            <View
+              style={{
+                backgroundColor: 'rgba(52, 52, 52, 0.5)',
+                height: '100%',
+              }}>
+              <View style={TitleStyles.modalContent}>
+                <CheckVector
+                  width={120}
+                  height={120}
+                  style={{marginLeft: 80, marginTop: -75}}
+                />
+                <Text
+                  style={[
+                    TitleStyles.subTitle,
+                    {textAlign: 'center', fontFamily: 'AJannatLT-Bold'},
+                  ]}>
+                  {'تمت اضافة الواجب بنجاح'}
+                </Text>
+                <TouchableOpacity
+                  style={[
+                    TitleStyles.AlertButton,
+                    {backgroundColor: '#DAE2E9'},
+                  ]}
+                  onPress={() => this.onSucssfulModalPress()}>
+                  <Text style={TitleStyles.ButtonText}>{'حسنا'} </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Modal>
 
           <TouchableOpacity
             style={[

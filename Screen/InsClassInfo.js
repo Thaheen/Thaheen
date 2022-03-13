@@ -178,9 +178,10 @@ const InsClassInfo = ({navigation, route}) => {
                 style={{flexDirection: 'row'}}
                 onPress={() => {
                   navigation.navigate('RecordVoice', {
-                    classKey: item.key,
-                  })
-                }}>
+                       ClassID: route.params.classKey,
+                       keyword: 'class'
+                     });
+                   }}>
                 <Plus />
                 <Text style={[TitleStyles.smallText]}>إضافة واجب</Text>
               </TouchableOpacity>
