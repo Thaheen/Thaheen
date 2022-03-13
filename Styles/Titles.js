@@ -459,4 +459,22 @@ export default StyleSheet.create({
     marginTop: -4,
     textAlign: 'center',
   },
+
+  MemorizationContainer: {
+    width: 333,
+    height: 452,
+    borderRadius: 25,
+    backgroundColor: '#FFF',
+    marginTop: 170,
+    alignSelf: 'center',
+    position: 'absolute',
+    shadowOffset: {
+      width: 3,
+      height: 9,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 10,
+    elevation: 10,
+    zIndex: 1,
+  },
 });
