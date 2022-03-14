@@ -36,7 +36,12 @@ const HomeSection = ({title, iconName}) => {
             <Plus />
           </TouchableOpacity>
         ) : (
+          <TouchableOpacity
+          onPress={() => {
+         navigation.navigate('Feedback');
+          }}>
           <Trophy />
+        </TouchableOpacity>
         )}
         <Text style={[TitleStyles.smallText, {fontSize: 24, marginRight: 15}]}>
           {title}
