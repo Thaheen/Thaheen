@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Platform } from 'react-native';
+import {Platform} from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
@@ -15,8 +15,10 @@ import {default as StudentHome} from '../Screen/StudentHome.js';
 import {default as StudentClass} from '../Screen/StudentClass.js';
 import {default as StudentNotifications} from '../Screen/StudentNotifications.js';
 import {default as ReciteSession} from '../Screen/ReciteSession.js';
-import {default as ViewClassCommunity} from '../Screen/ViewClassCommunity.js'
-import {default as Feedback} from '../Screen/Feedback.js'
+import {default as ViewClassCommunity} from '../Screen/ViewClassCommunity.js';
+import {default as Feedback} from '../Screen/Feedback.js';
+import {default as MemorizationSession} from '../Screen/MemorizationSession.js';
+import {default as FillInTheBlank} from '../Screen/FillInTheBlank.js';
 
 const HomeStack = createNativeStackNavigator();
 const ClassStack = createNativeStackNavigator();
@@ -38,7 +40,7 @@ const HomeStackScreens = () => {
         component={StudentHome}
         options={{headerShown: false}}
       />
-        <HomeStack.Screen
+      <HomeStack.Screen
         name="ReciteSession"
         component={ReciteSession}
         options={{headerShown: false}}
@@ -47,6 +49,17 @@ const HomeStackScreens = () => {
         name="Feedback"
         component={Feedback}
         options={{headerShown: false, presentation: 'modal'}}
+      />
+
+      <HomeStack.Screen
+        name="MemorizationSession"
+        component={MemorizationSession}
+        options={{headerShown: false}}
+      />
+      <HomeStack.Screen
+        name="FillInTheBlank"
+        component={FillInTheBlank}
+        options={{headerShown: false}}
       />
     </HomeStack.Navigator>
   );
@@ -105,9 +118,8 @@ const StudentTab = () => {
           borderColor: '#ffffff',
           height: Platform.OS === 'ios' ? 100 : 65,
         },
-        tabBarHideOnKeyboard: true
-      }}
-      >
+        tabBarHideOnKeyboard: true,
+      }}>
       <Tab.Screen
         name="Home"
         component={HomeStackScreens}
@@ -156,7 +168,6 @@ const StudentTab = () => {
           headerShown: false,
         }}
       />
-     
     </Tab.Navigator>
   );
 };

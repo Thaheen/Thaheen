@@ -1,12 +1,18 @@
-import React from 'react'
-import {Text, TouchableOpacity, View, Platform, I18nManager} from 'react-native'
-import TitleStyles from '../Styles/Titles'
-import BookReader from '../assets/images/BookReader'
+import React from 'react';
+import {
+  Text,
+  TouchableOpacity,
+  View,
+  Platform,
+  I18nManager,
+} from 'react-native';
+import TitleStyles from '../Styles/Titles';
+import BookReader from '../assets/images/BookReader';
 import {useNavigation} from '@react-navigation/native';
 
-
-const TextCard = ({title}) => {
+const TextCard = ({title, textID}) => {
   const navigation = useNavigation();
+
   return (
     <View
       style={[
@@ -35,7 +41,7 @@ const TextCard = ({title}) => {
             I18nManager.isRTL ? {marginLeft: 15} : {marginRight: 15},
             {fontSize: 18},
           ]}>
-         {title}
+          {title}
         </Text>
       </View>
 
@@ -52,7 +58,10 @@ const TextCard = ({title}) => {
               borderRadius: 25,
               paddingHorizontal: 12,
             },
-          ]}>
+          ]}
+          onPress={() => {
+            navigation.navigate('MemorizationSession', {TextID: textID});
+          }}>
           <Text style={TitleStyles.smallText}>ابدأ المراجعة</Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -61,15 +70,14 @@ const TextCard = ({title}) => {
             borderRadius: 25,
             paddingHorizontal: 12,
           }}
-          
           onPress={() => {
             navigation.navigate('ReciteSession');
-             }}>
+          }}>
           <Text style={TitleStyles.smallText}>ابدأ التسميع</Text>
         </TouchableOpacity>
       </View>
     </View>
-  )
-}
+  );
+};
 
-export default TextCard
+export default TextCard;

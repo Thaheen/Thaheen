@@ -59,7 +59,6 @@ const StudentHome = () => {
     return studentsInfo;
   }, []);
 
-
   return (
     <SafeAreaView
       style={{
@@ -135,7 +134,7 @@ const StudentHome = () => {
           scrollEnabled
           renderItem={({item}) => (
             <TouchableOpacity>
-              <TextCard title={item.TextHead} />
+              <TextCard title={item.TextHead} textID={item.key} />
             </TouchableOpacity>
           )}
         />

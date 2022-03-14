@@ -18,8 +18,23 @@ import RTLlayout from '../Styles/RTLlayout';
 import RectangleOrng from '../assets/images/RectangleOrng.svg';
 import RectangleYell from '../assets/images/RectangleYell.svg';
 import MemorizeVec from '../assets/images/MemorizeVec.svg';
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 
 const MemorizationSession = ({navigation, route}) => {
+  const [textHead, setTextHead] = useState('');
+
+  useEffect(() => {
+    const MemorizationText = firestore()
+      .collection('Student Text')
+      .doc(route.params.TextID)
+      .onSnapshot(snapshot => {
+        setTextHead(snapshot.data().TextHead);
+      });
+    return MemorizationText;
+  }, []);
+  //console.log(route.params.TextID);
+
   return (
     <SafeAreaView
       style={{
@@ -38,19 +53,19 @@ const MemorizationSession = ({navigation, route}) => {
       />
       <Text
         style={[
-          TitleStyles.sectionTitle,
+          TitleStyles.HeaderTitle,
           {textAlign: I18nManager.isRTL ? 'left' : 'right', marginLeft: 40},
         ]}>
-        سورة الفاتحة
+        {textHead}
       </Text>
 
       <Text
         style={[
-          TitleStyles.HeaderTitle,
+          TitleStyles.sectionTitle,
           {
-            textAlign: I18nManager.isRTL ? 'left' : 'right',
-            marginLeft: 40,
-            marginTop: 70,
+            textAlign: 'center',
+            marginLeft: -10,
+            marginTop: 50,
           },
         ]}>
         طرق المراجعة
@@ -82,7 +97,9 @@ const MemorizationSession = ({navigation, route}) => {
               },
             ]}
             onPress={() => {
-              navigation.navigate('FillInTheBlank');
+              navigation.navigate('FillInTheBlank', {
+                TextID: route.params.TextID,
+              });
             }}>
             <Text style={[TitleStyles.StartMemorize]}> إبدا </Text>
           </TouchableOpacity>
