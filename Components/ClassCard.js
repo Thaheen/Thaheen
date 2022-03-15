@@ -9,7 +9,7 @@ import {
 import TitleStyles from '../Styles/Titles';
 import BookReader from '../assets/images/BookReader';
 
-const TextCard = ({title , color  }) => {
+const TextCard = ({title, color}) => {
   return (
     <View
       style={[
@@ -23,7 +23,7 @@ const TextCard = ({title , color  }) => {
         TitleStyles.SoftShadow,
       ]}>
       <Text
-        style={[TitleStyles.smallText, {fontSize: 35, textAlign: 'center'}]}>
+        style={[TitleStyles.smallText, {fontSize: 30, textAlign: 'center'}]}>
         {title}
       </Text>
     </View>

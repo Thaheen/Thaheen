@@ -73,7 +73,11 @@ const FillInTheBlank = ({navigation, route}) => {
         {show == false && (
           <FlatList
             // style={{flexDirection: 'row', display: 'flex'}}
-            contentContainerStyle={{flexDirection: 'row'}}
+            contentContainerStyle={{
+              flexDirection: 'row',
+              width: 333,
+              height: 452,
+            }}
             data={clonedArr}
             // extraData={selectedId}
             renderItem={({item, index}) => (
@@ -85,11 +89,23 @@ const FillInTheBlank = ({navigation, route}) => {
         {show == true && (
           <FlatList
             // style={{flexDirection: 'row', display: 'flex'}}
-            contentContainerStyle={{flexDirection: 'row'}}
+            contentContainerStyle={{
+              flexDirection: 'row',
+              width: 333,
+              height: 452,
+            }}
             data={array}
             // extraData={selectedId}
             renderItem={({item, index}) => (
-              <Text style={[TitleStyles.smallText]}> {item} </Text>
+              <Text
+                style={
+                  index % 2 != 0
+                    ? [TitleStyles.smallText, {color: '#62A5A2'}]
+                    : [TitleStyles.smallText]
+                }>
+                {' '}
+                {item}
+              </Text>
             )}
           />
         )}
