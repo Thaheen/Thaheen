@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   FlatList,
   I18nManager,
+  Modal,
 } from 'react-native'
 import TitleStyles from '../Styles/Titles'
 import Ombre from '../assets/images/OmbreBackground.svg'
@@ -29,6 +30,7 @@ import {
 import Icon from '../assets/images/more.svg'
 import ConfirmModel from '../Components/ConfirmModel'
 import SuccessModel from '../Components/SuccessModel'
+import ClassInputFields from '../Components/ClassInputFields'
 
 import firestore from '@react-native-firebase/firestore'
 
@@ -39,6 +41,7 @@ const InsClassInfo = ({navigation, route}) => {
   const [studentsList, setStudentsList] = useState([])
   const [ConfirmmodalVisible, setConfirmmodalVisible] = useState(false)
   const [modalVisible, setModalVisible] = useState(false)
+  const [editClassVisible, setEditClassVisible] = useState(false)
 
   //======================= When homeworks are ready ====================
   //const [numOfHomeworks, setNumOfHomeworks] = useState('');
@@ -54,7 +57,7 @@ const InsClassInfo = ({navigation, route}) => {
             setName(snapshot.data().Name)
             setStudentsList(snapshot.data().StudentList)
             setPasscode(snapshot.data().Passcode)
-            setNumOfStudents(studentsList.length)
+            setNumOfStudents(snapshot.data().StudentList.length)
           }
         })
       return classInfo
@@ -102,7 +105,8 @@ const InsClassInfo = ({navigation, route}) => {
 
               <MenuOptions
                 customStyles={{optionsContainer: {borderRadius: 10}}}>
-                <MenuOption>
+                <MenuOption
+                  onSelect={() => setEditClassVisible(!editClassVisible)}>
                   <Text style={TitleStyles.smallText}>تعديل معلومات الفصل</Text>
                 </MenuOption>
 
@@ -132,6 +136,25 @@ const InsClassInfo = ({navigation, route}) => {
               setModalVisible={setModalVisible}
               goBackCalled={true}
             />
+          ) : null}
+
+          {editClassVisible ? (
+            <Modal
+              animationType='slide'
+              transparent={true}
+              visible={editClassVisible}>
+              <ScrollView style={{backgroundColor: 'rgba(52, 52, 52, 0.5)'}}>
+                <ClassInputFields
+                  type={'update'}
+                  callBackFunction={() =>
+                    setEditClassVisible(!editClassVisible)
+                  }
+                  title={'تعديل الفصل'}
+                  buttonText={'حفظ التعديلات'}
+                  ID={route.params.classKey}
+                />
+              </ScrollView>
+            </Modal>
           ) : null}
 
           {/* Start of class info card Section */}
@@ -178,10 +201,10 @@ const InsClassInfo = ({navigation, route}) => {
                 style={{flexDirection: 'row'}}
                 onPress={() => {
                   navigation.navigate('RecordVoice', {
-                       ClassID: route.params.classKey,
-                       keyword: 'class'
-                     });
-                   }}>
+                    ClassID: route.params.classKey,
+                    keyword: 'class',
+                  })
+                }}>
                 <Plus />
                 <Text style={[TitleStyles.smallText]}>إضافة واجب</Text>
               </TouchableOpacity>
