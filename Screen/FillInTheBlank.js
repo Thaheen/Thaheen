@@ -30,18 +30,10 @@ const FillInTheBlank = ({navigation, route}) => {
     return MemorizationText;
   }, []);
 
-  console.log(textBody);
+  // console.log(textBody);
 
-  // var word = 'سَارِعِي لِلْمَجْدِ وَالْعَلْيَاء مَجِّدِي لِخَالِقِ السَّمَاء';
   var array = textBody.split(' ');
-  // var array2 = [];
-  // console.log(array);
-  // console.log(array[0]);
-  // console.log(array[1]);
-  // console.log(array[2]);
 
-  console.log(route.params.TextID);
-  const data = ['First', 'Second', 'Third', 'Forth', 'fifth'];
   const clonedArr = [...array];
 
   const [show, setShow] = React.useState(false);
@@ -74,18 +66,33 @@ const FillInTheBlank = ({navigation, route}) => {
         هيا لنبدأ المراجعة
       </Text>
       <View style={[TitleStyles.MemorizationContainer]}>
-        <Text style={{marginTop: 50}} onPress={toggleText}>
+        <Text style={{marginTop: 50, textAlign: 'center'}} onPress={toggleText}>
           اظهار النص
         </Text>
-        <FlatList
-          // style={{flexDirection: 'row', display: 'flex'}}
-          contentContainerStyle={{flexDirection: 'row'}}
-          data={clonedArr}
-          // extraData={selectedId}
-          renderItem={({item, index}) => (
-            <Text style={[TitleStyles.smallText]}> {item} </Text>
-          )}
-        />
+
+        {show == false && (
+          <FlatList
+            // style={{flexDirection: 'row', display: 'flex'}}
+            contentContainerStyle={{flexDirection: 'row'}}
+            data={clonedArr}
+            // extraData={selectedId}
+            renderItem={({item, index}) => (
+              <Text style={[TitleStyles.smallText]}> {item} </Text>
+            )}
+          />
+        )}
+
+        {show == true && (
+          <FlatList
+            // style={{flexDirection: 'row', display: 'flex'}}
+            contentContainerStyle={{flexDirection: 'row'}}
+            data={array}
+            // extraData={selectedId}
+            renderItem={({item, index}) => (
+              <Text style={[TitleStyles.smallText]}> {item} </Text>
+            )}
+          />
+        )}
       </View>
 
       <View style={{marginTop: 240}}>
