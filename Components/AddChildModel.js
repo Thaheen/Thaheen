@@ -144,7 +144,7 @@ const ConfirmModel = ({modalVisible, setModalVisible, sentFunction}) => {
                   },
                 ]}
                 onPress={() => Close()}>
-                <Text style={TitleStyles.ButtonText}>الغاء </Text>
+                <Text style={TitleStyles.ButtonText}>إغلاق </Text>
               </TouchableOpacity>
 
               <TouchableOpacity
