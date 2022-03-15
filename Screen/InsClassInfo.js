@@ -31,6 +31,7 @@ import Icon from '../assets/images/more.svg'
 import ConfirmModel from '../Components/ConfirmModel'
 import SuccessModel from '../Components/SuccessModel'
 import ClassInputFields from '../Components/ClassInputFields'
+import AddChildModel from '../Components/AddChildModel'
 
 import firestore from '@react-native-firebase/firestore'
 
@@ -42,6 +43,7 @@ const InsClassInfo = ({navigation, route}) => {
   const [ConfirmmodalVisible, setConfirmmodalVisible] = useState(false)
   const [modalVisible, setModalVisible] = useState(false)
   const [editClassVisible, setEditClassVisible] = useState(false)
+  const [AddmodalVisible, setAddmodalVisible] = useState(false)
 
   //======================= When homeworks are ready ====================
   //const [numOfHomeworks, setNumOfHomeworks] = useState('');
@@ -62,6 +64,15 @@ const InsClassInfo = ({navigation, route}) => {
         })
       return classInfo
     }, [])
+  }
+
+  const setStudentArray = userArray => {
+    firestore()
+      .collection('ClassCommunity')
+      .doc(route.params.classKey)
+      .update({
+        StudentList: studentsList.concat(userArray),
+      })
   }
 
   //   console.log(studentsList)
@@ -157,6 +168,14 @@ const InsClassInfo = ({navigation, route}) => {
             </Modal>
           ) : null}
 
+          {AddmodalVisible ? (
+            <AddChildModel
+              modalVisible={AddmodalVisible}
+              setModalVisible={setAddmodalVisible}
+              sentFunction={setStudentArray}
+            />
+          ) : null}
+
           {/* Start of class info card Section */}
           <View
             style={[
@@ -241,7 +260,11 @@ const InsClassInfo = ({navigation, route}) => {
             ]}>
             <InsCardBackground style={{zIndex: 0}} />
             <View style={{position: 'absolute', right: 20, top: 10, zIndex: 2}}>
-              <TouchableOpacity style={{flexDirection: 'row'}}>
+              <TouchableOpacity
+                style={{flexDirection: 'row'}}
+                onPress={() => {
+                  setAddmodalVisible(!AddmodalVisible)
+                }}>
                 <Plus />
                 <Text style={[TitleStyles.smallText]}>طلابي</Text>
               </TouchableOpacity>
