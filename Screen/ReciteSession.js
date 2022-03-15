@@ -25,8 +25,10 @@ import StopMicrophone from '../assets/images/StopMicrophone.svg';
 import Thaheen from '../assets/images/ThaheenStanding.svg';
 import SpeechBubble from '../assets/images/SpeechBubble.svg';
 import ob from './OpenMicrophone.js';
+import functions , {firebase} from '@react-native-firebase/functions'
 
 const ReciteSession = ({navigation, route}) => {
+  functions().useFunctionsEmulator('http://localhost:5001');
   const [DownLoadURI, setDownLoadURI] = useState('');
   const [IsRecording, setIsRecording] = useState(false);
   const [BodyText, setBodyText] = useState('إضغط زر المايكروفون لنبدأ');
@@ -45,15 +47,16 @@ const ReciteSession = ({navigation, route}) => {
 
     if (IsRecording) {
       console.log('stopped rec ')
-      ob.onStopRecord(recordID)
-      //====================== TEMP FIX, change timeout later ====================
-      setTimeout(() => {
-      transcriptAudio()
-      }, 3000);
+      // ob.onStopRecord(recordID)
+      // //====================== TEMP FIX, change timeout later ====================
+      // setTimeout(() => {
+      // transcriptAudio()
+      // }, 3000);
     } else {
     console.log('he is recording');
+    const { data } =  firebase.functions().httpsCallable('micrecognizeStream')();
     
-    ob.onStartRecord( Math.floor(100000 + Math.random() * 90000));
+    //ob.onStartRecord( Math.floor(100000 + Math.random() * 90000));
     
     }
   };
