@@ -71,7 +71,7 @@ const TextCard = ({title, textID}) => {
             paddingHorizontal: 12,
           }}
           onPress={() => {
-            navigation.navigate('ReciteSession');
+            navigation.navigate('ReciteSession', {TextID: textID});
           }}>
           <Text style={TitleStyles.smallText}>ابدأ التسميع</Text>
         </TouchableOpacity>

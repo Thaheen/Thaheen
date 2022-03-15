@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   useColorScheme,
   View,
+  FlatList,
   I18nManager,
 } from 'react-native';
 import TitleStyles from '../Styles/Titles';
@@ -28,17 +29,40 @@ import ob from './OpenMicrophone.js';
 import functions , {firebase} from '@react-native-firebase/functions'
 
 const ReciteSession = ({navigation, route}) => {
-  functions().useFunctionsEmulator('http://localhost:5001');
+ // functions().useFunctionsEmulator('http://localhost:5001');
   const [DownLoadURI, setDownLoadURI] = useState('');
   const [IsRecording, setIsRecording] = useState(false);
-  const [BodyText, setBodyText] = useState('إضغط زر المايكروفون لنبدأ');
+  const [dialog, setDialog] = useState('إضغط زر المايكروفون لنبدأ');
   const [recordID, setRecordId] = useState()
+  const [textBody , setTextBody]=useState()
+  const [textHead , setTextHead ] =useState()
   const [onePass, setOnePass] = useState(0);
+  const [doneRecite, setDoneRecite] = useState(false);
+  const textID = route.params.TextID;
+  const taggedWords = []
+
+
 
   if (onePass == 0) {
     setRecordId(Math.floor(100000 + Math.random() * 90000).toString());
     setOnePass(1);
   }
+
+
+ useEffect(() => {
+  const Text = firestore()
+      .collection('Student Text').doc(route.params.TextID)
+      .onSnapshot(querySnapshot => {
+      setTextBody(querySnapshot.data().TextBody.replace(/إ|أ|آ/g,'ا').split(' '))
+      setTextHead( querySnapshot.data().TextHead)
+      
+    }); return Text;
+  }, []);
+
+  console.log('Text Body == ' , textBody)
+
+      
+    
 
 
   const finishRecord = () => {
@@ -47,16 +71,16 @@ const ReciteSession = ({navigation, route}) => {
 
     if (IsRecording) {
       console.log('stopped rec ')
-      // ob.onStopRecord(recordID)
-      // //====================== TEMP FIX, change timeout later ====================
-      // setTimeout(() => {
-      // transcriptAudio()
-      // }, 3000);
+      ob.onStopRecord(recordID)
+      //====================== TEMP FIX, change timeout later ====================
+      setTimeout(() => {
+      transcriptAudio()
+      }, 3000);
     } else {
     console.log('he is recording');
-    const { data } =  firebase.functions().httpsCallable('micrecognizeStream')();
+   // const { data } =  firebase.functions().httpsCallable('micrecognizeStream')();
     
-    //ob.onStartRecord( Math.floor(100000 + Math.random() * 90000));
+    ob.onStartRecord( Math.floor(100000 + Math.random() * 90000));
     
     }
   };
@@ -105,11 +129,84 @@ const ReciteSession = ({navigation, route}) => {
       const transcription = responseJson.results
         .map(result => result.alternatives[0].transcript)
         .join('\n');
-      console.log(`Transcription: ${transcription}`);
+      console.log(`Transcription: ${transcription}`)
+
+      compare(transcription)
+
     } catch (error) {
       console.log(error + '<-----here ');
     }
+
+    
   };
+
+
+  
+
+  const compare = (transcription) => {
+      
+      const transcriptArray = transcription.split(' ')
+
+      
+
+      console.log('Before loop ==' , textBody)
+      for (let i = 0; i < textBody.length; i++) {
+
+        taggedWords.push({
+          Text: textBody[i],
+          color:'Black',
+        })
+        
+      console.log('The word '+ transcriptArray[i])
+
+      if(textBody.length-1 == i && !(transcriptArray[i] == textBody[i])){
+        console.log('inside first condition '+ i)
+       
+        taggedWords.pop()
+        taggedWords.push({
+          Text: textBody[i],
+          color:'Red',
+        })
+        
+        }
+
+      else {  
+        
+        if(transcriptArray[i] !== textBody[i]) {
+        
+        if(transcriptArray[i] !== textBody[i+1]){
+
+        console.log('Text Body word : ' + textBody[i] + ' Text Body Next Word ' + textBody[i+1]+' transcript word ' + transcriptArray[i] +' iteration '+ i)
+        taggedWords.pop()
+        taggedWords.push({
+          Text: textBody[i],
+          color:'Red',
+        })
+      
+      } // end small if 
+
+      else {
+        taggedWords.pop()
+        taggedWords.push({
+          Text: textBody[i],
+          color:'Red',
+        })
+
+        taggedWords.push({
+          Text: textBody[i++],
+          color:'Black',
+        })        
+        } // end else
+      
+      } // large if
+      
+      
+      } // end else
+
+      }
+      setDoneRecite(true)
+      console.log(taggedWords)
+    }
 
   return (
     <SafeAreaView
@@ -136,8 +233,29 @@ const ReciteSession = ({navigation, route}) => {
           }
         />
         <Text style={[TitleStyles.smallText, {fontSize: 25, top: -110}]}>
-          {BodyText}
+          {dialog}
         </Text>
+
+        {/* {doneRecite ? 
+        
+
+        <FlatList
+          key={'#'}
+          style={{ height:'90%'}}
+          data={taggedWords}
+          scrollEnabled={false} 
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({item}) => (
+            <Text>
+              {item.text}
+            </Text>
+          )}
+        />
+        
+        
+        
+        
+        : null} */}
       </View>
 
       <ReciteRectangle
