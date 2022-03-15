@@ -477,4 +477,18 @@ export default StyleSheet.create({
     elevation: 10,
     zIndex: 1,
   },
+
+  SwipeBtn: {
+    width: 70,
+    height: 20,
+    borderRadius: 25,
+    backgroundColor: '#43515F',
+  },
+  SwipeTxt: {
+    textAlign: 'center',
+    fontSize: 14,
+    fontFamily: 'AJannatLT-Bold',
+    marginTop: -4,
+    color: '#FFF',
+  },
 });

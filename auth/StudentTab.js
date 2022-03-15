@@ -19,6 +19,7 @@ import {default as ViewClassCommunity} from '../Screen/ViewClassCommunity.js';
 import {default as Feedback} from '../Screen/Feedback.js';
 import {default as MemorizationSession} from '../Screen/MemorizationSession.js';
 import {default as FillInTheBlank} from '../Screen/FillInTheBlank.js';
+import {default as Chunking} from '../Screen/Chunking.js';
 
 const HomeStack = createNativeStackNavigator();
 const ClassStack = createNativeStackNavigator();
@@ -59,6 +60,12 @@ const HomeStackScreens = () => {
       <HomeStack.Screen
         name="FillInTheBlank"
         component={FillInTheBlank}
+        options={{headerShown: false}}
+      />
+
+      <HomeStack.Screen
+        name="Chunking"
+        component={Chunking}
         options={{headerShown: false}}
       />
     </HomeStack.Navigator>

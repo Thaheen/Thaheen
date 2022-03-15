@@ -129,7 +129,9 @@ const MemorizationSession = ({navigation, route}) => {
               },
             ]}
             onPress={() => {
-              // navigation.navigate('FillInTheBlank');
+              navigation.navigate('Chunking', {
+                TextID: route.params.TextID,
+              });
             }}>
             <Text style={[TitleStyles.StartMemorize]}> إبدا </Text>
           </TouchableOpacity>
