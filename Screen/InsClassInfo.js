@@ -19,6 +19,8 @@ import Plus from '../assets/images/Plus.svg'
 import BackButton from '../Components/BackButton'
 import InsCardBackground from '../assets/images/InsCardBackground.svg'
 import InsClassCard from '../Components/InsClassCard.js'
+import AssignmentCard from '../Components/AssignmentCard.js'
+
 import {
   Menu,
   MenuProvider,
@@ -44,6 +46,7 @@ const InsClassInfo = ({navigation, route}) => {
   const [modalVisible, setModalVisible] = useState(false)
   const [editClassVisible, setEditClassVisible] = useState(false)
   const [AddmodalVisible, setAddmodalVisible] = useState(false)
+  const [assignmentsList, setAssignmentsList] = useState([])
 
   //======================= When homeworks are ready ====================
   //const [numOfHomeworks, setNumOfHomeworks] = useState('');
@@ -65,6 +68,26 @@ const InsClassInfo = ({navigation, route}) => {
       return classInfo
     }, [])
   }
+
+  useEffect(() => {
+    const classAssignments = firestore()
+      .collection('Instructor Text')
+      .where('ClassId', '==', route.params.classKey)
+      .onSnapshot(querySnapshot => {
+        if (!querySnapshot.empty) {
+          const assignments = []
+          querySnapshot.forEach(documentSnapshot => {
+            assignments.push({
+              ...documentSnapshot.data(),
+              key: documentSnapshot.id,
+            })
+          })
+          setAssignmentsList(assignments)
+        }
+      })
+
+    return () => classAssignments()
+  }, [])
 
   const setStudentArray = userArray => {
     firestore()
@@ -238,9 +261,25 @@ const InsClassInfo = ({navigation, route}) => {
             <View style={{position: 'absolute', right: -10}}>
               {/* <InsClassCard color='#EECC55' title='حفظ سورة الفلق' students={[]}  />  */}
 
-              <Text style={[TitleStyles.NotAvailableAlert, {top: 70}]}>
-                لم تضف أي واجب بعد
-              </Text>
+              {assignmentsList.length == 0 ? (
+                <Text style={[TitleStyles.NotAvailableAlert, {top: 70}]}>
+                  لم تضف أي واجب بعد
+                </Text>
+              ) : (
+                <FlatList
+                  style={{marginTop: 50, width: 330, marginLeft: 25}}
+                  data={assignmentsList.slice(0,4)}
+                  horizontal={true}
+                  keyExtractor={(item, index) => index.toString()}
+                  renderItem={({item, index}) => (
+                    <AssignmentCard
+                      title={item.TextHead}
+                      textID={item.key}
+                      index={index}
+                    />
+                  )}
+                />
+              )}
             </View>
           </View>
 
