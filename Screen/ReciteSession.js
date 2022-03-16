@@ -105,7 +105,7 @@ const ReciteSession = ({navigation, route}) => {
         },
         audio: {
           // audio is "how old is the Brooklyn Bridge"
-          uri: 'gs://thaheen-af3bc.appspot.com/ReciteSession/'+recordID+'.flac',
+          uri: 'gs://thaheen-af3bc.appspot.com/ReciteSession/115478.flac',
         },
       });
 
@@ -150,7 +150,7 @@ const ReciteSession = ({navigation, route}) => {
       
 
       console.log('Before loop ==' , textBody)
-      for (let i = 0; i < textBody.length; i++) {
+      for (let i = 0 , j = 0 ; i < textBody.length; i++ , j++) {
 
         taggedWords.push({
           Text: textBody[i],
@@ -159,7 +159,7 @@ const ReciteSession = ({navigation, route}) => {
         
       console.log('The word '+ transcriptArray[i])
 
-      if(textBody.length-1 == i && !(transcriptArray[i] == textBody[i])){
+      if(textBody.length-1 == i && !(transcriptArray[j] == textBody[i])){
         console.log('inside first condition '+ i)
        
         taggedWords.pop()
@@ -172,9 +172,9 @@ const ReciteSession = ({navigation, route}) => {
 
       else {  
         
-        if(transcriptArray[i] !== textBody[i]) {
+        if(transcriptArray[j] !== textBody[i]) {
         
-        if(transcriptArray[i] !== textBody[i+1]){
+        if(transcriptArray[j] !== textBody[i+1]){
 
         console.log('Text Body word : ' + textBody[i] + ' Text Body Next Word ' + textBody[i+1]+' transcript word ' + transcriptArray[i] +' iteration '+ i)
         taggedWords.pop()
@@ -193,9 +193,9 @@ const ReciteSession = ({navigation, route}) => {
         })
 
         taggedWords.push({
-          Text: textBody[i++],
+          Text: textBody[++i],
           color:'Black',
-        })        
+        })
         } // end else
       
       } // large if
