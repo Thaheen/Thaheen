@@ -105,7 +105,14 @@ export default StyleSheet.create({
     fontSize: 23,
     color: '#43515F',
     textAlign: 'center',
+
   },
+  dropdownButtonText: {
+     textAlign: I18nManager.isRTL ? 'left' : 'right',
+    fontFamily: 'AJannatLT-Bold',
+    fontSize: 18,
+    color:"#B4B4B4"
+    },
 
   AlertButton: {
     backgroundColor: '#F5C5AD',
@@ -182,11 +189,8 @@ export default StyleSheet.create({
     fontFamily: 'AJannatLT-Bold',
     fontSize: 18,
     textAlign: 'right',
-    paddingBottom: '60%',
-    borderColor: '#DAE2E9',
-    borderWidth: 2,
-    width: '80%',
-    height: '40%',
+    paddingBottom: '60%'
+
   },
   Title: {
     backgroundColor: 'white',
@@ -194,11 +198,20 @@ export default StyleSheet.create({
     fontFamily: 'AJannatLT-Bold',
     fontSize: 18,
     textAlign: 'right',
-    paddingRight: 5,
+    paddingLeft: 12,
     marginTop: 10,
     marginBottom: 10,
     width: '80%',
     height: '6%',
+  },
+  buttonStyle: {
+    backgroundColor: 'white',
+    borderRadius: 12,
+    fontFamily: 'AJannatLT-Bold',
+    fontSize: 18,
+    width:'80%',
+
+  
   },
 
   /////Access Passcode Style////

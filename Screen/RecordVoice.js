@@ -35,6 +35,8 @@ import storage from '@react-native-firebase/storage';
 import {useNavigation} from '@react-navigation/native';
 import ErrorVector from '../assets/images/ErrorVector.svg';
 import CheckVector from '../assets/images/CheckVector.svg';
+import SelectDropdown from 'react-native-select-dropdown';
+import TheArrow from '../assets/images/TheArrow.svg';
 
 import AudioRecorderPlayer, {
   AVEncoderAudioQualityIOSType,
@@ -81,6 +83,7 @@ class RecordVoice extends Component {
       queryText: '',
       RecFlag: false,
       SucessfulModalVisible: false,
+      TextType:null,
     };
     this.audioRecorderPlayer = new AudioRecorderPlayer();
     this.audioRecorderPlayer.setSubscriptionDuration(0.09); // optional. Default is 0.1
@@ -354,7 +357,7 @@ class RecordVoice extends Component {
   ////////////////////////////////// MAIN UPLOADING METHOD ///////////////////////////
 
   UploadHomeWork = async () => {
-    if (this.state.HomeWork == null || this.state.Title == null) {
+    if (this.state.HomeWork == null || this.state.Title == null || this.state.TextType == null )  {
       this.setState({ErrormodalVisible: true});
       console.log('Error model ' + this.state.ErrormodalVisible);
       console.log('home in if ' + this.state.HomeWork);
@@ -364,25 +367,28 @@ class RecordVoice extends Component {
       console.log('with record');
       this.uploadAudio();
     }
-    
 
-    console.log(this.props.route.params.StudentID + ','+ this.props.route.params.ClassID)
+    console.log(
+      this.props.route.params.StudentID + ',' + this.props.route.params.ClassID,
+    );
     if (this.props.route.params.keyword == 'student') {
       console.log('id in student ' + this.props.route.params.StudentID); //true
       firestore().collection('Student Text').add({
         TextBody: this.state.HomeWork,
         TextHead: this.state.Title,
+        TextType:this.state.TextType,
         Studentid: this.props.route.params.StudentID,
+
       });
       this.setState({SucessfulModalVisible: true});
-    } 
+    }
 
-
-    if(this.props.route.params.keyword == 'class'){
+    if (this.props.route.params.keyword == 'class') {
       console.log('id in instructor  ' + this.props.route.params.ClassID);
       firestore().collection('Instructor Text').add({
         TextBody: this.state.HomeWork,
         TextHead: this.state.Title,
+          TextType:this.state.TextType,
         ClassId: this.props.route.params.ClassID,
       });
       this.setState({SucessfulModalVisible: true});
@@ -394,6 +400,8 @@ class RecordVoice extends Component {
     const {ClassID} = this.props.route.params;
 
     const {StudentID} = this.props.route.params;
+
+    const countries = ['نص عادي', 'قرآن'];
 
     // console.log('student id ' + StudentID);
     // console.log('class id ' + ClassID);
@@ -453,7 +461,33 @@ class RecordVoice extends Component {
           </Modal>
 
           <Text style={TitleStyles.ButtonText}>إضافة واجب جديد </Text>
-          <View></View>
+
+          <View style={{alignItems: 'space-around'}}>
+            {/* <TheArrow/> */}
+
+            <SelectDropdown
+              data={countries}
+              defaultValue="item2"
+              buttonStyle={TitleStyles.buttonStyle}
+              buttonTextStyle={TitleStyles.dropdownButtonText}
+              onSelect={(selectedItem, index) => {
+                console.log(selectedItem, index);
+                  this.setState({TextType: selectedItem});
+              }}
+              buttonTextAfterSelection={(selectedItem, index) => {
+                // text represented after item is selected
+                // if data array is an array of objects then return selectedItem.property to render after item is selected
+                return selectedItem;
+              }}
+              rowTextForSelection={(item, index) => {
+                // text represented for each item in dropdown
+                // if data array is an array of objects then return item.property to represent item in dropdown
+                return item;
+              }}
+              defaultButtonText="نوع النص"
+          
+            />
+          </View>
           <TextInput
             placeholder=" عنوان النص "
             placeholderTextColor={'#C3C7CA'}
@@ -463,21 +497,44 @@ class RecordVoice extends Component {
             underlineColorAndroid="transparent"
             color="black"
           />
+          <View
+            style={{
+              backgroundColor: 'white',
+              borderRadius: 10,
+              borderColor: '#DAE2E9',
+              borderWidth: 2,
+              width: '80%',
+              height: '30%',
+     
+              paddingLeft: 12,
+            }}>
+            <TextInput
+              placeholder="أدخل النص "
+              placeholderTextColor={'#C3C7CA'}
+              style={TitleStyles.TextArea}
+              onChangeText={text => (this.state.HomeWork = text)}
+              value={
+                this.state.responseReceived
+                  ? this.state.googleResponse
+                  : this.state.HomeWork
+              }
+              underlineColorAndroid="transparent"
+              color="black"
+              multiline
+            />
 
-          <TextInput
-            placeholder="أدخل النص "
-            placeholderTextColor={'#C3C7CA'}
-            style={TitleStyles.TextArea}
-            onChangeText={text => (this.state.HomeWork = text)}
-            value={
-              this.state.responseReceived
-                ? this.state.googleResponse
-                : this.state.HomeWork
-            }
-            underlineColorAndroid="transparent"
-            color="black"
-            multiline
-          />
+            {StudentID != null && (
+              <TouchableOpacity onPress={() => this.onSelectImagePress()}>
+                <Camera
+                  style={{
+                    marginLeft: 240,
+                       marginTop:-210,
+                    position:"relative"
+                  }}
+                />
+              </TouchableOpacity>
+            )}
+          </View>
 
           <View
             style={{
@@ -486,22 +543,12 @@ class RecordVoice extends Component {
               borderRadius: 10,
 
               width: '80%',
-              justifyContent: 'space-evenly',
-              marginTop: -58,
+              alignItems: 'flex-start',
+              marginTop: 20,
             }}>
             <TouchableOpacity onPress={() => this.onRecoed()}>
               <Microphone />
             </TouchableOpacity>
-
-            <TouchableOpacity>
-              <OldHomeWorks />
-            </TouchableOpacity>
-
-            {StudentID != null && (
-              <TouchableOpacity onPress={() => this.onSelectImagePress()}>
-                <Camera />
-              </TouchableOpacity>
-            )}
           </View>
 
           <Modal
@@ -514,12 +561,6 @@ class RecordVoice extends Component {
                 height: '100%',
               }}>
               <View style={[TitleStyles.modalContent, {alignItems: 'center'}]}>
-                <RecordingMicrophone
-                  width={120}
-                  height={120}
-                  style={{marginTop: -71}}
-                />
-
                 <Text
                   style={[
                     TitleStyles.subTitle,
