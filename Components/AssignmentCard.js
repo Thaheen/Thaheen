@@ -7,6 +7,8 @@ import {useNavigation} from '@react-navigation/native'
 const AssignmentCard = ({title, textID, index}) => {
   const navigation = useNavigation()
   const colors = ['#43515F', '#AFC3D6']
+  const detailsColor = ['#FFFFFF', '#43515F']
+
 
   return (
     <View
@@ -39,7 +41,7 @@ const AssignmentCard = ({title, textID, index}) => {
         <Text
           style={[
             TitleStyles.smallText,
-            {fontSize: 10, color: '#FFFFFF', textDecorationLine: 'underline'},
+            {fontSize: 10, color: detailsColor[index % 2], textDecorationLine: 'underline'},
           ]}>
           عرض التفاصيل
         </Text>

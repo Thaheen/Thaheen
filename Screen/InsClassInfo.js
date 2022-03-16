@@ -18,6 +18,7 @@ import Unlock from '../assets/images/UnlockEclipse.svg'
 import Plus from '../assets/images/Plus.svg'
 import BackButton from '../Components/BackButton'
 import InsCardBackground from '../assets/images/InsCardBackground.svg'
+import BlueGardiantModal from '../assets/images/BlueGardiantModal.svg'
 import InsClassCard from '../Components/InsClassCard.js'
 import AssignmentCard from '../Components/AssignmentCard.js'
 
@@ -34,6 +35,7 @@ import ConfirmModel from '../Components/ConfirmModel'
 import SuccessModel from '../Components/SuccessModel'
 import ClassInputFields from '../Components/ClassInputFields'
 import AddChildModel from '../Components/AddChildModel'
+import Close from '../assets/images/Close.svg'
 
 import firestore from '@react-native-firebase/firestore'
 
@@ -46,6 +48,8 @@ const InsClassInfo = ({navigation, route}) => {
   const [modalVisible, setModalVisible] = useState(false)
   const [editClassVisible, setEditClassVisible] = useState(false)
   const [AddmodalVisible, setAddmodalVisible] = useState(false)
+  const [viewAllHwVisible, setViewAllHwVisible] = useState(false)
+
   const [assignmentsList, setAssignmentsList] = useState([])
 
   //======================= When homeworks are ready ====================
@@ -198,6 +202,97 @@ const InsClassInfo = ({navigation, route}) => {
               sentFunction={setStudentArray}
             />
           ) : null}
+          {viewAllHwVisible ? (
+            <Modal
+              animationType='slide'
+              transparent={true}
+              visible={viewAllHwVisible}>
+              <View
+                style={{
+                  flex: 1,
+                  backgroundColor: 'rgba(52, 52, 52, 0.5)',
+                  alignItems: 'center',
+                }}>
+                <View style={{marginTop: 40, width: '90%'}}>
+                  <Homework
+                    width={85}
+                    height={85}
+                    style={{
+                      position: 'absolute',
+                      zIndex: 1,
+                      alignSelf: 'center',
+                    }}
+                  />
+                  <View
+                    style={[
+                      TitleStyles.SoftShadow,
+                      {
+                        borderRadius: 25,
+                        marginTop: 40,
+                        height: '90%',
+
+                        backgroundColor: 'white',
+                        paddingBottom: 20,
+                      },
+                    ]}>
+                    <BlueGardiantModal
+                      height={605}
+                      style={{
+                        position: 'absolute',
+                        alignSelf: 'center',
+                        transform: [{scaleX: 1.22}],
+                      }}
+                    />
+                    <Close
+                      height='40'
+                      width='40'
+                      style={[{position: 'absolute', top: 20, left: 20}]}
+                      onPress={() => setViewAllHwVisible(!viewAllHwVisible)}
+                    />
+                    {assignmentsList.length == 0 ? (
+                      <Text
+                        style={[
+                          TitleStyles.NotAvailableAlert,
+                          {
+                            marginTop: 50,
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            textAlign: 'center',
+                          },
+                        ]}>
+                        لم تضف أي واجب بعد
+                      </Text>
+                    ) : (
+                      <View>
+                        <Text
+                          style={[
+                            TitleStyles.HeaderTitle,
+                            {marginTop: 50, textAlign: 'center'},
+                          ]}>
+                          الواجبات
+                        </Text>
+
+                        <FlatList
+                          style={[{padding: 10, height: '80%'}]}
+                          data={assignmentsList}
+                          numColumns={2}
+                          keyExtractor={(item, index) => index.toString()}
+                          renderItem={({item, index}) => (
+                            <AssignmentCard
+                              title={item.TextHead}
+                              textID={item.key}
+                              index={index}
+                            />
+                          )}
+                        />
+                      </View>
+                    )}
+                  </View>
+                </View>
+              </View>
+            </Modal>
+          ) : null}
 
           {/* Start of class info card Section */}
           <View
@@ -253,7 +348,8 @@ const InsClassInfo = ({navigation, route}) => {
             </View>
 
             <View style={{position: 'absolute', left: 20, top: 10, zIndex: 2}}>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => setViewAllHwVisible(!viewAllHwVisible)}>
                 <Text style={[TitleStyles.smallText]}>عرض الكل</Text>
               </TouchableOpacity>
             </View>
@@ -268,7 +364,7 @@ const InsClassInfo = ({navigation, route}) => {
               ) : (
                 <FlatList
                   style={{marginTop: 50, width: 330, marginLeft: 25}}
-                  data={assignmentsList.slice(0,4)}
+                  data={assignmentsList.slice(0, 4)}
                   horizontal={true}
                   keyExtractor={(item, index) => index.toString()}
                   renderItem={({item, index}) => (
