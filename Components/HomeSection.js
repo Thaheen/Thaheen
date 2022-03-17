@@ -47,7 +47,10 @@ const HomeSection = ({title, iconName}) => {
           {title}
         </Text>
       </View>
-      <TouchableOpacity>
+      <TouchableOpacity
+      onPress={()=>{
+        navigation.navigate('StudentViewAllAssignment')
+      }}>
         <Text style={TitleStyles.smallText}>عرض الكل</Text>
       </TouchableOpacity>
     </View>
