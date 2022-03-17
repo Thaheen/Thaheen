@@ -42,7 +42,7 @@ const ReciteSession = ({navigation, route}) => {
   const taggedWords = []
 
 
-
+//gives random ID to the records 
   if (onePass == 0) {
     setRecordId(Math.floor(100000 + Math.random() * 90000).toString());
     setOnePass(1);
@@ -61,9 +61,7 @@ const ReciteSession = ({navigation, route}) => {
 
   console.log('Text Body == ' , textBody)
 
-      
     
-
 
   const finishRecord = () => {
     console.log('before: ' + IsRecording);
@@ -78,7 +76,7 @@ const ReciteSession = ({navigation, route}) => {
       }, 3000);
     } else {
     console.log('he is recording');
-   // const { data } =  firebase.functions().httpsCallable('micrecognizeStream')();
+    const { data } =  firebase.functions().httpsCallable('micrecognizeStream')();
     
     ob.onStartRecord( Math.floor(100000 + Math.random() * 90000));
     
