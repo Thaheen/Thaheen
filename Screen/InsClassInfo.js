@@ -283,6 +283,7 @@ const InsClassInfo = ({navigation, route}) => {
                               title={item.TextHead}
                               textID={item.key}
                               index={index}
+                              deleteOption={true}
                             />
                           )}
                         />
