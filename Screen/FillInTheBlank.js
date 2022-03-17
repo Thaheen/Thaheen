@@ -17,8 +17,13 @@ import WhiteCurve from '../assets/images/WhiteCurve.svg';
 import ThaheenStanding from '../assets/images/ThaheenStanding';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
+import Quran from '../Components/Quran.json'
+import functions , {firebase} from '@react-native-firebase/functions'
+
+
 const FillInTheBlank = ({navigation, route}) => {
   const [textBody, setTextBody] = useState('');
+  const { data } =  firebase.functions().httpsCallable('micrecognizeStream')();
 
   useEffect(() => {
     const MemorizationText = firestore()
@@ -33,9 +38,7 @@ const FillInTheBlank = ({navigation, route}) => {
   // console.log(textBody);
 
   var array = textBody.split(' ');
-
   const clonedArr = [...array];
-
   const [show, setShow] = React.useState(false);
 
   const toggleText = () => {
@@ -62,13 +65,23 @@ const FillInTheBlank = ({navigation, route}) => {
         <Text key={index}>{show ? clonedArr : '_ _ _ _ _ _ _ _'}</Text>
       ))} */}
 
+
+
+
       <Text style={[TitleStyles.sectionTitle, {marginTop: 30}]}>
         هيا لنبدأ المراجعة
       </Text>
       <View style={[TitleStyles.MemorizationContainer]}>
         <Text style={{marginTop: 50, textAlign: 'center'}} onPress={toggleText}>
           اظهار النص
+    
+{/*   
+   {Quran.data.map((item, index) => (
+        <Text key={index}> {item.name}  </Text>     )) }  */}
+
         </Text>
+     
+
 
         {show == false && (
           <FlatList

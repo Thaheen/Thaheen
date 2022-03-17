@@ -90,11 +90,7 @@ class RecordVoice extends Component {
     this.audioRecorderPlayer.setSubscriptionDuration(0.09); // optional. Default is 0.1
   }
 
-console.log(Quran.data.map((item) =>
-item.nama
 
-
-))
   //contain a uri
   onStartRecord = async () => {
     if (Platform.OS === 'android') {
