@@ -31,10 +31,10 @@ const Chunking = ({navigation, route}) => {
     return MemorizationText;
   }, []);
 
-  // console.log(textBody);
+  //console.log(textBody);
 
-  //   var array = textBody.split(' ');
-
+  var array = textBody.split('،');
+  console.log(array);
   //   const clonedArr = [...array];
 
   //   const [show, setShow] = React.useState(false);
