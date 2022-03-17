@@ -12,11 +12,9 @@ import Plus from '../assets/images/Plus';
 import Trophy from '../assets/images/Trophy';
 import {UserInfoContext} from '../auth/UserInfoContext';
 
-
-
-const HomeSection = ({title, iconName}) => {
-    const navigation = useNavigation();
-      const {student} = React.useContext(UserInfoContext);
+const HomeSection = ({title, iconName, type}) => {
+  const navigation = useNavigation();
+  const {student} = React.useContext(UserInfoContext);
 
   return (
     <View style={TitleStyles.HomeSectioner}>
@@ -28,31 +26,40 @@ const HomeSection = ({title, iconName}) => {
         {iconName === 'Plus' ? (
           <TouchableOpacity
             onPress={() => {
-           navigation.navigate('RecordVoice', {
+              navigation.navigate('RecordVoice', {
                 StudentID: student.id,
-                keyword: 'student'
+                keyword: 'student',
               });
             }}>
             <Plus />
           </TouchableOpacity>
         ) : (
           <TouchableOpacity
-          onPress={() => {
-         navigation.navigate('Feedback');
-          }}>
-          <Trophy />
-        </TouchableOpacity>
+            onPress={() => {
+              navigation.navigate('Feedback');
+            }}>
+            <Trophy />
+          </TouchableOpacity>
         )}
         <Text style={[TitleStyles.smallText, {fontSize: 24, marginRight: 15}]}>
           {title}
         </Text>
       </View>
-      <TouchableOpacity
-      onPress={()=>{
-        navigation.navigate('StudentViewAllAssignment')
-      }}>
-        <Text style={TitleStyles.smallText}>عرض الكل</Text>
-      </TouchableOpacity>
+      {type == 'text' ? (
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('StudentViewAllAssignment');
+          }}>
+          <Text style={TitleStyles.smallText}>عرض الكل</Text>
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity
+          onPress={() => {
+            console.log('PROGRESS PAGE WILL BE IMPLEMENTED LATER');
+          }}>
+          <Text style={TitleStyles.smallText}>عرض الكل</Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };

@@ -123,7 +123,7 @@ const StudentHome = () => {
       {/* end top container */}
 
       {/* start mid container */}
-      <HomeSection title="نصوصي" iconName="Plus" />
+      <HomeSection title="نصوصي" iconName="Plus"  type='text'/>
 
       {TextList != 0 && (
         <FlatList
