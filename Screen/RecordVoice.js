@@ -51,6 +51,7 @@ import Microphone from '../assets/images/Microphone.svg';
 import OldHomeWorks from '../assets/images/OldHomeWorks.svg';
 import RecordingMicrophone from '../assets/images/RecordingMicrophone.svg';
 import Camera from '../assets/images/Camera.svg';
+import Quran from '../Components/Quran.json'
 
 //the ref of record voice code
 // https://instamobile.io/react-native-tutorials/react-native-record-audio-play/?ref=hackernoon.com
@@ -89,6 +90,11 @@ class RecordVoice extends Component {
     this.audioRecorderPlayer.setSubscriptionDuration(0.09); // optional. Default is 0.1
   }
 
+console.log(Quran.data.map((item) =>
+item.nama
+
+
+))
   //contain a uri
   onStartRecord = async () => {
     if (Platform.OS === 'android') {
@@ -523,7 +529,7 @@ class RecordVoice extends Component {
               multiline
             />
 
-            {StudentID != null && (
+           
               <TouchableOpacity onPress={() => this.onSelectImagePress()}>
                 <Camera
                   style={{
@@ -533,7 +539,7 @@ class RecordVoice extends Component {
                   }}
                 />
               </TouchableOpacity>
-            )}
+            
           </View>
 
           <View
