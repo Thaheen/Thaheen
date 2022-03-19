@@ -20,6 +20,10 @@ import {SvgUri} from 'react-native-svg';
 import CheckVector from '../assets/images/CheckVector.svg';
 import {useNavigation} from '@react-navigation/native';
 import Close from '../assets/images/Close.svg';
+
+import Pen from '../assets/images/Pen.svg';
+import UserRead from '../assets/images/UserRead.svg';
+
 const TextType = ({
   modalVisible,
   setModalVisible,
@@ -27,6 +31,7 @@ const TextType = ({
   classKey,
   studentID,
   keyWord,
+  callBackFunction,
 }) => {
   const navigation = useNavigation();
 
@@ -37,6 +42,12 @@ const TextType = ({
         <View
           style={{backgroundColor: 'rgba(52, 52, 52, 0.5)', height: '100%'}}>
           <View style={TitleStyles.modalContent}>
+            <Close
+              height="40"
+              width="40"
+              style={[{position: 'absolute', top: 20, left: 20, zIndex: 2}]}
+              onPress={callBackFunction}
+            />
             <Text
               style={[
                 TitleStyles.subTitle,
@@ -45,35 +56,12 @@ const TextType = ({
               {' '}
               نوع النص
             </Text>
-            <View style={[{flexDirection: 'row', alignSelf: 'center'}]}>
+            <View
+              style={[
+                {flexDirection: 'row', alignSelf: 'center', marginBottom: 20},
+              ]}>
               <TouchableOpacity
-                style={[TitleStyles.textTypeBox]}
-
-
-
-                onPress={() => {
-
-  if (keyWord == 'class') {
-                    navigation.navigate('QuranHW', {
-                      ClassID: classKey,
-                    });
-                    setModalVisible(!modalVisible);
-                  } else {
-                    navigation.navigate('QuranHW', {
-                      StudentID: studentID,
-                    });
-                    setModalVisible(!modalVisible);
-                  }
-
-
-          
-                }}>
-
-                <Text style={TitleStyles.ButtonText}>سورة من القرآن </Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={[TitleStyles.textTypeBox]}
+                style={[TitleStyles.textTypeBox, {alignItems: 'center'}]}
                 onPress={() => {
                   if (keyWord == 'class') {
                     navigation.navigate('RecordVoice', {
@@ -87,7 +75,27 @@ const TextType = ({
                     setModalVisible(!modalVisible);
                   }
                 }}>
-                <Text style={TitleStyles.ButtonText}>نص عادي </Text>
+                <Pen style={[{marginTop: 25}]} />
+                <Text style={TitleStyles.TextTypefont}>نص عــــادي </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={[TitleStyles.textTypeBox, {alignItems: 'center'}]}
+                onPress={() => {
+                  if (keyWord == 'class') {
+                    navigation.navigate('QuranHW', {
+                      ClassID: classKey,
+                    });
+                    setModalVisible(!modalVisible);
+                  } else {
+                    navigation.navigate('QuranHW', {
+                      StudentID: studentID,
+                    });
+                    setModalVisible(!modalVisible);
+                  }
+                }}>
+                <UserRead style={[{marginTop: 25}]} />
+                <Text style={TitleStyles.TextTypefont}>سورة من القرآن </Text>
               </TouchableOpacity>
             </View>
           </View>

@@ -210,6 +210,7 @@ const InsClassInfo = ({navigation, route}) => {
             setModalVisible={setTextTypeVisibal}
             classKey={route.params.classKey}
             keyWord={'class'}
+            callBackFunction={() => setTextTypeVisibal(!textTypeVisibal)}
           />
           {viewAllHwVisible ? (
             <Modal

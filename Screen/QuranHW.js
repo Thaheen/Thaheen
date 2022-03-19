@@ -16,6 +16,7 @@ import {
   TouchableOpacity,
   Platform,
   PermissionsAndroid,
+  FlatList,
 } from 'react-native';
 import TitleStyles from '../Styles/Titles';
 import firestore from '@react-native-firebase/firestore';
@@ -432,9 +433,13 @@ class RecordVoice extends Component {
     const totalVerses = quran.data[this.state.SurahNum].total_verses;
     console.log('Total verses: ' + totalVerses);
 
-    const FromAyah = this.Ayaharray(totalVerses);
-    // console.log(FromAyah);
+    const ayat = quran.data[this.state.SurahNum].verses.map(function (item) {
+      return item.text;
+    });
+    //console.log(ayat);
 
+    //From To Ayah
+    const FromAyah = this.Ayaharray(totalVerses);
     const ToAyah = this.Ayaharray(totalVerses);
 
     // {Quran.data.map((item, index) => (
@@ -592,11 +597,7 @@ class RecordVoice extends Component {
               placeholderTextColor={'#C3C7CA'}
               style={TitleStyles.TextArea}
               onChangeText={text => (this.state.HomeWork = text)}
-              value={
-                this.state.responseReceived
-                  ? this.state.googleResponse
-                  : this.state.HomeWork
-              }
+              value={'Ayat AlSurah'}
               underlineColorAndroid="transparent"
               color="black"
               multiline

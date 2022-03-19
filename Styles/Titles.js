@@ -207,24 +207,18 @@ export default StyleSheet.create({
     borderRadius: 12,
     fontFamily: 'AJannatLT-Bold',
     fontSize: 18,
-    width:'25%',
-    marginBottom:"2%",
-    
-
-
+    width: '25%',
+    marginBottom: '2%',
   },
-    buttonStyle2: {
+  buttonStyle2: {
     backgroundColor: 'white',
     borderRadius: 12,
-       borderRadius: 15,
-    borderColor:'#8E8D8D',
+    borderRadius: 15,
+    borderColor: '#8E8D8D',
     fontFamily: 'AJannatLT-Bold',
     fontSize: 18,
 
-    width:'25%',
-      
-
-  
+    width: '25%',
   },
 
   /////Access Passcode Style////
@@ -525,6 +519,22 @@ export default StyleSheet.create({
     height: 92,
     backgroundColor: '#DAE2E9',
     borderRadius: 25,
-    margin: 5,
+    margin: 20,
+    shadowOffset: {
+      width: 2,
+      height: 3,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 6,
+    elevation: 10,
+  },
+
+  TextTypefont: {
+    textAlign: 'center',
+    fontSize: 14,
+    fontFamily: 'AJannatLT-Bold',
+    color: '#43515F',
+    marginTop: 40,
+    //marginBottom: -20,
   },
 });

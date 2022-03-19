@@ -38,8 +38,9 @@ const HomeSection = ({title, iconName, type}) => {
               modalVisible={textTypeVisibal}
               setModalVisible={setTextTypeVisibal}
               // classKey={route.params.classKey}
-              studentID= {student.id}
+              studentID={student.id}
               keyWord={'student'}
+              callBackFunction={() => setTextTypeVisibal(!textTypeVisibal)}
             />
 
             <Plus />
