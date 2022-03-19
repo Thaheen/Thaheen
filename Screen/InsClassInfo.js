@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -9,18 +9,18 @@ import {
   FlatList,
   I18nManager,
   Modal,
-} from 'react-native'
-import TitleStyles from '../Styles/Titles'
-import Ombre from '../assets/images/OmbreBackground.svg'
-import Homework from '../assets/images/homework.svg'
-import InfoCard from '../assets/images/infoCard.svg'
-import Unlock from '../assets/images/UnlockEclipse.svg'
-import Plus from '../assets/images/Plus.svg'
-import BackButton from '../Components/BackButton'
-import InsCardBackground from '../assets/images/InsCardBackground.svg'
-import BlueGardiantModal from '../assets/images/BlueGardiantModal.svg'
-import InsClassCard from '../Components/InsClassCard.js'
-import AssignmentCard from '../Components/AssignmentCard.js'
+} from 'react-native';
+import TitleStyles from '../Styles/Titles';
+import Ombre from '../assets/images/OmbreBackground.svg';
+import Homework from '../assets/images/homework.svg';
+import InfoCard from '../assets/images/infoCard.svg';
+import Unlock from '../assets/images/UnlockEclipse.svg';
+import Plus from '../assets/images/Plus.svg';
+import BackButton from '../Components/BackButton';
+import InsCardBackground from '../assets/images/InsCardBackground.svg';
+import BlueGardiantModal from '../assets/images/BlueGardiantModal.svg';
+import InsClassCard from '../Components/InsClassCard.js';
+import AssignmentCard from '../Components/AssignmentCard.js';
 
 import {
   Menu,
@@ -29,29 +29,31 @@ import {
   MenuOption,
   MenuTrigger,
   renderers,
-} from 'react-native-popup-menu'
-import Icon from '../assets/images/more.svg'
-import ConfirmModel from '../Components/ConfirmModel'
-import SuccessModel from '../Components/SuccessModel'
-import ClassInputFields from '../Components/ClassInputFields'
-import AddChildModel from '../Components/AddChildModel'
-import Close from '../assets/images/Close.svg'
+} from 'react-native-popup-menu';
+import Icon from '../assets/images/more.svg';
+import ConfirmModel from '../Components/ConfirmModel';
+import SuccessModel from '../Components/SuccessModel';
+import ClassInputFields from '../Components/ClassInputFields';
+import AddChildModel from '../Components/AddChildModel';
+import TextType from '../Components/TextType';
+import Close from '../assets/images/Close.svg';
 
-import firestore from '@react-native-firebase/firestore'
+import firestore from '@react-native-firebase/firestore';
 
 const InsClassInfo = ({navigation, route}) => {
-  const [name, setName] = useState('')
-  const [passcode, setPasscode] = useState('')
-  const [numOfStudents, setNumOfStudents] = useState('')
-  const [studentsList, setStudentsList] = useState([])
-  const [ConfirmmodalVisible, setConfirmmodalVisible] = useState(false)
-  const [modalVisible, setModalVisible] = useState(false)
-  const [editClassVisible, setEditClassVisible] = useState(false)
-  const [AddmodalVisible, setAddmodalVisible] = useState(false)
-  const [viewAllHwVisible, setViewAllHwVisible] = useState(false)
+  const [name, setName] = useState('');
+  const [passcode, setPasscode] = useState('');
+  const [numOfStudents, setNumOfStudents] = useState('');
+  const [studentsList, setStudentsList] = useState([]);
+  const [ConfirmmodalVisible, setConfirmmodalVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [editClassVisible, setEditClassVisible] = useState(false);
+  const [AddmodalVisible, setAddmodalVisible] = useState(false);
+  const [viewAllHwVisible, setViewAllHwVisible] = useState(false);
 
-  const [assignmentsList, setAssignmentsList] = useState([])
+  const [assignmentsList, setAssignmentsList] = useState([]);
 
+  const [textTypeVisibal, setTextTypeVisibal] = useState(false);
   //======================= When homeworks are ready ====================
   //const [numOfHomeworks, setNumOfHomeworks] = useState('');
   //const [homeworks, setHomeworks] = useState([]);
@@ -63,14 +65,14 @@ const InsClassInfo = ({navigation, route}) => {
         .doc(route.params.classKey)
         .onSnapshot(snapshot => {
           if (snapshot.exists) {
-            setName(snapshot.data().Name)
-            setStudentsList(snapshot.data().StudentList)
-            setPasscode(snapshot.data().Passcode)
-            setNumOfStudents(snapshot.data().StudentList.length)
+            setName(snapshot.data().Name);
+            setStudentsList(snapshot.data().StudentList);
+            setPasscode(snapshot.data().Passcode);
+            setNumOfStudents(snapshot.data().StudentList.length);
           }
-        })
-      return classInfo
-    }, [])
+        });
+      return classInfo;
+    }, []);
   }
 
   useEffect(() => {
@@ -79,19 +81,19 @@ const InsClassInfo = ({navigation, route}) => {
       .where('ClassId', '==', route.params.classKey)
       .onSnapshot(querySnapshot => {
         if (!querySnapshot.empty) {
-          const assignments = []
+          const assignments = [];
           querySnapshot.forEach(documentSnapshot => {
             assignments.push({
               ...documentSnapshot.data(),
               key: documentSnapshot.id,
-            })
-          })
-          setAssignmentsList(assignments)
+            });
+          });
+          setAssignmentsList(assignments);
         }
-      })
+      });
 
-    return () => classAssignments()
-  }, [])
+    return () => classAssignments();
+  }, []);
 
   const setStudentArray = userArray => {
     firestore()
@@ -99,18 +101,18 @@ const InsClassInfo = ({navigation, route}) => {
       .doc(route.params.classKey)
       .update({
         StudentList: studentsList.concat(userArray),
-      })
-  }
+      });
+  };
 
   //   console.log(studentsList)
   const deleteClass = classID => {
-    setConfirmmodalVisible(!ConfirmmodalVisible)
+    setConfirmmodalVisible(!ConfirmmodalVisible);
     firestore()
       .collection('ClassCommunity')
       .doc(classID)
       .delete()
-      .then(() => setModalVisible(!modalVisible))
-  }
+      .then(() => setModalVisible(!modalVisible));
+  };
 
   return (
     <MenuProvider>
@@ -118,7 +120,7 @@ const InsClassInfo = ({navigation, route}) => {
         <SafeAreaView style={{backgroundColor: '#FFF'}}>
           <Ombre style={[{position: 'absolute', top: 0}]} />
 
-          <StatusBar backgroundColor='#DAE2E9' translucent />
+          <StatusBar backgroundColor="#DAE2E9" translucent />
           <BackButton />
 
           <View
@@ -178,7 +180,7 @@ const InsClassInfo = ({navigation, route}) => {
 
           {editClassVisible ? (
             <Modal
-              animationType='slide'
+              animationType="slide"
               transparent={true}
               visible={editClassVisible}>
               <ScrollView style={{backgroundColor: 'rgba(52, 52, 52, 0.5)'}}>
@@ -202,9 +204,15 @@ const InsClassInfo = ({navigation, route}) => {
               sentFunction={setStudentArray}
             />
           ) : null}
+
+          <TextType
+            modalVisible={textTypeVisibal}
+            setModalVisible={setTextTypeVisibal}
+            classKey={route.params.classKey}
+          />
           {viewAllHwVisible ? (
             <Modal
-              animationType='slide'
+              animationType="slide"
               transparent={true}
               visible={viewAllHwVisible}>
               <View
@@ -244,8 +252,8 @@ const InsClassInfo = ({navigation, route}) => {
                       }}
                     />
                     <Close
-                      height='40'
-                      width='40'
+                      height="40"
+                      width="40"
                       style={[{position: 'absolute', top: 20, left: 20}]}
                       onPress={() => setViewAllHwVisible(!viewAllHwVisible)}
                     />
@@ -334,14 +342,11 @@ const InsClassInfo = ({navigation, route}) => {
               {padding: 0, marginTop: 20, height: 200},
             ]}>
             <InsCardBackground style={{zIndex: -1}} />
-            <View style={{position: 'absolute', right: 20, top: 10}}>
+            <View style={{position: 'absolute', right: 20, top: 10, zIndex: 2}}>
               <TouchableOpacity
                 style={{flexDirection: 'row'}}
                 onPress={() => {
-                  navigation.navigate('RecordVoice', {
-                    ClassID: route.params.classKey,
-                    keyword: 'class',
-                  })
+                  setTextTypeVisibal(!textTypeVisibal);
                 }}>
                 <Plus />
                 <Text style={[TitleStyles.smallText]}>إضافة واجب</Text>
@@ -399,7 +404,7 @@ const InsClassInfo = ({navigation, route}) => {
               <TouchableOpacity
                 style={{flexDirection: 'row'}}
                 onPress={() => {
-                  setAddmodalVisible(!AddmodalVisible)
+                  setAddmodalVisible(!AddmodalVisible);
                 }}>
                 <Plus />
                 <Text style={[TitleStyles.smallText]}>طلابي</Text>
@@ -458,6 +463,6 @@ const InsClassInfo = ({navigation, route}) => {
         </SafeAreaView>
       </View>
     </MenuProvider>
-  )
-}
-export default InsClassInfo
+  );
+};
+export default InsClassInfo;
