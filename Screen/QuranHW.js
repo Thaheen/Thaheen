@@ -86,6 +86,8 @@ class RecordVoice extends Component {
       SucessfulModalVisible: false,
       TextType: null,
       SurahNum: 1,
+      from: 0,
+      to: 0,
     };
     this.audioRecorderPlayer = new AudioRecorderPlayer();
     this.audioRecorderPlayer.setSubscriptionDuration(0.09); // optional. Default is 0.1
@@ -358,8 +360,8 @@ class RecordVoice extends Component {
   // Calculate Surah
   Ayaharray = versusNum => {
     let ar = [];
-    for (let i = 0; i <= versusNum; i++) {
-      ar[i] = i;
+    for (let i = 1; i <= versusNum; i++) {
+      ar[i - 1] = i;
     }
     return ar;
   };
@@ -431,7 +433,7 @@ class RecordVoice extends Component {
     console.log('Total verses: ' + totalVerses);
 
     const FromAyah = this.Ayaharray(totalVerses);
-    console.log(FromAyah);
+    // console.log(FromAyah);
 
     const ToAyah = this.Ayaharray(totalVerses);
 
@@ -445,6 +447,8 @@ class RecordVoice extends Component {
 
     // console.log('student id ' + StudentID);
     // console.log('class id ' + ClassID);
+    console.log(this.state.from);
+    console.log(this.state.to);
     return (
       <View>
         <SafeAreaView
@@ -535,7 +539,7 @@ class RecordVoice extends Component {
               buttonTextStyle={TitleStyles.dropdownButtonText}
               onSelect={(selectedItem, index) => {
                 // console.log(selectedItem, index);
-                // this.setState({TextType: selectedItem});
+                this.setState({from: selectedItem});
               }}
               buttonTextAfterSelection={(selectedItem, index) => {
                 // text represented after item is selected
@@ -556,7 +560,7 @@ class RecordVoice extends Component {
               buttonTextStyle={TitleStyles.dropdownButtonText}
               onSelect={(selectedItem, index) => {
                 console.log(selectedItem, index);
-                //this.setState({TextType: selectedItem});
+                this.setState({to: selectedItem});
               }}
               buttonTextAfterSelection={(selectedItem, index) => {
                 // text represented after item is selected
