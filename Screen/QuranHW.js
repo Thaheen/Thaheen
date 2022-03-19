@@ -242,7 +242,7 @@ class RecordVoice extends Component {
       })
       .catch(e => console.log('Errors while downloading => ', e));
   };
-
+  //////
   onModalPress = () => {
     this.setState({
       textValue: 'تم إيقاف التسجيل...',
