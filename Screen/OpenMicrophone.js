@@ -95,12 +95,6 @@ class OpenMicrophone extends Component {
     console.log('audioSet', audioSet);
     const uri = await this.audioRecorderPlayer.startRecorder(path, audioSet);
     this.audioRecorderPlayer.addRecordBackListener(e => {
-      this.setState({
-        recordSecs: e.current_position,
-        recordTime: this.audioRecorderPlayer.mmssss(
-          Math.floor(e.current_position),
-        ),
-      });
     });
     console.log(`uri: ${uri}`);
   };
@@ -112,10 +106,6 @@ class OpenMicrophone extends Component {
     
 
     this.audioRecorderPlayer.removeRecordBackListener();
-    this.setState({
-      recordSecs: 0,
-    });
-    console.log(result);
     this.record = result;
   
     console.log(this.record)

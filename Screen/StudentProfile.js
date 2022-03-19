@@ -63,11 +63,7 @@ const StudentProfile = ({navigation, route}) => {
       }}>
       <StatusBar translucent backgroundColor="#DAE2E9" />
       <View style={[TitleStyles.BlueContianer, {position: 'absolute'}]} />
-      <BackButton
-        style={{
-          zIndex: 2,
-        }}
-      />
+      
       <Text style={[TitleStyles.ProfileTitle]}> بيانات الطالب</Text>
       <View style={[TitleStyles.WhiteContianer]}>
         <View style={{top: 15, alignSelf: 'center', marginBottom: 0}}>
@@ -125,7 +121,7 @@ const StudentProfile = ({navigation, route}) => {
           editable={false}></TextInput>
 
         <View>
-          <Text style={TitleStyles.profileText}> المرحلة الدراسية </Text>
+          <Text style={TitleStyles.profileText}> اسم المدرسة </Text>
           <TextInput
             style={TitleStyles.textInput}
             value={userSchoolName}

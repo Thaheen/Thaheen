@@ -76,6 +76,11 @@ const Home = ({navigation, route}) => {
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
 }, [])
 
+const EngToArabicNum = num => {
+  var str = '' + num
+  return str.replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d])
+}
+
   return (
     <SafeAreaView style={{...Platform.OS === 'android' ? {marginTop: 20, } : null , backgroundColor:'#FFF', flex:1}}>
     <Ombre
@@ -105,20 +110,20 @@ const Home = ({navigation, route}) => {
         <View style={[TitleStyles.InstructorSubCard,{borderRightWidth:0}]}>
         <Homework style={{width:30,height:10}}/>
          <Text style={TitleStyles.smallText}> الواجبات </Text> 
-         <Text> {hwNo} </Text>
+         <Text> {EngToArabicNum(hwNo)}</Text>
          </View>
 
         <View style={TitleStyles.InstructorSubCard}> 
         <InfoCard/>
         <Text style={TitleStyles.smallText}> الطلاب </Text> 
-        <Text> {stuNo} </Text>
+        <Text> {EngToArabicNum(stuNo)} </Text>
 
         </View>
 
         <View style={TitleStyles.InstructorSubCard}>
         <Cell/>
          <Text style={TitleStyles.smallText} > الفصول </Text>
-        <Text> {classNo} </Text>
+        <Text> {EngToArabicNum(classNo)}</Text>
 
           </View>
         </View>

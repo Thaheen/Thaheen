@@ -14,6 +14,13 @@ const InsClassCard = ({title , color ,students }) => {
         if (students){    
             studentsLen = students.length
         }  
+
+
+        const EngToArabicNum = num => {
+          var str = '' + num
+          return str.replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d])
+        }
+
 return (
     <View
       style={[
@@ -33,7 +40,7 @@ return (
         {title}
       </Text>
       <Text style={[TitleStyles.smallText, {fontFamily: 'AJannatLT' , textAlign: 'left'}]} >
-        {studentsLen} طالب
+        {EngToArabicNum(studentsLen)} طالب
       </Text>
 
       <View style={{flex:1, justifyContent: 'flex-end'}}>

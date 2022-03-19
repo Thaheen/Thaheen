@@ -128,7 +128,7 @@ const StudentHome = () => {
       {TextList != 0 && (
         <FlatList
           style={{flexGrow: 0}}
-          data={TextList}
+          data={TextList.slice(0,3)}
           keyExtractor={(item, index) => index.toString()}
           horizontal={true}
           scrollEnabled

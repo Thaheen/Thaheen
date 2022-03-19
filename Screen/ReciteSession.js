@@ -59,23 +59,19 @@ const ReciteSession = ({navigation, route}) => {
     }); return Text;
   }, []);
 
-  console.log('Text Body == ' , textBody)
 
     
 
   const finishRecord = () => {
-    console.log('before: ' + IsRecording);
     setIsRecording(!IsRecording);
 
     if (IsRecording) {
-      console.log('stopped rec ')
       ob.onStopRecord(recordID)
       //====================== TEMP FIX, change timeout later ====================
       setTimeout(() => {
       transcriptAudio()
       }, 3000);
     } else {
-    console.log('he is recording');
     const { data } =  firebase.functions().httpsCallable('micrecognizeStream')();
     
     ob.onStartRecord( Math.floor(100000 + Math.random() * 90000));
@@ -84,16 +80,8 @@ const ReciteSession = ({navigation, route}) => {
   };
 
   const transcriptAudio = async () => {
-    console.log("=============REC ID=============")
-    console.log(recordID)
+    console.log('REC ID: '+ recordID)
     try {
-      // setDownLoadURI(
-      //   await storage()
-      //     .ref('records/helloModhi.m4a') //name in storage in firebase console
-      //     .getDownloadURL(),
-      // );
-      //console.log('in google ' + DownLoadURI);
-
       let body = JSON.stringify({
         config: {
           encoding: 'FLAC',
@@ -103,7 +91,7 @@ const ReciteSession = ({navigation, route}) => {
         },
         audio: {
           // audio is "how old is the Brooklyn Bridge"
-          uri: 'gs://thaheen-af3bc.appspot.com/ReciteSession/115478.flac',
+          uri: 'gs://thaheen-af3bc.appspot.com/ReciteSession/'+recordID+'.flac',
         },
       });
 
