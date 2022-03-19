@@ -51,7 +51,7 @@ import Microphone from '../assets/images/Microphone.svg';
 import OldHomeWorks from '../assets/images/OldHomeWorks.svg';
 import RecordingMicrophone from '../assets/images/RecordingMicrophone.svg';
 import Camera from '../assets/images/Camera.svg';
-import Quran from '../Components/quran.json';
+import quran from '../Components/quran.json';
 
 //the ref of record voice code
 // https://instamobile.io/react-native-tutorials/react-native-record-audio-play/?ref=hackernoon.com
@@ -466,31 +466,6 @@ class RecordVoice extends Component {
 
           <Text style={TitleStyles.ButtonText}>إضافة واجب جديد </Text>
 
-          <View style={{alignItems: 'space-around'}}>
-            {/* <TheArrow/> */}
-
-            <SelectDropdown
-              data={countries}
-              defaultValue="item2"
-              buttonStyle={TitleStyles.buttonStyle}
-              buttonTextStyle={TitleStyles.dropdownButtonText}
-              onSelect={(selectedItem, index) => {
-                console.log(selectedItem, index);
-                this.setState({TextType: selectedItem});
-              }}
-              buttonTextAfterSelection={(selectedItem, index) => {
-                // text represented after item is selected
-                // if data array is an array of objects then return selectedItem.property to render after item is selected
-                return selectedItem;
-              }}
-              rowTextForSelection={(item, index) => {
-                // text represented for each item in dropdown
-                // if data array is an array of objects then return item.property to represent item in dropdown
-                return item;
-              }}
-              defaultButtonText="نوع النص"
-            />
-          </View>
           <TextInput
             placeholder=" عنوان النص "
             placeholderTextColor={'#C3C7CA'}
