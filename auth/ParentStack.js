@@ -3,6 +3,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import {default as ChildList} from '../Screen/ChildList.js';
 import {default as AddChildAccount} from '../Screen/AddChildAccount.js';
+import {default as QuranHW} from '../Screen/QuranHW.js';
 import {default as RecordVoice} from '../Screen/RecordVoice.js';
 import {default as StudentProfile} from '../Screen/StudentProfile.js';
 import {default as WelcomeScreen} from '../Screen/WelcomeScreen.js';
@@ -28,10 +29,16 @@ const ParentStack = () => {
       />
 
       <Stack.Screen
+        name="QuranHW"
+        component={QuranHW}
+        options={{headerShown: false}}
+      />
+  <Stack.Screen
         name="RecordVoice"
         component={RecordVoice}
         options={{headerShown: false}}
       />
+
 
       <Stack.Screen
         name="ResetPasscode"

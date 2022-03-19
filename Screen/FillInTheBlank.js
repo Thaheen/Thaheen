@@ -17,7 +17,7 @@ import WhiteCurve from '../assets/images/WhiteCurve.svg';
 import ThaheenStanding from '../assets/images/ThaheenStanding';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import Quran from '../Components/quran.json';
+import quran from '../Components/quran.json';
 import functions, {firebase} from '@react-native-firebase/functions';
 import StartMicrophone from '../assets/images/StartMicrophone.svg';
 import StopMicrophone from '../assets/images/StopMicrophone.svg';

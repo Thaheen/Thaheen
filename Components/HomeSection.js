@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Text,
   TouchableOpacity,
@@ -11,9 +11,11 @@ import {useNavigation} from '@react-navigation/native';
 import Plus from '../assets/images/Plus';
 import Trophy from '../assets/images/Trophy';
 import {UserInfoContext} from '../auth/UserInfoContext';
+import TextType from '../Components/TextType';
 
 const HomeSection = ({title, iconName, type}) => {
   const navigation = useNavigation();
+  const [textTypeVisibal, setTextTypeVisibal] = useState(false);
   const {student} = React.useContext(UserInfoContext);
 
   return (
@@ -26,11 +28,20 @@ const HomeSection = ({title, iconName, type}) => {
         {iconName === 'Plus' ? (
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate('RecordVoice', {
-                StudentID: student.id,
-                keyword: 'student',
-              });
+              // navigation.navigate('RecordVoice', {
+              //   StudentID: student.id,
+              //   keyword: 'student',
+              // });
+              setTextTypeVisibal(!textTypeVisibal);
             }}>
+            <TextType
+              modalVisible={textTypeVisibal}
+              setModalVisible={setTextTypeVisibal}
+              // classKey={route.params.classKey}
+              studentID= {student.id}
+              keyWord={'student'}
+            />
+
             <Plus />
           </TouchableOpacity>
         ) : (

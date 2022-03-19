@@ -210,8 +210,21 @@ export default StyleSheet.create({
     width:'25%',
     marginBottom:"2%",
     
-      marginTop:"2%"
 
+
+  },
+    buttonStyle2: {
+    backgroundColor: 'white',
+    borderRadius: 12,
+       borderRadius: 15,
+    borderColor:'#8E8D8D',
+    fontFamily: 'AJannatLT-Bold',
+    fontSize: 18,
+
+    width:'25%',
+      
+
+  
   },
 
   /////Access Passcode Style////

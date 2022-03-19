@@ -20,7 +20,14 @@ import {SvgUri} from 'react-native-svg';
 import CheckVector from '../assets/images/CheckVector.svg';
 import {useNavigation} from '@react-navigation/native';
 import Close from '../assets/images/Close.svg';
-const TextType = ({modalVisible, setModalVisible, goBackCalled, classKey}) => {
+const TextType = ({
+  modalVisible,
+  setModalVisible,
+  goBackCalled,
+  classKey,
+  studentID,
+  keyWord,
+}) => {
   const navigation = useNavigation();
 
   //Success modal
@@ -41,25 +48,44 @@ const TextType = ({modalVisible, setModalVisible, goBackCalled, classKey}) => {
             <View style={[{flexDirection: 'row', alignSelf: 'center'}]}>
               <TouchableOpacity
                 style={[TitleStyles.textTypeBox]}
+
+
+
                 onPress={() => {
-                  navigation.navigate('QuranHW', {
-                    ClassID: classKey,
-                    keyword: 'class',
-                  });
-                  setModalVisible(!modalVisible);
-                  // if (goBackCalled) navigation.goBack();
+
+  if (keyWord == 'class') {
+                    navigation.navigate('QuranHW', {
+                      ClassID: classKey,
+                    });
+                    setModalVisible(!modalVisible);
+                  } else {
+                    navigation.navigate('QuranHW', {
+                      StudentID: studentID,
+                    });
+                    setModalVisible(!modalVisible);
+                  }
+
+
+          
                 }}>
+
                 <Text style={TitleStyles.ButtonText}>سورة من القرآن </Text>
               </TouchableOpacity>
+
               <TouchableOpacity
                 style={[TitleStyles.textTypeBox]}
                 onPress={() => {
-                  navigation.navigate('RecordVoice', {
-                    ClassID: classKey,
-                    keyword: 'class',
-                  });
-                  setModalVisible(!modalVisible);
-                  // if (goBackCalled) navigation.goBack();
+                  if (keyWord == 'class') {
+                    navigation.navigate('RecordVoice', {
+                      ClassID: classKey,
+                    });
+                    setModalVisible(!modalVisible);
+                  } else {
+                    navigation.navigate('RecordVoice', {
+                      StudentID: studentID,
+                    });
+                    setModalVisible(!modalVisible);
+                  }
                 }}>
                 <Text style={TitleStyles.ButtonText}>نص عادي </Text>
               </TouchableOpacity>

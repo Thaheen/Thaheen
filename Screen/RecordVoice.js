@@ -407,7 +407,7 @@ class RecordVoice extends Component {
 
     const Surah = ['نص عادي', 'قرآن'];
 
-    // console.log('student id ' + StudentID);
+     console.log('student id ' + StudentID);
     // console.log('class id ' + ClassID);
     return (
       <View>

@@ -51,7 +51,7 @@ import Microphone from '../assets/images/Microphone.svg';
 import OldHomeWorks from '../assets/images/OldHomeWorks.svg';
 import RecordingMicrophone from '../assets/images/RecordingMicrophone.svg';
 import Camera from '../assets/images/Camera.svg';
-import Quran from '../Components/Quran.json'
+import quran from '../Components/quran.json'
 
 //the ref of record voice code
 // https://instamobile.io/react-native-tutorials/react-native-record-audio-play/?ref=hackernoon.com
@@ -400,7 +400,6 @@ class RecordVoice extends Component {
   render() {
     let {image} = this.state;
     const {ClassID} = this.props.route.params;
-
     const {StudentID} = this.props.route.params;
 
     const Surah = ['نص عادي', 'قرآن'];
@@ -560,18 +559,6 @@ class RecordVoice extends Component {
               color="black"
               multiline
             />
-
-           
-              <TouchableOpacity onPress={() => this.onSelectImagePress()}>
-                <Camera
-                  style={{
-                    marginLeft: 240,
-                       marginTop:-210,
-                    position:"relative"
-                  }}
-                />
-              </TouchableOpacity>
-            
           </View>
 
           <View
