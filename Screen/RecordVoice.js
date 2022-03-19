@@ -407,8 +407,8 @@ class RecordVoice extends Component {
 
     const Surah = ['نص عادي', 'قرآن'];
 
-     console.log('student id ' + StudentID);
-    // console.log('class id ' + ClassID);
+    console.log('student id ' + StudentID);
+    console.log('class id ' + ClassID);
     return (
       <View>
         <SafeAreaView
@@ -638,4 +638,3 @@ class RecordVoice extends Component {
 }
 
 export default RecordVoice;
-

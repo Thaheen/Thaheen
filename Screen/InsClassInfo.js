@@ -209,6 +209,7 @@ const InsClassInfo = ({navigation, route}) => {
             modalVisible={textTypeVisibal}
             setModalVisible={setTextTypeVisibal}
             classKey={route.params.classKey}
+            keyWord={'class'}
           />
           {viewAllHwVisible ? (
             <Modal
