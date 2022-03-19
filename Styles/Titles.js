@@ -105,14 +105,13 @@ export default StyleSheet.create({
     fontSize: 23,
     color: '#43515F',
     textAlign: 'center',
-
   },
   dropdownButtonText: {
-     textAlign: I18nManager.isRTL ? 'left' : 'right',
+    textAlign: I18nManager.isRTL ? 'left' : 'right',
     fontFamily: 'AJannatLT-Bold',
-    fontSize: 16,
-    color:"#B4B4B4"
-    },
+    fontSize: 18,
+    color: '#B4B4B4',
+  },
 
   AlertButton: {
     backgroundColor: '#F5C5AD',
@@ -189,8 +188,7 @@ export default StyleSheet.create({
     fontFamily: 'AJannatLT-Bold',
     fontSize: 18,
     textAlign: 'right',
-    paddingBottom: '60%'
-
+    paddingBottom: '60%',
   },
   Title: {
     backgroundColor: 'white',
@@ -206,25 +204,11 @@ export default StyleSheet.create({
   },
   buttonStyle: {
     backgroundColor: 'white',
-       borderRadius: 15,
-    fontFamily: 'AJannatLT-Bold',
-    fontSize: 18,
-
-    width:'29%',
-
-  },
-  buttonStyle2: {
-    backgroundColor: 'white',
     borderRadius: 12,
-       borderRadius: 15,
-    borderColor:'#8E8D8D',
     fontFamily: 'AJannatLT-Bold',
     fontSize: 18,
-    width:'25%',
-      
-
+    width: '80%',
   },
-
 
   /////Access Passcode Style////
   containerInput: {
@@ -515,5 +499,15 @@ export default StyleSheet.create({
     fontFamily: 'AJannatLT-Bold',
     marginTop: -4,
     color: '#FFF',
+  },
+
+  //TextTypeBox
+
+  textTypeBox: {
+    width: 104,
+    height: 92,
+    backgroundColor: '#DAE2E9',
+    borderRadius: 25,
+    margin: 5,
   },
 });
