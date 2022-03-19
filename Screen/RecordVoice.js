@@ -464,32 +464,6 @@ class RecordVoice extends Component {
 
           <Text style={TitleStyles.ButtonText}>إضافة واجب جديد </Text>
 
-          <View style={{alignItems: 'space-around'}}>
-            {/* <TheArrow/> */}
-
-            <SelectDropdown
-              data={countries}
-              defaultValue="item2"
-              buttonStyle={TitleStyles.buttonStyle}
-              buttonTextStyle={TitleStyles.dropdownButtonText}
-              onSelect={(selectedItem, index) => {
-                console.log(selectedItem, index);
-                  this.setState({TextType: selectedItem});
-              }}
-              buttonTextAfterSelection={(selectedItem, index) => {
-                // text represented after item is selected
-                // if data array is an array of objects then return selectedItem.property to render after item is selected
-                return selectedItem;
-              }}
-              rowTextForSelection={(item, index) => {
-                // text represented for each item in dropdown
-                // if data array is an array of objects then return item.property to represent item in dropdown
-                return item;
-              }}
-              defaultButtonText="نوع النص"
-          
-            />
-          </View>
           <TextInput
             placeholder=" عنوان النص "
             placeholderTextColor={'#C3C7CA'}
@@ -563,6 +537,11 @@ class RecordVoice extends Component {
                 height: '100%',
               }}>
               <View style={[TitleStyles.modalContent, {alignItems: 'center'}]}>
+              <RecordingMicrophone
+                  width={120}
+                  height={120}
+                  style={{marginLeft: 10, marginTop: -75}}
+                />
                 <Text
                   style={[
                     TitleStyles.subTitle,
@@ -570,7 +549,7 @@ class RecordVoice extends Component {
                   ]}>
                   {this.state.textValue}
                 </Text>
-
+ 
                 <TouchableOpacity
                   style={[
                     TitleStyles.AlertButton,

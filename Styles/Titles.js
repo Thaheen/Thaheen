@@ -110,7 +110,7 @@ export default StyleSheet.create({
   dropdownButtonText: {
      textAlign: I18nManager.isRTL ? 'left' : 'right',
     fontFamily: 'AJannatLT-Bold',
-    fontSize: 18,
+    fontSize: 16,
     color:"#B4B4B4"
     },
 
@@ -206,13 +206,25 @@ export default StyleSheet.create({
   },
   buttonStyle: {
     backgroundColor: 'white',
-    borderRadius: 12,
+       borderRadius: 15,
     fontFamily: 'AJannatLT-Bold',
     fontSize: 18,
-    width:'80%',
 
-  
+    width:'29%',
+
   },
+  buttonStyle2: {
+    backgroundColor: 'white',
+    borderRadius: 12,
+       borderRadius: 15,
+    borderColor:'#8E8D8D',
+    fontFamily: 'AJannatLT-Bold',
+    fontSize: 18,
+    width:'25%',
+      
+
+  },
+
 
   /////Access Passcode Style////
   containerInput: {

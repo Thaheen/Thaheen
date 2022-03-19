@@ -101,7 +101,7 @@ console.log("here")
         <View
           style={{
             position: 'absolute',
-            backgroundColor: '#DAE2E9',
+   
             width: 390,
             height: 100,
             top: 50,
@@ -163,9 +163,9 @@ console.log("here")
 
       
       <ThaheenStanding
-        style={[{position: 'absolute', bottom: 50, right: -20}]}
-        width={170}
-        height={170}
+        style={[{position: 'absolute', bottom: 70, right: -20}]}
+        width={150}
+        height={150}
       />
     </SafeAreaView>
   );
