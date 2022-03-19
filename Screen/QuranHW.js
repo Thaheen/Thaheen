@@ -599,6 +599,11 @@ class RecordVoice extends Component {
                 height: '100%',
               }}>
               <View style={[TitleStyles.modalContent, {alignItems: 'center'}]}>
+               <RecordingMicrophone
+                  width={120}
+                  height={120}
+                  style={{marginLeft: 10, marginTop: -75}}
+                />
                 <Text
                   style={[
                     TitleStyles.subTitle,

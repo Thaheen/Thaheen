@@ -207,7 +207,11 @@ export default StyleSheet.create({
     borderRadius: 12,
     fontFamily: 'AJannatLT-Bold',
     fontSize: 18,
-    width: '80%',
+    width:'25%',
+    marginBottom:"2%",
+    
+      marginTop:"2%"
+
   },
 
   /////Access Passcode Style////

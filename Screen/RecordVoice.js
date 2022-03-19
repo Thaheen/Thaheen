@@ -403,7 +403,7 @@ class RecordVoice extends Component {
 
     const {StudentID} = this.props.route.params;
 
-    const countries = ['نص عادي', 'قرآن'];
+    const Surah = ['نص عادي', 'قرآن'];
 
     // console.log('student id ' + StudentID);
     // console.log('class id ' + ClassID);
@@ -464,15 +464,78 @@ class RecordVoice extends Component {
 
           <Text style={TitleStyles.ButtonText}>إضافة واجب جديد </Text>
 
-          <TextInput
-            placeholder=" عنوان النص "
-            placeholderTextColor={'#C3C7CA'}
-            style={TitleStyles.Title}
-            onChangeText={text => (this.state.Title = text)}
-            value={this.state.Title}
-            underlineColorAndroid="transparent"
-            color="black"
-          />
+          <View style={{flexDirection: 'row'}}>
+            <SelectDropdown style={{zIndex:1}}
+              data={Surah}
+              buttonStyle={TitleStyles.buttonStyle}
+              buttonTextStyle={TitleStyles.dropdownButtonText}
+              onSelect={(selectedItem, index) => {
+                console.log(selectedItem, index);
+                  this.setState({TextType: selectedItem});
+              }}
+              buttonTextAfterSelection={(selectedItem, index) => {
+                // text represented after item is selected
+                // if data array is an array of objects then return selectedItem.property to render after item is selected
+                return selectedItem;
+              }}
+              rowTextForSelection={(item, index) => {
+                // text represented for each item in dropdown
+                // if data array is an array of objects then return item.property to represent item in dropdown
+                return item;
+              }}
+              defaultButtonText="السورة"
+          
+            />
+            <TheArrow    style={{zIndex:3 , top:25,right:25}}/>
+
+            <SelectDropdown
+            style={{zIndex:1}}
+              data={Surah}
+              buttonStyle={TitleStyles.buttonStyle2}
+              buttonTextStyle={TitleStyles.dropdownButtonText}
+              onSelect={(selectedItem, index) => {
+                console.log(selectedItem, index);
+                  this.setState({TextType: selectedItem});
+              }}
+              buttonTextAfterSelection={(selectedItem, index) => {
+                // text represented after item is selected
+                // if data array is an array of objects then return selectedItem.property to render after item is selected
+                return selectedItem;
+              }}
+              rowTextForSelection={(item, index) => {
+                // text represented for each item in dropdown
+                // if data array is an array of objects then return item.property to represent item in dropdown
+                return item;
+              }}
+              defaultButtonText="من آية"
+          
+            />
+     <TheArrow    style={{top:25,right:21}}/>
+             <SelectDropdown
+              data={Surah}
+              buttonStyle={TitleStyles.buttonStyle2}
+              buttonTextStyle={TitleStyles.dropdownButtonText}
+              onSelect={(selectedItem, index) => {
+                console.log(selectedItem, index);
+                  this.setState({TextType: selectedItem});
+              }}
+              buttonTextAfterSelection={(selectedItem, index) => {
+                // text represented after item is selected
+                // if data array is an array of objects then return selectedItem.property to render after item is selected
+                return selectedItem;
+              }}
+              rowTextForSelection={(item, index) => {
+                // text represented for each item in dropdown
+                // if data array is an array of objects then return item.property to represent item in dropdown
+                return item;
+              }}
+              defaultButtonText="الى آية"
+          
+            />
+              <TheArrow    style={{top:25,right:9,position:"absolute"}}/>
+
+          </View>
+   
           <View
             style={{
               backgroundColor: 'white',
@@ -485,7 +548,6 @@ class RecordVoice extends Component {
               paddingLeft: 12,
             }}>
             <TextInput
-              placeholder="أدخل النص "
               placeholderTextColor={'#C3C7CA'}
               style={TitleStyles.TextArea}
               onChangeText={text => (this.state.HomeWork = text)}
@@ -500,16 +562,6 @@ class RecordVoice extends Component {
             />
 
            
-              <TouchableOpacity onPress={() => this.onSelectImagePress()}>
-                <Camera
-                  style={{
-                    marginLeft: 240,
-                       marginTop:-210,
-                    position:"relative"
-                  }}
-                />
-              </TouchableOpacity>
-            
           </View>
 
           <View
@@ -537,7 +589,7 @@ class RecordVoice extends Component {
                 height: '100%',
               }}>
               <View style={[TitleStyles.modalContent, {alignItems: 'center'}]}>
-              <RecordingMicrophone
+               <RecordingMicrophone
                   width={120}
                   height={120}
                   style={{marginLeft: 10, marginTop: -75}}
@@ -549,7 +601,7 @@ class RecordVoice extends Component {
                   ]}>
                   {this.state.textValue}
                 </Text>
- 
+
                 <TouchableOpacity
                   style={[
                     TitleStyles.AlertButton,
@@ -639,3 +691,4 @@ class RecordVoice extends Component {
 }
 
 export default RecordVoice;
+
