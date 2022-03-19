@@ -20,8 +20,7 @@ import RectangleYell from '../assets/images/RectangleYell.svg';
 import MemorizeVec from '../assets/images/MemorizeVec.svg';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import Quran from '../Components/Quran.json'
-
+import Quran from '../Components/quran.json';
 
 const MemorizationSession = ({navigation, route}) => {
   const [textHead, setTextHead] = useState('');

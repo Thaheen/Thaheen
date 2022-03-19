@@ -17,8 +17,8 @@ import WhiteCurve from '../assets/images/WhiteCurve.svg';
 import ThaheenStanding from '../assets/images/ThaheenStanding';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import Quran from '../Components/Quran.json'
-import functions , {firebase} from '@react-native-firebase/functions'
+import Quran from '../Components/quran.json';
+import functions, {firebase} from '@react-native-firebase/functions';
 import StartMicrophone from '../assets/images/StartMicrophone.svg';
 import StopMicrophone from '../assets/images/StopMicrophone.svg';
 
@@ -26,14 +26,12 @@ const FillInTheBlank = ({navigation, route}) => {
   const [textBody, setTextBody] = useState('');
   const [IsRecording, setIsRecording] = useState(false);
 
- functions().useFunctionsEmulator('http://localhost:5001');
+  functions().useFunctionsEmulator('http://localhost:5001');
 
-
-
-const StartRecord = () => {
-const { data } =  firebase.functions().httpsCallable('micrecognizeStream')();
-console.log("here")
-  }
+  const StartRecord = () => {
+    const {data} = firebase.functions().httpsCallable('micrecognizeStream')();
+    console.log('here');
+  };
 
   useEffect(() => {
     const MemorizationText = firestore()
@@ -75,45 +73,39 @@ console.log("here")
         <Text key={index}>{show ? clonedArr : '_ _ _ _ _ _ _ _'}</Text>
       ))} */}
 
-
-
-
       <Text style={[TitleStyles.sectionTitle, {marginTop: 30}]}>
         هيا لنبدأ المراجعة
       </Text>
       <View style={[TitleStyles.MemorizationContainer]}>
         <Text style={{marginTop: 50, textAlign: 'center'}} onPress={toggleText}>
           اظهار النص
-    
-{/*   
+          {/*   
    {Quran.data.map((item, index) => (
         <Text key={index}> {item.name}  </Text>     )) }  */}
-
         </Text>
-     
 
-      <View
-        style={{
-          justifyContent: 'center',
-          alignItems: 'center',
-          top: 400,
-        }}>
         <View
           style={{
-            position: 'absolute',
-   
-            width: 390,
-            height: 100,
-            top: 50,
-          }}></View>
-        <TouchableOpacity onPress={() => StartRecord()}>
-          {IsRecording ? (
-            <StopMicrophone height={100} />
-          ) : (
-            <StartMicrophone height={100} />
-          )}
-        </TouchableOpacity>
-      </View>
+            justifyContent: 'center',
+            alignItems: 'center',
+            top: 400,
+          }}>
+          <View
+            style={{
+              position: 'absolute',
+              backgroundColor: '#DAE2E9',
+              width: 390,
+              height: 100,
+              top: 50,
+            }}></View>
+          <TouchableOpacity onPress={() => StartRecord()}>
+            {IsRecording ? (
+              <StopMicrophone height={100} />
+            ) : (
+              <StartMicrophone height={100} />
+            )}
+          </TouchableOpacity>
+        </View>
 
         {show == false && (
           <FlatList
@@ -160,8 +152,6 @@ console.log("here")
         <WhiteCurve />
       </View>
 
-
-      
       <ThaheenStanding
         style={[{position: 'absolute', bottom: 70, right: -20}]}
         width={150}
