@@ -51,7 +51,7 @@ import Microphone from '../assets/images/Microphone.svg';
 import OldHomeWorks from '../assets/images/OldHomeWorks.svg';
 import RecordingMicrophone from '../assets/images/RecordingMicrophone.svg';
 import Camera from '../assets/images/Camera.svg';
-import quran from '../Components/quran.json'
+import quran from '../Components/quran.json';
 
 //the ref of record voice code
 // https://instamobile.io/react-native-tutorials/react-native-record-audio-play/?ref=hackernoon.com
@@ -84,12 +84,12 @@ class RecordVoice extends Component {
       queryText: '',
       RecFlag: false,
       SucessfulModalVisible: false,
-      TextType:null,
+      TextType: null,
+      SurahNum: 1,
     };
     this.audioRecorderPlayer = new AudioRecorderPlayer();
     this.audioRecorderPlayer.setSubscriptionDuration(0.09); // optional. Default is 0.1
   }
-
 
   //contain a uri
   onStartRecord = async () => {
@@ -355,11 +355,22 @@ class RecordVoice extends Component {
       console.log(error);
     }
   };
-
+  // Calculate Surah
+  Ayaharray = versusNum => {
+    let ar = [];
+    for (let i = 0; i <= versusNum; i++) {
+      ar[i] = i;
+    }
+    return ar;
+  };
   ////////////////////////////////// MAIN UPLOADING METHOD ///////////////////////////
 
   UploadHomeWork = async () => {
-    if (this.state.HomeWork == null || this.state.Title == null || this.state.TextType == null )  {
+    if (
+      this.state.HomeWork == null ||
+      this.state.Title == null ||
+      this.state.TextType == null
+    ) {
       this.setState({ErrormodalVisible: true});
       console.log('Error model ' + this.state.ErrormodalVisible);
       console.log('home in if ' + this.state.HomeWork);
@@ -378,9 +389,8 @@ class RecordVoice extends Component {
       firestore().collection('Student Text').add({
         TextBody: this.state.HomeWork,
         TextHead: this.state.Title,
-        TextType:this.state.TextType,
+        TextType: this.state.TextType,
         Studentid: this.props.route.params.StudentID,
-
       });
       this.setState({SucessfulModalVisible: true});
     }
@@ -390,7 +400,7 @@ class RecordVoice extends Component {
       firestore().collection('Instructor Text').add({
         TextBody: this.state.HomeWork,
         TextHead: this.state.Title,
-          TextType:this.state.TextType,
+        TextType: this.state.TextType,
         ClassId: this.props.route.params.ClassID,
       });
       this.setState({SucessfulModalVisible: true});
@@ -401,8 +411,37 @@ class RecordVoice extends Component {
     let {image} = this.state;
     const {ClassID} = this.props.route.params;
     const {StudentID} = this.props.route.params;
+    console.log('Surah Name ' + this.state.TextType);
+    //list of quran names
+    // let Surah = [' 1', '2'];
 
-    const Surah = ['نص عادي', 'قرآن'];
+    // for (const property in quran.data) {
+    //   Surah.push(
+
+    //       {property}: {person[property]}
+
+    //   );
+    // }
+
+    const Surah = quran.data.map(function (item) {
+      return item.name;
+    });
+
+    const totalVerses = quran.data[this.state.SurahNum].total_verses;
+    console.log('Total verses: ' + totalVerses);
+
+    const FromAyah = this.Ayaharray(totalVerses);
+    console.log(FromAyah);
+
+    const ToAyah = this.Ayaharray(totalVerses);
+
+    // {Quran.data.map((item, index) => (
+
+    //   {item.name} {" "}
+
+    //   {/* {/* {item.verses[index].text} */}
+
+    //   )) }
 
     // console.log('student id ' + StudentID);
     // console.log('class id ' + ClassID);
@@ -464,13 +503,16 @@ class RecordVoice extends Component {
           <Text style={TitleStyles.ButtonText}>إضافة واجب جديد </Text>
 
           <View style={{flexDirection: 'row'}}>
-            <SelectDropdown style={{zIndex:1}}
+            <SelectDropdown
+              style={{zIndex: 1}}
               data={Surah}
               buttonStyle={TitleStyles.buttonStyle}
               buttonTextStyle={TitleStyles.dropdownButtonText}
               onSelect={(selectedItem, index) => {
-                console.log(selectedItem, index);
-                  this.setState({TextType: selectedItem});
+                // console.log(selectedItem, index);
+                this.setState({TextType: selectedItem});
+                this.setState({SurahNum: index++});
+                console.log(' Index for surah ' + this.state.SurahNum);
               }}
               buttonTextAfterSelection={(selectedItem, index) => {
                 // text represented after item is selected
@@ -483,18 +525,17 @@ class RecordVoice extends Component {
                 return item;
               }}
               defaultButtonText="السورة"
-          
             />
-            <TheArrow    style={{zIndex:3 , top:25,right:25}}/>
+            <TheArrow style={{zIndex: 3, top: 25, right: 25}} />
 
             <SelectDropdown
-            style={{zIndex:1}}
-              data={Surah}
+              style={{zIndex: 1}}
+              data={FromAyah}
               buttonStyle={TitleStyles.buttonStyle2}
               buttonTextStyle={TitleStyles.dropdownButtonText}
               onSelect={(selectedItem, index) => {
-                console.log(selectedItem, index);
-                  this.setState({TextType: selectedItem});
+                // console.log(selectedItem, index);
+                // this.setState({TextType: selectedItem});
               }}
               buttonTextAfterSelection={(selectedItem, index) => {
                 // text represented after item is selected
@@ -507,16 +548,15 @@ class RecordVoice extends Component {
                 return item;
               }}
               defaultButtonText="من آية"
-          
             />
-     <TheArrow    style={{top:25,right:21}}/>
-             <SelectDropdown
-              data={Surah}
+            <TheArrow style={{top: 25, right: 21}} />
+            <SelectDropdown
+              data={FromAyah}
               buttonStyle={TitleStyles.buttonStyle2}
               buttonTextStyle={TitleStyles.dropdownButtonText}
               onSelect={(selectedItem, index) => {
                 console.log(selectedItem, index);
-                  this.setState({TextType: selectedItem});
+                //this.setState({TextType: selectedItem});
               }}
               buttonTextAfterSelection={(selectedItem, index) => {
                 // text represented after item is selected
@@ -529,12 +569,10 @@ class RecordVoice extends Component {
                 return item;
               }}
               defaultButtonText="الى آية"
-          
             />
-              <TheArrow    style={{top:25,right:9,position:"absolute"}}/>
-
+            <TheArrow style={{top: 25, right: 9, position: 'absolute'}} />
           </View>
-   
+
           <View
             style={{
               backgroundColor: 'white',
@@ -543,7 +581,7 @@ class RecordVoice extends Component {
               borderWidth: 2,
               width: '80%',
               height: '30%',
-     
+
               paddingLeft: 12,
             }}>
             <TextInput
@@ -586,7 +624,7 @@ class RecordVoice extends Component {
                 height: '100%',
               }}>
               <View style={[TitleStyles.modalContent, {alignItems: 'center'}]}>
-               <RecordingMicrophone
+                <RecordingMicrophone
                   width={120}
                   height={120}
                   style={{marginLeft: 10, marginTop: -75}}
@@ -688,4 +726,3 @@ class RecordVoice extends Component {
 }
 
 export default RecordVoice;
-
