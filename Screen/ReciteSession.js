@@ -27,6 +27,7 @@ import Thaheen from '../assets/images/ThaheenStanding.svg';
 import SpeechBubble from '../assets/images/SpeechBubble.svg';
 import ob from './OpenMicrophone.js';
 import functions , {firebase} from '@react-native-firebase/functions'
+import ColoredText from '../Components/ColoredText.js'
 
 const ReciteSession = ({navigation, route}) => {
  // functions().useFunctionsEmulator('http://localhost:5001');
@@ -39,6 +40,7 @@ const ReciteSession = ({navigation, route}) => {
   const [onePass, setOnePass] = useState(0);
   const [doneRecite, setDoneRecite] = useState(false);
   const textID = route.params.TextID;
+  const [coloredWords, setColoredWords] = useState([]);
   const taggedWords = []
 
 
@@ -191,7 +193,7 @@ const ReciteSession = ({navigation, route}) => {
 
       }
       setDoneRecite(true)
-      console.log(taggedWords)
+      setColoredWords(taggedWords)
     }
 
   return (
@@ -218,30 +220,29 @@ const ReciteSession = ({navigation, route}) => {
             ])
           }
         />
+        {!doneRecite ?
         <Text style={[TitleStyles.smallText, {fontSize: 25, top: -110}]}>
           {dialog}
-        </Text>
+        </Text> : null}
 
-        {/* {doneRecite ? 
+        {doneRecite ? 
         
 
         <FlatList
-          key={'#'}
-          style={{ height:'90%'}}
-          data={taggedWords}
-          scrollEnabled={false} 
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={({item}) => (
-            <Text>
-              {item.text}
-            </Text>
-          )}
-        />
+                          style={[{padding: 10, height: '100%' , flex:1 , top:-210}]}
+                          data={coloredWords}
+                          numColumns={5}
+                          keyExtractor={(item, index) => index.toString()}
+                          renderItem={({item, index}) => (
+                      
+                      <ColoredText word={item.Text} color={item.color} />
+                          )}
+                        />
         
         
         
         
-        : null} */}
+        : null} 
       </View>
 
       <ReciteRectangle
