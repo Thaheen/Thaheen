@@ -84,32 +84,9 @@ const FillInTheBlank = ({navigation, route}) => {
         <Text key={index}> {item.name}  </Text>     )) }  */}
         </Text>
 
-        <View
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            top: 400,
-          }}>
-          <View
-            style={{
-              position: 'absolute',
-              backgroundColor: '#DAE2E9',
-              width: 390,
-              height: 100,
-              top: 50,
-            }}></View>
-          <TouchableOpacity onPress={() => StartRecord()}>
-            {IsRecording ? (
-              <StopMicrophone height={100} />
-            ) : (
-              <StartMicrophone height={100} />
-            )}
-          </TouchableOpacity>
-        </View>
-
         {show == false && (
           <FlatList
-            // style={{flexDirection: 'row', display: 'flex'}}
+            style={{marginTop: 20, marginLeft: 10}}
             contentContainerStyle={{
               flexDirection: 'row',
               width: 333,
@@ -125,7 +102,7 @@ const FillInTheBlank = ({navigation, route}) => {
 
         {show == true && (
           <FlatList
-            // style={{flexDirection: 'row', display: 'flex'}}
+            style={{marginTop: 20, marginLeft: 10}}
             contentContainerStyle={{
               flexDirection: 'row',
               width: 333,
@@ -140,8 +117,9 @@ const FillInTheBlank = ({navigation, route}) => {
                     ? [TitleStyles.smallText, {color: '#62A5A2'}]
                     : [TitleStyles.smallText]
                 }>
-                {' '}
+                {'   '}
                 {item}
+                {'   '}
               </Text>
             )}
           />

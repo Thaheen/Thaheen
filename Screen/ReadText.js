@@ -22,6 +22,7 @@ import auth from '@react-native-firebase/auth';
 
 import WhiteCurve from '../assets/images/WhiteCurve.svg';
 import firestore from '@react-native-firebase/firestore';
+import ThaheenMini from '../assets/images/ThaheenMini.svg';
 
 const ReadText = ({navigation, route}) => {
   const [textBody, setTextBody] = useState('');
@@ -52,7 +53,7 @@ const ReadText = ({navigation, route}) => {
         <Text style={[TitleStyles.TextOrange]}>أولاً اقرأ النص كاملاً</Text>
 
         <FlatList
-          // style={{flexDirection: 'row', display: 'flex'}}
+          style={{marginTop: 20, marginLeft: 20}}
           contentContainerStyle={{
             flexDirection: 'row',
             width: 333,
@@ -61,16 +62,13 @@ const ReadText = ({navigation, route}) => {
           data={clonedArr}
           // extraData={selectedId}
           renderItem={({item, index}) => (
-            <Text
-              style={[
-                TitleStyles.smallText,
-                {textAlign: 'center', marginLeft: 5},
-              ]}>
-              {item}
+            <Text style={[TitleStyles.smallText, {textAlign: 'center'}]}>
+              {' '}
+              {item}{' '}
             </Text>
           )}
         />
-
+        {/* Retrive the audio for the text if exist */}
         <TouchableOpacity
           style={[TitleStyles.OpenTextAudioBtn]}
           // onPress={() => {
@@ -91,27 +89,41 @@ const ReadText = ({navigation, route}) => {
       </View>
 
       <View style={{marginTop: 440}}>
-        <WhiteCurve />
+        <WhiteCurve style={{zIndex: 2}} />
+        <ThaheenMini
+          width={116}
+          height={162}
+          style={[
+            {
+              marginTop: 172,
+              position: 'absolute',
+              right: 60,
+              zIndex: 3,
+            },
+          ]}
+        />
+        <TouchableOpacity
+          style={[
+            TitleStyles.Button,
+            {
+              backgroundColor: '#DAE2E9',
+              //alignSelf: 'center',
+              width: 283,
+              //marginBottom: Platform.OS === 'ios' ? 100 : 90,
+              zIndex: 3,
+              marginLeft: 50,
+              marginTop: 260,
+              position: 'absolute',
+            },
+          ]}
+          onPress={() => {
+            navigation.navigate('FillInTheBlank', {
+              TextID: route.params.TextID,
+            });
+          }}>
+          <Text style={TitleStyles.ButtonText}>إبدا المراجعة</Text>
+        </TouchableOpacity>
       </View>
-
-      <TouchableOpacity
-        style={[
-          TitleStyles.Button,
-          {
-            backgroundColor: '#DAE2E9',
-            //alignSelf: 'center',
-            width: 283,
-            //marginBottom: Platform.OS === 'ios' ? 100 : 90,
-            zIndex: 2,
-            marginLeft: 45,
-            // margingBottom: 50,
-            position: 'absolute',
-          },
-        ]}
-        // onPress={onSignout}
-      >
-        <Text style={TitleStyles.ButtonText}>إبدا المراجعة</Text>
-      </TouchableOpacity>
     </SafeAreaView>
   );
 };
