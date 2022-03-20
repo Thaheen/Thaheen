@@ -10,6 +10,7 @@ import {default as WelcomeScreen} from '../Screen/WelcomeScreen.js';
 import {default as StudentHome} from '../Screen/StudentHome.js';
 import {default as StudentTab} from './StudentTab.js';
 import {default as ResetPasscode} from '../Screen/ResetPasscode.js';
+import {default as ReadText} from '../Screen/ReadText.js';
 
 const Stack = createNativeStackNavigator();
 
@@ -33,12 +34,11 @@ const ParentStack = () => {
         component={QuranHW}
         options={{headerShown: false}}
       />
-  <Stack.Screen
+      <Stack.Screen
         name="RecordVoice"
         component={RecordVoice}
         options={{headerShown: false}}
       />
-
 
       <Stack.Screen
         name="ResetPasscode"
@@ -55,6 +55,11 @@ const ParentStack = () => {
       <Stack.Screen
         name="StudentTab"
         component={StudentTab}
+        options={{headerShown: false, animation: 'fade'}}
+      />
+      <Stack.Screen
+        name="ReadText"
+        component={ReadText}
         options={{headerShown: false, animation: 'fade'}}
       />
     </Stack.Navigator>

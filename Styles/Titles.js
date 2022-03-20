@@ -537,4 +537,22 @@ export default StyleSheet.create({
     marginTop: 40,
     //marginBottom: -20,
   },
+
+  TextOrange: {
+    textAlign: 'center',
+    fontSize: 24,
+    fontFamily: 'AJannatLT-Bold',
+    color: '#E26953',
+    marginTop: 20,
+  },
+
+  OpenTextAudioBtn: {
+    width: 205,
+    height: 49,
+    backgroundColor: '#F9D8C9',
+    borderRadius: 25,
+    //alignItems: 'center',
+    alignSelf: 'center',
+    marginBottom: 50,
+  },
 });

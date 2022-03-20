@@ -98,7 +98,7 @@ const MemorizationSession = ({navigation, route}) => {
               },
             ]}
             onPress={() => {
-              navigation.navigate('FillInTheBlank', {
+              navigation.navigate('ReadText', {
                 TextID: route.params.TextID,
               });
             }}>
