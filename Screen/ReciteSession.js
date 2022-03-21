@@ -11,6 +11,7 @@ import {
   View,
   FlatList,
   I18nManager,
+  Platform
 } from 'react-native';
 import TitleStyles from '../Styles/Titles';
 import RTLlayout from '../Styles/RTLlayout';
@@ -85,9 +86,9 @@ const ReciteSession = ({navigation, route}) => {
       let body = JSON.stringify({
         config: {
           encoding: 'FLAC',
-          sampleRateHertz: 44100,
+          sampleRateHertz: Platform.OS === 'ios' ? 44100 : 48000,
           languageCode: 'ar-SA',
-          audio_channel_count: 2,
+          audio_channel_count: Platform.OS === 'ios' ? 2 : 1,
         },
         audio: {
           // audio is "how old is the Brooklyn Bridge"
