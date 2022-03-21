@@ -84,7 +84,6 @@ class RecordVoice extends Component {
       queryText: '',
       RecFlag: false,
       SucessfulModalVisible: false,
-      TextType: null,
     };
     this.audioRecorderPlayer = new AudioRecorderPlayer();
     this.audioRecorderPlayer.setSubscriptionDuration(0.09); // optional. Default is 0.1
@@ -360,8 +359,7 @@ class RecordVoice extends Component {
   UploadHomeWork = async () => {
     if (
       this.state.HomeWork == null ||
-      this.state.Title == null ||
-      this.state.TextType == null
+      this.state.Title == null 
     ) {
       this.setState({ErrormodalVisible: true});
       console.log('Error model ' + this.state.ErrormodalVisible);
@@ -373,15 +371,15 @@ class RecordVoice extends Component {
       this.uploadAudio();
     }
 
-    console.log(
-      this.props.route.params.StudentID + ',' + this.props.route.params.ClassID,
-    );
+    // console.log(
+    //   this.props.route.params.StudentID + ',' + this.props.route.params.ClassID,
+    // );
+    
     if (this.props.route.params.keyword == 'student') {
       console.log('id in student ' + this.props.route.params.StudentID); //true
       firestore().collection('Student Text').add({
         TextBody: this.state.HomeWork,
         TextHead: this.state.Title,
-        TextType: this.state.TextType,
         Studentid: this.props.route.params.StudentID,
       });
       this.setState({SucessfulModalVisible: true});
@@ -392,7 +390,6 @@ class RecordVoice extends Component {
       firestore().collection('Instructor Text').add({
         TextBody: this.state.HomeWork,
         TextHead: this.state.Title,
-        TextType: this.state.TextType,
         ClassId: this.props.route.params.ClassID,
       });
       this.setState({SucessfulModalVisible: true});
@@ -405,10 +402,9 @@ class RecordVoice extends Component {
 
     const {StudentID} = this.props.route.params;
 
-    const Surah = ['نص عادي', 'قرآن'];
-
+console.log("the key word "+this.props.route.params.keyword);
     console.log('student id ' + StudentID);
-    console.log('class id ' + ClassID);
+    // console.log('class id ' + ClassID);
     return (
       <View>
         <SafeAreaView

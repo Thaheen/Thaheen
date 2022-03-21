@@ -85,7 +85,6 @@ class RecordVoice extends Component {
       queryText: '',
       RecFlag: false,
       SucessfulModalVisible: false,
-      TextType: null,
       SurahNum: 1,
       from: 0,
       to: 0,
@@ -371,8 +370,7 @@ class RecordVoice extends Component {
   UploadHomeWork = async () => {
     if (
       this.state.HomeWork == null ||
-      this.state.Title == null ||
-      this.state.TextType == null
+      this.state.Title == null 
     ) {
       this.setState({ErrormodalVisible: true});
       console.log('Error model ' + this.state.ErrormodalVisible);
@@ -392,7 +390,6 @@ class RecordVoice extends Component {
       firestore().collection('Student Text').add({
         TextBody: this.state.HomeWork,
         TextHead: this.state.Title,
-        TextType: this.state.TextType,
         Studentid: this.props.route.params.StudentID,
       });
       this.setState({SucessfulModalVisible: true});
@@ -403,7 +400,6 @@ class RecordVoice extends Component {
       firestore().collection('Instructor Text').add({
         TextBody: this.state.HomeWork,
         TextHead: this.state.Title,
-        TextType: this.state.TextType,
         ClassId: this.props.route.params.ClassID,
       });
       this.setState({SucessfulModalVisible: true});

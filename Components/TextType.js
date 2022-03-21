@@ -66,11 +66,13 @@ const TextType = ({
                   if (keyWord == 'class') {
                     navigation.navigate('RecordVoice', {
                       ClassID: classKey,
+                           keyword : 'class',
                     });
                     setModalVisible(!modalVisible);
                   } else {
                     navigation.navigate('RecordVoice', {
                       StudentID: studentID,
+                      keyword : 'student',
                     });
                     setModalVisible(!modalVisible);
                   }
@@ -85,11 +87,14 @@ const TextType = ({
                   if (keyWord == 'class') {
                     navigation.navigate('QuranHW', {
                       ClassID: classKey,
+                      keyword : 'class',
                     });
                     setModalVisible(!modalVisible);
                   } else {
                     navigation.navigate('QuranHW', {
                       StudentID: studentID,
+                      keyword : 'student',
+
                     });
                     setModalVisible(!modalVisible);
                   }
