@@ -23,7 +23,7 @@ import {utils} from '@react-native-firebase/app';
 import {UserInfoContext} from '../auth/UserInfoContext';
 import {useNavigation} from '@react-navigation/native';
 import storage, { firebase } from '@react-native-firebase/storage';
-
+import { FFmpegKit } from 'ffmpeg-kit-react-native';
 
 
 import AudioRecorderPlayer, {
@@ -32,6 +32,7 @@ import AudioRecorderPlayer, {
   AudioEncoderAndroidType,
   AudioSet,
   AudioSourceAndroidType,
+  AVModeIOSOption
 } from 'react-native-audio-recorder-player';
 
 import Microphone from '../assets/images/Microphone.svg';
@@ -84,13 +85,13 @@ class OpenMicrophone extends Component {
       }
     }
     // this.state.modalVisible = !this.state.modalVisible;
-    const path = Platform.OS === 'android' ? null : 'hello.flac';
+    const path = Platform.OS === 'android' ? null : 'hello.m4a';
     const audioSet = {
       AudioEncoderAndroid: AudioEncoderAndroidType.AAC,
       AudioSourceAndroid: AudioSourceAndroidType.MIC,
       AVEncoderAudioQualityKeyIOS: AVEncoderAudioQualityIOSType.high,
       AVNumberOfChannelsKeyIOS: 2,
-      AVFormatIDKeyIOS: AVEncodingOption.flac,
+      AVFormatIDKeyIOS: AVEncodingOption.aac,
     };
     console.log('audioSet', audioSet);
     const uri = await this.audioRecorderPlayer.startRecorder(path, audioSet);
@@ -110,16 +111,19 @@ class OpenMicrophone extends Component {
   
     console.log(this.record)
 
-    storageRef
-        .child( 'ReciteSession/'+recordID+ '.flac')
-          .putFile(this.record)
-          .then(() => {
-            console.log('Record Sent !!!!!!');
-          })
-          .catch(e => console.log('error:', e));
+    let Flacpath= this.record.split("hello.m4a")
+    FlacpathString= Flacpath[0]+Math.floor(100000 + Math.random() * 90000).toString()+'output.flac'
 
+     FFmpegKit.execute('-i '+this.record+' -f flac '+FlacpathString).then(async (session) => {
+      storageRef
+      .child( 'ReciteSession/'+recordID+ '.flac')
+        .putFile(FlacpathString)
+        .then(() => {
+          console.log('Record Sent !!!!!!');
+        })
+        .catch(e => console.log('error:', e));
 
-    return this.recID
+    });
     this.RecFlag = true;
     
   };

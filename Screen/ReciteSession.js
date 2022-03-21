@@ -26,63 +26,61 @@ import StopMicrophone from '../assets/images/StopMicrophone.svg';
 import Thaheen from '../assets/images/ThaheenStanding.svg';
 import SpeechBubble from '../assets/images/SpeechBubble.svg';
 import ob from './OpenMicrophone.js';
-import functions , {firebase} from '@react-native-firebase/functions'
-import ColoredText from '../Components/ColoredText.js'
+import functions, {firebase} from '@react-native-firebase/functions';
+import ColoredText from '../Components/ColoredText.js';
 
 const ReciteSession = ({navigation, route}) => {
- // functions().useFunctionsEmulator('http://localhost:5001');
+  // functions().useFunctionsEmulator('http://localhost:5001');
   const [DownLoadURI, setDownLoadURI] = useState('');
   const [IsRecording, setIsRecording] = useState(false);
   const [dialog, setDialog] = useState('إضغط زر المايكروفون لنبدأ');
-  const [recordID, setRecordId] = useState()
-  const [textBody , setTextBody]=useState()
-  const [textHead , setTextHead ] =useState()
+  const [recordID, setRecordId] = useState();
+  const [textBody, setTextBody] = useState();
+  const [textHead, setTextHead] = useState();
   const [onePass, setOnePass] = useState(0);
   const [doneRecite, setDoneRecite] = useState(false);
   const textID = route.params.TextID;
   const [coloredWords, setColoredWords] = useState([]);
-  const taggedWords = []
+  const [numOfmistakes , setnumOfmistakes]=useState(0);
+  const taggedWords = [];
 
-
-//gives random ID to the records 
+  //gives random ID to the records
   if (onePass == 0) {
     setRecordId(Math.floor(100000 + Math.random() * 90000).toString());
     setOnePass(1);
   }
 
-
- useEffect(() => {
-  const Text = firestore()
-      .collection('Student Text').doc(route.params.TextID)
+  useEffect(() => {
+    const Text = firestore()
+      .collection('Student Text')
+      .doc(route.params.TextID)
       .onSnapshot(querySnapshot => {
-      setTextBody(querySnapshot.data().TextBody.replace(/إ|أ|آ/g,'ا').split(' '))
-      setTextHead( querySnapshot.data().TextHead)
-      
-    }); return Text;
+        setTextBody(
+          querySnapshot.data().TextBody.replace(/إ|أ|آ/g, 'ا').split(' '),
+        );
+        setTextHead(querySnapshot.data().TextHead);
+      });
+    return Text;
   }, []);
-
-
-    
 
   const finishRecord = () => {
     setIsRecording(!IsRecording);
 
     if (IsRecording) {
-      ob.onStopRecord(recordID)
+      ob.onStopRecord(recordID);
       //====================== TEMP FIX, change timeout later ====================
       setTimeout(() => {
-      transcriptAudio()
-      }, 3000);
+        transcriptAudio();
+      }, 5000);
     } else {
-    const { data } =  firebase.functions().httpsCallable('micrecognizeStream')();
-    
-    ob.onStartRecord( Math.floor(100000 + Math.random() * 90000));
-    
+      //const { data } =  firebase.functions().httpsCallable('micrecognizeStream')();
+
+      ob.onStartRecord(Math.floor(100000 + Math.random() * 90000));
     }
   };
 
   const transcriptAudio = async () => {
-    console.log('REC ID: '+ recordID)
+    console.log('REC ID: ' + recordID);
     try {
       let body = JSON.stringify({
         config: {
@@ -117,84 +115,78 @@ const ReciteSession = ({navigation, route}) => {
       const transcription = responseJson.results
         .map(result => result.alternatives[0].transcript)
         .join('\n');
-      console.log(`Transcription: ${transcription}`)
+      console.log(`Transcription: ${transcription}`);
 
-      compare(transcription)
-
+      compare(transcription);
     } catch (error) {
       console.log(error + '<-----here ');
     }
-
-    
   };
 
+  const compare = transcription => {
+    var counter=0;
+    const transcriptArray = transcription.split(' ');
 
-  
+    console.log('Before loop ==', textBody);
+    for (let i = 0, j = 0; i < textBody.length; i++, j++) {
+      taggedWords.push({
+        Text: textBody[i],
+        color: 'Black',
+      });
 
-  const compare = (transcription) => {
-      
-      const transcriptArray = transcription.split(' ')
+      console.log('The word ' + transcriptArray[i]);
 
-      
+      if (textBody.length - 1 == i && !(transcriptArray[j] == textBody[i])) {
+        console.log('inside first condition ' + i);
 
-      console.log('Before loop ==' , textBody)
-      for (let i = 0 , j = 0 ; i < textBody.length; i++ , j++) {
-
+        taggedWords.pop();
         taggedWords.push({
           Text: textBody[i],
-          color:'Black',
-        })
-        
-      console.log('The word '+ transcriptArray[i])
-
-      if(textBody.length-1 == i && !(transcriptArray[j] == textBody[i])){
-        console.log('inside first condition '+ i)
-       
-        taggedWords.pop()
-        taggedWords.push({
-          Text: textBody[i],
-          color:'Red',
-        })
-        
-        }
-
-      else {  
-        
-        if(transcriptArray[j] !== textBody[i]) {
-        
-        if(transcriptArray[j] !== textBody[i+1]){
-
-        console.log('Text Body word : ' + textBody[i] + ' Text Body Next Word ' + textBody[i+1]+' transcript word ' + transcriptArray[i] +' iteration '+ i)
-        taggedWords.pop()
-        taggedWords.push({
-          Text: textBody[i],
-          color:'Red',
-        })
-      
-      } // end small if 
-
-      else {
-        taggedWords.pop()
-        taggedWords.push({
-          Text: textBody[i],
-          color:'Red',
-        })
-
-        taggedWords.push({
-          Text: textBody[++i],
-          color:'Black',
-        })
-        } // end else
-      
-      } // large if
-      
-      
+          color: 'Red',
+        });
+        ++counter;
+      } else {
+        if (transcriptArray[j] !== textBody[i]) {
+          if (transcriptArray[j] !== textBody[i + 1]) {
+            console.log(
+              'Text Body word : ' +
+                textBody[i] +
+                ' Text Body Next Word ' +
+                textBody[i + 1] +
+                ' transcript word ' +
+                transcriptArray[i] +
+                ' iteration ' +
+                i,
+            );
+            taggedWords.pop();
+            taggedWords.push({
+              Text: textBody[i],
+              color: 'Red',
+            });
+            ++counter;
+          } // end small if
+          else {
+            taggedWords.pop();
+            taggedWords.push({
+              Text: textBody[i],
+              color: 'Red',
+            });
+             ++counter;
+            taggedWords.push({
+              Text: textBody[++i],
+              color: 'Black',
+            });
+          } // end else
+        } // large if
       } // end else
-
-      }
-      setDoneRecite(true)
-      setColoredWords(taggedWords)
     }
+    setDoneRecite(true);
+    setnumOfmistakes(counter);
+    setColoredWords(taggedWords);
+    setTimeout(() => {
+     navigation.navigate('Feedback' , {textID: route.params.TextID , totalWords:textBody.length, mistakesNum:counter})
+    }, 3000);
+  };
 
   return (
     <SafeAreaView
@@ -220,29 +212,32 @@ const ReciteSession = ({navigation, route}) => {
             ])
           }
         />
-        {!doneRecite ?
-        <Text style={[TitleStyles.smallText, {fontSize: 25, top: -110}]}>
-          {dialog}
-        </Text> : null}
+        {!doneRecite ? (
+          <Text style={[TitleStyles.smallText, {fontSize: 25, top: -110}]}>
+            {dialog}
+          </Text>
+        ) : null}
 
-        {doneRecite ? 
-        
-
-        <FlatList
-                          style={[{padding: 10, height: '100%' , flex:1 , top:-210}]}
-                          data={coloredWords}
-                          numColumns={5}
-                          keyExtractor={(item, index) => index.toString()}
-                          renderItem={({item, index}) => (
-                      
-                      <ColoredText word={item.Text} color={item.color} />
-                          )}
-                        />
-        
-        
-        
-        
-        : null} 
+        {doneRecite ? (
+          <FlatList
+            style={[
+              {
+                padding: 10,
+                height: '100%',
+                marginLeft:25,
+                flex: 1,
+                top: -210,
+                textAlign: 'center',
+              },
+            ]}
+            data={coloredWords}
+            numColumns={5}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({item, index}) => (
+              <ColoredText word={item.Text} color={item.color} />
+            )}
+          />
+        ) : null}
       </View>
 
       <ReciteRectangle

@@ -13,12 +13,15 @@ import Refresh from '../assets/images/Refresh.svg'
 import Confetti from '../assets/images/Confetti.svg'
 import FocusAwareStatusBar from '../Components/FocusAwareStatusBar'
 
-const Feedback = () => {
+const Feedback = ({navigation, route}) => {
   const {width, height} = Dimensions.get('window')
-  const [score, setScore] = useState()
-  const mistakes = 4
-  const totalWords = 24
-
+  const [score, setScore] = useState(100)
+  const [textBody, setTextBody] = useState();
+  const [textHead, setTextHead] = useState();
+  const mistakes = route.params.mistakesNum;
+  const totalWords = route.params.totalWords
+  
+  console.log(mistakes+'+'+totalWords)
   useEffect(() => {
     const mistakesRate = Math.round((mistakes / totalWords) * 100)
     setScore(100 - mistakesRate)
