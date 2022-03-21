@@ -63,11 +63,11 @@ const ReciteSession = ({navigation, route}) => {
     return Text;
   }, []);
 
-  const finishRecord = () => {
+  const finishRecord = async () => {
     setIsRecording(!IsRecording);
 
     if (IsRecording) {
-      ob.onStopRecord(recordID);
+      await ob.onStopRecord(recordID);
       //====================== TEMP FIX, change timeout later ====================
       setTimeout(() => {
         transcriptAudio();
