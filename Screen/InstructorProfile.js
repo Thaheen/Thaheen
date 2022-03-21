@@ -84,7 +84,7 @@ const InstructorProfile = ({navigation, route}) => {
   const UpdateInfo = () => {
     // Checking for empty fields
     if ((NewfullName == '') & (NewEmail == '') & (NewPhoneNum == '')) {
-      setErrorMessage(' لم يتم اصافة معلومات جديدة ');
+      setErrorMessage(' لم يتم اضافة معلومات جديدة ');
       setErrormodalVisible(!ErrormodalVisible);
 
       return;
