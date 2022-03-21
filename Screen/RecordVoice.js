@@ -401,6 +401,7 @@ showDateTimePicker = () => {
         TextBody: this.state.HomeWork,
         TextHead: this.state.Title,
         Studentid: this.props.route.params.StudentID,
+        Deadline:this.state.day,
       });
       this.setState({SucessfulModalVisible: true});
     }
@@ -411,6 +412,7 @@ showDateTimePicker = () => {
         TextBody: this.state.HomeWork,
         TextHead: this.state.Title,
         ClassId: this.props.route.params.ClassID,
+        Deadline:this.state.day,
       });
       this.setState({SucessfulModalVisible: true});
     }
