@@ -365,13 +365,20 @@ class RecordVoice extends Component {
     }
     return ar;
   };
+  //Get Surah Ayah according to the given index from-to
+  GetSurah = SurahAyat => {
+    let ar = [];
+    let j = 0;
+    for (let i = this.state.from; i <= this.state.to; i++) {
+      ar[j] = SurahAyat[i - 1];
+      j++;
+    }
+    return ar;
+  };
   ////////////////////////////////// MAIN UPLOADING METHOD ///////////////////////////
 
   UploadHomeWork = async () => {
-    if (
-      this.state.HomeWork == null ||
-      this.state.Title == null 
-    ) {
+    if (this.state.HomeWork == null || this.state.Title == null) {
       this.setState({ErrormodalVisible: true});
       console.log('Error model ' + this.state.ErrormodalVisible);
       console.log('home in if ' + this.state.HomeWork);
@@ -411,45 +418,30 @@ class RecordVoice extends Component {
     const {ClassID} = this.props.route.params;
     const {StudentID} = this.props.route.params;
     console.log('Surah Name ' + this.state.TextType);
-    //list of quran names
-    // let Surah = [' 1', '2'];
 
-    // for (const property in quran.data) {
-    //   Surah.push(
-
-    //       {property}: {person[property]}
-
-    //   );
-    // }
-
+    //Get Surah names
     const Surah = quran.data.map(function (item) {
       return item.name;
     });
-
+    //Get the total versed of each surah
     const totalVerses = quran.data[this.state.SurahNum].total_verses;
     console.log('Total verses: ' + totalVerses);
 
+    //Get the selected Surah
     const ayat = quran.data[this.state.SurahNum].verses.map(function (item) {
       return item.text;
     });
-    //console.log(ayat);
 
     //From To Ayah
     const FromAyah = this.Ayaharray(totalVerses);
     const ToAyah = this.Ayaharray(totalVerses);
 
-    // {Quran.data.map((item, index) => (
+    //Get the selected Surah with given index from-to
+    //There is a problem but it can be fixed later
+    const SurahAyat = this.GetSurah(ayat);
 
-    //   {item.name} {" "}
+    console.log(SurahAyat);
 
-    //   {/* {/* {item.verses[index].text} */}
-
-    //   )) }
-
-    // console.log('student id ' + StudentID);
-    // console.log('class id ' + ClassID);
-    console.log(this.state.from);
-    console.log(this.state.to);
     return (
       <View>
         <SafeAreaView
@@ -589,7 +581,7 @@ class RecordVoice extends Component {
 
               paddingLeft: 12,
             }}>
-            <TextInput
+            {/* <TextInput
               placeholderTextColor={'#C3C7CA'}
               style={TitleStyles.TextArea}
               onChangeText={text => (this.state.HomeWork = text)}
@@ -597,6 +589,28 @@ class RecordVoice extends Component {
               underlineColorAndroid="transparent"
               color="black"
               multiline
+            /> */}
+
+            <FlatList
+              style={{marginTop: 20}}
+              contentContainerStyle={{
+                //flexDirection: 'row',
+                width: 333,
+                height: 452,
+                // textAlign: 'right',
+                alignItems: 'center',
+                // marginBottom: 20,
+                //backgroundColor: 'red',
+              }}
+              data={SurahAyat}
+              // extraData={selectedId}
+              renderItem={({item}) => (
+                <Text>
+                  {'   '}
+                  {item}
+                  {'   '}
+                </Text>
+              )}
             />
           </View>
 
