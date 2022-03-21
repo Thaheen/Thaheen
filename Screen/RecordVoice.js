@@ -13,7 +13,7 @@ import {
   TextInput,
   Alert,
   Modal,
-  TouchableOpacity,
+  TouchableOpacity,Button,
   Platform,
   PermissionsAndroid,
 } from 'react-native';
@@ -37,6 +37,7 @@ import ErrorVector from '../assets/images/ErrorVector.svg';
 import CheckVector from '../assets/images/CheckVector.svg';
 import SelectDropdown from 'react-native-select-dropdown';
 import TheArrow from '../assets/images/TheArrow.svg';
+import Deadline from '../assets/images/deadline.svg';
 
 import AudioRecorderPlayer, {
   AVEncoderAudioQualityIOSType,
@@ -52,6 +53,9 @@ import OldHomeWorks from '../assets/images/OldHomeWorks.svg';
 import RecordingMicrophone from '../assets/images/RecordingMicrophone.svg';
 import Camera from '../assets/images/Camera.svg';
 import quran from '../Components/quran.json';
+import DateTimePicker from "react-native-modal-datetime-picker";
+
+
 
 //the ref of record voice code
 // https://instamobile.io/react-native-tutorials/react-native-record-audio-play/?ref=hackernoon.com
@@ -84,11 +88,27 @@ class RecordVoice extends Component {
       queryText: '',
       RecFlag: false,
       SucessfulModalVisible: false,
+      isDateTimePickerVisible: false,
+      day:null,
     };
     this.audioRecorderPlayer = new AudioRecorderPlayer();
     this.audioRecorderPlayer.setSubscriptionDuration(0.09); // optional. Default is 0.1
   }
 
+showDateTimePicker = () => {
+    this.setState({ isDateTimePickerVisible: true });
+  };
+ 
+  hideDateTimePicker = () => {
+    this.setState({ isDateTimePickerVisible: false });
+  };
+ 
+  handleDatePicked = date => {
+    console.log("A date has been picked: ", date);
+        this.setState({ day: date });
+
+    this.hideDateTimePicker();
+  };
   //contain a uri
   onStartRecord = async () => {
     if (Platform.OS === 'android') {
@@ -359,7 +379,7 @@ class RecordVoice extends Component {
   UploadHomeWork = async () => {
     if (
       this.state.HomeWork == null ||
-      this.state.Title == null 
+      this.state.Title == null ||    this.state.day == null 
     ) {
       this.setState({ErrormodalVisible: true});
       console.log('Error model ' + this.state.ErrormodalVisible);
@@ -520,8 +540,32 @@ console.log("the key word "+this.props.route.params.keyword);
             <TouchableOpacity onPress={() => this.onRecoed()}>
               <Microphone />
             </TouchableOpacity>
+            
           </View>
 
+            <View 
+            style={{
+              flexDirection: 'row',
+              backgroundColor: '#DAE2E9',
+              borderRadius: 10,
+
+              width: '80%',
+              alignItems: 'flex-start',
+              marginTop: 20,
+            }}>
+             
+ <>
+        {/* <Button title="Show DatePicker" onPress={this.showDateTimePicker} /> */}
+          <TouchableOpacity onPress={() => this.showDateTimePicker()}>
+           <Deadline />
+        <DateTimePicker
+          isVisible={this.state.isDateTimePickerVisible}
+          onConfirm={this.handleDatePicked}
+          onCancel={this.hideDateTimePicker}
+        />
+            </TouchableOpacity>
+      </>
+        </View>
           <Modal
             animationType="fade"
             transparent={true}
@@ -617,7 +661,7 @@ console.log("the key word "+this.props.route.params.keyword);
               </View>
             </View>
           </Modal>
-
+  
           <TouchableOpacity
             style={[
               TitleStyles.Button,
@@ -627,6 +671,7 @@ console.log("the key word "+this.props.route.params.keyword);
             onPress={() => this.UploadHomeWork()}>
             <Text style={TitleStyles.ButtonText}>إضافة الواجب </Text>
           </TouchableOpacity>
+        
         </SafeAreaView>
       </View>
     );
