@@ -46,6 +46,7 @@ const MemorizationSession = ({navigation, route}) => {
       <StatusBar translucent backgroundColor="#DAE2E9" />
 
       <TopBox style={[{position: 'absolute', top: 0}]} />
+      <BackButton />
       <Top2Lines
         style={[
           Platform.OS === 'ios' ? TitleStyles.shadowOffset : null,
@@ -55,7 +56,7 @@ const MemorizationSession = ({navigation, route}) => {
       <Text
         style={[
           TitleStyles.HeaderTitle,
-          {textAlign: I18nManager.isRTL ? 'left' : 'right', marginLeft: 40},
+          {textAlign: I18nManager.isRTL ? 'left' : 'right', marginLeft: 70},
         ]}>
         {textHead}
       </Text>
