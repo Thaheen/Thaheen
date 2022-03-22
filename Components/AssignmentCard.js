@@ -1,31 +1,37 @@
-import React, {useState} from 'react'
-import {Text, TouchableOpacity, View, Platform, I18nManager} from 'react-native'
-import TitleStyles from '../Styles/Titles'
-import BookReader from '../assets/images/BookReader'
-import Trash from '../assets/images/Trash'
-import ConfirmModel from '../Components/ConfirmModel'
-import SuccessModel from '../Components/SuccessModel'
+import React, {useState} from 'react';
+import {
+  Text,
+  TouchableOpacity,
+  View,
+  Platform,
+  I18nManager,
+} from 'react-native';
+import TitleStyles from '../Styles/Titles';
+import BookReader from '../assets/images/BookReader';
+import Trash from '../assets/images/Trash';
+import ConfirmModel from '../Components/ConfirmModel';
+import SuccessModel from '../Components/SuccessModel';
 
-import {useNavigation} from '@react-navigation/native'
-import firestore from '@react-native-firebase/firestore'
+import {useNavigation} from '@react-navigation/native';
+import firestore from '@react-native-firebase/firestore';
 
 const AssignmentCard = ({title, textID, index, deleteOption}) => {
-  const navigation = useNavigation()
-  const colors = ['#43515F', '#AFC3D6']
-  const detailsColor = ['#FFFFFF', '#43515F']
-  const [ConfirmmodalVisible, setConfirmmodalVisible] = useState(false)
-  const [modalVisible, setModalVisible] = useState(false)
+  const navigation = useNavigation();
+  const colors = ['#43515F', '#AFC3D6'];
+  const detailsColor = ['#FFFFFF', '#43515F'];
+  const [ConfirmmodalVisible, setConfirmmodalVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const deleteAssignment = textID => {
-    setConfirmmodalVisible(!ConfirmmodalVisible)
+    setConfirmmodalVisible(!ConfirmmodalVisible);
     firestore()
       .collection('Instructor Text')
       .doc(textID)
       .delete()
       .then(() => {
-        setModalVisible(!modalVisible)
-      })
-  }
+        setModalVisible(!modalVisible);
+      });
+  };
   return (
     <View
       style={[
@@ -60,7 +66,6 @@ const AssignmentCard = ({title, textID, index, deleteOption}) => {
           message={'تم حذف الواجب بنجاح'}
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
-         
         />
       ) : null}
       <View
@@ -69,7 +74,7 @@ const AssignmentCard = ({title, textID, index, deleteOption}) => {
           flexDirection: 'row',
           justifyContent: 'space-between',
         }}>
-        <BookReader width={25} height={20} />
+        {/* <BookReader width={25} height={20} /> */}
         {deleteOption ? (
           <TouchableOpacity
             onPress={() => setConfirmmodalVisible(!ConfirmmodalVisible)}>
@@ -98,7 +103,7 @@ const AssignmentCard = ({title, textID, index, deleteOption}) => {
         </Text>
       </TouchableOpacity>
     </View>
-  )
-}
+  );
+};
 
-export default AssignmentCard
+export default AssignmentCard;
