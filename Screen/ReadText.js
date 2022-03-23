@@ -23,9 +23,14 @@ import auth from '@react-native-firebase/auth';
 import WhiteCurve from '../assets/images/WhiteCurve.svg';
 import firestore from '@react-native-firebase/firestore';
 import ThaheenMini from '../assets/images/ThaheenMini.svg';
+import ob from './OpenMicrophone.js';
+
 
 const ReadText = ({navigation, route}) => {
   const [textBody, setTextBody] = useState('');
+    const [textTitle, setTextTitle] = useState('');
+    const [Record, setRecord] = useState(false);
+    
 
   useEffect(() => {
     const MemorizationText = firestore()
@@ -33,6 +38,9 @@ const ReadText = ({navigation, route}) => {
       .doc(route.params.TextID)
       .onSnapshot(snapshot => {
         setTextBody(snapshot.data().TextBody);
+         setTextTitle(snapshot.data().textTitle);
+                  setRecord(snapshot.data().Record);
+        
       });
     return MemorizationText;
   }, []);
@@ -69,6 +77,7 @@ const ReadText = ({navigation, route}) => {
           )}
         />
         {/* Retrive the audio for the text if exist */}
+         {Record == true && (
         <TouchableOpacity
           style={[TitleStyles.OpenTextAudioBtn]}
           // onPress={() => {
@@ -76,6 +85,12 @@ const ReadText = ({navigation, route}) => {
           //     TextID: route.params.TextID,
           //   });
           // }}
+
+          onPress={() => {
+
+ob.retrieveRecord(textTitle)
+          
+          }}
         >
           <Text
             style={[
@@ -86,6 +101,7 @@ const ReadText = ({navigation, route}) => {
             إستمع للنص{' '}
           </Text>
         </TouchableOpacity>
+         )}
       </View>
 
       <View style={{marginTop: 440}}>

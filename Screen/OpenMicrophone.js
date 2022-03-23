@@ -149,6 +149,33 @@ class OpenMicrophone extends Component {
           .catch(e => console.log('error:', e));
 
   };
+retrieveRecord = async (title) => {
+    console.log('onStartPlay');
+    storage()
+      .ref('records/' + title + '.m4a') //name in storage in firebase console
+      .getDownloadURL()
+      .then(url => {
+        const msg = this.audioRecorderPlayer.startPlayer(url);
+        this.audioRecorderPlayer.setVolume(1.0);
+        console.log(msg);
+        this.audioRecorderPlayer.addPlayBackListener(e => {
+          if (e.current_position === e.duration) {
+            console.log('finished');
+            this.audioRecorderPlayer.stopPlayer();
+          }
+          this.setState({
+            currentPositionSec: e.current_position,
+            currentDurationSec: e.duration,
+            playTime: this.audioRecorderPlayer.mmssss(
+              Math.floor(e.current_position),
+            ),
+            duration: this.audioRecorderPlayer.mmssss(Math.floor(e.duration)),
+          });
+        });
+      })
+      .catch(e => console.log('Errors while downloading => ', e));
+  };
+  
 }
 
 const ob = new OpenMicrophone();

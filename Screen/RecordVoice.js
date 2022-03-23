@@ -165,10 +165,11 @@ showDateTimePicker = () => {
     this.audioRecorderPlayer.removeRecordBackListener();
     this.setState({
       recordSecs: 0,
+      RecFlag:true ,
     });
     console.log(result);
     this.record = result;
-    this.RecFlag = true;
+      
   };
 
   onStartPlay = async e => {
