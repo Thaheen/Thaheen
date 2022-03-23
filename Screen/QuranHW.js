@@ -40,7 +40,6 @@ import SelectDropdown from 'react-native-select-dropdown';
 import TheArrow from '../assets/images/TheArrow.svg';
 import Deadline from '../assets/images/deadline.svg';
 
-
 import AudioRecorderPlayer, {
   AVEncoderAudioQualityIOSType,
   AVEncodingOption,
@@ -55,8 +54,7 @@ import OldHomeWorks from '../assets/images/OldHomeWorks.svg';
 import RecordingMicrophone from '../assets/images/RecordingMicrophone.svg';
 import Camera from '../assets/images/Camera.svg';
 import quran from '../Components/quran.json';
-import DateTimePicker from "react-native-modal-datetime-picker";
-
+import DateTimePicker from 'react-native-modal-datetime-picker';
 
 //the ref of record voice code
 // https://instamobile.io/react-native-tutorials/react-native-record-audio-play/?ref=hackernoon.com
@@ -92,23 +90,23 @@ class RecordVoice extends Component {
       SurahNum: 1,
       from: 0,
       to: 0,
-         isDateTimePickerVisible: false,
-      day:null,
+      isDateTimePickerVisible: false,
+      day: null,
     };
     this.audioRecorderPlayer = new AudioRecorderPlayer();
     this.audioRecorderPlayer.setSubscriptionDuration(0.09); // optional. Default is 0.1
   }
   showDateTimePicker = () => {
-    this.setState({ isDateTimePickerVisible: true });
+    this.setState({isDateTimePickerVisible: true});
   };
- 
+
   hideDateTimePicker = () => {
-    this.setState({ isDateTimePickerVisible: false });
+    this.setState({isDateTimePickerVisible: false});
   };
- 
+
   handleDatePicked = date => {
-    console.log("A date has been picked: ", date);
-        this.setState({ day: date });
+    console.log('A date has been picked: ', date);
+    this.setState({day: date});
 
     this.hideDateTimePicker();
   };
@@ -333,8 +331,8 @@ class RecordVoice extends Component {
         TextBody: this.state.HomeWork,
         TextHead: this.state.Title,
         Studentid: this.props.route.params.StudentID,
-        Deadline:this.state.day,
-         Record:this.state.RecFlag,
+        // Deadline: this.state.day,
+        Record: this.state.RecFlag,
       });
       this.setState({SucessfulModalVisible: true});
     }
@@ -345,8 +343,8 @@ class RecordVoice extends Component {
         TextBody: this.state.HomeWork,
         TextHead: this.state.Title,
         ClassId: this.props.route.params.ClassID,
-           Deadline:this.state.day,
-            Record:this.state.RecFlag,
+        Deadline: this.state.day,
+        Record: this.state.RecFlag,
       });
       this.setState({SucessfulModalVisible: true});
     }
@@ -362,6 +360,7 @@ class RecordVoice extends Component {
     const Surah = quran.data.map(function (item) {
       return item.name;
     });
+
     //Get the total versed of each surah
     const totalVerses = quran.data[this.state.SurahNum].total_verses;
     console.log('Total verses: ' + totalVerses);
@@ -378,8 +377,8 @@ class RecordVoice extends Component {
     //Get the selected Surah with given index from-to
     //There is a problem but it can be fixed later
     const SurahAyat = this.GetSurah(ayat);
-
-    console.log(SurahAyat);
+    this.state.HomeWork = SurahAyat;
+    this.state.Title = this.state.TextType;
 
     return (
       <View>
@@ -567,7 +566,7 @@ class RecordVoice extends Component {
               <Microphone />
             </TouchableOpacity>
           </View>
-              <View 
+          <View
             style={{
               flexDirection: 'row',
               backgroundColor: '#DAE2E9',
@@ -577,19 +576,20 @@ class RecordVoice extends Component {
               alignItems: 'flex-start',
               marginTop: 20,
             }}>
-             
- <>
-        {/* <Button title="Show DatePicker" onPress={this.showDateTimePicker} /> */}
-          <TouchableOpacity onPress={() => this.showDateTimePicker()}>
-           <Deadline />
-        <DateTimePicker
-          isVisible={this.state.isDateTimePickerVisible}
-          onConfirm={this.handleDatePicked}
-          onCancel={this.hideDateTimePicker}
-        />
-            </TouchableOpacity>
-      </>
-        </View>
+            <>
+              {/* <Button title="Show DatePicker" onPress={this.showDateTimePicker} /> */}
+              {this.props.route.params.keyword == 'class' && (
+                <TouchableOpacity onPress={() => this.showDateTimePicker()}>
+                  <Deadline />
+                  <DateTimePicker
+                    isVisible={this.state.isDateTimePickerVisible}
+                    onConfirm={this.handleDatePicked}
+                    onCancel={this.hideDateTimePicker}
+                  />
+                </TouchableOpacity>
+              )}
+            </>
+          </View>
 
           <Modal
             animationType="fade"

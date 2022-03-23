@@ -382,7 +382,7 @@ class RecordVoice extends Component {
     if (
       this.state.HomeWork == null ||
       this.state.Title == null ||
-      this.state.day == null
+      (this.state.day == null && this.props.route.params.keyword == 'class')
     ) {
       this.setState({ErrormodalVisible: true});
       console.log('Error model ' + this.state.ErrormodalVisible);
@@ -404,7 +404,7 @@ class RecordVoice extends Component {
         TextBody: this.state.HomeWork,
         TextHead: this.state.Title,
         Studentid: this.props.route.params.StudentID,
-        Deadline: this.state.day,
+        // Deadline: this.state.day,
         Record: this.state.RecFlag,
       });
       this.setState({SucessfulModalVisible: true});
