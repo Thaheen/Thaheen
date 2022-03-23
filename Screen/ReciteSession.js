@@ -11,7 +11,7 @@ import {
   View,
   FlatList,
   I18nManager,
-  Platform
+  Platform,
 } from 'react-native';
 import TitleStyles from '../Styles/Titles';
 import RTLlayout from '../Styles/RTLlayout';
@@ -42,7 +42,7 @@ const ReciteSession = ({navigation, route}) => {
   const [doneRecite, setDoneRecite] = useState(false);
   const textID = route.params.TextID;
   const [coloredWords, setColoredWords] = useState([]);
-  const [numOfmistakes , setnumOfmistakes]=useState(0);
+  const [numOfmistakes, setnumOfmistakes] = useState();
   const taggedWords = [];
 
   //gives random ID to the records
@@ -92,7 +92,10 @@ const ReciteSession = ({navigation, route}) => {
         },
         audio: {
           // audio is "how old is the Brooklyn Bridge"
-          uri: 'gs://thaheen-af3bc.appspot.com/ReciteSession/'+recordID+'.flac',
+          uri:
+            'gs://thaheen-af3bc.appspot.com/ReciteSession/' +
+            recordID +
+            '.flac',
         },
       });
 
@@ -125,7 +128,7 @@ const ReciteSession = ({navigation, route}) => {
   };
 
   const compare = transcription => {
-    var counter=0;
+    var counter = 0;
     const transcriptArray = transcription.split(' ');
 
     console.log('Before loop ==', textBody);
@@ -172,7 +175,7 @@ const ReciteSession = ({navigation, route}) => {
               Text: textBody[i],
               color: 'Red',
             });
-             ++counter;
+            ++counter;
             taggedWords.push({
               Text: textBody[++i],
               color: 'Black',
@@ -184,9 +187,7 @@ const ReciteSession = ({navigation, route}) => {
     setDoneRecite(true);
     setnumOfmistakes(counter);
     setColoredWords(taggedWords);
-    setTimeout(() => {
-     navigation.navigate('Feedback' , {textID: route.params.TextID , totalWords:textBody.length, mistakesNum:counter})
-    }, 3000);
+
   };
 
   return (
@@ -225,7 +226,7 @@ const ReciteSession = ({navigation, route}) => {
               {
                 padding: 10,
                 height: '100%',
-                marginLeft:25,
+                marginLeft: 25,
                 flex: 1,
                 top: -210,
                 textAlign: 'center',
@@ -269,13 +270,36 @@ const ReciteSession = ({navigation, route}) => {
             height: 100,
             top: 50,
           }}></View>
-        <TouchableOpacity onPress={() => finishRecord()}>
-          {IsRecording ? (
+
+        {IsRecording ? (
+          <TouchableOpacity onPress={() => finishRecord()}>
             <StopMicrophone height={100} />
-          ) : (
+          </TouchableOpacity>
+        ) : doneRecite ? (
+          <TouchableOpacity
+            style={[
+              TitleStyles.Button,
+              {
+                flexDirection: 'row',
+                justifyContent: 'center',
+                backgroundColor: '#F5C5AD',
+                alignSelf: 'center',
+                width: 200,
+                borderRadius:30,
+              },
+            ]}
+            onPress={() => navigation.navigate('Feedback', {
+              textID: route.params.TextID,
+              totalWords: textBody.length,
+              mistakesNum: numOfmistakes,
+            })} >
+            <Text style={TitleStyles.ButtonText}>استعراض النتيجة</Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity onPress={() => finishRecord()}>
             <StartMicrophone height={100} />
-          )}
-        </TouchableOpacity>
+          </TouchableOpacity>
+        )}
       </View>
     </SafeAreaView>
   );
