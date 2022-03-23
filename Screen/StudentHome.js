@@ -71,7 +71,7 @@ const StudentHome = () => {
         barStyle="dark-content"
         translucent
       />
-
+<ScrollView>
       {/* start top container */}
       <View style={{padding: 30}}>
         <View
@@ -176,6 +176,7 @@ const StudentHome = () => {
             padding: 15,
             paddingVertical: 50,
             backgroundColor: 'white',
+            marginBottom: Platform.OS === 'ios' ? 100 : 90
           },
           TitleStyles.SoftShadow,
         ]}>
@@ -190,7 +191,7 @@ const StudentHome = () => {
 
       {/* end bottom container */}
 
-      {/* <BottomBar /> */}
+      </ScrollView>
     </SafeAreaView>
   );
 };

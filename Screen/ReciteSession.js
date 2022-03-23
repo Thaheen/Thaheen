@@ -52,6 +52,14 @@ const ReciteSession = ({navigation, route}) => {
   }
 
   useEffect(() => {
+    // Subscribe for the focus Listener
+    const unsubscribe = navigation.addListener('focus', () => {
+      setDoneRecite(false);
+    });
+    return () => unsubscribe;
+  }, [navigation]);
+
+  useEffect(() => {
     const Text = firestore()
       .collection('Student Text')
       .doc(route.params.TextID)
@@ -197,6 +205,7 @@ const ReciteSession = ({navigation, route}) => {
         backgroundColor: '#DAE2E9',
         ...(Platform.OS === 'android' ? {paddingTop: 20} : null),
       }}>
+      <StatusBar translucent backgroundColor="#DAE2E9" />
       <View
         style={{
           position: 'absolute',

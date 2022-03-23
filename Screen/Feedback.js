@@ -12,19 +12,46 @@ import TitleStyles from '../Styles/Titles'
 import Refresh from '../assets/images/Refresh.svg'
 import Confetti from '../assets/images/Confetti.svg'
 import FocusAwareStatusBar from '../Components/FocusAwareStatusBar'
+import Close from '../assets/images/Close.svg'
+import {StackActions} from '@react-navigation/native'
+import firestore from '@react-native-firebase/firestore'
 
 const Feedback = ({navigation, route}) => {
   const {width, height} = Dimensions.get('window')
   const [score, setScore] = useState(100)
-  const [textBody, setTextBody] = useState();
-  const [textHead, setTextHead] = useState();
-  const mistakes = route.params.mistakesNum;
+  const [trial, setTrial] = useState(100)
+  const [textBody, setTextBody] = useState()
+  const [textHead, setTextHead] = useState()
+  const mistakes = route.params.mistakesNum
   const totalWords = route.params.totalWords
-  
-  console.log(mistakes+'+'+totalWords)
+
+  console.log(mistakes + '+' + totalWords)
   useEffect(() => {
     const mistakesRate = Math.round((mistakes / totalWords) * 100)
     setScore(100 - mistakesRate)
+
+    firestore()
+      .collection('Student Text')
+      .doc(route.params.textID)
+      .get()
+      .then(snapshot => {
+        if (snapshot.get('Feedback') == null) {
+          setTrial(1)
+          snapshot.ref.update({
+            Feedback: {score: 100 - mistakesRate, trial: 1},
+          })
+        } else {
+          if (snapshot.data().Feedback.trial < 3) {
+            setTrial(snapshot.data().Feedback.trial + 1)
+            snapshot.ref.update({
+              Feedback: {
+                score: 100 - mistakesRate,
+                trial: snapshot.data().Feedback.trial + 1,
+              },
+            })
+          }
+        }
+      })
   }, [])
 
   const EngToArabicNum = num => {
@@ -42,7 +69,12 @@ const Feedback = ({navigation, route}) => {
         }}>
         <Confetti />
       </View>
-
+      <Close
+        height='40'
+        width='40'
+        style={[{position: 'absolute', top: 40, left: 20, zIndex: 2}]}
+        onPress={() => navigation.dispatch(StackActions.pop(2))}
+      />
       <View style={{marginTop: 160, alignItems: 'center'}}>
         <View
           style={[
@@ -67,21 +99,28 @@ const Feedback = ({navigation, route}) => {
           </Text>
         </View>
 
-        <TouchableOpacity
-          style={[
-            TitleStyles.Button,
-            {
-              flexDirection: 'row',
-              justifyContent: 'center',
-              backgroundColor: '#F5C5AD',
-              alignSelf: 'center',
-              width: 300,
-              marginTop: 60,
-            },
-          ]}>
-          <Text style={TitleStyles.ButtonText}>إعادة التسميع</Text>
-          <Refresh />
-        </TouchableOpacity>
+        {trial < 3 ? (
+          <TouchableOpacity
+            style={[
+              TitleStyles.Button,
+              {
+                flexDirection: 'row',
+                justifyContent: 'center',
+                backgroundColor: '#F5C5AD',
+                alignSelf: 'center',
+                width: 300,
+                marginTop: 60,
+              },
+            ]}
+            onPress={() =>
+              navigation.navigate('ReciteSession', {
+                TextID: route.params.textID,
+              })
+            }>
+            <Text style={TitleStyles.ButtonText}>إعادة التسميع</Text>
+            <Refresh />
+          </TouchableOpacity>
+        ) : null}
       </View>
     </SafeAreaView>
   )
