@@ -123,12 +123,12 @@ const StudentHome = () => {
       {/* end top container */}
 
       {/* start mid container */}
-      <HomeSection title="نصوصي" iconName="Plus"  type='text'/>
+      <HomeSection title="نصوصي" iconName="Plus" type="text" />
 
       {TextList != 0 && (
         <FlatList
           style={{flexGrow: 0}}
-          data={TextList.slice(0,3)}
+          data={TextList.slice(0, 3)}
           keyExtractor={(item, index) => index.toString()}
           horizontal={true}
           scrollEnabled
@@ -180,7 +180,10 @@ const StudentHome = () => {
           TitleStyles.SoftShadow,
         ]}>
         <Text
-          style={[TitleStyles.sectionTitle, {fontSize: 24, fontWeight: null}]}>
+          style={[
+            TitleStyles.sectionTitle,
+            {fontSize: 24, fontWeight: null, color: '#B1B1B1'},
+          ]}>
           لم تنضم إلى أي صفوف بعد{' '}
         </Text>
       </View>
