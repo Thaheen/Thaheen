@@ -80,7 +80,7 @@ const ReciteSession = ({navigation, route}) => {
       //====================== TEMP FIX, change timeout later ====================
       setTimeout(() => {
         transcriptAudio();
-      }, 5000);
+      }, 3000);
     } else {
       //const { data } =  firebase.functions().httpsCallable('micrecognizeStream')();
 

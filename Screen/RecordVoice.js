@@ -370,10 +370,11 @@ class RecordVoice extends Component {
         googleResponse: responseJson.responses[0].fullTextAnnotation.text,
         uploading: false,
         responseReceived: true,
+        HomeWork: responseJson.responses[0].fullTextAnnotation.text
       });
     } catch (error) {
       console.log(error);
-    }
+    }          
   };
 
   ////////////////////////////////// MAIN UPLOADING METHOD ///////////////////////////
@@ -515,9 +516,10 @@ class RecordVoice extends Component {
               style={TitleStyles.TextArea}
               onChangeText={text => (this.state.HomeWork = text)}
               value={
-                this.state.responseReceived
-                  ? this.state.googleResponse
-                  : this.state.HomeWork
+                this.state.HomeWork
+                // this.state.responseReceived
+                //   ? this.state.googleResponse
+                //   : this.state.HomeWork
               }
               underlineColorAndroid="transparent"
               color="black"

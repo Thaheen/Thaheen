@@ -162,15 +162,7 @@ retrieveRecord = async (title) => {
           if (e.current_position === e.duration) {
             console.log('finished');
             this.audioRecorderPlayer.stopPlayer();
-          }
-          this.setState({
-            currentPositionSec: e.current_position,
-            currentDurationSec: e.duration,
-            playTime: this.audioRecorderPlayer.mmssss(
-              Math.floor(e.current_position),
-            ),
-            duration: this.audioRecorderPlayer.mmssss(Math.floor(e.duration)),
-          });
+          }      
         });
       })
       .catch(e => console.log('Errors while downloading => ', e));

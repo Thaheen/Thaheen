@@ -240,6 +240,7 @@ const AddChildAccount = ({navigation}) => {
           message={'تمت إضافة الطفل بنجاح'}
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
+          goBackCalled={true}
         />
 
         <ErrorModel
@@ -309,7 +310,8 @@ const AddChildAccount = ({navigation}) => {
                 {shadowColor: '#000'},
               ]}
               onChangeText={text => setChildPasscode(text)}
-              keyboardType="number-pad"
+              keyboardType="numeric"
+              returnKeyType="done"
               maxLength={6}
               value={ChildPasscode}
               underlineColorAndroid="transparent"
@@ -329,7 +331,8 @@ const AddChildAccount = ({navigation}) => {
               ]}
               onChangeText={text => setrepeatChildPasscode(text)}
               value={repeatChildPasscode}
-              keyboardType="number-pad"
+              keyboardType="numeric"
+              returnKeyType="done"
               maxLength={6}
               underlineColorAndroid="transparent"
               secureTextEntry={true}

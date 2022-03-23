@@ -339,6 +339,7 @@ const SignUp: () => Node = () => {
               value={Phone}
               underlineColorAndroid="transparent"
               color="black"
+              returnKeyType="done"
             />
           </View>
 
