@@ -13,7 +13,8 @@ import {
   TextInput,
   Alert,
   Modal,
-  TouchableOpacity,Button,
+  TouchableOpacity,
+  Button,
   Platform,
   PermissionsAndroid,
 } from 'react-native';
@@ -53,9 +54,7 @@ import OldHomeWorks from '../assets/images/OldHomeWorks.svg';
 import RecordingMicrophone from '../assets/images/RecordingMicrophone.svg';
 import Camera from '../assets/images/Camera.svg';
 import quran from '../Components/quran.json';
-import DateTimePicker from "react-native-modal-datetime-picker";
-
-
+import DateTimePicker from 'react-native-modal-datetime-picker';
 
 //the ref of record voice code
 // https://instamobile.io/react-native-tutorials/react-native-record-audio-play/?ref=hackernoon.com
@@ -89,23 +88,23 @@ class RecordVoice extends Component {
       RecFlag: false,
       SucessfulModalVisible: false,
       isDateTimePickerVisible: false,
-      day:null,
+      day: null,
     };
     this.audioRecorderPlayer = new AudioRecorderPlayer();
     this.audioRecorderPlayer.setSubscriptionDuration(0.09); // optional. Default is 0.1
   }
 
-showDateTimePicker = () => {
-    this.setState({ isDateTimePickerVisible: true });
+  showDateTimePicker = () => {
+    this.setState({isDateTimePickerVisible: true});
   };
- 
+
   hideDateTimePicker = () => {
-    this.setState({ isDateTimePickerVisible: false });
+    this.setState({isDateTimePickerVisible: false});
   };
- 
+
   handleDatePicked = date => {
-    console.log("A date has been picked: ", date);
-        this.setState({ day: date });
+    console.log('A date has been picked: ', date);
+    this.setState({day: date});
 
     this.hideDateTimePicker();
   };
@@ -165,11 +164,10 @@ showDateTimePicker = () => {
     this.audioRecorderPlayer.removeRecordBackListener();
     this.setState({
       recordSecs: 0,
-      RecFlag:true ,
+      RecFlag: true,
     });
     console.log(result);
     this.record = result;
-      
   };
 
   onStartPlay = async e => {
@@ -303,20 +301,18 @@ showDateTimePicker = () => {
   onMediaSelectCallBack = async media => {
     this.MideaRespons = media;
 
-if (!media.didCancel) {
-   media.assets.map(({uri}) => {
-      this.setLocalpath = uri;
-    });
+    if (!media.didCancel) {
+      media.assets.map(({uri}) => {
+        this.setLocalpath = uri;
+      });
 
-    const reference = await storage().ref('OCR/' + this.Title);
-    // path to existing file on filesystem
-    const pathToFile = this.setLocalpath;
-    // uploads file
-    await reference.putFile(pathToFile);
-    this.submitToGoogle();
-  }
-
-    
+      const reference = await storage().ref('OCR/' + this.Title);
+      // path to existing file on filesystem
+      const pathToFile = this.setLocalpath;
+      // uploads file
+      await reference.putFile(pathToFile);
+      this.submitToGoogle();
+    }
   };
 
   submitToGoogle = async () => {
@@ -385,7 +381,8 @@ if (!media.didCancel) {
   UploadHomeWork = async () => {
     if (
       this.state.HomeWork == null ||
-      this.state.Title == null ||    this.state.day == null 
+      this.state.Title == null ||
+      this.state.day == null
     ) {
       this.setState({ErrormodalVisible: true});
       console.log('Error model ' + this.state.ErrormodalVisible);
@@ -400,15 +397,15 @@ if (!media.didCancel) {
     // console.log(
     //   this.props.route.params.StudentID + ',' + this.props.route.params.ClassID,
     // );
-    
+
     if (this.props.route.params.keyword == 'student') {
       console.log('id in student ' + this.props.route.params.StudentID); //true
       firestore().collection('Student Text').add({
         TextBody: this.state.HomeWork,
         TextHead: this.state.Title,
         Studentid: this.props.route.params.StudentID,
-        Deadline:this.state.day,
-        Record:this.state.RecFlag,
+        Deadline: this.state.day,
+        Record: this.state.RecFlag,
       });
       this.setState({SucessfulModalVisible: true});
     }
@@ -419,8 +416,8 @@ if (!media.didCancel) {
         TextBody: this.state.HomeWork,
         TextHead: this.state.Title,
         ClassId: this.props.route.params.ClassID,
-        Deadline:this.state.day,
-        Record:this.state.RecFlag,
+        Deadline: this.state.day,
+        Record: this.state.RecFlag,
       });
       this.setState({SucessfulModalVisible: true});
     }
@@ -432,7 +429,7 @@ if (!media.didCancel) {
 
     const {StudentID} = this.props.route.params;
 
-console.log("the key word "+this.props.route.params.keyword);
+    console.log('the key word ' + this.props.route.params.keyword);
     console.log('student id ' + StudentID);
     // console.log('class id ' + ClassID);
     return (
@@ -513,7 +510,7 @@ console.log("the key word "+this.props.route.params.keyword);
               paddingLeft: 12,
             }}>
             <TextInput
-             placeholder=" أدخل النص "
+              placeholder=" أدخل النص "
               placeholderTextColor={'#C3C7CA'}
               style={TitleStyles.TextArea}
               onChangeText={text => (this.state.HomeWork = text)}
@@ -551,10 +548,9 @@ console.log("the key word "+this.props.route.params.keyword);
             <TouchableOpacity onPress={() => this.onRecoed()}>
               <Microphone />
             </TouchableOpacity>
-            
           </View>
 
-            <View 
+          <View
             style={{
               flexDirection: 'row',
               backgroundColor: '#DAE2E9',
@@ -564,19 +560,20 @@ console.log("the key word "+this.props.route.params.keyword);
               alignItems: 'flex-start',
               marginTop: 20,
             }}>
-             
- <>
-        {/* <Button title="Show DatePicker" onPress={this.showDateTimePicker} /> */}
-          <TouchableOpacity onPress={() => this.showDateTimePicker()}>
-           <Deadline />
-        <DateTimePicker
-          isVisible={this.state.isDateTimePickerVisible}
-          onConfirm={this.handleDatePicked}
-          onCancel={this.hideDateTimePicker}
-        />
-            </TouchableOpacity>
-      </>
-        </View>
+            <>
+              {/* <Button title="Show DatePicker" onPress={this.showDateTimePicker} /> */}
+              {this.props.route.params.keyword == 'class' && (
+                <TouchableOpacity onPress={() => this.showDateTimePicker()}>
+                  <Deadline />
+                  <DateTimePicker
+                    isVisible={this.state.isDateTimePickerVisible}
+                    onConfirm={this.handleDatePicked}
+                    onCancel={this.hideDateTimePicker}
+                  />
+                </TouchableOpacity>
+              )}
+            </>
+          </View>
           <Modal
             animationType="fade"
             transparent={true}
@@ -672,7 +669,7 @@ console.log("the key word "+this.props.route.params.keyword);
               </View>
             </View>
           </Modal>
-  
+
           <TouchableOpacity
             style={[
               TitleStyles.Button,
@@ -682,7 +679,6 @@ console.log("the key word "+this.props.route.params.keyword);
             onPress={() => this.UploadHomeWork()}>
             <Text style={TitleStyles.ButtonText}>إضافة الواجب </Text>
           </TouchableOpacity>
-        
         </SafeAreaView>
       </View>
     );
