@@ -168,7 +168,7 @@ showDateTimePicker = () => {
     });
     console.log(result);
     this.record = result;
-    This.RecFlag = true;
+    this.RecFlag = true;
   };
 
   onStartPlay = async e => {
@@ -301,7 +301,9 @@ showDateTimePicker = () => {
   // contain pic uri
   onMediaSelectCallBack = async media => {
     this.MideaRespons = media;
-    media.assets.map(({uri}) => {
+
+if (!media.didCancel) {
+   media.assets.map(({uri}) => {
       this.setLocalpath = uri;
     });
 
@@ -311,6 +313,9 @@ showDateTimePicker = () => {
     // uploads file
     await reference.putFile(pathToFile);
     this.submitToGoogle();
+  }
+
+    
   };
 
   submitToGoogle = async () => {
@@ -402,6 +407,7 @@ showDateTimePicker = () => {
         TextHead: this.state.Title,
         Studentid: this.props.route.params.StudentID,
         Deadline:this.state.day,
+        Record:this.state.RecFlag,
       });
       this.setState({SucessfulModalVisible: true});
     }
@@ -413,6 +419,7 @@ showDateTimePicker = () => {
         TextHead: this.state.Title,
         ClassId: this.props.route.params.ClassID,
         Deadline:this.state.day,
+        Record:this.state.RecFlag,
       });
       this.setState({SucessfulModalVisible: true});
     }
@@ -505,6 +512,7 @@ console.log("the key word "+this.props.route.params.keyword);
               paddingLeft: 12,
             }}>
             <TextInput
+             placeholder=" أدخل النص "
               placeholderTextColor={'#C3C7CA'}
               style={TitleStyles.TextArea}
               onChangeText={text => (this.state.HomeWork = text)}

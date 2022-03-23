@@ -38,6 +38,8 @@ import ErrorVector from '../assets/images/ErrorVector.svg';
 import CheckVector from '../assets/images/CheckVector.svg';
 import SelectDropdown from 'react-native-select-dropdown';
 import TheArrow from '../assets/images/TheArrow.svg';
+import Deadline from '../assets/images/deadline.svg';
+
 
 import AudioRecorderPlayer, {
   AVEncoderAudioQualityIOSType,
@@ -53,6 +55,8 @@ import OldHomeWorks from '../assets/images/OldHomeWorks.svg';
 import RecordingMicrophone from '../assets/images/RecordingMicrophone.svg';
 import Camera from '../assets/images/Camera.svg';
 import quran from '../Components/quran.json';
+import DateTimePicker from "react-native-modal-datetime-picker";
+
 
 //the ref of record voice code
 // https://instamobile.io/react-native-tutorials/react-native-record-audio-play/?ref=hackernoon.com
@@ -88,10 +92,26 @@ class RecordVoice extends Component {
       SurahNum: 1,
       from: 0,
       to: 0,
+         isDateTimePickerVisible: false,
+      day:null,
     };
     this.audioRecorderPlayer = new AudioRecorderPlayer();
     this.audioRecorderPlayer.setSubscriptionDuration(0.09); // optional. Default is 0.1
   }
+  showDateTimePicker = () => {
+    this.setState({ isDateTimePickerVisible: true });
+  };
+ 
+  hideDateTimePicker = () => {
+    this.setState({ isDateTimePickerVisible: false });
+  };
+ 
+  handleDatePicked = date => {
+    console.log("A date has been picked: ", date);
+        this.setState({ day: date });
+
+    this.hideDateTimePicker();
+  };
 
   //contain a uri
   onStartRecord = async () => {
@@ -277,86 +297,6 @@ class RecordVoice extends Component {
     this.props.navigation.goBack();
   };
 
-  ///////////////////////////////OCR SECTION //////////////////////////////////////////////
-
-  onSelectImagePress = () =>
-    launchImageLibrary('photo', this.onMediaSelectCallBack);
-
-  // contain pic uri
-  onMediaSelectCallBack = async media => {
-    this.MideaRespons = media;
-    media.assets.map(({uri}) => {
-      this.setLocalpath = uri;
-    });
-
-    const reference = await storage().ref('OCR/' + this.Title);
-    // path to existing file on filesystem
-    const pathToFile = this.setLocalpath;
-    // uploads file
-    await reference.putFile(pathToFile);
-    this.submitToGoogle();
-  };
-
-  submitToGoogle = async () => {
-    try {
-      this.DownLoadURI = await storage()
-        .ref('OCR/' + this.Title) //name in storage in firebase console
-        .getDownloadURL()
-
-        .catch(e => console.log('Errors while downloading => ', e));
-
-      console.log('in google ' + this.DownLoadURI);
-
-      let body = JSON.stringify({
-        requests: [
-          {
-            features: [
-              {type: 'LABEL_DETECTION', maxResults: 10},
-              {type: 'LANDMARK_DETECTION', maxResults: 5},
-              // {type: 'FACE_DETECTION', maxResults: 5},
-              // {type: 'LOGO_DETECTION', maxResults: 5},
-              {type: 'TEXT_DETECTION', maxResults: 5},
-              {type: 'SAFE_SEARCH_DETECTION', maxResults: 5},
-              //No need to these features fff
-              // {type: 'DOCUMENT_TEXT_DETECTION', maxResults: 5},
-
-              // {type: 'IMAGE_PROPERTIES', maxResults: 5},
-              // {type: 'CROP_HINTS', maxResults: 5},
-              // {type: 'WEB_DETECTION', maxResults: 5},
-            ],
-            image: {
-              source: {
-                imageUri: this.DownLoadURI,
-              },
-            },
-          },
-        ],
-      });
-      let response = await fetch(
-        'https://vision.googleapis.com/v1/images:annotate?key=' +
-          'AIzaSyAHRHxTUVdJSjWg6rflJXNWNR1jhhZoGn0', //AIzaSyCLNN-xsz-fNLI-NsPLzcp1xnBrewZ2npQ
-        {
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-          method: 'POST',
-          body: body,
-        },
-      );
-      let responseJson = await response.json();
-
-      JSON.stringify(responseJson.responses[0].fullTextAnnotation.text);
-
-      this.setState({
-        googleResponse: responseJson.responses[0].fullTextAnnotation.text,
-        uploading: false,
-        responseReceived: true,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
   // Calculate Surah
   Ayaharray = versusNum => {
     let ar = [];
@@ -384,11 +324,6 @@ class RecordVoice extends Component {
       console.log('home in if ' + this.state.HomeWork);
       return;
     }
-    if (this.state.RecFlag == true) {
-      console.log('with record');
-      this.uploadAudio();
-    }
-
     console.log(
       this.props.route.params.StudentID + ',' + this.props.route.params.ClassID,
     );
@@ -398,6 +333,8 @@ class RecordVoice extends Component {
         TextBody: this.state.HomeWork,
         TextHead: this.state.Title,
         Studentid: this.props.route.params.StudentID,
+        Deadline:this.state.day,
+         Record:this.state.RecFlag,
       });
       this.setState({SucessfulModalVisible: true});
     }
@@ -408,6 +345,8 @@ class RecordVoice extends Component {
         TextBody: this.state.HomeWork,
         TextHead: this.state.Title,
         ClassId: this.props.route.params.ClassID,
+           Deadline:this.state.day,
+            Record:this.state.RecFlag,
       });
       this.setState({SucessfulModalVisible: true});
     }
@@ -628,6 +567,29 @@ class RecordVoice extends Component {
               <Microphone />
             </TouchableOpacity>
           </View>
+              <View 
+            style={{
+              flexDirection: 'row',
+              backgroundColor: '#DAE2E9',
+              borderRadius: 10,
+
+              width: '80%',
+              alignItems: 'flex-start',
+              marginTop: 20,
+            }}>
+             
+ <>
+        {/* <Button title="Show DatePicker" onPress={this.showDateTimePicker} /> */}
+          <TouchableOpacity onPress={() => this.showDateTimePicker()}>
+           <Deadline />
+        <DateTimePicker
+          isVisible={this.state.isDateTimePickerVisible}
+          onConfirm={this.handleDatePicked}
+          onCancel={this.hideDateTimePicker}
+        />
+            </TouchableOpacity>
+      </>
+        </View>
 
           <Modal
             animationType="fade"
