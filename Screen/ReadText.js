@@ -30,7 +30,7 @@ const ReadText = ({navigation, route}) => {
   const [textBody, setTextBody] = useState('');
     const [textTitle, setTextTitle] = useState('');
     const [Record, setRecord] = useState(false);
-    
+
 
   useEffect(() => {
     const MemorizationText = firestore()
@@ -38,9 +38,9 @@ const ReadText = ({navigation, route}) => {
       .doc(route.params.TextID)
       .onSnapshot(snapshot => {
         setTextBody(snapshot.data().TextBody);
-         setTextTitle(snapshot.data().textTitle);
+         setTextTitle(snapshot.data().TextHead);
                   setRecord(snapshot.data().Record);
-        
+            console.log(textTitle)
       });
     return MemorizationText;
   }, []);
