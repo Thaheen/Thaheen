@@ -77,7 +77,9 @@ const FillInTheBlank = ({navigation, route}) => {
         هيا لنبدأ المراجعة
       </Text>
       <View style={[TitleStyles.MemorizationContainer]}>
-        <Text style={{marginTop: 50, textAlign: 'center'}} onPress={toggleText}>
+        <Text
+          style={[TitleStyles.sectionTitle, {marginTop: 20, fontSize: 20}]}
+          onPress={toggleText}>
           اظهار النص
           {/*   
    {Quran.data.map((item, index) => (
