@@ -73,40 +73,20 @@ const ChildList = ({navigation}) => {
       .then(() => console.log('User signed out!'));
   };
 
-  const setChild = (id) => {
-    setChildID(id);
+  const setChild = ChildID => {
+    setChildID(ChildID);
     setConfirmmodalVisible(!ConfirmmodalVisible);
   };
-  const deleteChildAccount = (id) => {
+  const deleteChildAccount = ChildID => {
     setConfirmmodalVisible(!ConfirmmodalVisible);
-    console.log(id);
+    console.log(ChildID);
     firestore()
       .collection('Student')
-      .where('Username','==',id)
-      .onSnapshot(querySnapshot=>{
-        querySnapshot.forEach(documentSnapshot => {
-          documentSnapshot.ref.delete()
-        });
-      })
-
-
-      firestore()
-      .collection('ClassCommunity')
-      .where('StudentList', 'array-contains', id)
-      .onSnapshot(querySnapshot => {
-        querySnapshot.forEach(documentSnapshot => {
-          documentSnapshot.ref.update(
-            {StudentList:
-            firestore
-            .FieldValue
-            .arrayRemove(id)}).then(() => {
-              setModalVisible(!modalVisible);
-            });
-          
-        });
-        
+      .doc(ChildID)
+      .delete()
+      .then(() => {
+        setModalVisible(!modalVisible);
       });
-
   };
 
   const showAcessModal = id => {
@@ -220,7 +200,7 @@ const ChildList = ({navigation}) => {
                       }>
                       <Text>تحديث رمز الدخول</Text>
                     </MenuOption>
-                    <MenuOption onSelect={() => setChild(item.Username)}>
+                    <MenuOption onSelect={() => setChild(item.key)}>
                       <Text>حذف الطفل</Text>
                     </MenuOption>
                   </MenuOptions>
