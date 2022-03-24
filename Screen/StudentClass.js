@@ -157,7 +157,7 @@ const StudentClass = ({navigation, route}) => {
           setAccessModalVisible(!AccessModalVisible);
           console.log('after show access modal call');
         }}>
-        <Text style={TitleStyles.ButtonText}>إضافة فصل جديد</Text>
+        <Text style={TitleStyles.ButtonText}>الانضمام لفصل جديد</Text>
       </TouchableOpacity>
 
       {AccessModalVisible ? (

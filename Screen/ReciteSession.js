@@ -29,6 +29,8 @@ import SpeechBubble from '../assets/images/SpeechBubble.svg';
 import ob from './OpenMicrophone.js';
 import functions, {firebase} from '@react-native-firebase/functions';
 import ColoredText from '../Components/ColoredText.js';
+import Loader from 'react-native-modal-loader';
+import ErrorModel from '../Components/ErrorModel';
 
 const ReciteSession = ({navigation, route}) => {
   // functions().useFunctionsEmulator('http://localhost:5001');
@@ -43,7 +45,12 @@ const ReciteSession = ({navigation, route}) => {
   const textID = route.params.TextID;
   const [coloredWords, setColoredWords] = useState([]);
   const [numOfmistakes, setnumOfmistakes] = useState();
+  const [loading, setLoading] = useState(false);
   const taggedWords = [];
+
+  // Error model
+  const [ErrormodalVisible, setErrormodalVisible] = useState(false);
+  const [ErrorMessage, setErrorMessage] = useState('');
 
   //gives random ID to the records
   if (onePass == 0) {
@@ -78,6 +85,7 @@ const ReciteSession = ({navigation, route}) => {
     if (IsRecording) {
       await ob.onStopRecord(recordID);
       //====================== TEMP FIX, change timeout later ====================
+      setLoading(true);
       setTimeout(() => {
         transcriptAudio();
       }, 3000);
@@ -132,7 +140,13 @@ const ReciteSession = ({navigation, route}) => {
       compare(transcription);
     } catch (error) {
       console.log(error + '<-----here ');
+
+      setErrorMessage('حدث خطأ ما ، الرجاء إعادة التسميع');
+      setErrormodalVisible(!ErrormodalVisible);
+      setLoading(false);
     }
+
+    setLoading(false);
   };
 
   const compare = transcription => {
@@ -195,7 +209,6 @@ const ReciteSession = ({navigation, route}) => {
     setDoneRecite(true);
     setnumOfmistakes(counter);
     setColoredWords(taggedWords);
-
   };
 
   return (
@@ -264,7 +277,12 @@ const ReciteSession = ({navigation, route}) => {
           top: 320,
         }}
       />
-
+      <Loader loading={loading} color="#F5C5AD" />
+      <ErrorModel
+        message={ErrorMessage}
+        modalVisible={ErrormodalVisible}
+        setModalVisible={setErrormodalVisible}
+      />
       <View
         style={{
           justifyContent: 'center',
@@ -294,14 +312,16 @@ const ReciteSession = ({navigation, route}) => {
                 backgroundColor: '#F5C5AD',
                 alignSelf: 'center',
                 width: 200,
-                borderRadius:30,
+                borderRadius: 30,
               },
             ]}
-            onPress={() => navigation.navigate('Feedback', {
-              textID: route.params.TextID,
-              totalWords: textBody.length,
-              mistakesNum: numOfmistakes,
-            })} >
+            onPress={() =>
+              navigation.navigate('Feedback', {
+                textID: route.params.TextID,
+                totalWords: textBody.length,
+                mistakesNum: numOfmistakes,
+              })
+            }>
             <Text style={TitleStyles.ButtonText}>استعراض النتيجة</Text>
           </TouchableOpacity>
         ) : (
