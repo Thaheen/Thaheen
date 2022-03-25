@@ -38,6 +38,7 @@ import Icon from '../assets/images/more.svg';
 const ChildList = ({navigation}) => {
   const user = auth().currentUser;
   const [children, setChildren] = useState([]);
+  const [Cusername, setCusername] = useState();
   const [loading, setLoading] = useState(true);
   const [ChildID, setChildID] = useState('');
   //Success modal **should be moved to the child list file**
@@ -73,7 +74,8 @@ const ChildList = ({navigation}) => {
       .then(() => console.log('User signed out!'));
   };
 
-  const setChild = ChildID => {
+  const setChild = (ChildID, ChildUser) => {
+    setCusername(ChildUser);
     setChildID(ChildID);
     setConfirmmodalVisible(!ConfirmmodalVisible);
   };
@@ -85,8 +87,21 @@ const ChildList = ({navigation}) => {
       .doc(ChildID)
       .delete()
       .then(() => {
+        firestore()
+          .collection('ClassCommunity')
+          .where('StudentList', 'array-contains', Cusername)
+          .onSnapshot(querySnapshot => {
+            querySnapshot.forEach(documentSnapshot => {
+              documentSnapshot.ref
+                .update({
+                  StudentList: firestore.FieldValue.arrayRemove(Cusername),
+                })
+            });
+          });
         setModalVisible(!modalVisible);
       });
+
+    console.log(Cusername);
   };
 
   const showAcessModal = id => {
@@ -200,7 +215,8 @@ const ChildList = ({navigation}) => {
                       }>
                       <Text>تحديث رمز الدخول</Text>
                     </MenuOption>
-                    <MenuOption onSelect={() => setChild(item.key)}>
+                    <MenuOption
+                      onSelect={() => setChild(item.key, item.Username)}>
                       <Text>حذف الطفل</Text>
                     </MenuOption>
                   </MenuOptions>
