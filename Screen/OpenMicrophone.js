@@ -100,7 +100,7 @@ class OpenMicrophone extends Component {
     console.log(`uri: ${uri}`);
   };
 
-  onStopRecord = async (recordID) => {
+  onStopRecord = async (recordID , transcriptAudio) => {
     const result = await this.audioRecorderPlayer.stopRecorder();
     const defaultStorageBucket = storage();
     const storageRef = firebase.app().storage().ref();
@@ -120,6 +120,7 @@ class OpenMicrophone extends Component {
         .putFile(FlacpathString)
         .then(() => {
           console.log('Record Sent !!!!!!');
+          transcriptAudio()
         })
         .catch(e => console.log('error:', e));
 

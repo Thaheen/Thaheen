@@ -83,12 +83,8 @@ const ReciteSession = ({navigation, route}) => {
     setIsRecording(!IsRecording);
 
     if (IsRecording) {
-      await ob.onStopRecord(recordID);
-      //====================== TEMP FIX, change timeout later ====================
+      await ob.onStopRecord(recordID ,  transcriptAudio);
       setLoading(true);
-      setTimeout(() => {
-        transcriptAudio();
-      }, 3000);
     } else {
       //const { data } =  firebase.functions().httpsCallable('micrecognizeStream')();
 
