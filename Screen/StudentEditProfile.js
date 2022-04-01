@@ -278,7 +278,7 @@ const StudentEditProfile = ({navigation, route}) => {
       />
 
       {/* size of the animal picker need to be changed */}
-      <ScrollView>
+      <ScrollView style={{zIndex: -1, height: 'auto'}}>
         <Text style={TitleStyles.profileText}>الاسم كامل </Text>
         <TextInput
           style={TitleStyles.textInput}
@@ -304,9 +304,7 @@ const StudentEditProfile = ({navigation, route}) => {
 
         <View style={[{zIndex: 1000, elevation: 1000}]}>
           <DropDownPicker
-            style={[
-              TitleStyles.dropDownStyle2    
-            ]}
+            style={[TitleStyles.dropDownStyle2]}
             textStyle={TitleStyles.categoryText}
             dropDownContainerStyle={{
               borderColor: '#C7C7CD',
@@ -346,7 +344,8 @@ const StudentEditProfile = ({navigation, route}) => {
               backgroundColor: '#DAE2E9',
               alignSelf: 'center',
               width: 283,
-              marginBottom: Platform.OS === 'ios' ? 100 : 90
+              marginTop: 40,
+              marginBottom: Platform.OS === 'ios' ? 100 : 90,
               // height: 40,
               ///   marginTop: 20,
               //marginBottom: 20,
@@ -355,7 +354,7 @@ const StudentEditProfile = ({navigation, route}) => {
           // onPress={onSignout}
         >
           <Text
-            style={TitleStyles.ButtonText}
+            style={[TitleStyles.ButtonText]}
             onPress={() => {
               setStudent();
               navigation.reset({

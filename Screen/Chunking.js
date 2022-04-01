@@ -88,7 +88,7 @@ const Chunking = ({navigation, route}) => {
         </TouchableOpacity>
       </View>
 
-      <View style={{marginTop: 240}}>
+      <View style={{marginTop: 310}}>
         <WhiteCurve />
       </View>
 
