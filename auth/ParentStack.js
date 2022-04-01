@@ -11,6 +11,9 @@ import {default as StudentHome} from '../Screen/StudentHome.js';
 import {default as StudentTab} from './StudentTab.js';
 import {default as ResetPasscode} from '../Screen/ResetPasscode.js';
 import {default as ReadText} from '../Screen/ReadText.js';
+import {default as FillInTheBlank} from '../Screen/FillInTheBlank.js';
+import {default as MemorizationSession} from '../Screen/MemorizationSession.js';
+import {default as Chunking} from '../Screen/Chunking.js';
 
 const Stack = createNativeStackNavigator();
 
@@ -60,6 +63,23 @@ const ParentStack = () => {
       <Stack.Screen
         name="ReadText"
         component={ReadText}
+        options={{headerShown: false, animation: 'fade'}}
+      />
+
+      <Stack.Screen
+        name="MemorizationSession"
+        component={MemorizationSession}
+        options={{headerShown: false, animation: 'fade'}}
+      />
+      <Stack.Screen
+        name="FillInTheBlank"
+        component={FillInTheBlank}
+        options={{headerShown: false, animation: 'fade'}}
+      />
+
+      <Stack.Screen
+        name="Chunking"
+        component={Chunking}
         options={{headerShown: false, animation: 'fade'}}
       />
     </Stack.Navigator>

@@ -54,7 +54,7 @@ const FillInTheBlank = ({navigation, route}) => {
   };
 
   for (var i = 1; i < clonedArr.length; i++) {
-    clonedArr[i++] = '_____';
+    clonedArr[i++] = '____';
     //console.log(clonedArr);
   }
 
@@ -88,13 +88,19 @@ const FillInTheBlank = ({navigation, route}) => {
 
         {show == false && (
           <FlatList
-            style={{marginTop: 20, marginLeft: 10}}
+            style={{
+              marginTop: 20,
+
+              textAlign: 'center',
+            }}
             contentContainerStyle={{
-              flexDirection: 'row',
+              //flexDirection: 'row',
               width: 333,
               height: 452,
+              alignItems: 'center',
             }}
             data={clonedArr}
+            numColumns={6}
             // extraData={selectedId}
             renderItem={({item, index}) => (
               <Text style={[TitleStyles.smallText]}> {item} </Text>
@@ -104,13 +110,15 @@ const FillInTheBlank = ({navigation, route}) => {
 
         {show == true && (
           <FlatList
-            style={{marginTop: 20, marginLeft: 10}}
+            style={{marginTop: 20, textAlign: 'center'}}
             contentContainerStyle={{
-              flexDirection: 'row',
+              //flexDirection: 'row',
               width: 333,
               height: 452,
+              alignItems: 'center',
             }}
             data={array}
+            numColumns={6}
             // extraData={selectedId}
             renderItem={({item, index}) => (
               <Text

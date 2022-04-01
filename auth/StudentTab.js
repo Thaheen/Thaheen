@@ -22,7 +22,6 @@ import {default as FillInTheBlank} from '../Screen/FillInTheBlank.js';
 import {default as Chunking} from '../Screen/Chunking.js';
 import {default as StudentViewAllAssignment} from '../Screen/StudentViewAllAssignment.js';
 
-
 const HomeStack = createNativeStackNavigator();
 const ClassStack = createNativeStackNavigator();
 const NotifyStack = createNativeStackNavigator();
@@ -54,16 +53,16 @@ const HomeStackScreens = () => {
         options={{headerShown: false, presentation: 'modal'}}
       />
 
-      <HomeStack.Screen
+      {/* <HomeStack.Screen
         name="MemorizationSession"
         component={MemorizationSession}
         options={{headerShown: false}}
-      />
-      <HomeStack.Screen
+      /> */}
+      {/* <HomeStack.Screen
         name="FillInTheBlank"
         component={FillInTheBlank}
         options={{headerShown: false}}
-      />
+      /> */}
 
       <HomeStack.Screen
         name="Chunking"

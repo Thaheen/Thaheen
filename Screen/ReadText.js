@@ -25,12 +25,10 @@ import firestore from '@react-native-firebase/firestore';
 import ThaheenMini from '../assets/images/ThaheenMini.svg';
 import ob from './OpenMicrophone.js';
 
-
 const ReadText = ({navigation, route}) => {
   const [textBody, setTextBody] = useState('');
-    const [textTitle, setTextTitle] = useState('');
-    const [Record, setRecord] = useState(false);
-
+  const [textTitle, setTextTitle] = useState('');
+  const [Record, setRecord] = useState(false);
 
   useEffect(() => {
     const MemorizationText = firestore()
@@ -38,9 +36,9 @@ const ReadText = ({navigation, route}) => {
       .doc(route.params.TextID)
       .onSnapshot(snapshot => {
         setTextBody(snapshot.data().TextBody);
-         setTextTitle(snapshot.data().TextHead);
-                  setRecord(snapshot.data().Record);
-            console.log(textTitle)
+        setTextTitle(snapshot.data().TextHead);
+        setRecord(snapshot.data().Record);
+        console.log(textTitle);
       });
     return MemorizationText;
   }, []);
@@ -61,14 +59,16 @@ const ReadText = ({navigation, route}) => {
         <Text style={[TitleStyles.TextOrange]}>أولاً اقرأ النص كاملاً</Text>
 
         <FlatList
-          style={{marginTop: 20, marginLeft: 20}}
+          style={{marginTop: 20, textAlign: 'center'}}
           contentContainerStyle={{
-            flexDirection: 'row',
+            // flexDirection: 'row',
             width: 333,
             height: 452,
+            alignItems: 'center',
           }}
           data={clonedArr}
-          // extraData={selectedId}
+          numColumns={6}
+          keyExtractor={(item, index) => index.toString()}
           renderItem={({item, index}) => (
             <Text style={[TitleStyles.smallText, {textAlign: 'center'}]}>
               {' '}
@@ -77,31 +77,28 @@ const ReadText = ({navigation, route}) => {
           )}
         />
         {/* Retrive the audio for the text if exist */}
-         {Record == true && (
-        <TouchableOpacity
-          style={[TitleStyles.OpenTextAudioBtn]}
-          // onPress={() => {
-          //   navigation.navigate('ReadText', {
-          //     TextID: route.params.TextID,
-          //   });
-          // }}
+        {Record == true && (
+          <TouchableOpacity
+            style={[TitleStyles.OpenTextAudioBtn]}
+            // onPress={() => {
+            //   navigation.navigate('ReadText', {
+            //     TextID: route.params.TextID,
+            //   });
+            // }}
 
-          onPress={() => {
-
-ob.retrieveRecord(textTitle)
-          
-          }}
-        >
-          <Text
-            style={[
-              TitleStyles.categoryText,
-              {color: '#43515F', textAlign: 'center', marginTop: 5},
-            ]}>
-            {' '}
-            إستمع للنص{' '}
-          </Text>
-        </TouchableOpacity>
-         )}
+            onPress={() => {
+              ob.retrieveRecord(textTitle);
+            }}>
+            <Text
+              style={[
+                TitleStyles.categoryText,
+                {color: '#43515F', textAlign: 'center', marginTop: 5},
+              ]}>
+              {' '}
+              إستمع للنص{' '}
+            </Text>
+          </TouchableOpacity>
+        )}
       </View>
 
       <View style={{marginTop: 440}}>
