@@ -50,7 +50,7 @@ const HomeStackScreens = () => {
       <HomeStack.Screen
         name="Feedback"
         component={Feedback}
-        options={{headerShown: false, presentation: 'modal'}}
+        options={{headerShown: false, animation: 'slide_from_bottom'}}
       />
 
       {/* <HomeStack.Screen

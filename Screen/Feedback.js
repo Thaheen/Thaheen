@@ -26,6 +26,7 @@ const Feedback = ({navigation, route}) => {
   const totalWords = route.params.totalWords
 
   console.log(mistakes + '+' + totalWords)
+
   useEffect(() => {
     const mistakesRate = Math.round((mistakes / totalWords) * 100)
     setScore(100 - mistakesRate)
@@ -47,6 +48,7 @@ const Feedback = ({navigation, route}) => {
               Feedback: {
                 score: 100 - mistakesRate,
                 trial: snapshot.data().Feedback.trial + 1,
+                mistakes: mistakes,
               },
             })
           }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Text,
   TouchableOpacity,
@@ -9,9 +9,24 @@ import {
 import TitleStyles from '../Styles/Titles';
 import BookReader from '../assets/images/BookReader';
 import {useNavigation} from '@react-navigation/native';
+import firestore from '@react-native-firebase/firestore';
 
 const TextCard = ({title, textID, doneRecite}) => {
   const navigation = useNavigation();
+  const [totalWords, setTotalWords] = useState();
+  const [numOfmistakes, setNumOfMistakes] = useState();
+
+  useEffect(() => {
+    const text = firestore()
+      .collection('Student Text')
+      .doc(textID)
+      .onSnapshot(snapshot => {
+        setTotalWords(snapshot.data().TextBody.length)
+        setNumOfMistakes(snapshot.data().Feedback.score)
+      })
+    return text
+  }, [])
+
 
   return (
     <View
@@ -75,13 +90,13 @@ const TextCard = ({title, textID, doneRecite}) => {
               paddingHorizontal: 12,
             }}
             //This needs to get sorted out
-            // onPress={() =>
-            //   navigation.navigate('Feedback', {
-            //     textID: route.params.TextID,
-            //     totalWords: textBody.length,
-            //     mistakesNum: numOfmistakes,
-            //   })
-            // }
+            onPress={() =>
+              navigation.navigate('Feedback', {
+                textID: textID,
+                totalWords: totalWords,
+                mistakesNum: numOfmistakes,
+              })
+            }
             >
             <Text style={TitleStyles.smallText}>استعراض النتائج</Text>
           </TouchableOpacity>
