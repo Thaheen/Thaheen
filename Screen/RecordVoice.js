@@ -407,6 +407,10 @@ class RecordVoice extends Component {
         Studentid: this.props.route.params.StudentID,
         // Deadline: this.state.day,
         Record: this.state.RecFlag,
+        Feedback: {
+          score: 0,
+          trial: 0,
+        },
       });
       this.setState({SucessfulModalVisible: true});
     }

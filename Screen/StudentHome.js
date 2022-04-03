@@ -134,7 +134,8 @@ const StudentHome = () => {
             scrollEnabled
             renderItem={({item}) => (
               <TouchableOpacity>
-                <TextCard title={item.TextHead} textID={item.key} />
+                <TextCard title={item.TextHead} textID={item.key} doneRecite={item.Feedback.trial}
+              />
               </TouchableOpacity>
             )}
           />
