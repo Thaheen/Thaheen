@@ -94,7 +94,7 @@ const StudentViewAllAssignment = ({navigation, route}) => {
           renderItem={({item}) => (
               <View style={{justifyContent:'center' }}>
             <TouchableOpacity>
-              <TextCard title={item.TextHead} textID={item.key} />
+              <TextCard title={item.TextHead} textID={item.key} doneRecite={item.Feedback.trial} />
             </TouchableOpacity>
             </View>
           )}
