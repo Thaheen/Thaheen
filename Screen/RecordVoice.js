@@ -410,6 +410,7 @@ class RecordVoice extends Component {
         Feedback: {
           score: 0,
           trial: 0,
+          mistakes:0
         },
       });
       this.setState({SucessfulModalVisible: true});
