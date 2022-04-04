@@ -80,20 +80,18 @@ const InsClassInfo = ({navigation, route}) => {
       .collection('Instructor Text')
       .where('ClassId', '==', route.params.classKey)
       .onSnapshot(querySnapshot => {
-        if (!querySnapshot.empty) {
-          const assignments = [];
-          querySnapshot.forEach(documentSnapshot => {
-            assignments.push({
-              ...documentSnapshot.data(),
-              key: documentSnapshot.id,
-            });
-          });
-          setAssignmentsList(assignments);
-        }
-      });
+        const assignments = []
+        querySnapshot.forEach(documentSnapshot => {
+          assignments.push({
+            ...documentSnapshot.data(),
+            key: documentSnapshot.id,
+          })
+        })
+        setAssignmentsList(assignments)
+      })
+    return classAssignments
+  }, [])
 
-    return () => classAssignments();
-  }, []);
 
   const setStudentArray = userArray => {
     firestore()

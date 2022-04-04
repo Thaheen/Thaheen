@@ -188,7 +188,7 @@ export default StyleSheet.create({
     fontFamily: 'AJannatLT-Bold',
     fontSize: 18,
     textAlign: 'right',
-    paddingBottom: '60%',
+   // paddingBottom: '60%',
   },
   Title: {
     backgroundColor: 'white',
@@ -200,7 +200,7 @@ export default StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     width: '80%',
-    height: '6%',
+    //height: '6%',
   },
   buttonStyle: {
     backgroundColor: 'white',
