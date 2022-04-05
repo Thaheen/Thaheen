@@ -424,6 +424,7 @@ class RecordVoice extends Component {
         ClassId: this.props.route.params.ClassID,
         Deadline: this.state.day,
         Record: this.state.RecFlag,
+        Feedback: {}, 
       });
       this.setState({SucessfulModalVisible: true});
     }

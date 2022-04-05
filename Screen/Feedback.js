@@ -15,9 +15,11 @@ import FocusAwareStatusBar from '../Components/FocusAwareStatusBar'
 import Close from '../assets/images/Close.svg'
 import {StackActions} from '@react-navigation/native'
 import firestore from '@react-native-firebase/firestore'
+import {UserInfoContext} from '../auth/UserInfoContext';
 
 const Feedback = ({navigation, route}) => {
   const {width, height} = Dimensions.get('window')
+  const {student} = React.useContext(UserInfoContext);
   const [score, setScore] = useState(100)
   const [trial, setTrial] = useState(100)
   const [textBody, setTextBody] = useState()
@@ -31,33 +33,66 @@ const Feedback = ({navigation, route}) => {
     const mistakesRate = Math.round((mistakes / totalWords) * 100)
     setScore(100 - mistakesRate)
 
+    //if its student text
     firestore()
       .collection('Student Text')
       .doc(route.params.textID)
       .get()
       .then(snapshot => {
-        if(snapshot.exists){
-        if (snapshot.get('Feedback') == null) {
-          setTrial(1)
-          snapshot.ref.update({
-            Feedback: {score: 100 - mistakesRate, trial: 1},
-          })
-        } else {
-          if (snapshot.data().Feedback.trial < 3) {
-            setTrial(snapshot.data().Feedback.trial + 1)
+        if (snapshot.exists) {
+          if (snapshot.get('Feedback') == null) { //student havent recited before
+            setTrial(1)
             snapshot.ref.update({
-              Feedback: {
-                score: 100 - mistakesRate,
-                trial: snapshot.data().Feedback.trial + 1,
-                mistakes: mistakes,
-              },
+              Feedback: {score: 100 - mistakesRate, trial: 1,  mistakes: mistakes,},
             })
+          } else {
+            if (snapshot.data().Feedback.trial < 3) {//student have recited before
+              setTrial(snapshot.data().Feedback.trial + 1)
+              snapshot.ref.update({
+                Feedback: {
+                  score: 100 - mistakesRate,
+                  trial: snapshot.data().Feedback.trial + 1,
+                  mistakes: mistakes,
+                },
+              })
+            }
           }
         }
-      }
-      else{
-         // instructor text feedback scoring
-      }
+      })
+
+    //if its instructor text
+    firestore()
+      .collection('Instructor Text')
+      .doc(route.params.textID)
+      .get()
+      .then(snapshot => {
+        if (snapshot.exists) {
+          const FeedbackField = snapshot.data().Feedback
+          if (snapshot.data().Feedback[student.id] == null) { //student havent recited before
+            setTrial(1)
+            FeedbackField[student.id] = {
+              score: 100 - mistakesRate,
+              trial: 1,
+              mistakes: mistakes,
+            }
+            snapshot.ref.update({
+              Feedback: FeedbackField,
+            })
+          } else { //student have recited before
+            var studentIndex = snapshot.data().Feedback[student.id]
+            if (studentIndex.trial < 3) {
+              setTrial(studentIndex.trial + 1)
+              FeedbackField[student.id] = {
+                score: 100 - mistakesRate,
+                trial: studentIndex.trial + 1,
+                mistakes: mistakes,
+              }
+              snapshot.ref.update({
+                Feedback: FeedbackField,
+              })
+            }
+          }
+        }
       })
   }, [])
 
