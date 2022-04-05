@@ -42,16 +42,16 @@ const HomeStackScreens = () => {
         component={StudentHome}
         options={{headerShown: false}}
       />
-      <HomeStack.Screen
+      {/* <HomeStack.Screen
         name="ReciteSession"
         component={ReciteSession}
         options={{headerShown: false}}
-      />
-      <HomeStack.Screen
+      /> */}
+      {/* <HomeStack.Screen
         name="Feedback"
         component={Feedback}
         options={{headerShown: false, animation: 'slide_from_bottom'}}
-      />
+      /> */}
 
       {/* <HomeStack.Screen
         name="MemorizationSession"

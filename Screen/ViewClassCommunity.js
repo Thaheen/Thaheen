@@ -25,7 +25,7 @@ import BackButton from '../Components/BackButton.js';
 import Scoreboard from '../assets/images/ClassScoreboard.svg';
 import HomeworkIcon from '../assets/images/Book.svg';
 import TextCard from '../Components/TextCard';
-
+import Deadline from '../assets/images/DeadlineIconOnly.svg';
 
 const StudentClass = ({navigation, route}) => {
   const [className, setclassName] = useState('');
@@ -35,12 +35,15 @@ const StudentClass = ({navigation, route}) => {
   const [TextList, setTextList] = useState([]);
   const [loading, setLoading] = useState(true);
   const {student} = React.useContext(UserInfoContext);
-  
 
   let colors = ['#DAE2E9', '#FAE2D7'];
   let i = 0;
 
-  console.log(route.params.ClassCID)
+  const EngToArabicNum = num => {
+    var str = '' + num;
+    return str.replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
+  };
+
   useEffect(() => {
     const classcomm = firestore()
       .collection('ClassCommunity')
@@ -62,6 +65,7 @@ const StudentClass = ({navigation, route}) => {
           homework.push({
             ...documentSnapshot.data(),
             key: documentSnapshot.id,
+            arabicDate: 'undefined',
             color: colors[i++ % 2],
           });
         });
@@ -71,6 +75,16 @@ const StudentClass = ({navigation, route}) => {
     return () => textAssignment();
   }, []);
 
+  TextList.forEach(element => {
+    var timestamp = element.Deadline.seconds * 1000;
+    var date = new Date(timestamp);
+    element.arabicDate =
+      EngToArabicNum(date.getFullYear()) +
+      '/' +
+      EngToArabicNum(date.getMonth() + 1) +
+      '/' +
+      EngToArabicNum(date.getDate());
+  });
 
   return (
     <SafeAreaView
@@ -104,28 +118,107 @@ const StudentClass = ({navigation, route}) => {
         style={{
           justifyContent: 'center',
           alignItems: 'center',
-          top:80
+          top: 80,
         }}>
         <Scoreboard />
       </TouchableOpacity>
 
       {TextList != 0 && (
         <FlatList
-          style={{height: '85%', top: 80}}
+          style={{
+            height: '85%',
+            top: 70,
+          }}
           data={TextList}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({item}) => (
-            <TouchableOpacity
-              style={{           
-                
-                flexDirection: 'row', 
-                justifyContent:'center',
-                alignItems: 'center'
-              }}
-              >
-              <TextCard title={item.TextHead} textID={item.key} doneRecite={0}
-              />
-            </TouchableOpacity>
+            <View
+              style={{
+                backgroundColor: item.color,
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginLeft: 30,
+                marginTop: 10,
+                width: 330,
+                height: 150,
+                borderRadius: 25,
+              }}>
+              <Text style={TitleStyles.sectionTitle}>{item.TextHead}</Text>
+              <View
+                style={{
+                  flexDirection: I18nManager.isRTL ? 'row' : 'row-reverse',
+                  justifyContent: 'space-between',
+                  marginBottom: 10,
+                }}>
+                <Deadline />
+                <Text style={TitleStyles.smallText}>
+                  {' '}
+                  موعد التسليم {item.arabicDate}{' '}
+                </Text>
+              </View>
+              <View
+                style={{
+                  flexDirection: I18nManager.isRTL ? 'row' : 'row-reverse',
+                  justifyContent: 'space-between',
+                }}>
+                {
+                  //doneRecite < 3 && (
+                  <TouchableOpacity
+                    style={[
+                      I18nManager.isRTL ? {marginRight: 10} : {marginLeft: 10},
+                      {
+                        backgroundColor: '#FFFFFF',
+                        borderRadius: 10,
+                        paddingHorizontal: 32,
+                      },
+                    ]}
+                    onPress={() => {
+                      navigation.navigate('MemorizationSession', {
+                        TextID: item.key,
+                      });
+                    }}>
+                    <Text style={TitleStyles.smallText}>ابدأ المراجعة</Text>
+                  </TouchableOpacity>
+                  // )
+                }
+
+                {
+                  //doneRecite >= 3 && (
+                  // <TouchableOpacity
+                  //   style={{
+                  //     backgroundColor: '#FFFFFF',
+                  //     borderRadius: 10,
+                  //     paddingHorizontal: 32,
+                  //   }}
+                  //   onPress={() =>
+                  //     navigation.navigate('Feedback', {
+                  //       textID: textID,
+                  //       totalWords: totalWords,
+                  //       mistakesNum: numOfmistakes,
+                  //     })
+                  //   }>
+                  //   <Text style={TitleStyles.smallText}>استعراض النتائج</Text>
+                  // </TouchableOpacity>
+                  //)
+                }
+
+                {
+                  //doneRecite < 3 && (
+                  <TouchableOpacity
+                    style={{
+                      backgroundColor: '#FFFFFF',
+                      borderRadius: 10,
+                      paddingHorizontal: 32,
+                    }}
+                    onPress={() => {
+                      navigation.navigate('ReciteSession', {TextID: item.key});
+                    }}>
+                    <Text style={TitleStyles.smallText}>ابدأ التسميع</Text>
+                  </TouchableOpacity>
+                  //)
+                }
+              </View>
+            </View>
           )}
         />
       )}

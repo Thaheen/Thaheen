@@ -14,6 +14,9 @@ import {default as ReadText} from '../Screen/ReadText.js';
 import {default as FillInTheBlank} from '../Screen/FillInTheBlank.js';
 import {default as MemorizationSession} from '../Screen/MemorizationSession.js';
 import {default as Chunking} from '../Screen/Chunking.js';
+import {default as ReciteSession} from '../Screen/ReciteSession.js';
+import {default as Feedback} from '../Screen/Feedback.js';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -74,6 +77,17 @@ const ParentStack = () => {
       <Stack.Screen
         name="FillInTheBlank"
         component={FillInTheBlank}
+        options={{headerShown: false, animation: 'fade'}}
+      />
+      <Stack.Screen
+        name="ReciteSession"
+        component={ReciteSession}
+        options={{headerShown: false, animation: 'fade'}}
+      />
+
+<Stack.Screen
+        name="Feedback"
+        component={Feedback}
         options={{headerShown: false, animation: 'fade'}}
       />
 
