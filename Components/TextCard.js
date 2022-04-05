@@ -22,7 +22,9 @@ const TextCard = ({title, textID, doneRecite}) => {
       .doc(textID)
       .onSnapshot(snapshot => {
         if (snapshot.exists) {
-          setTotalWords(snapshot.data().TextBody.length);
+          setTotalWords( 
+            snapshot.data().TextBody.replace(/إ|أ|آ/g, 'ا').split(' '),
+          );
           setNumOfMistakes(snapshot.data().Feedback.score);
         }
       });
@@ -94,7 +96,7 @@ const TextCard = ({title, textID, doneRecite}) => {
             onPress={() =>
               navigation.navigate('Feedback', {
                 textID: textID,
-                totalWords: totalWords,
+                totalWords: totalWords.length,
                 mistakesNum: numOfmistakes,
               })
             }>
