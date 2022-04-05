@@ -21,12 +21,13 @@ const TextCard = ({title, textID, doneRecite}) => {
       .collection('Student Text')
       .doc(textID)
       .onSnapshot(snapshot => {
-        setTotalWords(snapshot.data().TextBody.length)
-        setNumOfMistakes(snapshot.data().Feedback.score)
-      })
-    return text
-  }, [])
-
+        if (snapshot.exists) {
+          setTotalWords(snapshot.data().TextBody.length);
+          setNumOfMistakes(snapshot.data().Feedback.score);
+        }
+      });
+    return text;
+  }, []);
 
   return (
     <View
@@ -65,7 +66,7 @@ const TextCard = ({title, textID, doneRecite}) => {
           flexDirection: I18nManager.isRTL ? 'row' : 'row-reverse',
           justifyContent: 'space-between',
         }}>
-        {doneRecite == false && (
+        {doneRecite < 3 && (
           <TouchableOpacity
             style={[
               I18nManager.isRTL ? {marginRight: 10} : {marginLeft: 10},
@@ -96,8 +97,7 @@ const TextCard = ({title, textID, doneRecite}) => {
                 totalWords: totalWords,
                 mistakesNum: numOfmistakes,
               })
-            }
-            >
+            }>
             <Text style={TitleStyles.smallText}>استعراض النتائج</Text>
           </TouchableOpacity>
         )}

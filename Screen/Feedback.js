@@ -36,6 +36,7 @@ const Feedback = ({navigation, route}) => {
       .doc(route.params.textID)
       .get()
       .then(snapshot => {
+        if(snapshot.exists){
         if (snapshot.get('Feedback') == null) {
           setTrial(1)
           snapshot.ref.update({
@@ -53,6 +54,10 @@ const Feedback = ({navigation, route}) => {
             })
           }
         }
+      }
+      else{
+         // instructor text feedback scoring
+      }
       })
   }, [])
 

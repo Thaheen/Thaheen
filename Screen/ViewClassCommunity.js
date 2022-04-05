@@ -24,6 +24,8 @@ import {UserInfoContext} from '../auth/UserInfoContext';
 import BackButton from '../Components/BackButton.js';
 import Scoreboard from '../assets/images/ClassScoreboard.svg';
 import HomeworkIcon from '../assets/images/Book.svg';
+import TextCard from '../Components/TextCard';
+
 
 const StudentClass = ({navigation, route}) => {
   const [className, setclassName] = useState('');
@@ -109,25 +111,20 @@ const StudentClass = ({navigation, route}) => {
 
       {TextList != 0 && (
         <FlatList
-          style={{height: '85%', top: 70}}
+          style={{height: '85%', top: 80}}
           data={TextList}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({item}) => (
             <TouchableOpacity
               style={{           
-                marginTop: 20,
-                marginLeft: 30,
-                backgroundColor:item.color,
-                borderRadius:15,
-                width:340,
-                height:70,
+                
                 flexDirection: 'row', 
+                justifyContent:'center',
                 alignItems: 'center'
               }}
               >
-              <HomeworkIcon height={40} width={70}/>
-              <Text
-              style={[TitleStyles.smallText, {fontSize: 20}]}>{item.TextHead}</Text>
+              <TextCard title={item.TextHead} textID={item.key} doneRecite={0}
+              />
             </TouchableOpacity>
           )}
         />

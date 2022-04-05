@@ -30,10 +30,22 @@ const MemorizationSession = ({navigation, route}) => {
       .collection('Student Text')
       .doc(route.params.TextID)
       .onSnapshot(snapshot => {
-        setTextHead(snapshot.data().TextHead);
+        if(snapshot.exists){
+          console.log('in student text')
+          setTextHead(snapshot.data().TextHead);
+        }else{
+          firestore()
+          .collection('Instructor Text')
+          .doc(route.params.TextID)
+          .onSnapshot(Qsnapshot=>{
+            console.log('in instructor text')
+            setTextHead(Qsnapshot.data().TextHead);
+          })
+        }
       });
     return MemorizationText;
   }, []);
+
   //console.log(route.params.TextID);
 
   return (

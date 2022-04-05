@@ -71,10 +71,25 @@ const ReciteSession = ({navigation, route}) => {
       .collection('Student Text')
       .doc(route.params.TextID)
       .onSnapshot(querySnapshot => {
-        setTextBody(
-          querySnapshot.data().TextBody.replace(/إ|أ|آ/g, 'ا').split(' '),
-        );
-        setTextHead(querySnapshot.data().TextHead);
+        if(querySnapshot.exists){
+          console.log('in student text')
+          setTextBody(
+            querySnapshot.data().TextBody.replace(/إ|أ|آ/g, 'ا').split(' '),
+          );
+          setTextHead(querySnapshot.data().TextHead);
+        }else{
+          firestore()
+          .collection('Instructor Text')
+          .doc(route.params.TextID)
+          .onSnapshot(Qsnapshot=>{
+            console.log('in instructor text')
+            setTextBody(
+              Qsnapshot.data().TextBody.replace(/إ|أ|آ/g, 'ا').split(' '),
+            );
+            setTextHead(Qsnapshot.data().TextHead);
+          })
+        }
+       
       });
     return Text;
   }, []);

@@ -26,7 +26,17 @@ const Chunking = ({navigation, route}) => {
       .collection('Student Text')
       .doc(route.params.TextID)
       .onSnapshot(snapshot => {
+        if(snapshot.exists){
         setTextBody(snapshot.data().TextBody);
+      }else{
+        firestore()
+          .collection('Instructor Text')
+          .doc(route.params.TextID)
+          .onSnapshot(Qsnapshot=>{
+            console.log('in instructor text')
+            setTextBody(Qsnapshot.data().TextBody);
+          })
+      }
       });
     return MemorizationText;
   }, []);

@@ -35,10 +35,23 @@ const ReadText = ({navigation, route}) => {
       .collection('Student Text')
       .doc(route.params.TextID)
       .onSnapshot(snapshot => {
-        setTextBody(snapshot.data().TextBody);
-        setTextTitle(snapshot.data().TextHead);
-        setRecord(snapshot.data().Record);
-        console.log(textTitle);
+        if (snapshot.exists) {
+          setTextBody(snapshot.data().TextBody);
+          setTextTitle(snapshot.data().TextHead);
+          setRecord(snapshot.data().Record);
+          console.log(textTitle);
+        } else {
+          firestore()
+            .collection('Instructor Text')
+            .doc(route.params.TextID)
+            .onSnapshot(Qsnapshot => {
+              console.log('in instructor text');
+              setTextBody(Qsnapshot.data().TextBody);
+              setTextTitle(Qsnapshot.data().TextHead);
+              setRecord(Qsnapshot.data().Record);
+              console.log(textTitle);
+            });
+        }
       });
     return MemorizationText;
   }, []);

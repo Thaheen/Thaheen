@@ -38,7 +38,16 @@ const FillInTheBlank = ({navigation, route}) => {
       .collection('Student Text')
       .doc(route.params.TextID)
       .onSnapshot(snapshot => {
+        if(snapshot.exists){
         setTextBody(snapshot.data().TextBody);
+      }else{
+        firestore()
+          .collection('Instructor Text')
+          .doc(route.params.TextID)
+          .onSnapshot(Qsnapshot=>{
+            setTextBody(Qsnapshot.data().TextBody);
+          })
+      }
       });
     return MemorizationText;
   }, []);
