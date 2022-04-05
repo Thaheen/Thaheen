@@ -161,8 +161,8 @@ const StudentClass = ({navigation, route}) => {
                   flexDirection: I18nManager.isRTL ? 'row' : 'row-reverse',
                   justifyContent: 'space-between',
                 }}>
-                {
-                (item.Feedback[student.id] == null || item.Feedback[student.id].trial < 3) && (
+                {(item.Feedback[student.id] == null ||
+                  item.Feedback[student.id].trial < 3) && (
                   <TouchableOpacity
                     style={[
                       I18nManager.isRTL ? {marginRight: 10} : {marginLeft: 10},
@@ -179,32 +179,33 @@ const StudentClass = ({navigation, route}) => {
                     }}>
                     <Text style={TitleStyles.smallText}>ابدأ المراجعة</Text>
                   </TouchableOpacity>
-                   )
-                }
+                )}
 
-                {
-                  item.Feedback[student.id]!=null&& item.Feedback[student.id].trial >= 3 && (
-                   <TouchableOpacity
-                    style={{
-                      backgroundColor: '#FFFFFF',
-                      borderRadius: 10,
-                      paddingHorizontal: 32,
-                    }}
-                    onPress={() =>
-                     navigation.navigate('Feedback', {
-                       textID: item.key,
-                       totalWords:  item.TextBody.replace(/إ|أ|آ/g, 'ا').split(' ').length,
-                      mistakesNum: item.Feedback[student.id].mistakes,
-                      })
-                  }>
-                    {console.log("body:"+ item.TextBody)}
-                    <Text style={TitleStyles.smallText}>استعراض النتائج</Text>
-                  </TouchableOpacity>
-                  )
-                }
+                {item.Feedback[student.id] != null &&
+                  item.Feedback[student.id].trial >= 3 && (
+                    <TouchableOpacity
+                      style={{
+                        backgroundColor: '#FFFFFF',
+                        borderRadius: 10,
+                        paddingHorizontal: 32,
+                      }}
+                      onPress={() =>
+                        navigation.navigate('Feedback', {
+                          textID: item.key,
+                          totalWords: item.TextBody.replace(
+                            /إ|أ|آ/g,
+                            'ا',
+                          ).split(' ').length,
+                          mistakesNum: item.Feedback[student.id].mistakes,
+                        })
+                      }>
+                      {console.log('body:' + item.TextBody)}
+                      <Text style={TitleStyles.smallText}>استعراض النتائج</Text>
+                    </TouchableOpacity>
+                  )}
 
-                {
-                (item.Feedback[student.id] == null || item.Feedback[student.id].trial < 3) && (
+                {(item.Feedback[student.id] == null ||
+                  item.Feedback[student.id].trial < 3) && (
                   <TouchableOpacity
                     style={{
                       backgroundColor: '#FFFFFF',
@@ -216,8 +217,7 @@ const StudentClass = ({navigation, route}) => {
                     }}>
                     <Text style={TitleStyles.smallText}>ابدأ التسميع</Text>
                   </TouchableOpacity>
-                  )
-                }
+                )}
               </View>
             </View>
           )}
