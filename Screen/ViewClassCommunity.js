@@ -119,6 +119,11 @@ const StudentClass = ({navigation, route}) => {
           justifyContent: 'center',
           alignItems: 'center',
           top: 80,
+        }}
+        onPress={() => {
+          navigation.navigate('InstructorScoreboard', {
+            classId: route.params.ClassCID,
+          });
         }}>
         <Scoreboard />
       </TouchableOpacity>

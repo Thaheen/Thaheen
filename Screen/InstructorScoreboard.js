@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useCallback} from 'react'
 import {
   View,
   Text,
@@ -13,39 +13,40 @@ import BackButton from '../Components//BackButton.js'
 import FocusAwareStatusBar from '../Components/FocusAwareStatusBar'
 import TitleStyles from '../Styles/Titles'
 import AnimalPicker from '../Screen/AnimalPicker.js'
+import {getTopStudents} from '../helpers/getTopStudents.js'
 
 import firestore from '@react-native-firebase/firestore'
 
 import StarsBanner from '../assets/images/StarsBanner.svg'
 const InstructorScoreboard = ({navigation, route}) => {
-  const [studentsExample, setStudentsExample] = useState([
-    {id: '2ljm3CYG8XihVsCgnVyE', score: 89, pic: 'Panda.png'},
-    {id: 'VlRciTuAmlJ8ZNxcyBRv', score: 45, pic: 'Zebra.png'},
-    {id: 'c8HzpXJ3rDKWogS6Entc', score: 99, pic: 'Cat.png'},
-  ])
-
+  const [studentsScores, setStudentsScores] = useState([])
+  const classId = route.params.classId
   const EngToArabicNum = num => {
     var str = '' + num
     return str.replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d])
   }
 
-  useEffect(() => {
-    setStudentsExample(studentsExample.sort((a, b) => b.score - a.score))
+  const fetchStudents = useCallback(async () => {
+    const data = await getTopStudents(classId)
+    FillData(data)
+  }, [])
 
-    //const studentsNames = []
-    studentsExample.forEach(async (student, index) => {
-      console.log('before firebase')
-      await firestore()
+  const FillData = data => {
+    data.forEach(async (student, index) => {
+      const studentDoc = await firestore()
         .collection('Student')
         .doc(student.id)
         .get()
-        .then(snapshot => {
-          student['Fullname'] = snapshot.data().Fullname
+        .then(documentSnapshot => {
+          student['Fullname'] = documentSnapshot.data().Fullname
+          student['pic'] = documentSnapshot.data().pic
         })
-      setStudentsExample(
-        studentsExample.map((item, index) => (studentsExample[index] = item)),
-      )
+      setStudentsScores(data)
     })
+  }
+
+  useEffect(() => {
+    fetchStudents()
   }, [])
 
   return (
@@ -82,7 +83,7 @@ const InstructorScoreboard = ({navigation, route}) => {
           borderTopRightRadius: 52,
         }}>
         <FlatList
-          data={studentsExample}
+          data={studentsScores}
           keyExtractor={(item, index) => index.toString()}
           ItemSeparatorComponent={() => (
             <View
@@ -91,7 +92,6 @@ const InstructorScoreboard = ({navigation, route}) => {
                 width: '90%',
                 height: 1,
                 alignSelf: 'center',
-                
               }}
             />
           )}
@@ -104,18 +104,30 @@ const InstructorScoreboard = ({navigation, route}) => {
                 marginTop: 15,
               }}>
               <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <Text style={[TitleStyles.HeaderTitle, {marginTop: 0, marginRight: 10}]}>
+                <Text
+                  style={[
+                    TitleStyles.HeaderTitle,
+                    {marginTop: 0, marginRight: 10},
+                  ]}>
                   {EngToArabicNum(index + 1)}
                 </Text>
-                <AnimalPicker pic={item.pic} />
-                <Text style={[TitleStyles.ProfileTitle, {marginTop: 0, fontFamily: 'AJannatLT-Bold', marginLeft: 10}]}>
+                {item.pic ? <AnimalPicker pic={item.pic} /> : null}
+                <Text
+                  style={[
+                    TitleStyles.ProfileTitle,
+                    {
+                      marginTop: 0,
+                      fontFamily: 'AJannatLT-Bold',
+                      marginLeft: 10,
+                    },
+                  ]}>
                   {item.Fullname}
                 </Text>
               </View>
               <Text
                 style={[
                   TitleStyles.HeaderTitle,
-                  {marginTop: 0, justifyContent: 'flex-start', },
+                  {marginTop: 0, justifyContent: 'flex-start'},
                 ]}>
                 {EngToArabicNum(item.score)}
               </Text>
