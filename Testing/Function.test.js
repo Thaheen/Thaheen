@@ -8,6 +8,14 @@ test('TEST 2:  capacity is not valid: ', () => {
   expect(IsValidCapacity('twenty')).toBe(false);
 });
 
+test('TEST 3:  capacity is not valid: ', () => {
+  expect(IsValidCapacity('110')).toBe(false);
+});
+
+test('TEST 4:  capacity is not valid: ', () => {
+  expect(IsValidCapacity('1')).toBe(false);
+});
+
 const isValidName = require('./isValidName');
 
 test('TEST 1:  name is  not valid ', () => {
@@ -19,7 +27,7 @@ test('TEST 2:  name is  not valid ', () => {
 });
 
 test('TEST 3:  name is not  valid ', () => {
-  expect(isValidName('Nourah_Altammami')).toBe(false);
+  expect(isValidName(' ')).toBe(false);
 });
 
 test('TEST 4:  name is  valid: ', () => {
@@ -84,5 +92,11 @@ test('TEST 5:  phone is  not valid: ', () => {
 });
 
 test('TEST 6:  phone is  valid: ', () => {
+  expect(isValidPhone(' ')).toBe(false);
+});
+test('TEST 7:  phone is  valid: ', () => {
+  expect(isValidPhone('0448941520')).toBe(false);
+});
+test('TEST 8:  phone is  valid: ', () => {
   expect(isValidPhone('0558941520')).toBe(true);
 });
