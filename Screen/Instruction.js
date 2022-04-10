@@ -100,7 +100,7 @@ const Instruction = ({navigation, route}) => {
           onPress={() => {
                   if (instructorKey == 'class') {
                     navigation.navigate('RecordVoice', {
-                      ClassID: classKey,
+                      ClassID: classID,
                            keyword : 'class',
                     });
                 
