@@ -18,6 +18,8 @@ import {default as StudentProfile} from '../Screen/StudentProfile.js';
 import {default as RecordVoice} from '../Screen/RecordVoice.js';
 import {default as InstructorScoreboard} from '../Screen/InstructorScoreboard.js';
 import {default as QuranHW} from '../Screen/QuranHW.js';
+import {default as Instruction} from '../Screen/Instruction.js';
+
 const Stack = createNativeStackNavigator();
 
 const HomeStack = createNativeStackNavigator();
@@ -72,6 +74,12 @@ const HomeStackScreens = () => {
       <HomeStack.Screen
         name="RecordVoice"
         component={RecordVoice}
+        options={{headerShown: false}}
+      />
+
+      <HomeStack.Screen
+        name="Instruction"
+        component={Instruction}
         options={{headerShown: false}}
       />
     </HomeStack.Navigator>

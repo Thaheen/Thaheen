@@ -64,13 +64,13 @@ const TextType = ({
                 style={[TitleStyles.textTypeBox, {alignItems: 'center'}]}
                 onPress={() => {
                   if (keyWord == 'class') {
-                    navigation.navigate('RecordVoice', {
+                    navigation.navigate('Instruction', {
                       ClassID: classKey,
                            keyword : 'class',
                     });
                     setModalVisible(!modalVisible);
                   } else {
-                    navigation.navigate('RecordVoice', {
+                    navigation.navigate('Instruction', {
                       StudentID: studentID,
                       keyword : 'student',
                     });
@@ -78,7 +78,7 @@ const TextType = ({
                   }
                 }}>
                 <Pen style={[{marginTop: 25}]} />
-                <Text style={TitleStyles.TextTypefont}>نص عــــادي </Text>
+                <Text style={TitleStyles.TextTypefont}>نص عــــام </Text>
               </TouchableOpacity>
 
               <TouchableOpacity

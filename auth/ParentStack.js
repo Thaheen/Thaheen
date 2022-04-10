@@ -16,6 +16,7 @@ import {default as MemorizationSession} from '../Screen/MemorizationSession.js';
 import {default as Chunking} from '../Screen/Chunking.js';
 import {default as ReciteSession} from '../Screen/ReciteSession.js';
 import {default as Feedback} from '../Screen/Feedback.js';
+import {default as Instruction} from '../Screen/Instruction.js';
 
 
 const Stack = createNativeStackNavigator();
@@ -94,6 +95,11 @@ const ParentStack = () => {
       <Stack.Screen
         name="Chunking"
         component={Chunking}
+        options={{headerShown: false, animation: 'fade'}}
+      />
+        <Stack.Screen
+        name="Instruction"
+        component={Instruction}
         options={{headerShown: false, animation: 'fade'}}
       />
     </Stack.Navigator>
