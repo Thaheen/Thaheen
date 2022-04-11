@@ -6,6 +6,7 @@ import {
   ScrollView,
   StatusBar,
   TouchableOpacity,
+  Platform
 } from 'react-native'
 import { PushNotification } from '../Components/Notifications.js'
 
@@ -19,7 +20,7 @@ const StudentNotifications = () => {
           <Text style={{fontSize: 30, textAlign: 'center'}}> Student Notifications </Text>     
 
           <TouchableOpacity
-          onPress={()=>PushNotification('Hi', 'This is a test')}
+          onPress={()=> {if(Platform.OS === 'ios') PushNotification('Hi', 'This is a test')}}
           >
           <Text>Click To Get Notifications</Text>
           </TouchableOpacity>     
