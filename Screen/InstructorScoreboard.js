@@ -14,12 +14,15 @@ import FocusAwareStatusBar from '../Components/FocusAwareStatusBar'
 import TitleStyles from '../Styles/Titles'
 import AnimalPicker from '../Screen/AnimalPicker.js'
 import {getTopStudents} from '../helpers/getTopStudents.js'
+import Badage from '../assets/images/badage';
 
 import firestore from '@react-native-firebase/firestore'
 
 import StarsBanner from '../assets/images/StarsBanner.svg'
 const InstructorScoreboard = ({navigation, route}) => {
   const [studentsScores, setStudentsScores] = useState([])
+  const studentTitles = ['الطالب المميز', 'الطالب الذكي','الطالب المبدع']
+
   const classId = route.params.classId
   const EngToArabicNum = num => {
     var str = '' + num
@@ -124,6 +127,14 @@ const InstructorScoreboard = ({navigation, route}) => {
                   {item.Fullname}
                 </Text>
               </View>
+              {index < 3 ? (
+                <View style={{flexDirection: 'column', alignItems: 'center'}}>
+                  <Badage width={30} style={{position: 'absolute'}} />
+                  <Text style={[TitleStyles.smallText, {fontSize: 12, marginTop: 10}]}>
+                    {studentTitles[index]}
+                  </Text>
+                </View>
+              ) : null }
               <Text
                 style={[
                   TitleStyles.HeaderTitle,
