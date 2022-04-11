@@ -289,7 +289,7 @@ class RecordVoice extends Component {
       SucessfulModalVisible: false,
     });
 
-    this.props.navigation.goBack();
+    this.props.navigation.navigate("StudentHome")
   };
 
   ///////////////////////////////OCR SECTION //////////////////////////////////////////////
@@ -532,12 +532,14 @@ class RecordVoice extends Component {
               multiline
             />
 
-            <TouchableOpacity onPress={() => this.onSelectImagePress()}>
+            <TouchableOpacity style={{ position: 'absolute',}} onPress={() => this.onSelectImagePress()}>
               <Camera
                 style={{
-                  marginLeft: 250,
-                  marginTop: -40,
-                  position: 'relative',
+               left: 260,
+                  top: 2,
+                  position: 'absolute',
+                  backgroundColor:'white',
+           
                 }}
               />
             </TouchableOpacity>
