@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -13,6 +13,7 @@ import {
 import TitleStyles from '../Styles/Titles';
 import ThaheenStanding from '../assets/images/ThaheenStanding';
 import Badage from '../assets/images/badage';
+import BadageGreyedOut from '../assets/images/badageGreyedOut';
 import TextCard from '../Components/TextCard';
 import HomeSection from '../Components/HomeSection';
 import auth from '@react-native-firebase/auth';
@@ -21,6 +22,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {UserInfoContext} from '../auth/UserInfoContext';
 import firestore from '@react-native-firebase/firestore';
 import FocusAwareStatusBar from '../Components/FocusAwareStatusBar';
+import {getTopStudents} from '../helpers/getTopStudents.js'
 
 const StudentHome = () => {
   const [TextList, setTextList] = useState([]);
@@ -29,6 +31,8 @@ const StudentHome = () => {
   const {student} = React.useContext(UserInfoContext);
   const SName = student['_data']['Fullname'];
   const [fullName, setFullName] = useState('');
+  const [studentRank, setStudentRank] = useState(100);
+  const studentTitles = ['الطالب المميز', 'الطالب الذكي','الطالب المبدع']
 
   useEffect(() => {
     const textAssignment = firestore()
@@ -58,6 +62,28 @@ const StudentHome = () => {
       });
     return studentsInfo;
   }, []);
+
+  useEffect(() => {
+    const studentClasses = firestore()
+      .collection('ClassCommunity')
+      .where('StudentList', 'array-contains', student.data().Username)
+      .onSnapshot(querySnapshot => {
+        const classesID = []
+        querySnapshot.forEach(documentSnapshot => {
+          fetchStudentRank(documentSnapshot.id)
+        })
+        setClassList(classesID)
+      })
+    return studentClasses
+  }, [])
+
+  const fetchStudentRank = useCallback(async classId => {
+    const data = await getTopStudents(classId)
+    var studentIndex = data.findIndex(student => student['id'] === student.id)
+    if (studentIndex != -1 && studentIndex < studentRank) {
+      setStudentRank(studentIndex)
+    }
+  }, [])
 
   return (
     <SafeAreaView
@@ -95,14 +121,25 @@ const StudentHome = () => {
               ]}>
               المستوى: ممتاز
             </Text>
-            <Text
-              style={[
-                TitleStyles.subTitle,
-                I18nManager.isRTL ? {marginLeft: 60} : {marginRight: 60},
-                {fontFamily: 'AJannatLT-Bold', marginBottom: 20},
-              ]}>
-              اللقب: الطالب الذكي
-            </Text>
+            {studentRank < 3 ? (
+              <Text
+                style={[
+                  TitleStyles.subTitle,
+                  I18nManager.isRTL ? {marginLeft: 60} : {marginRight: 60},
+                  {fontFamily: 'AJannatLT-Bold', marginBottom: 20},
+                ]}>
+                اللقب:
+                {studentTitles[studentRank]}
+              </Text>
+              ) : (
+              <Text
+                style={[
+                  TitleStyles.subTitle,
+                  I18nManager.isRTL ? {marginLeft: 60} : {marginRight: 60},
+                  {fontFamily: 'AJannatLT-Bold', marginBottom: 20},
+                ]}>
+                اللقب: لم يحدد بعد
+              </Text>)}
           </View>
 
           <ThaheenStanding
@@ -113,12 +150,21 @@ const StudentHome = () => {
             width={139}
             height={139}
           />
-          <Badage
-            style={[
-              {position: 'absolute', bottom: 10},
-              I18nManager.isRTL ? {right: 0} : {left: 0},
-            ]}
-          />
+          {(studentRank < 3) ? (
+              <Badage
+                style={[
+                  {position: 'absolute', bottom: 10},
+                  I18nManager.isRTL ? {right: 0} : {left: 0},
+                ]}
+              />) : (
+              <BadageGreyedOut
+                style={[
+                  {position: 'absolute', bottom: 10},
+                  I18nManager.isRTL ? {right: 0} : {left: 0},
+                ]}
+              />
+            )}
+
         </View>
         {/* end top container */}
 
