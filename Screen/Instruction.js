@@ -38,6 +38,7 @@ const Instruction = ({navigation, route}) => {
         //flexDirection: 'row',
         // alignItems: 'center',
       }}>
+        <ScrollView>
       <BackButton />
 
       <Text style={[TitleStyles.sectionTitle, {marginTop: 30}]}>
@@ -144,6 +145,7 @@ const Instruction = ({navigation, route}) => {
         width={120}
         height={120}
       />
+      </ScrollView>
     </SafeAreaView>
   );
 };

@@ -110,6 +110,14 @@ const InsClassInfo = ({navigation, route}) => {
       .doc(classID)
       .delete()
       .then(() => setModalVisible(!modalVisible));
+
+    firestore()
+      .collection('Instructor Text')
+      .where('ClassId', '==', classID)
+      .get()
+      .then(querySnapshot => {
+      querySnapshot.forEach(documentSnapshot => documentSnapshot.ref.delete())
+      })
   };
 
   const EngToArabicNum = num => {
