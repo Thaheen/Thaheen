@@ -59,6 +59,26 @@ const Instruction = ({navigation, route}) => {
             <Text style={[TitleStyles.smallText, {textAlign: 'left'}]}>
        نحيطكم علمًا ان النص المضاف من قبلكم سيضاف للطلاب حتى يستطيعون استذكاره وحفظه قبل البدء بعملية التسميع لذا لا تنسوا ان تقسّموا النص لهم بإستخدام الفاصلة حتى يتمكنون من حفظ النص بطريقة تجزيء النص 
               {'\n\n'}
+                 </Text>
+              
+            </Text>
+              
+)}
+       {key == "student" && (
+          <Text
+            style={[TitleStyles.sectionTitle, {marginTop: 30,fontSize: 23}]}>
+      أولياء الامور وأبنائهم الرائعين ..
+            {'\n'}
+
+            <Text style={[TitleStyles.smallText, {textAlign: 'left'}]}>
+
+نحيطكم علمًا ان النص المضاف من قبلكم سيضاف الى قائمة نصوصي حتى يستطيعون ابنائكم استذكاره وحفظه قبل البدء بعملية التسميع             
+                 </Text>
+              
+            </Text>
+              
+)}
+
               <Text
                 style={[
                   TitleStyles.smallText,
@@ -75,17 +95,15 @@ const Instruction = ({navigation, route}) => {
                 ]}>
                 {"\n"}
                 
-                تستطيعون اضافة الفاصلة حسب ماتروه كتجزيء مناسب .
+                تستطيعون اضافة او عدم الفاصلة حسب ماتروه كتجزيء مناسب .
                    
-              </Text>
-              
-            </Text>
+           
             
           </Text>
           
            </Text>
         
-)}
+
 
 
         <TouchableOpacity
