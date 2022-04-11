@@ -69,7 +69,7 @@ const AccessModel = ({modalVisible, setModalVisible, studentID, type}) => {
       if (passcodeVal.length == 6) {
         firestore()
           .collection('ClassCommunity')
-          .where('Passcode', '==', passcodeVal.replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d)))
+          .where('Passcode', '==', passcodeVal)
           .onSnapshot(snapshot => {
             if (snapshot.size != 0) {
               snapshot.forEach(documentSnapshot => {
@@ -130,7 +130,7 @@ const AccessModel = ({modalVisible, setModalVisible, studentID, type}) => {
           });
       }
     } else {
-      if (passcodeVal.length == 6 && isValidPasscode == passcodeVal.replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d))) {
+      if (passcodeVal.length == 6 && isValidPasscode == passcodeVal) {
         console.log('VALID');
         setModalVisible(!modalVisible);
         setPasscodeval('');
@@ -140,7 +140,7 @@ const AccessModel = ({modalVisible, setModalVisible, studentID, type}) => {
           routes: [{name: 'StudentTab'}],
         })
         return;
-      } else if (passcodeVal.length == 6 && isValidPasscode != passcodeVal.replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d))) {
+      } else if (passcodeVal.length == 6 && isValidPasscode != passcodeVal) {
         console.log('INVALID');
         setErrorMessage('رمز الدخول غير صحيح، حاول مره اخرى');
         setErrormodalVisible(!ErrormodalVisible);
