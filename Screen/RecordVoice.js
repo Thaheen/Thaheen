@@ -535,8 +535,8 @@ class RecordVoice extends Component {
             <TouchableOpacity onPress={() => this.onSelectImagePress()}>
               <Camera
                 style={{
-                  marginLeft: 240,
-                  marginTop: -210,
+                  marginLeft: 250,
+                  marginTop: -40,
                   position: 'relative',
                 }}
               />
