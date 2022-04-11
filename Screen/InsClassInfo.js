@@ -315,8 +315,7 @@ const InsClassInfo = ({navigation, route}) => {
               <Homework style={{width: 30, height: 10}} />
               <Text style={TitleStyles.smallText}> الواجبات </Text>
               <Text style={TitleStyles.smallText}>
-                {' '}
-                {/* Use numOfHomeworks Here */} 0{' '}
+                {assignmentsList.length}
               </Text>
             </View>
 
