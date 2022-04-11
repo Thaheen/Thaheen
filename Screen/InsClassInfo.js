@@ -112,6 +112,11 @@ const InsClassInfo = ({navigation, route}) => {
       .then(() => setModalVisible(!modalVisible));
   };
 
+  const EngToArabicNum = num => {
+    var str = '' + num
+    return str.replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d])
+  }
+
   return (
     <MenuProvider>
       <View style={{backgroundColor: '#FFF', height: '100%'}}>
@@ -315,20 +320,20 @@ const InsClassInfo = ({navigation, route}) => {
               <Homework style={{width: 30, height: 10}} />
               <Text style={TitleStyles.smallText}> الواجبات </Text>
               <Text style={TitleStyles.smallText}>
-                {assignmentsList.length}
+                {EngToArabicNum(assignmentsList.length)}
               </Text>
             </View>
 
             <View style={TitleStyles.InstructorSubCard}>
               <Unlock />
               <Text style={TitleStyles.smallText}> رمز الدخول </Text>
-              <Text style={TitleStyles.smallText}> {passcode} </Text>
+              <Text style={TitleStyles.smallText}> {EngToArabicNum(passcode)} </Text>
             </View>
 
             <View style={TitleStyles.InstructorSubCard}>
               <InfoCard />
               <Text style={TitleStyles.smallText}> الطلاب </Text>
-              <Text style={TitleStyles.smallText}> {numOfStudents} </Text>
+              <Text style={TitleStyles.smallText}> {EngToArabicNum(numOfStudents)} </Text>
             </View>
           </View>
           {/* End of class info card Section */}
