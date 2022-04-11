@@ -289,7 +289,7 @@ class RecordVoice extends Component {
       SucessfulModalVisible: false,
     });
 
-    this.props.navigation.navigate("StudentHome")
+    this.props.navigation.navigate('StudentHome');
   };
 
   ///////////////////////////////OCR SECTION //////////////////////////////////////////////
@@ -314,6 +314,10 @@ class RecordVoice extends Component {
       this.submitToGoogle();
     }
   };
+
+  handleChange(text) {
+    this.setState({HomeWork: text});
+  }
 
   submitToGoogle = async () => {
     try {
@@ -370,11 +374,11 @@ class RecordVoice extends Component {
         googleResponse: responseJson.responses[0].fullTextAnnotation.text,
         uploading: false,
         responseReceived: true,
-        HomeWork: responseJson.responses[0].fullTextAnnotation.text
+        HomeWork: responseJson.responses[0].fullTextAnnotation.text,
       });
     } catch (error) {
       console.log(error);
-    }          
+    }
   };
 
   ////////////////////////////////// MAIN UPLOADING METHOD ///////////////////////////
@@ -401,18 +405,20 @@ class RecordVoice extends Component {
 
     if (this.props.route.params.keyword == 'student') {
       console.log('id in student ' + this.props.route.params.StudentID); //true
-      firestore().collection('Student Text').add({
-        TextBody: this.state.HomeWork,
-        TextHead: this.state.Title,
-        Studentid: this.props.route.params.StudentID,
-        // Deadline: this.state.day,
-        Record: this.state.RecFlag,
-        Feedback: {
-          score: 0,
-          trial: 0,
-          mistakes:0
-        },
-      });
+      firestore()
+        .collection('Student Text')
+        .add({
+          TextBody: this.state.HomeWork,
+          TextHead: this.state.Title,
+          Studentid: this.props.route.params.StudentID,
+          // Deadline: this.state.day,
+          Record: this.state.RecFlag,
+          Feedback: {
+            score: 0,
+            trial: 0,
+            mistakes: 0,
+          },
+        });
       this.setState({SucessfulModalVisible: true});
     }
 
@@ -424,7 +430,7 @@ class RecordVoice extends Component {
         ClassId: this.props.route.params.ClassID,
         Deadline: this.state.day,
         Record: this.state.RecFlag,
-        Feedback: {}, 
+        Feedback: {},
       });
       this.setState({SucessfulModalVisible: true});
     }
@@ -520,26 +526,22 @@ class RecordVoice extends Component {
               placeholder=" أدخل النص "
               placeholderTextColor={'#C3C7CA'}
               style={TitleStyles.TextArea}
-              onChangeText={text => (this.state.HomeWork = text)}
-              value={
-                this.state.HomeWork
-                // this.state.responseReceived
-                //   ? this.state.googleResponse
-                //   : this.state.HomeWork
-              }
+              onChangeText={text => this.handleChange(text)}
+              value={this.state.HomeWork}
               underlineColorAndroid="transparent"
               color="black"
               multiline
             />
 
-            <TouchableOpacity style={{ position: 'absolute',}} onPress={() => this.onSelectImagePress()}>
+            <TouchableOpacity
+              style={{position: 'absolute'}}
+              onPress={() => this.onSelectImagePress()}>
               <Camera
                 style={{
-               left: 260,
+                  left: 260,
                   top: 2,
                   position: 'absolute',
-                  backgroundColor:'white',
-           
+                  backgroundColor: 'white',
                 }}
               />
             </TouchableOpacity>
