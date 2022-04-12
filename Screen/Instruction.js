@@ -38,15 +38,16 @@ const Instruction = ({navigation, route}) => {
         // alignItems: 'center',
       }}>
       <ScrollView>
-        <Text style={[TitleStyles.sectionTitle, {marginTop: 30}]}>
+        <Text style={[TitleStyles.sectionTitle, {marginTop: 40}]}>
           ملاحظة هامة !
         </Text>
         <BackButton />
         <View
           style={[
             TitleStyles.MemorizationContainer,
-            {height: 610, paddingLeft: 9, paddingRight: 15},
+            {height: 575, paddingLeft: 9, paddingRight: 15,marginTop: 120},
           ]}>
+
           {key == 'class' && (
             <Text
               style={[TitleStyles.sectionTitle, {marginTop: 20, fontSize: 25}]}>
@@ -57,7 +58,7 @@ const Instruction = ({navigation, route}) => {
                 استذكاره وحفظه قبل البدء بعملية التسميع لذا لا تنسوا ان تقسّموا
                 النص لهم بإستخدام الفاصلة حتى يتمكنون من حفظ النص بطريقة تجزيء
                 النص
-                {'\n\n'}
+                {'\n'}
               </Text>
             </Text>
           )}
@@ -80,7 +81,7 @@ const Instruction = ({navigation, route}) => {
             ]}>
             مثال على كيف يجب ان يضاف النص :
             <Anthem />
-            {'\n'}
+           {'\n'}
             <Text
               style={[
                 TitleStyles.smallText,
@@ -98,6 +99,7 @@ const Instruction = ({navigation, route}) => {
                 backgroundColor: '#DAE2E9',
                 alignSelf: 'center',
                 width: 150,
+                marginTop:20
               },
             ]}
             onPress={() => {
@@ -121,11 +123,11 @@ const Instruction = ({navigation, route}) => {
           <WhiteCurve />
         </View>
 
-        <ThaheenStanding
-          style={[{position: 'relative', bottom: 140, right: -260, zIndex: 3}]}
-          width={120}
-          height={120}
-        />
+        {/* <ThaheenStanding
+          style={[{position: 'relative', bottom: 170, right: -260, zIndex: 3}]}
+          width={135}
+          height={135}
+        /> */}
       </ScrollView>
     </SafeAreaView>
   );
