@@ -21,6 +21,8 @@ import firestore from '@react-native-firebase/firestore'
 import StarsBanner from '../assets/images/StarsBanner.svg'
 const InstructorScoreboard = ({navigation, route}) => {
   const [studentsScores, setStudentsScores] = useState([])
+  const [totalAssignments, setTotalAssignments] = useState()
+
   const studentTitles = ['الطالب المميز', 'الطالب الذكي','الطالب المبدع']
 
   const classId = route.params.classId
@@ -44,12 +46,23 @@ const InstructorScoreboard = ({navigation, route}) => {
           student['Fullname'] = documentSnapshot.data().Fullname
           student['pic'] = documentSnapshot.data().pic
         })
+      if(index === data.length-1)
       setStudentsScores(data)
     })
   }
 
   useEffect(() => {
     fetchStudents()
+  }, [])
+
+  useEffect(() => {
+    const numOfAssignments = firestore()
+    .collection('Instructor Text')
+    .where('ClassId', '==', classId)
+    .get()
+    .then(querySnapshot => {
+      setTotalAssignments(querySnapshot.size)
+    })
   }, [])
 
   return (
@@ -140,7 +153,7 @@ const InstructorScoreboard = ({navigation, route}) => {
                   TitleStyles.HeaderTitle,
                   {marginTop: 0, justifyContent: 'flex-start'},
                 ]}>
-                {EngToArabicNum(item.score)}
+                {EngToArabicNum(Math.round(item.score/totalAssignments))}
               </Text>
             </View>
           )}
