@@ -173,6 +173,7 @@ const Home = ({navigation, route}) => {
                   color={item.color}
                   title={item.Name}
                   students={item.StudentList}
+                  ClassID={item.key}
                 />
               </TouchableOpacity>
             )}

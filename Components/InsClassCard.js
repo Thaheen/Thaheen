@@ -8,8 +8,11 @@ import {
 } from 'react-native';
 import TitleStyles from '../Styles/Titles';
 import Book from '../assets/images/Book.svg';
+import {useNavigation} from '@react-navigation/native';
 
-const InsClassCard = ({title , color ,students }) => {
+
+const InsClassCard = ({title , color ,students , ClassID}) => {
+  const navigation = useNavigation();
     let studentsLen = 0 
         if (students){    
             studentsLen = students.length
@@ -47,6 +50,12 @@ return (
         <TouchableOpacity style={[
           TitleStyles.EnterClassBtn,
           {backgroundColor: '#FFFFFF'},]}
+
+          onPress={() => {
+            navigation.navigate('InsClassInfo', {
+              classKey: ClassID,
+            });
+          }}
         >
         <Text style={[TitleStyles.smallText], {fontFamily: 'AJannatLT-Bold' , textAlign: 'center', color: '#808182'}}>دخول الفصل</Text>
         </TouchableOpacity>

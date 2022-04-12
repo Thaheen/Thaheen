@@ -29,7 +29,6 @@ const Instruction = ({navigation, route}) => {
   const classID = route.params.ClassID;
   const studentID = route.params.StudentID;
 
-
   return (
     <SafeAreaView
       style={{
@@ -38,113 +37,95 @@ const Instruction = ({navigation, route}) => {
         //flexDirection: 'row',
         // alignItems: 'center',
       }}>
-        <ScrollView>
-      <BackButton />
-
-      <Text style={[TitleStyles.sectionTitle, {marginTop: 30}]}>
-        ملاحظة هامة !
-      </Text>
-
-      <View
-        style={[
-          TitleStyles.MemorizationContainer,
-          {height: 610, paddingLeft: 9, paddingRight: 15},
-        ]}>
-        
-        {key == "class" && (
-          <Text
-            style={[TitleStyles.sectionTitle, {marginTop: 20, fontSize: 25}]}>
-        مُعلمينا الرائعين ..
-            {'\n'}
-
-            <Text style={[TitleStyles.smallText, {textAlign: 'left'}]}>
-       نحيطكم علمًا ان النص المضاف من قبلكم سيضاف للطلاب حتى يستطيعون استذكاره وحفظه قبل البدء بعملية التسميع لذا لا تنسوا ان تقسّموا النص لهم بإستخدام الفاصلة حتى يتمكنون من حفظ النص بطريقة تجزيء النص 
-              {'\n\n'}
-                 </Text>
-              
-            </Text>
-              
-)}
-       {key == "student" && (
-          <Text
-            style={[TitleStyles.sectionTitle, {marginTop: 30,fontSize: 23}]}>
-      أولياء الامور وأبنائهم الرائعين ..
-            {'\n'}
-
-            <Text style={[TitleStyles.smallText, {textAlign: 'left'}]}>
-
-نحيطكم علمًا ان النص المضاف من قبلكم سيضاف الى قائمة نصوصي حتى يستطيعون ابنائكم استذكاره وحفظه قبل البدء بعملية التسميع             
-                 </Text>
-              
-            </Text>
-              
-)}
-
-              <Text
-                style={[
-                  TitleStyles.smallText,
-                  {textAlign: 'left', color: '#B41E13'},
-                ]}>
-        مثال على كيف يجب ان يضاف النص :
-                  
-                  <Anthem/>
-                         {"\n"}
-                   <Text
-                style={[
-                  TitleStyles.smallText,
-                  {textAlign: 'left', color: '#B41E13'},
-                ]}>
-                {"\n"}
-                
-                تستطيعون اضافة او عدم الفاصلة حسب ماتروه كتجزيء مناسب .
-                   
-           
-            
-          </Text>
-          
-           </Text>
-        
-
-
-
-        <TouchableOpacity
+      <ScrollView>
+        <Text style={[TitleStyles.sectionTitle, {marginTop: 30}]}>
+          ملاحظة هامة !
+        </Text>
+        <BackButton />
+        <View
           style={[
-            TitleStyles.Button,
-            {
-              backgroundColor: '#DAE2E9',
-              alignSelf: 'center',
-              width: 150,
-            },
-          ]}
-          onPress={() => {
-                  if (key == 'class') {
-                    navigation.navigate('RecordVoice', {
-                      ClassID: classID,
-                           keyword : 'class',
-                    });
-                
-                  } else {
-                    navigation.navigate('RecordVoice', {
-                      StudentID: studentID,
-                      keyword : 'student',
-                    });
-                 
-                  }
-                }}>
-          <Text style={TitleStyles.ButtonText}>حسنًا</Text>
-          
-        </TouchableOpacity>
-      </View>
+            TitleStyles.MemorizationContainer,
+            {height: 610, paddingLeft: 9, paddingRight: 15},
+          ]}>
+          {key == 'class' && (
+            <Text
+              style={[TitleStyles.sectionTitle, {marginTop: 20, fontSize: 25}]}>
+              مُعلمينا الرائعين ..
+              {'\n'}
+              <Text style={[TitleStyles.smallText, {textAlign: 'left'}]}>
+                نحيطكم علمًا ان النص المضاف من قبلكم سيضاف للطلاب حتى يستطيعون
+                استذكاره وحفظه قبل البدء بعملية التسميع لذا لا تنسوا ان تقسّموا
+                النص لهم بإستخدام الفاصلة حتى يتمكنون من حفظ النص بطريقة تجزيء
+                النص
+                {'\n\n'}
+              </Text>
+            </Text>
+          )}
+          {key == 'student' && (
+            <Text
+              style={[TitleStyles.sectionTitle, {marginTop: 30, fontSize: 23}]}>
+              أولياء الامور وأبنائهم الرائعين ..
+              {'\n'}
+              <Text style={[TitleStyles.smallText, {textAlign: 'left'}]}>
+                نحيطكم علمًا ان النص المضاف من قبلكم سيضاف الى قائمة نصوصي حتى
+                يستطيعون ابنائكم استذكاره وحفظه قبل البدء بعملية التسميع
+              </Text>
+            </Text>
+          )}
 
-      <View style={{marginTop: 310}}>
-        <WhiteCurve />
-      </View>
+          <Text
+            style={[
+              TitleStyles.smallText,
+              {textAlign: 'left', color: '#B41E13'},
+            ]}>
+            مثال على كيف يجب ان يضاف النص :
+            <Anthem />
+            {'\n'}
+            <Text
+              style={[
+                TitleStyles.smallText,
+                {textAlign: 'left', color: '#B41E13'},
+              ]}>
+              {'\n'}
+              تستطيعون اضافة او عدم الفاصلة حسب ماتروه كتجزيء مناسب .
+            </Text>
+          </Text>
 
-      <ThaheenStanding
-        style={[{position: 'relative', bottom: 140, right: -260 ,zIndex:3}]}
-        width={120}
-        height={120}
-      />
+          <TouchableOpacity
+            style={[
+              TitleStyles.Button,
+              {
+                backgroundColor: '#DAE2E9',
+                alignSelf: 'center',
+                width: 150,
+              },
+            ]}
+            onPress={() => {
+              if (key == 'class') {
+                navigation.navigate('RecordVoice', {
+                  ClassID: classID,
+                  keyword: 'class',
+                });
+              } else {
+                navigation.navigate('RecordVoice', {
+                  StudentID: studentID,
+                  keyword: 'student',
+                });
+              }
+            }}>
+            <Text style={TitleStyles.ButtonText}>حسنًا</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={{marginTop: 310}}>
+          <WhiteCurve />
+        </View>
+
+        <ThaheenStanding
+          style={[{position: 'relative', bottom: 140, right: -260, zIndex: 3}]}
+          width={120}
+          height={120}
+        />
       </ScrollView>
     </SafeAreaView>
   );
