@@ -742,9 +742,9 @@ class RecordVoice extends Component {
                     placeholderTextColor="#43515F"
                     onChangeText={text => this.searchSurah(text)}></TextInput>
 
-                  <TouchableOpacity>
+                  {/* <TouchableOpacity>
                     <Text>بحث</Text>
-                  </TouchableOpacity>
+                  </TouchableOpacity> */}
                 </View>
 
                 <FlatList
@@ -766,6 +766,15 @@ class RecordVoice extends Component {
                     </TouchableOpacity>
                   )}
                 />
+
+                <TouchableOpacity
+                  style={[
+                    TitleStyles.AlertButton,
+                    {backgroundColor: '#DAE2E9'},
+                  ]}
+                  onPress={() => this.setState({QuranModal: false})}>
+                  <Text style={TitleStyles.ButtonText}>{'اغلاق'} </Text>
+                </TouchableOpacity>
               </View>
             </View>
           </Modal>

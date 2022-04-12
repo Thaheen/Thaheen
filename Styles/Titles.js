@@ -188,7 +188,7 @@ export default StyleSheet.create({
     fontFamily: 'AJannatLT-Bold',
     fontSize: 18,
     textAlign: 'right',
-   // paddingBottom: '60%',
+    // paddingBottom: '60%',
   },
   Title: {
     backgroundColor: 'white',
@@ -554,5 +554,18 @@ export default StyleSheet.create({
     //alignItems: 'center',
     alignSelf: 'center',
     marginBottom: 50,
+  },
+  SearchBar: {
+    width: 300,
+    backgroundColor: '#EBEBEB',
+    alignSelf: 'center',
+    height: 35,
+    borderRadius: 15,
+  },
+  SearchText: {
+    fontFamily: 'AJannatLT-Bold',
+    textAlign: 'right',
+    marginLeft: 20,
+    marginTop: 5,
   },
 });
