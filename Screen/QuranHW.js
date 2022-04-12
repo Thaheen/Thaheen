@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, Fragment} from 'react';
 import type {Node} from 'react';
 import {Component} from 'react';
 import {
@@ -39,7 +39,9 @@ import CheckVector from '../assets/images/CheckVector.svg';
 import SelectDropdown from 'react-native-select-dropdown';
 import TheArrow from '../assets/images/TheArrow.svg';
 import Deadline from '../assets/images/deadline.svg';
+import Icon from 'react-native-vector-icons';
 
+import SearchableDropdown from 'react-native-searchable-dropdown';
 import AudioRecorderPlayer, {
   AVEncoderAudioQualityIOSType,
   AVEncodingOption,
@@ -55,7 +57,7 @@ import RecordingMicrophone from '../assets/images/RecordingMicrophone.svg';
 import Camera from '../assets/images/Camera.svg';
 import quran from '../Components/quran.json';
 import DateTimePicker from 'react-native-modal-datetime-picker';
-
+import {SearchBar} from 'react-native-elements';
 //the ref of record voice code
 // https://instamobile.io/react-native-tutorials/react-native-record-audio-play/?ref=hackernoon.com
 class RecordVoice extends Component {
@@ -87,11 +89,14 @@ class RecordVoice extends Component {
       queryText: '',
       RecFlag: false,
       SucessfulModalVisible: false,
+      QuranModal: false,
       SurahNum: 1,
       from: 0,
       to: 0,
       isDateTimePickerVisible: false,
       day: null,
+      SurahFiltered: null,
+      Surah: [],
     };
     this.audioRecorderPlayer = new AudioRecorderPlayer();
     this.audioRecorderPlayer.setSubscriptionDuration(0.09); // optional. Default is 0.1
@@ -327,18 +332,20 @@ class RecordVoice extends Component {
     );
     if (this.props.route.params.keyword == 'student') {
       console.log('id in student ' + this.props.route.params.StudentID); //true
-      firestore().collection('Student Text').add({
-        TextBody: this.state.HomeWork,
-        TextHead: this.state.Title,
-        Studentid: this.props.route.params.StudentID,
-        // Deadline: this.state.day,
-        Record: this.state.RecFlag,
-        Feedback: {
-          score: 0,
-          trial: 0,
-          mistakes:0
-        },
-      });
+      firestore()
+        .collection('Student Text')
+        .add({
+          TextBody: this.state.HomeWork,
+          TextHead: this.state.Title,
+          Studentid: this.props.route.params.StudentID,
+          // Deadline: this.state.day,
+          Record: this.state.RecFlag,
+          Feedback: {
+            score: 0,
+            trial: 0,
+            mistakes: 0,
+          },
+        });
       this.setState({SucessfulModalVisible: true});
     }
 
@@ -355,6 +362,18 @@ class RecordVoice extends Component {
     }
   }; //end of the method
 
+  //Search Surah Method
+  searchSurah = textToSearch => {
+    //alert(textToSearch);
+    this.setState({
+      SurahFiltered: this.state.Surah.filter(element =>
+        element.toLowerCase().includes(textToSearch.toLowerCase()),
+      ),
+    });
+
+    console.log(this.state.SurahFiltered);
+  };
+
   render() {
     let {image} = this.state;
     const {ClassID} = this.props.route.params;
@@ -362,9 +381,11 @@ class RecordVoice extends Component {
     console.log('Surah Name ' + this.state.TextType);
 
     //Get Surah names
-    const Surah = quran.data.map(function (item) {
+    this.state.Surah = quran.data.map(function (item) {
       return item.name;
     });
+
+    this.state.SurahFiltered = this.state.Surah;
 
     //Get the total versed of each surah
     const totalVerses = quran.data[this.state.SurahNum].total_verses;
@@ -443,7 +464,20 @@ class RecordVoice extends Component {
           <Text style={TitleStyles.ButtonText}>إضافة واجب جديد </Text>
 
           <View style={{flexDirection: 'row'}}>
-            <SelectDropdown
+            <TouchableOpacity
+              style={TitleStyles.buttonStyle2}
+              onPress={() => this.setState({QuranModal: true})}>
+              <View>
+                <Text
+                  style={[
+                    TitleStyles.dropdownButtonText,
+                    {marginTop: 10, marginLeft: 10},
+                  ]}>
+                  السورة
+                </Text>
+              </View>
+            </TouchableOpacity>
+            {/* <SelectDropdown
               style={{zIndex: 1}}
               data={Surah}
               buttonStyle={TitleStyles.buttonStyle}
@@ -465,9 +499,8 @@ class RecordVoice extends Component {
                 return item;
               }}
               defaultButtonText="السورة"
-            />
+            /> */}
             <TheArrow style={{zIndex: 3, top: 25, right: 25}} />
-
             <SelectDropdown
               style={{zIndex: 1}}
               data={FromAyah}
@@ -521,7 +554,7 @@ class RecordVoice extends Component {
               borderWidth: 2,
               width: '80%',
               height: '30%',
-
+              marginTop: 15,
               paddingLeft: 12,
             }}>
             {/* <TextInput
@@ -688,6 +721,51 @@ class RecordVoice extends Component {
                   onPress={() => this.onSucssfulModalPress()}>
                   <Text style={TitleStyles.ButtonText}>{'حسنا'} </Text>
                 </TouchableOpacity>
+              </View>
+            </View>
+          </Modal>
+
+          <Modal
+            animationType="fade"
+            transparent={true}
+            visible={this.state.QuranModal}>
+            <View
+              style={{
+                backgroundColor: 'rgba(52, 52, 52, 0.5)',
+                height: '100%',
+              }}>
+              <View style={[TitleStyles.modalContent, {height: 550}]}>
+                <View style={TitleStyles.SearchBar}>
+                  <TextInput
+                    style={TitleStyles.SearchText}
+                    placeholder="بحث عن السورة"
+                    placeholderTextColor="#43515F"
+                    onChangeText={text => this.searchSurah(text)}></TextInput>
+
+                  <TouchableOpacity>
+                    <Text>بحث</Text>
+                  </TouchableOpacity>
+                </View>
+
+                <FlatList
+                  style={{marginTop: 20}}
+                  contentContainerStyle={{
+                    //flexDirection: 'row',
+                    // width: 333,
+                    //height: 452,
+                    // textAlign: 'right',
+                    alignItems: 'center',
+                    // marginBottom: 20,
+                    //backgroundColor: 'red',
+                  }}
+                  data={this.state.SurahFiltered}
+                  // extraData={selectedId}
+                  renderItem={({item}) => (
+                    <TouchableOpacity style>
+                      <Text>{item}</Text>
+                    </TouchableOpacity>
+                  )}
+                />
               </View>
             </View>
           </Modal>
