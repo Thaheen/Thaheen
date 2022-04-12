@@ -79,7 +79,7 @@ const StudentHome = () => {
 
   const fetchStudentRank = useCallback(async classId => {
     const data = await getTopStudents(classId)
-    var studentIndex = data.findIndex(student => student['id'] === student.id)
+    var studentIndex = data.findIndex(studentScore => studentScore['id'] === student.id)
     if (studentIndex != -1 && studentIndex < studentRank) {
       setStudentRank(studentIndex)
     }
