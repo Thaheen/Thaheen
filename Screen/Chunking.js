@@ -7,6 +7,8 @@ import {
   StatusBar,
   TouchableOpacity,
   I18nManager,
+  VirtualizedList,
+  useRef,
 } from 'react-native';
 import {FlatList} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -20,82 +22,89 @@ import firestore from '@react-native-firebase/firestore';
 import SwipeArrow from '../assets/images/SwipeArrow.svg';
 const Chunking = ({navigation, route}) => {
   const [textBody, setTextBody] = useState('');
+    const [myArray, updateMyArray] = useState([]);
+    
 
+
+  const [show, setShow] = useState(false);
+  //original array
+  const [counter, setCounter] = useState(0);
+  const [chunkCounter, setChunkCounter] = useState(1);
+
+  // retrive the text
   useEffect(() => {
     const MemorizationText = firestore()
       .collection('Student Text')
       .doc(route.params.TextID)
       .onSnapshot(snapshot => {
-        if(snapshot.exists){
-        setTextBody(snapshot.data().TextBody);
-      }else{
-        firestore()
-          .collection('Instructor Text')
-          .doc(route.params.TextID)
-          .onSnapshot(Qsnapshot=>{
-            console.log('in instructor text')
-            setTextBody(Qsnapshot.data().TextBody);
-          })
-      }
+        if (snapshot.exists) {
+          setTextBody(snapshot.data().TextBody);
+        } else {
+          firestore()
+            .collection('Instructor Text')
+            .doc(route.params.TextID)
+            .onSnapshot(Qsnapshot => {
+              console.log('in instructor text');
+              setTextBody(Qsnapshot.data().TextBody);
+            });
+        }
       });
+
     return MemorizationText;
   }, []);
 
-  //console.log(textBody);
+  if (textBody.indexOf('،') || textBody.indexOf(',') > -1) {
+    var FullText = textBody.split('،');
 
-  var array = textBody.split('،');
-  console.log(array);
-  //   const clonedArr = [...array];
+  }
+ 
+var cont=0
+  ShowMoreChuncks = () => {
+    if (counter <= FullText.length - 1) {
+      console.log(' before the counts :' + counter);
 
-  //   const [show, setShow] = React.useState(false);
+        updateMyArray( arr => [...arr,FullText[counter] ]);
+ setCounter(counter => counter+1)
+              console.log('-----------------------------');
+              console.log(' After the counts :' + cont);
 
-  //   const toggleText = () => {
-  //     setShow(show => !show);
-  //   };
+      
 
-  //   for (var i = 1; i < clonedArr.length; i++) {
-  //     clonedArr[i++] = '_____';
-  //     //console.log(clonedArr);
-  //   }
+    } else {
 
+
+    }
+  };
+   
+  const newTextTag = myArray.map(type => (
+    <Text style={[TitleStyles.smallText, {textAlign: 'center', marginTop: 20}]}>
+      {type}
+    </Text>
+
+ 
+  ));
   return (
     <SafeAreaView
       style={{
         flex: 1,
         backgroundColor: '#DAE2E9',
-        //flexDirection: 'row',
-        // alignItems: 'center',
+    
       }}>
       <BackButton />
-      {/* <Text style={{alignSelf: 'center'}}>{word}</Text> */}
-      {/* 
-      {clonedArr.map((clonedArr, index) => (
-        <Text key={index}>{show ? clonedArr : '_ _ _ _ _ _ _ _'}</Text>
-      ))} */}
 
       <Text style={[TitleStyles.sectionTitle, {marginTop: 30}]}>
         هيا لنبدأ المراجعة
       </Text>
       <View style={[TitleStyles.MemorizationContainer]}>
-        <TouchableOpacity
-          style={[
-            TitleStyles.SwipeBtn,
-            {
-              //   marginRight: -8,
-              //   backgroundColor: '#FFFFFF',
-              //   width: 156,
-              //   borderColor: '#E5E5E5',
-            },
-          ]}
-          // onPress={() => {
-          //   navigation.navigate('Chunking', {
-          //     TextID: route.params.TextID,
-          //   });
-          // }}
-        >
-          <Text style={[TitleStyles.SwipeTxt]}> اسحب</Text>
-          {/* <SwipeArrow style={{marginLeft: 70, marginBottom: -10}} /> */}
-        </TouchableOpacity>
+        <Text
+          style={[TitleStyles.sectionTitle, {marginTop: 20, fontSize: 20}]}
+          onPress={ShowMoreChuncks}>
+          اظهار المزيد من النص
+        </Text>
+
+        <>{newTextTag}</>
+
+       
       </View>
 
       <View style={{marginTop: 310}}>

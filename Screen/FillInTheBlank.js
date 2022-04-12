@@ -26,13 +26,6 @@ const FillInTheBlank = ({navigation, route}) => {
   const [textBody, setTextBody] = useState('');
   const [IsRecording, setIsRecording] = useState(false);
 
-  functions().useFunctionsEmulator('http://localhost:5001');
-
-  const StartRecord = () => {
-    const {data} = firebase.functions().httpsCallable('micrecognizeStream')();
-    console.log('here');
-  };
-
   useEffect(() => {
     const MemorizationText = firestore()
       .collection('Student Text')
