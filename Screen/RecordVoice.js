@@ -288,11 +288,16 @@ class RecordVoice extends Component {
     this.setState({
       SucessfulModalVisible: false,
     });
+if (this.props.route.params.keyword=='student'){
 
-    this.props.navigation.navigate('StudentHome');
+
+    this.props.navigation.navigate('StudentHome');} 
+    else  this.props.navigation.navigate('InsClassInfo',{
+                      classKey: this.props.route.params.ClassID,
+                
+                    });
   };
-
-  ///////////////////////////////OCR SECTION //////////////////////////////////////////////
+  //////////////////////////////OCR SECTION //////////////////////////////////////////////
 
   onSelectImagePress = () =>
     launchImageLibrary('photo', this.onMediaSelectCallBack);

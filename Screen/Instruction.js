@@ -87,7 +87,7 @@ const Instruction = ({navigation, route}) => {
                 TitleStyles.smallText,
                 {textAlign: 'left', color: '#B41E13'},
               ]}>
-              {'\n'}
+         
               تستطيعون اضافة او عدم الفاصلة حسب ماتروه كتجزيء مناسب .
             </Text>
           </Text>
