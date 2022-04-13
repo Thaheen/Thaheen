@@ -96,7 +96,23 @@ const ChildList = ({navigation}) => {
                 .update({
                   StudentList: firestore.FieldValue.arrayRemove(Cusername),
                 })
-            });
+                .then(() => {
+                  firestore()
+                    .collection('Instructor Text')
+                    .where('ClassId', '==', documentSnapshot.id)
+                    .get()
+                    .then(querySnapshot => {
+                      querySnapshot.forEach(documentSnapshot => {
+                        var AllFeedbacks = documentSnapshot.data().Feedback
+                        delete AllFeedbacks[ChildID]
+                        documentSnapshot.ref.update({
+                          Feedback: AllFeedbacks,
+                        })
+                      })
+                    })
+                })
+            })
+
           });
         setModalVisible(!modalVisible);
       });
