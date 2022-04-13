@@ -13,10 +13,10 @@ import {
   Modal,
   TouchableOpacity,
   Platform,
-  I18nManager
+  I18nManager,
 } from 'react-native';
 import TitleStyles from '../Styles/Titles';
-import RTLlayout from '../Styles/RTLlayout'
+import RTLlayout from '../Styles/RTLlayout';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -28,6 +28,10 @@ import Error from '../Components/ErrorModel';
 import Top2Lines from '../assets/images/top2Lines.svg';
 import Bottom2Lines from '../assets/images/bottom2Lines.svg';
 import BackButton from '../Components/BackButton';
+import TipProvider from 'react-native-tip';
+import {Tip} from 'react-native-tip';
+import AlertIcon from '../assets/images/Alert.svg';
+
 const SignUp: () => Node = () => {
   DropDownPicker.setListMode('SCROLLVIEW');
   const [FullName, setFullName] = useState('');
@@ -48,6 +52,9 @@ const SignUp: () => Node = () => {
     {label: 'ولي/ـة امر', value: 'ولي/ـة امر'},
     {label: 'معلم/ـة', value: 'معلم/ـة'},
   ]);
+
+  const Message =
+    '  يجب ان تحتوي كلمة المرور على : \n٨ خانات على الاقل\n حرف كبير و صغير على الاقل\n رمز خاص على الاقل\n رقم على الاقل';
 
   const IsValidPass = password => {
     const strongPass = new RegExp(
@@ -126,7 +133,7 @@ const SignUp: () => Node = () => {
     }
 
     if (Password !== ConfirmPassword) {
-      setErrorMessage('كلمة المرور وتأكيد رمز كلمة المررور يجب أن تتطابق');
+      setErrorMessage('كلمة المرور وتأكيد رمز كلمة المرور يجب أن تتطابق');
       setErrormodalVisible(!ErrormodalVisible);
       return;
       return;
@@ -231,15 +238,17 @@ const SignUp: () => Node = () => {
         <BackButton />
         <Top2Lines
           style={[
-          Platform.OS === 'ios' ? TitleStyles.shadowOffset : null,
-          I18nManager.isRTL ? RTLlayout.Top2LinesAR : RTLlayout.Top2LinesEN,
-        ]}
+            Platform.OS === 'ios' ? TitleStyles.shadowOffset : null,
+            I18nManager.isRTL ? RTLlayout.Top2LinesAR : RTLlayout.Top2LinesEN,
+          ]}
         />
         <Bottom2Lines
           style={[
-          Platform.OS === 'ios' ? TitleStyles.shadowOffset : null,
-          I18nManager.isRTL ? RTLlayout.Bottom2LinesAR : RTLlayout.Bottom2LinesEN,
-        ]}
+            Platform.OS === 'ios' ? TitleStyles.shadowOffset : null,
+            I18nManager.isRTL
+              ? RTLlayout.Bottom2LinesAR
+              : RTLlayout.Bottom2LinesEN,
+          ]}
         />
         <SuccessModel
           message={'تم إنشاء الحساب بنجاح'}
@@ -290,7 +299,10 @@ const SignUp: () => Node = () => {
           <View
             style={[TitleStyles.shadowOffset, {zIndex: 1000, elevation: 1000}]}>
             <DropDownPicker
-              style={[TitleStyles.dropDownStyle, Platform.OS === 'android' ? TitleStyles.shadowOffset : null]}
+              style={[
+                TitleStyles.dropDownStyle,
+                Platform.OS === 'android' ? TitleStyles.shadowOffset : null,
+              ]}
               textStyle={TitleStyles.categoryText}
               containerStyle={{}}
               dropDownContainerStyle={{
@@ -343,6 +355,28 @@ const SignUp: () => Node = () => {
             />
           </View>
 
+          <TipProvider
+            overlayOpacity={0.8}
+            titleStyle={{
+              fontWeight: 'bold',
+              fontSize: 15,
+              marginBottom: 10,
+              textAlign: 'center',
+              flex: 1,
+            }}
+            bodyStyle={{
+              fontSize: 16,
+              textAlign: 'center',
+              fontSize: 13,
+            }}
+            tipContainerStyle={{
+              padding: 12,
+              borderRadius: 20,
+              marginLeft:200,
+              maxWidth: 300,
+            }}
+          />
+
           <View style={TitleStyles.shadowOffset}>
             <TextInput
               placeholder="*كلمة المرور"
@@ -350,7 +384,9 @@ const SignUp: () => Node = () => {
               style={[
                 Platform.OS === 'android' ? TitleStyles.shadowOffset : null,
                 TitleStyles.input,
-                {shadowColor: '#000'},
+                {
+                  shadowColor: '#000',
+                },
               ]}
               onChangeText={text => setPassword(text)}
               value={Password}
@@ -359,6 +395,19 @@ const SignUp: () => Node = () => {
               color="black"
             />
           </View>
+
+          <Tip
+            style={{
+              position: 'absolute',
+              marginTop: 390,
+                marginLeft: 280,
+            }}
+            title="تنبية"
+            body={Message}>
+            <AlertIcon
+            />
+          </Tip>
+
           <View style={TitleStyles.shadowOffset}>
             <TextInput
               placeholder="*تأكيد كلمة المرور"
