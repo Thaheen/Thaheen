@@ -61,13 +61,30 @@ const Home = ({navigation, route}) => {
         //setHwNo();
         setAllClasses(Class);
         setLoading(false);
+        Class.forEach(instructorClass => {
+          assignmentsNum(instructorClass.key)
+        })
       });
+      console.log('am i looping now?')
+
     return classes;
-  }, []);
+    //we have used the number of classes here because each time
+    // a class is being added or deleted this useEffect is executed
+  }, [classNo]);
 
   useEffect(() => {
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   }, []);
+
+  const assignmentsNum = async classID => {
+    await firestore()
+      .collection('Instructor Text')
+      .where('ClassId', '==', classID)
+      .onSnapshot(querySnapshot => {
+        homeworks = homeworks + querySnapshot.size
+        setHwNo(homeworks)
+      })  
+  }
 
   const EngToArabicNum = num => {
     var str = '' + num;
@@ -115,19 +132,19 @@ const Home = ({navigation, route}) => {
           <View style={[TitleStyles.InstructorSubCard, {borderRightWidth: 0}]}>
             <Homework style={{width: 30, height: 10}} />
             <Text style={TitleStyles.smallText}> الواجبات </Text>
-            <Text> {EngToArabicNum(hwNo)}</Text>
+            <Text style={TitleStyles.smallText}> {EngToArabicNum(hwNo)}</Text>
           </View>
 
           <View style={TitleStyles.InstructorSubCard}>
             <InfoCard />
             <Text style={TitleStyles.smallText}> الطلاب </Text>
-            <Text> {EngToArabicNum(stuNo)} </Text>
+            <Text style={TitleStyles.smallText}> {EngToArabicNum(stuNo)} </Text>
           </View>
 
           <View style={TitleStyles.InstructorSubCard}>
             <Cell />
             <Text style={TitleStyles.smallText}> الفصول </Text>
-            <Text> {EngToArabicNum(classNo)}</Text>
+            <Text style={TitleStyles.smallText}> {EngToArabicNum(classNo)}</Text>
           </View>
         </View>
         {/* End of main card Section */}
