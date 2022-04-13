@@ -568,4 +568,18 @@ export default StyleSheet.create({
     marginLeft: 20,
     marginTop: 5,
   },
+  QuranList: {
+    color: 'red',
+    marginBottom: 10,
+    fontFamily: 'AJannatLT-Bold',
+    fontSize: 16,
+    color: '#43515F',
+  },
+  QuranBox: {
+    borderBottomWidth: 0.5,
+    borderColor: '#B1B1B1',
+    margin: 5,
+    width: 300,
+    alignItems: 'center',
+  },
 });

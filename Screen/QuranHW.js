@@ -95,8 +95,10 @@ class RecordVoice extends Component {
       to: 0,
       isDateTimePickerVisible: false,
       day: null,
-      SurahFiltered: null,
+      SurahFiltered: [],
       Surah: [],
+      isSearching: false,
+      searchList: [],
     };
     this.audioRecorderPlayer = new AudioRecorderPlayer();
     this.audioRecorderPlayer.setSubscriptionDuration(0.09); // optional. Default is 0.1
@@ -364,13 +366,21 @@ class RecordVoice extends Component {
 
   //Search Surah Method
   searchSurah = textToSearch => {
-    //alert(textToSearch);
-    this.setState({
-      SurahFiltered: this.state.Surah.filter(element =>
-        element.toLowerCase().includes(textToSearch.toLowerCase()),
-      ),
-    });
+    if (textToSearch != ' ') {
+      this.state.isSearching = true;
+      this.setState({
+        SurahFiltered: this.state.Surah.filter(element =>
+          element.includes(textToSearch),
+        ),
+      });
+    }
 
+    if (textToSearch == ' ') {
+      this.state.isSearching = false;
+    }
+
+    console.log('Surah Filtered');
+    console.log(this.state.isSearching);
     console.log(this.state.SurahFiltered);
   };
 
@@ -385,7 +395,8 @@ class RecordVoice extends Component {
       return item.name;
     });
 
-    this.state.SurahFiltered = this.state.Surah;
+    //this.state.SurahFiltered = this.state.Surah;
+    //console.log(this.state.SurahFiltered);
 
     //Get the total versed of each surah
     const totalVerses = quran.data[this.state.SurahNum].total_verses;
@@ -405,6 +416,11 @@ class RecordVoice extends Component {
     const SurahAyat = this.GetSurah(ayat);
     this.state.HomeWork = SurahAyat;
     this.state.Title = this.state.TextType;
+
+    // const SurahFilteredList = this.StoringSurahSearchList();
+    // this.state.searchList = SurahFilteredList;
+    // console.log('testing storing');
+    // console.log(this.state.searchList);
 
     return (
       <View>
@@ -746,26 +762,36 @@ class RecordVoice extends Component {
                     <Text>بحث</Text>
                   </TouchableOpacity> */}
                 </View>
+                {this.state.isSearching == false && (
+                  <FlatList
+                    style={{marginTop: 20}}
+                    contentContainerStyle={{
+                      alignItems: 'center',
+                    }}
+                    data={this.state.Surah}
+                    // extraData={selكctedId}
+                    renderItem={({item}) => (
+                      <TouchableOpacity style={TitleStyles.QuranBox}>
+                        <Text style={TitleStyles.QuranList}>{item}</Text>
+                      </TouchableOpacity>
+                    )}
+                  />
+                )}
 
-                <FlatList
-                  style={{marginTop: 20}}
-                  contentContainerStyle={{
-                    //flexDirection: 'row',
-                    // width: 333,
-                    //height: 452,
-                    // textAlign: 'right',
-                    alignItems: 'center',
-                    // marginBottom: 20,
-                    //backgroundColor: 'red',
-                  }}
-                  data={this.state.SurahFiltered}
-                  // extraData={selectedId}
-                  renderItem={({item}) => (
-                    <TouchableOpacity style>
-                      <Text>{item}</Text>
-                    </TouchableOpacity>
-                  )}
-                />
+                {this.state.isSearching == true && (
+                  <FlatList
+                    data={this.state.SurahFiltered}
+                    style={{marginTop: 20}}
+                    contentContainerStyle={{
+                      alignItems: 'center',
+                    }}
+                    renderItem={({item}) => (
+                      <TouchableOpacity style={TitleStyles.QuranBox}>
+                        <Text style={TitleStyles.QuranList}>{item}</Text>
+                      </TouchableOpacity>
+                    )}
+                  />
+                )}
 
                 <TouchableOpacity
                   style={[
