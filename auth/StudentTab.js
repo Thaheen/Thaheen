@@ -21,7 +21,7 @@ import {default as MemorizationSession} from '../Screen/MemorizationSession.js';
 import {default as FillInTheBlank} from '../Screen/FillInTheBlank.js';
 import {default as Chunking} from '../Screen/Chunking.js';
 import {default as StudentViewAllAssignment} from '../Screen/StudentViewAllAssignment.js';
-import {default as InstructorScoreboard} from '../Screen/InstructorScoreboard.js';
+import {default as ClassScoreboard} from '../Screen/ClassScoreboard.js';
 
 const HomeStack = createNativeStackNavigator();
 const ClassStack = createNativeStackNavigator();
@@ -94,8 +94,8 @@ const ClassStackScreens = () => {
       />
 
       <HomeStack.Screen
-        name="InstructorScoreboard"
-        component={InstructorScoreboard}
+        name="ClassScoreboard"
+        component={ClassScoreboard}
         options={{headerShown: false}}
       />
     </ClassStack.Navigator>

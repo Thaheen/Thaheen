@@ -65,7 +65,6 @@ const Home = ({navigation, route}) => {
           assignmentsNum(instructorClass.key)
         })
       });
-      console.log('am i looping now?')
 
     return classes;
     //we have used the number of classes here because each time

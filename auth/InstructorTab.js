@@ -16,7 +16,8 @@ import {default as InsClassInfo} from '../Screen/InsClassInfo.js';
 import {default as ClassAllStudents} from '../Screen/ClassAllStudents.js';
 import {default as StudentProfile} from '../Screen/StudentProfile.js';
 import {default as RecordVoice} from '../Screen/RecordVoice.js';
-import {default as InstructorScoreboard} from '../Screen/InstructorScoreboard.js';
+import {default as ClassScoreboard} from '../Screen/ClassScoreboard.js';
+import {default as InstructorViewStudentScore} from '../Screen/InstructorViewStudentScore.js';
 import {default as QuranHW} from '../Screen/QuranHW.js';
 import {default as Instruction} from '../Screen/Instruction.js';
 
@@ -60,8 +61,14 @@ const HomeStackScreens = () => {
       />
 
       <HomeStack.Screen
-        name="InstructorScoreboard"
-        component={InstructorScoreboard}
+        name="ClassScoreboard"
+        component={ClassScoreboard}
+        options={{headerShown: false}}
+      />
+
+      <HomeStack.Screen
+        name="InstructorViewStudentScore"
+        component={InstructorViewStudentScore}
         options={{headerShown: false}}
       />
 

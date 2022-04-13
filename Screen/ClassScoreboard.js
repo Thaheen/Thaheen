@@ -19,7 +19,7 @@ import Badage from '../assets/images/badage';
 import firestore from '@react-native-firebase/firestore'
 
 import StarsBanner from '../assets/images/StarsBanner.svg'
-const InstructorScoreboard = ({navigation, route}) => {
+const ClassScoreboard = ({navigation, route}) => {
   const [studentsScores, setStudentsScores] = useState([])
   const [totalAssignments, setTotalAssignments] = useState()
 
@@ -162,4 +162,4 @@ const InstructorScoreboard = ({navigation, route}) => {
     </SafeAreaView>
   )
 }
-export default InstructorScoreboard
+export default ClassScoreboard

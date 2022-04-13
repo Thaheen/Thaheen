@@ -151,12 +151,15 @@ const ClassAllStudents = ({navigation, route}) => {
                   },
                 ]}>
                 <TouchableOpacity
-                  onPress={() => ViewStudentProfile(item)}
+                  onPress={() => {
+                    navigation.navigate('InstructorViewStudentScore', {
+                      classId: route.params.classKey,
+                      studentId: item.key
+                    })
+                  }}
                   style={{flexDirection: 'row', alignItems: 'center'}}>
                   <ThaheenMini height={40} width={70} />
-                  <Text style={[TitleStyles.smallText, {fontSize: 20}]}>
-                    {item.Fullname}
-                  </Text>
+                  <Text style={[TitleStyles.smallText, {fontSize: 20}]}>{item.Fullname}</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity

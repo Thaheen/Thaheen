@@ -121,7 +121,7 @@ const StudentClass = ({navigation, route}) => {
           top: 80,
         }}
         onPress={() => {
-          navigation.navigate('InstructorScoreboard', {
+          navigation.navigate('ClassScoreboard', {
             classId: route.params.ClassCID,
           });
         }}>
