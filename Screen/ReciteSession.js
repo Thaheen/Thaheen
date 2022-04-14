@@ -162,6 +162,7 @@ const ReciteSession = ({navigation, route}) => {
 
   const compare = transcription => {
     var counter = 0;
+    // from google > transcription
     const transcriptArray = transcription.split(' ');
 
     console.log('Before loop ==', textBody);
