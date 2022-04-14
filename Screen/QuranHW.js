@@ -395,9 +395,6 @@ class RecordVoice extends Component {
       return item.name;
     });
 
-    //this.state.SurahFiltered = this.state.Surah;
-    //console.log(this.state.SurahFiltered);
-
     //Get the total versed of each surah
     const totalVerses = quran.data[this.state.SurahNum].total_verses;
     console.log('Total verses: ' + totalVerses);
@@ -416,11 +413,6 @@ class RecordVoice extends Component {
     const SurahAyat = this.GetSurah(ayat);
     this.state.HomeWork = SurahAyat;
     this.state.Title = this.state.TextType;
-
-    // const SurahFilteredList = this.StoringSurahSearchList();
-    // this.state.searchList = SurahFilteredList;
-    // console.log('testing storing');
-    // console.log(this.state.searchList);
 
     return (
       <View>
@@ -484,13 +476,24 @@ class RecordVoice extends Component {
               style={TitleStyles.buttonStyle2}
               onPress={() => this.setState({QuranModal: true})}>
               <View>
-                <Text
-                  style={[
-                    TitleStyles.dropdownButtonText,
-                    {marginTop: 10, marginLeft: 10},
-                  ]}>
-                  {this.state.TextType}
-                </Text>
+                {this.state.TextType != null && (
+                  <Text
+                    style={[
+                      TitleStyles.dropdownButtonText,
+                      {marginTop: 10, marginLeft: 10},
+                    ]}>
+                    {this.state.TextType}
+                  </Text>
+                )}
+                {this.state.TextType == null && (
+                  <Text
+                    style={[
+                      TitleStyles.dropdownButtonText,
+                      {marginTop: 10, marginLeft: 10},
+                    ]}>
+                    السورة
+                  </Text>
+                )}
               </View>
             </TouchableOpacity>
             {/* <SelectDropdown
