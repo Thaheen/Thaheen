@@ -430,6 +430,7 @@ const InsClassInfo = ({navigation, route}) => {
                   onPress={() =>
                     navigation.navigate('ClassAllStudents', {
                       classKey: route.params.classKey,
+                      studentsList: studentsList,
                     })
                   }>
                   عرض الكل

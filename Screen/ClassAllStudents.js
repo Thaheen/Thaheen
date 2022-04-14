@@ -24,33 +24,28 @@ const ClassAllStudents = ({navigation, route}) => {
   const [numOfStudents, setNumOfStudents] = useState('')
   const [username, setUsername] = useState()
   const [ConfirmmodalVisible, setConfirmmodalVisible] = useState(false)
+  const studentsUsernames = route.params.studentsList
 
   useEffect(() => {
-    const subscriber = firestore()
-      .collection('ClassCommunity')
-      .doc(route.params.classKey)
-      .onSnapshot(snapshot => {
-        const students = []
-        if(snapshot.data().StudentList != 0){
-        snapshot.data().StudentList.forEach(studentUsername => {
-          firestore()
-            .collection('Student')
-            .where('Username', '==', studentUsername)
-            .onSnapshot(querySnapshot => {
-              students.push({
-                ...querySnapshot.docs[0].data(),
-                key: querySnapshot.docs[0].id,
-              })
-              setStudentsList(students)
+    const students = []
+    studentsUsernames.forEach((studentUsername, index) => {
+      getFullName(studentUsername)
+    })
+    function getFullName (studentUsername) {
+      firestore()
+        .collection('Student')
+        .where('Username', '==', studentUsername)
+        .get()
+        .then(querySnapshot => {
+          if (querySnapshot.size != 0) {
+            students.push({
+              ...querySnapshot.docs[0].data(),
+              key: querySnapshot.docs[0].id,
             })
-
-        })} else{
-         setStudentsList([])
-        }
-        setNumOfStudents(studentsList.length)
-      })
-
-    return () => subscriber()
+            setStudentsList(students)
+          }
+        })
+    }
   }, [])
 
   const ViewStudentProfile = name => {
