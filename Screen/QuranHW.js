@@ -489,7 +489,7 @@ class RecordVoice extends Component {
                     TitleStyles.dropdownButtonText,
                     {marginTop: 10, marginLeft: 10},
                   ]}>
-                  السورة
+                  {this.state.TextType}
                 </Text>
               </View>
             </TouchableOpacity>
@@ -770,8 +770,18 @@ class RecordVoice extends Component {
                     }}
                     data={this.state.Surah}
                     // extraData={selكctedId}
-                    renderItem={({item}) => (
-                      <TouchableOpacity style={TitleStyles.QuranBox}>
+                    renderItem={({item, index}) => (
+                      <TouchableOpacity
+                        style={TitleStyles.QuranBox}
+                        onPress={() => {
+                          console.log(item, index);
+                          this.setState({TextType: item});
+                          this.setState({SurahNum: index++});
+                          console.log(
+                            ' Index for surah ' + this.state.SurahNum,
+                          );
+                          this.setState({QuranModal: false});
+                        }}>
                         <Text style={TitleStyles.QuranList}>{item}</Text>
                       </TouchableOpacity>
                     )}
@@ -785,8 +795,18 @@ class RecordVoice extends Component {
                     contentContainerStyle={{
                       alignItems: 'center',
                     }}
-                    renderItem={({item}) => (
-                      <TouchableOpacity style={TitleStyles.QuranBox}>
+                    renderItem={({item, index}) => (
+                      <TouchableOpacity
+                        style={TitleStyles.QuranBox}
+                        onPress={() => {
+                          console.log(item, index);
+                          this.setState({TextType: item});
+                          this.setState({SurahNum: index++});
+                          console.log(
+                            ' Index for surah ' + this.state.SurahNum,
+                          );
+                          this.setState({QuranModal: false});
+                        }}>
                         <Text style={TitleStyles.QuranList}>{item}</Text>
                       </TouchableOpacity>
                     )}
