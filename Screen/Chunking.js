@@ -244,11 +244,11 @@ var taggedWords=[];
         flex: 1,
         backgroundColor: '#DAE2E9',
       }}>
-      <BackButton />
 
       <Text style={[TitleStyles.sectionTitle, {marginTop: 30}]}>
         هيا لنبدأ المراجعة
       </Text>
+      <BackButton />
       <View style={[TitleStyles.MemorizationContainer]}>
         <Text
           style={[TitleStyles.sectionTitle, {marginTop: 20, fontSize: 20}]}
