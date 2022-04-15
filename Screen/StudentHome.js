@@ -80,36 +80,40 @@ const StudentHome = () => {
       .where('StudentList', 'array-contains', student.data().Username)
       .onSnapshot(querySnapshot => {
         const progress = [];
-
         querySnapshot.forEach(documentSnapshot => {
           fetchStudentRank(documentSnapshot.id);
           // Search for class assigments
-
-          firestore()
-            .collection('Instructor Text')
-            .where('ClassId', '==', documentSnapshot.id)
-            .get()
-            .then(innerquerySnapshot => {
-              var score = 0;
-              // querySnapshot : all assigments in one class
-              innerquerySnapshot.forEach(innerdocumentSnapshot => {
-                if (innerdocumentSnapshot.data().Feedback[student.id] != null) {
-                  score =
-                    score +
-                    innerdocumentSnapshot.data().Feedback[student.id].score;
-                }
-              });
-
-              progress.push({
-                classname: documentSnapshot.data().Name,
-                score: score / innerquerySnapshot.size,
-              });
-            });
+          calcScore(
+            progress,
+            documentSnapshot.id,
+            documentSnapshot.data().Name,
+          );
         });
-        setStudentProgress(progress);
       });
 
     return () => studentClasses();
+  }, []);
+
+  const calcScore = useCallback(async (progress, classkey, name) => {
+    const fetch = await firestore()
+      .collection('Instructor Text')
+      .where('ClassId', '==', classkey)
+      .get()
+      .then(innerquerySnapshot => {
+        var score = 0;
+        // querySnapshot : all assigments in one class
+        innerquerySnapshot.forEach(innerdocumentSnapshot => {
+          if (innerdocumentSnapshot.data().Feedback[student.id] != null) {
+            score =
+              score + innerdocumentSnapshot.data().Feedback[student.id].score;
+          }
+        });
+        progress.push({
+          classname: name,
+          score: score / innerquerySnapshot.size,
+        });
+        setStudentProgress(progress);
+      });
   }, []);
 
   const fetchStudentRank = useCallback(async classId => {
@@ -121,6 +125,8 @@ const StudentHome = () => {
       setStudentRank(studentIndex);
     }
   }, []);
+
+  const fetchScore = useCallback(async () => {}, []);
 
   return (
     <SafeAreaView
@@ -280,7 +286,6 @@ const StudentHome = () => {
 
           {StudentProgress != 0 && (
             <FlatList
-           
               data={StudentProgress.slice(0, 3)}
               keyExtractor={(item, index) => index.toString()}
               scrollEnabled={false}
@@ -291,31 +296,32 @@ const StudentHome = () => {
                     marginTop: 20,
                     borderRadius: 25,
                   }}>
-                    <TouchableOpacity
+                  <TouchableOpacity
+                    style={{
+                      backgroundColor: progressDarkercolors[darkercolor++ % 3],
+                      width: item.score < 50 ? '50%' : item.score + '%',
+                      borderRadius: 25,
+                      flexDirection: 'row',
+                    }}>
+                    <ProgressIcon
                       style={{
-                        backgroundColor:
-                          progressDarkercolors[darkercolor++ % 3],
-                        width:  item.score<50? '50%':item.score+'%', borderRadius:25, flexDirection: 'row'
-                      }}>
-                      <ProgressIcon
-                      style={{
-                        left:5,
-                        top:5
+                        left: 5,
+                        top: 5,
                       }}
-                       />
-                  <Text
-                    style={[
-                      TitleStyles.sectionTitle,
-                      {
-                        marginLeft:10,
-                        fontSize: 18,
-                        fontWeight: null,
-                        textAlign: 'left',
-                        color: 'white',
-                      },
-                    ]}>
-                    {item.classname} {EngToArabicNum(item.score)}%
-                  </Text>
+                    />
+                    <Text
+                      style={[
+                        TitleStyles.sectionTitle,
+                        {
+                          marginLeft: 10,
+                          fontSize: 18,
+                          fontWeight: null,
+                          textAlign: 'left',
+                          color: 'white',
+                        },
+                      ]}>
+                      {item.classname} {EngToArabicNum(item.score)}%
+                    </Text>
                   </TouchableOpacity>
                 </TouchableOpacity>
               )}
