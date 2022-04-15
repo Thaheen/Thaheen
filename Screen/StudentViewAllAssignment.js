@@ -108,6 +108,7 @@ const StudentViewAllAssignment = ({navigation, route}) => {
               borderRadius: 25,
               marginLeft: 25,
               marginRight: 25,
+              marginTop:150,
               padding: 15,
               paddingVertical: 50,
               backgroundColor: 'white',
