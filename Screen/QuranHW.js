@@ -316,6 +316,7 @@ class RecordVoice extends Component {
     let j = 0;
     for (let i = this.state.from; i <= this.state.to; i++) {
       ar[j] = SurahAyat[i - 1];
+
       j++;
     }
     return ar;
@@ -395,14 +396,34 @@ class RecordVoice extends Component {
       return item.name;
     });
 
+    let totalVerses;
+    let ayat;
+
+    // const totalVerses = quran.data[this.state.SurahNum].total_verses;
+    // console.log('Total verses: ' + totalVerses);
+
     //Get the total versed of each surah
-    const totalVerses = quran.data[this.state.SurahNum].total_verses;
+    if (this.state.isSearching == true && this.state.TextType != null) {
+      for (let i = 0; i <= 113; i++) {
+        if (quran.data[i].name == this.state.TextType) {
+          totalVerses = quran.data[i].total_verses;
+          ayat = quran.data[i].verses.map(function (item) {
+            return item.text;
+          });
+        }
+      }
+    } else {
+      totalVerses = quran.data[this.state.SurahNum].total_verses;
+      ayat = quran.data[this.state.SurahNum].verses.map(function (item) {
+        return item.text;
+      });
+    }
     console.log('Total verses: ' + totalVerses);
 
     //Get the selected Surah
-    const ayat = quran.data[this.state.SurahNum].verses.map(function (item) {
-      return item.text;
-    });
+    // const ayat = quran.data[this.state.SurahNum].verses.map(function (item) {
+    //   return item.text;
+    // });
 
     //From To Ayah
     const FromAyah = this.Ayaharray(totalVerses);
@@ -411,7 +432,12 @@ class RecordVoice extends Component {
     //Get the selected Surah with given index from-to
     //There is a problem but it can be fixed later
     const SurahAyat = this.GetSurah(ayat);
-    this.state.HomeWork = SurahAyat;
+
+    //the home work ayat should be cleaned
+    this.state.HomeWork = SurahAyat + '';
+
+    console.log('Home work');
+    console.log(this.state.HomeWork);
     this.state.Title = this.state.TextType;
 
     return (
