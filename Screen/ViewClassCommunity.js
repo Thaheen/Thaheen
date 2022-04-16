@@ -131,8 +131,9 @@ const StudentClass = ({navigation, route}) => {
       {TextList != 0 && (
         <FlatList
           style={{
-            height: '85%',
-            top: 100,
+            height: 390,
+            top: 80,
+            flexGrow:0
           }}
           data={TextList}
           keyExtractor={(item, index) => index.toString()}
