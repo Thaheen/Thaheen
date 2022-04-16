@@ -123,7 +123,7 @@ const ClassInputFields = ({ID, type, callBackFunction, title, buttonText}) => {
       return;
     }
 
-    if (schoolName.length != 0) {
+    if (schoolName.replace(/\s+/g, '').length != 0) {
       if (
         schoolName.replace(/\s+/g, '').length > 30 ||
         schoolName.replace(/\s+/g, '').length < 2

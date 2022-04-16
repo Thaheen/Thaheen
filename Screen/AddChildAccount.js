@@ -167,7 +167,7 @@ const AddChildAccount = ({navigation}) => {
       return;
     }
 
-    if (ChildSchool.length != 0) {
+    if (ChildSchool.replace(/\s+/g, '').length != 0) {
       if (
         ChildSchool.replace(/\s+/g, '').length > 30 ||
         ChildSchool.replace(/\s+/g, '').length < 2
