@@ -123,17 +123,18 @@ const ClassInputFields = ({ID, type, callBackFunction, title, buttonText}) => {
       return;
     }
 
-    if (
-      schoolName.replace(/\s+/g, '').length > 30 ||
-      schoolName.replace(/\s+/g, '').length < 2
-    ) {
-      setErrorMessage(
-        'حقل "اسم المدرسة" يجب ألا يقل عن حرفين وألا يتجاوز ٣٠ حرف',
-      );
-      setErrormodalVisible(!ErrormodalVisible);
-      return;
+    if (schoolName.length != 0) {
+      if (
+        schoolName.replace(/\s+/g, '').length > 30 ||
+        schoolName.replace(/\s+/g, '').length < 2
+      ) {
+        setErrorMessage(
+          'حقل "اسم المدرسة" يجب ألا يقل عن حرفين وألا يتجاوز ٣٠ حرف',
+        );
+        setErrormodalVisible(!ErrormodalVisible);
+        return;
+      }
     }
-
     if (capacity < 2 || capacity > 100) {
       setErrorMessage(
         'سعة الفصل يجب ألا تقل عن طالبين وألا تتجاوز عن ١٠٠ طالب',
