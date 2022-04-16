@@ -264,13 +264,9 @@ const InsClassInfo = ({navigation, route}) => {
                         transform: [{scaleX: 1.22}],
                       }}
                     />
-                    <Close
-                      height="40"
-                      width="40"
-                      style={[{position: 'absolute', top: 20, left: 20}]}
-                      onPress={() => setViewAllHwVisible(!viewAllHwVisible)}
-                    />
+
                     {assignmentsList.length == 0 ? (
+                      <View>
                       <Text
                         style={[
                           TitleStyles.NotAvailableAlert,
@@ -284,6 +280,13 @@ const InsClassInfo = ({navigation, route}) => {
                         ]}>
                         لم تضف أي واجب بعد
                       </Text>
+                      <Close
+                          height="40"
+                          width="40"
+                          style={[{position: 'absolute', top: 20, left: 20}]}
+                          onPress={() => setViewAllHwVisible(!viewAllHwVisible)}
+                        />
+                        </View>
                     ) : (
                       <View>
                         <Text
@@ -293,7 +296,12 @@ const InsClassInfo = ({navigation, route}) => {
                           ]}>
                           الواجبات
                         </Text>
-
+                        <Close
+                          height="40"
+                          width="40"
+                          style={[{position: 'absolute', top: 20, left: 20}]}
+                          onPress={() => setViewAllHwVisible(!viewAllHwVisible)}
+                        />
                         <FlatList
                           style={[{padding: 10, height: '80%'}]}
                           data={assignmentsList}
