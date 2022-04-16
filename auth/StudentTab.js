@@ -22,6 +22,9 @@ import {default as FillInTheBlank} from '../Screen/FillInTheBlank.js';
 import {default as Chunking} from '../Screen/Chunking.js';
 import {default as StudentViewAllAssignment} from '../Screen/StudentViewAllAssignment.js';
 import {default as ClassScoreboard} from '../Screen/ClassScoreboard.js';
+import {default as ProgressChart} from '../Screen/ProgressChart.js';
+
+
 
 const HomeStack = createNativeStackNavigator();
 const ClassStack = createNativeStackNavigator();
@@ -74,6 +77,12 @@ const HomeStackScreens = () => {
       <HomeStack.Screen
         name="StudentViewAllAssignment"
         component={StudentViewAllAssignment}
+        options={{headerShown: false}}
+      />
+
+<HomeStack.Screen
+        name="ProgressChart"
+        component={ProgressChart}
         options={{headerShown: false}}
       />
     </HomeStack.Navigator>

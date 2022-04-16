@@ -9,6 +9,7 @@ import {
   View,
   Platform,
   I18nManager,
+  LogBox,
 } from 'react-native';
 import TitleStyles from '../Styles/Titles';
 import ThaheenStanding from '../assets/images/ThaheenStanding';
@@ -33,6 +34,7 @@ const StudentHome = () => {
   const [fullName, setFullName] = useState('');
   const [studentRank, setStudentRank] = useState(100);
   const [StudentProgress, setStudentProgress] = useState([]);
+
   var color = 0;
   var darkercolor = 0;
   const studentTitles = ['الطالب المميز', 'الطالب الذكي', 'الطالب المبدع'];
@@ -44,6 +46,7 @@ const StudentHome = () => {
     var str = '' + num;
     return str.replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
   };
+  const progress = [];
 
   useEffect(() => {
     const textAssignment = firestore()
@@ -75,19 +78,22 @@ const StudentHome = () => {
   }, []);
 
   useEffect(() => {
+    var i = 0;
     const studentClasses = firestore()
       .collection('ClassCommunity')
       .where('StudentList', 'array-contains', student.data().Username)
       .onSnapshot(querySnapshot => {
-        const progress = [];
         querySnapshot.forEach(documentSnapshot => {
           fetchStudentRank(documentSnapshot.id);
           // Search for class assigments
-          calcScore(
-            progress,
-            documentSnapshot.id,
-            documentSnapshot.data().Name,
-          );
+          if (i <= 2) {
+            calcScore(
+              progress,
+              documentSnapshot.id,
+              documentSnapshot.data().Name,
+            );
+            i++;
+          }
         });
       });
 
@@ -110,10 +116,15 @@ const StudentHome = () => {
         });
         progress.push({
           classname: name,
-          score: score / innerquerySnapshot.size,
+          score: (score / (innerquerySnapshot.size * 100)) * 100,
         });
         setStudentProgress(progress);
+        console.log(StudentProgress);
       });
+  }, []);
+
+  useEffect(() => {
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   }, []);
 
   const fetchStudentRank = useCallback(async classId => {
@@ -125,8 +136,6 @@ const StudentHome = () => {
       setStudentRank(studentIndex);
     }
   }, []);
-
-  const fetchScore = useCallback(async () => {}, []);
 
   return (
     <SafeAreaView
@@ -286,7 +295,7 @@ const StudentHome = () => {
 
           {StudentProgress != 0 && (
             <FlatList
-              data={StudentProgress.slice(0, 3)}
+              data={StudentProgress}
               keyExtractor={(item, index) => index.toString()}
               scrollEnabled={false}
               renderItem={({item}) => (

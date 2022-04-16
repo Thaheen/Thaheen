@@ -67,7 +67,7 @@ const HomeSection = ({title, iconName, type}) => {
       ) : (
         <TouchableOpacity
           onPress={() => {
-            console.log('PROGRESS PAGE WILL BE IMPLEMENTED LATER');
+            navigation.navigate('ProgressChart')
           }}>
           <Text style={TitleStyles.smallText}>عرض الكل</Text>
         </TouchableOpacity>
