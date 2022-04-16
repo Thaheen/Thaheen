@@ -101,12 +101,12 @@ const StudentHome = () => {
   }, []);
 
   const calcScore = useCallback(async (progress, classkey, name) => {
+    score = 0;
     const fetch = await firestore()
       .collection('Instructor Text')
       .where('ClassId', '==', classkey)
       .get()
       .then(innerquerySnapshot => {
-        var score = 0;
         // querySnapshot : all assigments in one class
         innerquerySnapshot.forEach(innerdocumentSnapshot => {
           if (innerdocumentSnapshot.data().Feedback[student.id] != null) {
@@ -114,9 +114,13 @@ const StudentHome = () => {
               score + innerdocumentSnapshot.data().Feedback[student.id].score;
           }
         });
+
         progress.push({
           classname: name,
-          score: (score / (innerquerySnapshot.size * 100)) * 100,
+          totalScore:
+            innerquerySnapshot.size != 0
+              ? (score / (innerquerySnapshot.size * 100)) * 100
+              : 100,
         });
         setStudentProgress(progress);
         console.log(StudentProgress);
@@ -304,34 +308,56 @@ const StudentHome = () => {
                     backgroundColor: progressColors[color++ % 3],
                     marginTop: 20,
                     borderRadius: 25,
+                    flexDirection: 'row',
                   }}>
                   <TouchableOpacity
                     style={{
                       backgroundColor: progressDarkercolors[darkercolor++ % 3],
-                      width: item.score < 50 ? '50%' : item.score + '%',
+                      width:
+                        item.totalScore == 0 ? '10%' : item.totalScore + '%',
                       borderRadius: 25,
                       flexDirection: 'row',
+                      height: 40,
                     }}>
                     <ProgressIcon
                       style={{
+                        marginLeft: 10,
                         left: 5,
                         top: 5,
                       }}
                     />
+                    {item.totalScore > 50 && (
+                      <Text
+                        style={[
+                          TitleStyles.sectionTitle,
+                          {
+                            position: 'absolute',
+                            fontSize: 18,
+                            textAlign: 'left',
+                            color: 'white',
+                            width: '100%',
+                            marginLeft: 40,
+                          },
+                        ]}>
+                        {item.classname} {EngToArabicNum(item.totalScore)}%
+                      </Text>
+                    )}
+                  </TouchableOpacity>
+                  {item.totalScore < 50 && (
                     <Text
                       style={[
                         TitleStyles.sectionTitle,
                         {
-                          marginLeft: 10,
+                          position: 'absolute',
                           fontSize: 18,
-                          fontWeight: null,
                           textAlign: 'left',
                           color: 'white',
+                          marginLeft: 40,
                         },
                       ]}>
-                      {item.classname} {EngToArabicNum(item.score)}%
+                      {item.classname} {EngToArabicNum(item.totalScore)}%
                     </Text>
-                  </TouchableOpacity>
+                  )}
                 </TouchableOpacity>
               )}
             />

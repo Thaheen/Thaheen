@@ -1,4 +1,4 @@
-import React, {useState, useEffect , useCallback} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -24,15 +24,13 @@ import {UserInfoContext} from '../auth/UserInfoContext';
 import BackButton from '../Components/BackButton.js';
 import ProgressIcon from '../assets/images/ProgressIcon';
 
-
 const ProgressChart = ({navigation, route}) => {
-    const [StudentProgress, setStudentProgress] = useState([]);
-    const {student} = React.useContext(UserInfoContext);
+  const [StudentProgress, setStudentProgress] = useState([]);
+  const {student} = React.useContext(UserInfoContext);
 
-
-    var color = 0;
-    var darkercolor = 0;
-    const progressDarkercolors = ['#EE7C60', '#84CCEA', '#AFC3D6'];
+  var color = 0;
+  var darkercolor = 0;
+  const progressDarkercolors = ['#EE7C60', '#84CCEA', '#AFC3D6'];
   const progressColors = ['#FBE5DA', '#D5EEF8', '#D8E2EB'];
 
   const EngToArabicNum = num => {
@@ -40,37 +38,33 @@ const ProgressChart = ({navigation, route}) => {
     return str.replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
   };
   const progress = [];
-  
-  useEffect(() => {
 
+  useEffect(() => {
     const studentClasses = firestore()
       .collection('ClassCommunity')
       .where('StudentList', 'array-contains', student.data().Username)
       .onSnapshot(querySnapshot => {
         querySnapshot.forEach(documentSnapshot => {
           // Search for class assigments
-        
+
           calcScore(
             progress,
             documentSnapshot.id,
             documentSnapshot.data().Name,
           );
-        
         });
       });
 
-
     return () => studentClasses();
   }, []);
-  
 
   const calcScore = useCallback(async (progress, classkey, name) => {
+    score = 0;
     const fetch = await firestore()
       .collection('Instructor Text')
       .where('ClassId', '==', classkey)
       .get()
       .then(innerquerySnapshot => {
-        var score = 0;
         // querySnapshot : all assigments in one class
         innerquerySnapshot.forEach(innerdocumentSnapshot => {
           if (innerdocumentSnapshot.data().Feedback[student.id] != null) {
@@ -78,12 +72,16 @@ const ProgressChart = ({navigation, route}) => {
               score + innerdocumentSnapshot.data().Feedback[student.id].score;
           }
         });
+
         progress.push({
           classname: name,
-          score: (score / (innerquerySnapshot.size*100))*100,
+          totalScore:
+            innerquerySnapshot.size != 0
+              ? (score / (innerquerySnapshot.size * 100)) * 100
+              : 100,
         });
         setStudentProgress(progress);
-        console.log(StudentProgress)
+        console.log(StudentProgress);
       });
   }, []);
 
@@ -103,7 +101,7 @@ const ProgressChart = ({navigation, route}) => {
           I18nManager.isRTL ? RTLlayout.Top2LinesAR : RTLlayout.Top2LinesEN,
         ]}
       />
-     <BackButton />
+      <BackButton />
       <Text
         style={[
           TitleStyles.HeaderTitle,
@@ -113,82 +111,99 @@ const ProgressChart = ({navigation, route}) => {
             fontSize: 35,
           },
         ]}>
-           مستوى تقدمي    
+        مستوى تقدمي
       </Text>
 
-
-
       <View
-          style={[
-            {
-              borderRadius: 25,
-              marginTop:100,
-              marginLeft: 25,
-              marginRight: 25,
-              padding: 15,
-              paddingVertical: StudentProgress != 0 ? 10 : 50,
-              backgroundColor: 'white',
-              marginBottom: Platform.OS === 'ios' ? 100 : 90,
-            },
-            TitleStyles.SoftShadow,
-          ]}>
-          {StudentProgress == 0 && (
-            <Text
-              style={[
-                TitleStyles.sectionTitle,
-                {fontSize: 24, fontWeight: null},
-              ]}>
-              لم تنضم إلى أي صفوف بعد{' '}
-            </Text>
-          )}
+        style={[
+          {
+            borderRadius: 25,
+            marginTop: 100,
+            marginLeft: 25,
+            marginRight: 25,
+            padding: 15,
+            paddingVertical: StudentProgress != 0 ? 10 : 50,
+            backgroundColor: 'white',
+            marginBottom: Platform.OS === 'ios' ? 100 : 90,
+          },
+          TitleStyles.SoftShadow,
+        ]}>
+        {StudentProgress == 0 && (
+          <Text
+            style={[
+              TitleStyles.sectionTitle,
+              {fontSize: 24, fontWeight: null},
+            ]}>
+            لم تنضم إلى أي صفوف بعد{' '}
+          </Text>
+        )}
 
-          {StudentProgress != 0 && (
-            <FlatList
-              data={StudentProgress}
-           
-              scrollEnabled={true}
-              renderItem={({item}) => (
+        {StudentProgress != 0 && (
+          <FlatList
+            data={StudentProgress}
+            keyExtractor={(item, index) => index.toString()}
+            scrollEnabled={false}
+            renderItem={({item}) => (
+              <TouchableOpacity
+                style={{
+                  backgroundColor: progressColors[color++ % 3],
+                  marginTop: 20,
+                  borderRadius: 25,
+                  flexDirection: 'row',
+                }}>
                 <TouchableOpacity
                   style={{
-                    backgroundColor: progressColors[color++ % 3],
-                    marginTop: 20,
+                    backgroundColor: progressDarkercolors[darkercolor++ % 3],
+                    width: item.totalScore == 0 ? '10%' : item.totalScore + '%',
                     borderRadius: 25,
+                    flexDirection: 'row',
+                    height: 40,
                   }}>
-                  <TouchableOpacity
+                  <ProgressIcon
                     style={{
-                      backgroundColor: progressDarkercolors[darkercolor++ % 3],
-                      width: item.score < 50 ? '50%' : item.score + '%',
-                      borderRadius: 25,
-                      flexDirection: 'row',
-                    }}>
-                    <ProgressIcon
-                      style={{
-                        left: 5,
-                        top: 5,
-                      }}
-                    />
+                      marginLeft: 10,
+                      left: 5,
+                      top: 5,
+                    }}
+                  />
+                  {item.totalScore > 50 && (
                     <Text
                       style={[
                         TitleStyles.sectionTitle,
                         {
-                          marginLeft: 10,
+                          position: 'absolute',
                           fontSize: 18,
-                          fontWeight: null,
                           textAlign: 'left',
                           color: 'white',
+                          width: '100%',
+                          marginLeft: 40,
                         },
                       ]}>
-                      {item.classname} {EngToArabicNum(item.score)}%
+                      {item.classname} {EngToArabicNum(item.totalScore)}%
                     </Text>
-                  </TouchableOpacity>
+                  )}
                 </TouchableOpacity>
-              )}
-            />
-          )}
-        </View>
-
+                {item.totalScore < 50 && (
+                  <Text
+                    style={[
+                      TitleStyles.sectionTitle,
+                      {
+                        position: 'absolute',
+                        fontSize: 18,
+                        textAlign: 'left',
+                        color: 'white',
+                        marginLeft: 40,
+                      },
+                    ]}>
+                    {item.classname} {EngToArabicNum(item.totalScore)}%
+                  </Text>
+                )}
+              </TouchableOpacity>
+            )}
+          />
+        )}
+      </View>
     </SafeAreaView>
   );
 };
 export default ProgressChart;
-
