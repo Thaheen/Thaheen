@@ -37,8 +37,8 @@ const Chunking = ({navigation, route}) => {
   const [ErrorMessage, setErrorMessage] = useState('');
   const [textBody, setTextBody] = useState('');
   const [myArray, updateMyArray] = useState([]);
-
-   var chunk=[];
+  const [chunk, setChunk] = useState([]);
+  //global.chunk = [];
   const [show, setShow] = useState(false);
   const [counter, setCounter] = useState(0);
   const [chunkCounter, setChunkCounter] = useState(1);
@@ -48,8 +48,9 @@ const Chunking = ({navigation, route}) => {
   const [coloredWords, setColoredWords] = useState([]);
   const [numOfmistakes, setnumOfmistakes] = useState();
   const [loading, setLoading] = useState(false);
-var taggedWords=[];
- const [ FinalResult,setFinalResult] = useState([]);
+  var taggedWords = [];
+  const [FinalResult, setFinalResult] = useState([]);
+  //var FinalResult = [];
   const [DownLoadURI, setDownLoadURI] = useState('');
   const [IsRecording, setIsRecording] = useState(false);
   const [dialog, setDialog] = useState('إضغط زر المايكروفون لنبدأ');
@@ -86,20 +87,19 @@ var taggedWords=[];
     var FullText = textBody.split('،');
   }
 
-  var cont = 0;
+  //var cont = 0;
+
   ShowMoreChuncks = () => {
+    setFinalResult([]);
+    //console.log(FullText);
     if (counter <= FullText.length - 1) {
-      console.log(' before the counts :' + counter);
       updateMyArray(arr => [...arr, FullText[counter]]);
+      //setChunk(arr => [...arr, FullText[counter]]);
       setCounter(counter => counter + 1);
-      chunk = FullText[counter].split(" ")
-      console.log('-----------------------------');
-      console.log('chucnk :' + chunk.length);
-      console.log(' After the counts :' + cont);
     } else {
     }
   };
-
+  //console.log(chunk);
   const newTextTag = myArray.map(type => (
     <Text style={[TitleStyles.smallText, {textAlign: 'center', marginTop: 20}]}>
       {type}
@@ -156,14 +156,17 @@ var taggedWords=[];
       let responseJson = await response.json();
 
       console.log(responseJson);
-    
 
       const transcription = responseJson.results
         .map(result => result.alternatives[0].transcript)
         .join('\n');
+
       console.log(`Transcription: ${transcription}`);
 
-      compare(transcription , chunk);
+      compare(transcription);
+      // console.log('---');
+      // console.log(chunk);
+      // console.log('---');
     } catch (error) {
       console.log(error + '<-----here ');
 
@@ -174,65 +177,60 @@ var taggedWords=[];
 
     setLoading(false);
   };
-
-  const compare = ({transcription,textBody}) => {
-    var counter = 0;
+  //console.log(myArray[counter]);
+  const compare = transcription => {
+    var count = 0;
     // from google >> transcription
+
+    var textBody = FullText[counter - 1].split(' ');
+    var FilterTextbody = textBody.filter(e => e);
+
     const transcriptArray = transcription.split(' ');
 
-    console.log('Before loop ==', textBody);
-    for (let i = 0, j = 0; i < textBody.length; i++, j++) {
-     
+    for (let i = 0, j = 0; i < FilterTextbody.length; i++, j++) {
       taggedWords.push({
-        Text: textBody[i],
+        Text: FilterTextbody[i],
         color: 'Black',
       });
       console.log('The word ' + transcriptArray[i]);
 
-      if (textBody.length - 1 == i && !(transcriptArray[j] == textBody[i])) {
-        console.log('inside first condition ' + i);
+      if (
+        FilterTextbody.length - 1 == i &&
+        !(transcriptArray[j] == FilterTextbody[i])
+      ) {
+        // console.log('inside first condition ' + i);
 
         taggedWords.pop();
         taggedWords.push({
-          Text: textBody[i],
+          Text: FilterTextbody[i],
           color: 'Red',
         });
-        ++counter;
+        ++count;
       } else {
-        if (transcriptArray[j] !== textBody[i]) {
-          if (transcriptArray[j] !== textBody[i + 1]) {
-            console.log(
-              'Text Body word : ' +
-                textBody[i] +
-                ' Text Body Next Word ' +
-                textBody[i + 1] +
-                ' transcript word ' +
-                transcriptArray[i] +
-                ' iteration ' +
-                i,
-            );
+        if (transcriptArray[j] !== FilterTextbody[i]) {
+          if (transcriptArray[j] !== FilterTextbody[i + 1]) {
             taggedWords.pop();
             taggedWords.push({
-              Text: textBody[i],
+              Text: FilterTextbody[i],
               color: 'Red',
             });
-            ++counter;
+            ++count;
           } // end small if
           else {
             taggedWords.pop();
             taggedWords.push({
-              Text: textBody[i],
+              Text: FilterTextbody[i],
               color: 'Red',
             });
-            ++counter;
+            ++count;
             taggedWords.push({
-              Text: textBody[++i],
+              Text: FilterTextbody[++i],
               color: 'Black',
             });
           } // end else
         } // large if
       } // end else
-   setFinalResult(arr => [...arr, taggedWords[i]]);
+      setFinalResult(arr => [...arr, taggedWords[i]]);
     }
     setDoneRecite(true);
     setColoredWords(taggedWords);
@@ -244,7 +242,6 @@ var taggedWords=[];
         flex: 1,
         backgroundColor: '#DAE2E9',
       }}>
-
       <Text style={[TitleStyles.sectionTitle, {marginTop: 30}]}>
         هيا لنبدأ المراجعة
       </Text>
@@ -257,8 +254,31 @@ var taggedWords=[];
         </Text>
 
         <>{newTextTag}</>
+      </View>
 
-   {/* <FlatList
+      <View style={{marginTop: 310}}>
+        <WhiteCurve />
+      </View>
+
+      {/* <ThaheenStanding
+        style={[{position: 'absolute', bottom: 50, right: -20}]}
+        width={170}
+        height={170}
+      /> */}
+      <Loader loading={loading} color="#F5C5AD" />
+      <ErrorModel
+        message={ErrorMessage}
+        modalVisible={ErrormodalVisible}
+        setModalVisible={setErrormodalVisible}
+      />
+
+      <View
+        style={[
+          TitleStyles.MemorizationContainer,
+          {width: 333, height: 139, top: 470},
+        ]}>
+        {taggedWords != null && (
+          <FlatList
             style={[
               {
                 padding: 10,
@@ -275,45 +295,22 @@ var taggedWords=[];
             renderItem={({item, index}) => (
               <ColoredText word={item.Text} color={item.color} />
             )}
-          /> */}
-
-      </View>
-
-      <View style={{marginTop: 310}}>
-        <WhiteCurve />
-      </View>
-
-      <ThaheenStanding
-        style={[{position: 'absolute', bottom: 50, right: -20}]}
-        width={170}
-        height={170}
-      />
-      <Loader loading={loading} color="#F5C5AD" />
-      <ErrorModel
-        message={ErrorMessage}
-        modalVisible={ErrormodalVisible}
-        setModalVisible={setErrormodalVisible}
-      />
-      <View
-        style={{
-         
-    zIndex:3,
-    position:"absolute",
-    top:580,
-    left:140
-
-        }}>
-    
-        {IsRecording ? (
-          <TouchableOpacity onPress={() => finishRecord()}>
-            <StopMicrophone height={100} />
-          </TouchableOpacity>
-
-        ) : (
-          <TouchableOpacity onPress={() => finishRecord()}>
-            <StartMicrophone height={100} />
-          </TouchableOpacity>
+          />
         )}
+        <View
+          style={{
+            position: 'absolute',
+          }}>
+          {IsRecording ? (
+            <TouchableOpacity onPress={() => finishRecord()}>
+              <StopMicrophone height={100} />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity onPress={() => finishRecord()}>
+              <StartMicrophone height={100} />
+            </TouchableOpacity>
+          )}
+        </View>
       </View>
     </SafeAreaView>
   );
