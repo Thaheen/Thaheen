@@ -23,48 +23,67 @@ const ClassAllStudents = ({navigation, route}) => {
   const [studentsList, setStudentsList] = useState([])
   const [numOfStudents, setNumOfStudents] = useState('')
   const [username, setUsername] = useState()
+  const [studentId, setStudentId] = useState()
   const [ConfirmmodalVisible, setConfirmmodalVisible] = useState(false)
   const studentsUsernames = route.params.studentsList
 
   useEffect(() => {
     const students = []
-    studentsUsernames.forEach((studentUsername, index) => {
-      getFullName(studentUsername)
-    })
-    function getFullName (studentUsername) {
-      firestore()
-        .collection('Student')
-        .where('Username', '==', studentUsername)
-        .get()
-        .then(querySnapshot => {
-          if (querySnapshot.size != 0) {
-            students.push({
-              ...querySnapshot.docs[0].data(),
-              key: querySnapshot.docs[0].id,
-            })
-            setStudentsList(students)
-          }
-        })
+    getFullName()
+
+    async function getFullName () {
+      for (var student in studentsUsernames) {
+        await firestore()
+          .collection('Student')
+          .where('Username', '==', studentsUsernames[student])
+          .get()
+          .then(querySnapshot => {
+            if (querySnapshot.size != 0) {
+              students.push({
+                ...querySnapshot.docs[0].data(),
+                key: querySnapshot.docs[0].id,
+              })
+            }
+          })
+      }
+      setStudentsList(students)
     }
   }, [])
 
-  const ViewStudentProfile = name => {
-    navigation.navigate('StudentProfile', {
-      studentID: name.key,
-      studentPic: name.pic,
-    })
-  }
   const removeStudentFromList = () => {
     setConfirmmodalVisible(!ConfirmmodalVisible)
+
     firestore()
       .collection('ClassCommunity')
       .doc(route.params.classKey)
       .update({
         StudentList: firestore.FieldValue.arrayRemove(username),
-      })
+      });
+
+    firestore()
+      .collection('Instructor Text')
+      .where('ClassId', '==', route.params.classKey)
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(documentSnapshot => {
+          var AllFeedbacks = documentSnapshot.data().Feedback
+          delete AllFeedbacks[studentId]
+          documentSnapshot.ref.update({
+            Feedback: AllFeedbacks,
+          })
+        })
+      });
+
+    setStudentsList(
+      studentsList.filter(student => {
+        return student.Username != username
+      }),
+    )
   }
-  const showCofnirmModal = username => {
+
+  const showCofnirmModal = (username, studentId) => {
     setUsername(username)
+    setStudentId(studentId)
     setConfirmmodalVisible(!ConfirmmodalVisible)
   }
 
@@ -98,6 +117,7 @@ const ClassAllStudents = ({navigation, route}) => {
               marginTop: 40,
               height: '85%',
               backgroundColor: 'white',
+              alignItems: 'center',
             },
           ]}>
           <BlueGardiantModal style={{position: 'absolute'}} />
@@ -128,7 +148,7 @@ const ClassAllStudents = ({navigation, route}) => {
           ) : null}
 
           <FlatList
-            style={[{marginTop: 30, paddingHorizontal: 20}]}
+            style={[{marginTop: 30}]}
             data={studentsList}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({item}) => (
@@ -141,7 +161,6 @@ const ClassAllStudents = ({navigation, route}) => {
                     flexDirection: 'row',
                     justifyContent: 'space-between',
                     alignItems: 'center',
-                    width: 'auto',
                     paddingRight: 20,
                   },
                 ]}>
@@ -158,7 +177,7 @@ const ClassAllStudents = ({navigation, route}) => {
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                  onPress={() => showCofnirmModal(item.Username)}>
+                  onPress={() => showCofnirmModal(item.Username, item.key)}>
                   <Text
                     style={[
                       TitleStyles.WarningText,
