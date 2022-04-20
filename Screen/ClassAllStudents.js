@@ -168,7 +168,8 @@ const ClassAllStudents = ({navigation, route}) => {
                   onPress={() => {
                     navigation.navigate('InstructorViewStudentScore', {
                       classId: route.params.classKey,
-                      studentId: item.key
+                      studentId: item.key,
+                      Fullname: item.Fullname
                     })
                   }}
                   style={{flexDirection: 'row', alignItems: 'center'}}>

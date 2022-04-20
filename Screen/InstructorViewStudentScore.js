@@ -62,9 +62,11 @@ const InstructorViewStudentScore = ({navigation, route}) => {
       <Text
         style={[
           TitleStyles.HeaderTitle,
-          {paddingVertical: 35, alignSelf: 'center'},
+          {paddingVertical: 35, alignSelf: 'center',textAlign: 'center'},
         ]}>
-        كشف درجات الطالب
+         كشف درجات الطالبـ/ـة
+         {'\n'}
+        {route.params.Fullname}
       </Text>
 
       <View
@@ -148,7 +150,7 @@ const InstructorViewStudentScore = ({navigation, route}) => {
               TitleStyles.ProfileTitle,
               {marginTop: 0, fontSize: 24, paddingHorizontal: 30},
             ]}>
-            لم يقم الطالب بتسميع أي واجب بعد
+            لا يوجد واجب بعد
           </Text>
         )}
       </View>
