@@ -24,10 +24,9 @@ import {UserInfoContext} from '../auth/UserInfoContext';
 
 const StudentNotifications = ({navigation, route}) => {
   
-  const [StudentClasses, setStudentClasses] = useState([]);
   const [ClassesAssignments, setClassesAssignments] = useState([]);
-  
-  const {student} = React.useContext(UserInfoContext);
+  const [ClassID , setClassID]=useState('')
+  const {student, ClassList} = React.useContext(UserInfoContext);
 
   const [onePass, setOnePass] = useState(0)
   let StudentAssignment = [];
@@ -35,48 +34,58 @@ const StudentNotifications = ({navigation, route}) => {
 
   useEffect(() => {
 
-    
-      const classes = firestore()
-        .collection('ClassCommunity')
-        .where('StudentList', 'array-contains', student.data().Username)
-        .onSnapshot(querySnapshot => {
-          const StudentClassroom = [];
-          querySnapshot.forEach(documentSnapshot => {
-            StudentClassroom.push({
-              Name : documentSnapshot.data().Name,
-              key: documentSnapshot.id,
-            });
-          });
-          setStudentClasses(StudentClassroom);
-        });
-        console.log(StudentClasses)
 
-    for (let index = 0; index < StudentClasses.length; index++) {
+    for (index in ClassList) {
         
-            
         const assignments = firestore()
           .collection('Instructor Text')
-          .where('ClassId', '==', StudentClasses[index].key.toString())
+          .where('ClassId', '==', ClassList[index].key.toString())
           .onSnapshot(querySnapshot => {
             querySnapshot.forEach(documentSnapshot => {
+              if(!StudentAssignment.includes({
+                ...documentSnapshot.data(),
+                class: ClassList[index].Name,
+                key: documentSnapshot.id,
+              })){
               StudentAssignment.push({
                 ...documentSnapshot.data(),
+                class: ClassList[index].Name,
                 key: documentSnapshot.id,
-              });
+              });}
             });
+            if ( StudentAssignment.length != 0){
             setClassesAssignments(StudentAssignment);
+            }
           }); 
+
           
     }
-  
+    //console.log(ClassesAssignments)
+
+    //  for(assignment in StudentAssignment ){
+    //             //console.log(StudentAssignment[assignment].class)
+    //             firestore()
+    //               .collection('ClassCommunity')
+    //               .doc(StudentAssignment[assignment].ClassId.toString())
+    //               .onSnapshot(snapshot => {
+                    
+    //                 StudentAssignment[assignment] = {...StudentAssignment[assignment], class: snapshot.data().Name.toString()}
+
+    //                 // console.log(snapshot.data().Name.toString())
+    //                 //console.log(StudentAssignment[assignment].class)
+    //               });                
+    //         }
   
 
 
     }, []);
+    
 
-
-  console.log(ClassesAssignments)
-
+  const setClassCommunityID=CId=>{
+    setClassID(CId)    
+    console.log(ClassID)
+    navigation.navigate('ViewClassCommunity' , {ClassCID:ClassID})
+  }
 
   return (
     <SafeAreaView
@@ -114,9 +123,9 @@ const StudentNotifications = ({navigation, route}) => {
           keyExtractor={(item, index) => index.toString()}
           renderItem={({item}) => (
             <TouchableOpacity 
-            // onPress={() => {
-            // navigation.navigate('ViewClassCommunity' , {ClassCID:item.classId})
-            //   }}
+             onPress={() => {
+              navigation.navigate('ViewClassCommunity' , {ClassCID:item.ClassId})
+              }}
               >
                     <View
                       style={[
@@ -126,9 +135,15 @@ const StudentNotifications = ({navigation, route}) => {
                       <Text
                         style={[
                           TitleStyles.smallText,
+                        ]}>
+                        {' \n '} ●  {item.TextHead} 
+                      </Text>
+                      <Text
+                        style={[
+                          TitleStyles.smallText,
                           {paddingRight: 10, paddingLeft: 10},
                         ]}>
-                        {'  '}●  {item.TextHead} 
+                        {item.class}
                       </Text>
                     </View>
                   </TouchableOpacity>

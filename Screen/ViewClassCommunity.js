@@ -49,6 +49,8 @@ const StudentClass = ({navigation, route}) => {
       .collection('ClassCommunity')
       .doc(route.params.ClassCID)
       .onSnapshot(querySnapshot => {
+        console.log(route.params.ClassCID)
+        console.log(querySnapshot.data())
         setclassName(querySnapshot.data().Name);
       });
     return classcomm;

@@ -118,6 +118,11 @@ const NotifyStackScreens = () => {
         component={StudentNotifications}
         options={{headerShown: false}}
       />
+      <NotifyStack.Screen
+        name="ViewClassCommunity"
+        component={ViewClassCommunity}
+        options={{headerShown: false}}
+      />
     </NotifyStack.Navigator>
   );
 };

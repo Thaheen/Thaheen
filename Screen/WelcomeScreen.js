@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react';
 import {
   SafeAreaView,
   StatusBar,
@@ -17,7 +17,39 @@ import WhiteANDblue from '../assets/images/whiteANDblue.svg'
 import ThaheenStanding from '../assets/images/ThaheenStanding.svg'
 import FocusAwareStatusBar from '../Components/FocusAwareStatusBar';
 
+import {UserInfoContext} from '../auth/UserInfoContext';
+import firestore from '@react-native-firebase/firestore';
+
+
+
 const WelcomeScreen = ({navigation}) => {
+
+  const {student, ClassList, setClassList} = React.useContext(UserInfoContext);
+
+  let colors = ['#F8D3C1', '#F3DAAB'];
+  let i = 0;
+
+
+  useEffect(() => {
+    const classcomm = firestore()
+      .collection('ClassCommunity')
+      .where('StudentList', 'array-contains', student.data().Username)
+      .onSnapshot(querySnapshot => {
+        const StudentClassroom = [];
+        querySnapshot.forEach(documentSnapshot => {
+          StudentClassroom.push({
+            ...documentSnapshot.data(),
+            key: documentSnapshot.id,
+            color: colors[i++ % 2],
+          });
+        });
+        setClassList(StudentClassroom);
+      });
+    return classcomm;
+  }, []);
+
+  console.log(ClassList)
+
   return (
     <SafeAreaView
       style={{

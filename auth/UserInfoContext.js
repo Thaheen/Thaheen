@@ -6,6 +6,8 @@ export const UserInfoContextProvider = ({children}) => {
   const [user, setUser] = useState();
   const [rememberEmail, setRememberEmail] = useState();
   const [student, setStudent] = useState();
+  const [ClassList, setClassList] = useState();
+
 
   return (
     <UserInfoContext.Provider
@@ -16,6 +18,8 @@ export const UserInfoContextProvider = ({children}) => {
         setRememberEmail,
         student,
         setStudent,
+        ClassList,
+        setClassList
       }}>
       {children}
     </UserInfoContext.Provider>
