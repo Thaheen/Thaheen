@@ -10,8 +10,9 @@ import TitleStyles from '../Styles/Titles';
 import BookReader from '../assets/images/BookReader';
 import {useNavigation} from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
+import Trash from '../assets/images/Trash';
 
-const TextCard = ({title, textID, doneRecite}) => {
+const TextCard = ({title, textID, doneRecite, deleteOption, sentFunction}) => {
   const navigation = useNavigation();
   const [totalWords, setTotalWords] = useState();
   const [numOfmistakes, setNumOfMistakes] = useState();
@@ -51,7 +52,9 @@ const TextCard = ({title, textID, doneRecite}) => {
           flexDirection: I18nManager.isRTL ? 'row' : 'row-reverse',
           marginBottom: 20,
           alignItems: 'center',
+          justifyContent: 'space-between'
         }}>
+        <View style={{flexDirection: 'row', alignItems: 'center',}}>
         <BookReader />
         <Text
           style={[
@@ -61,6 +64,13 @@ const TextCard = ({title, textID, doneRecite}) => {
           ]}>
           {title}
         </Text>
+        </View>
+        {deleteOption ? (
+          <TouchableOpacity
+            onPress={() => sentFunction(textID)}>
+            <Trash width={30} height={30} fill={'#C54822'} style={{alignSelf:'flex-start'}} />
+          </TouchableOpacity>
+        ) : null}
       </View>
 
       <View

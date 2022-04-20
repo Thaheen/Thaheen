@@ -26,7 +26,8 @@ import {UserInfoContext} from '../auth/UserInfoContext';
 import ClassCard from '../Components/ClassCard';
 import BackButton from '../Components/BackButton.js';
 import TextCard from '../Components/TextCard';
-
+import ConfirmModel from '../Components/ConfirmModel';
+import SuccessModel from '../Components/SuccessModel';
 
 const StudentViewAllAssignment = ({navigation, route}) => {
     const [TextList, setTextList] = useState([]);
@@ -35,7 +36,10 @@ const StudentViewAllAssignment = ({navigation, route}) => {
     const {student} = React.useContext(UserInfoContext);
     const SName = student['_data']['Fullname'];
     const [fullName, setFullName] = useState('');
-  
+    const [ConfirmmodalVisible, setConfirmmodalVisible] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [textID, setTextID] = useState();
+
     useEffect(() => {
       const textAssignment = firestore()
         .collection('Student Text')
@@ -54,6 +58,22 @@ const StudentViewAllAssignment = ({navigation, route}) => {
         });
       return () => textAssignment();
     }, []);
+
+  const deleteText = textID => {
+    setConfirmmodalVisible(!ConfirmmodalVisible);
+    firestore()
+      .collection('Student Text')
+      .doc(textID)
+      .delete()
+      .then(() => {
+        setModalVisible(!modalVisible);
+      });
+  };
+
+  const showConfirmModal = (textID) => {
+    setTextID(textID)
+    setConfirmmodalVisible(!ConfirmmodalVisible);
+  }
 
   return (
     <SafeAreaView
@@ -84,6 +104,24 @@ const StudentViewAllAssignment = ({navigation, route}) => {
            نصوصي    
       </Text>
 
+      {ConfirmmodalVisible ? (
+        <ConfirmModel
+          message={'هل انت متأكد من حذف الواجب؟'}
+          modalVisible={ConfirmmodalVisible}
+          setModalVisible={setConfirmmodalVisible}
+          sentFunction={deleteText}
+          ID={textID}
+        />
+      ) : null}
+
+      {modalVisible ? (
+        <SuccessModel
+          message={'تم حذف الواجب بنجاح'}
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+          
+        />
+      ) : null}
 
       {TextList != 0 && (
         <FlatList
@@ -94,7 +132,7 @@ const StudentViewAllAssignment = ({navigation, route}) => {
           renderItem={({item}) => (
               <View style={{justifyContent:'center' }}>
             <TouchableOpacity>
-              <TextCard title={item.TextHead} textID={item.key} doneRecite={item.Feedback.trial} />
+              <TextCard title={item.TextHead} textID={item.key} doneRecite={item.Feedback.trial} deleteOption={true} sentFunction={showConfirmModal} />
             </TouchableOpacity>
             </View>
           )}
