@@ -59,7 +59,7 @@ const ProgressChart = ({navigation, route}) => {
   }, []);
 
   const calcScore = useCallback(async (progress, classkey, name) => {
-    score = 0;
+    let score = 0;
     const fetch = await firestore()
       .collection('Instructor Text')
       .where('ClassId', '==', classkey)

@@ -74,7 +74,7 @@ const ReciteSession = ({navigation, route}) => {
         if(querySnapshot.exists){
           console.log('in student text')
           setTextBody(
-            querySnapshot.data().TextBody.replace(/إ|أ|آ/g, 'ا').split(' '),
+            querySnapshot.data().TextBody.replace(/إ|أ|آ/g, 'ا').replace(/،/g, '').split(' '),
           );
           setTextHead(querySnapshot.data().TextHead);
         }else{
