@@ -17,6 +17,8 @@ import {
   Button,
   Platform,
   PermissionsAndroid,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
 import TitleStyles from '../Styles/Titles';
 import firestore from '@react-native-firebase/firestore';
@@ -451,6 +453,7 @@ if (this.props.route.params.keyword=='student'){
     console.log('student id ' + StudentID);
     // console.log('class id ' + ClassID);
     return (
+      <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss()}}>
       <View>
         <SafeAreaView
           style={{
@@ -698,6 +701,7 @@ if (this.props.route.params.keyword=='student'){
           </TouchableOpacity>
         </SafeAreaView>
       </View>
+      </TouchableWithoutFeedback>
     );
   }
 }

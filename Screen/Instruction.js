@@ -37,6 +37,7 @@ const Instruction = ({navigation, route}) => {
         //flexDirection: 'row',
         // alignItems: 'center',
       }}>
+      <StatusBar translucent backgroundColor="#DAE2E9" />
       <ScrollView>
         <Text style={[TitleStyles.sectionTitle, {marginTop: 40}]}>
           ملاحظة هامة !
