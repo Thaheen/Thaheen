@@ -326,24 +326,7 @@ const StudentHome = () => {
                         top: 5,
                       }}
                     />
-                    {item.totalScore > 50 && (
-                      <Text
-                        style={[
-                          TitleStyles.sectionTitle,
-                          {
-                            position: 'absolute',
-                            fontSize: 18,
-                            textAlign: 'left',
-                            color: 'white',
-                            width: '100%',
-                            marginLeft: 40,
-                          },
-                        ]}>
-                        {item.classname} {EngToArabicNum(item.totalScore)}%
-                      </Text>
-                    )}
-                  </TouchableOpacity>
-                  {item.totalScore <= 50 && (
+
                     <Text
                       style={[
                         TitleStyles.sectionTitle,
@@ -352,12 +335,13 @@ const StudentHome = () => {
                           fontSize: 18,
                           textAlign: 'left',
                           color: 'white',
+                          width: '100%',
                           marginLeft: 40,
                         },
                       ]}>
                       {item.classname} {EngToArabicNum(item.totalScore)}%
                     </Text>
-                  )}
+                  </TouchableOpacity>
                 </TouchableOpacity>
               )}
             />
