@@ -343,7 +343,7 @@ const StudentHome = () => {
                       </Text>
                     )}
                   </TouchableOpacity>
-                  {item.totalScore < 50 && (
+                  {item.totalScore <= 50 && (
                     <Text
                       style={[
                         TitleStyles.sectionTitle,

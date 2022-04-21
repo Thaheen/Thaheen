@@ -183,7 +183,7 @@ const ProgressChart = ({navigation, route}) => {
                     </Text>
                   )}
                 </TouchableOpacity>
-                {item.totalScore < 50 && (
+                {item.totalScore <= 50 && (
                   <Text
                     style={[
                       TitleStyles.sectionTitle,
