@@ -60,17 +60,36 @@ const InsClassInfo = ({navigation, route}) => {
 
   if (route.params.classKey) {
     useEffect(() => {
+      const students = []
       const classInfo = firestore()
         .collection('ClassCommunity')
         .doc(route.params.classKey)
         .onSnapshot(snapshot => {
           if (snapshot.exists) {
             setName(snapshot.data().Name);
-            setStudentsList(snapshot.data().StudentList);
+            getFullName(snapshot.data().StudentList)
             setPasscode(snapshot.data().Passcode);
             setNumOfStudents(snapshot.data().StudentList.length);
           }
         });
+
+        async function getFullName (studentsUsernames) {
+          for (var student in studentsUsernames) {
+            await firestore()
+              .collection('Student')
+              .where('Username', '==', studentsUsernames[student])
+              .get()
+              .then(querySnapshot => {
+                if (querySnapshot.size != 0) {
+                  students.push({
+                    ...querySnapshot.docs[0].data(),
+                    key: querySnapshot.docs[0].id,
+                  })
+                }
+              })
+          }
+          setStudentsList(students)
+        }
       return classInfo;
     }, []);
   }
@@ -156,6 +175,13 @@ const InsClassInfo = ({navigation, route}) => {
 
               <MenuOptions
                 customStyles={{optionsContainer: {borderRadius: 10}}}>
+                <MenuOption
+                  onSelect={() => navigation.navigate('ClassScoreboard', {
+                    classId: route.params.classKey,
+                  })}>
+                  <Text style={TitleStyles.smallText}>عرض لوحة التفوق</Text>
+                </MenuOption>
+
                 <MenuOption
                   onSelect={() => setEditClassVisible(!editClassVisible)}>
                   <Text style={TitleStyles.smallText}>تعديل معلومات الفصل</Text>
@@ -469,9 +495,9 @@ const InsClassInfo = ({navigation, route}) => {
                       <Text
                         style={[
                           TitleStyles.smallText,
-                          {paddingRight: 10, paddingLeft: 10},
+                          {paddingHorizontal: 20},
                         ]}>
-                        {item} {'  '}●
+                        ●{'  '}{item.Fullname} 
                       </Text>
                     </View>
                   </TouchableOpacity>

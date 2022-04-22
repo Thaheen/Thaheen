@@ -20,35 +20,12 @@ import firestore from '@react-native-firebase/firestore'
 import ConfirmModel from '../Components/ConfirmModel'
 
 const ClassAllStudents = ({navigation, route}) => {
-  const [studentsList, setStudentsList] = useState([])
+
   const [numOfStudents, setNumOfStudents] = useState('')
   const [username, setUsername] = useState()
   const [studentId, setStudentId] = useState()
   const [ConfirmmodalVisible, setConfirmmodalVisible] = useState(false)
-  const studentsUsernames = route.params.studentsList
-
-  useEffect(() => {
-    const students = []
-    getFullName()
-
-    async function getFullName () {
-      for (var student in studentsUsernames) {
-        await firestore()
-          .collection('Student')
-          .where('Username', '==', studentsUsernames[student])
-          .get()
-          .then(querySnapshot => {
-            if (querySnapshot.size != 0) {
-              students.push({
-                ...querySnapshot.docs[0].data(),
-                key: querySnapshot.docs[0].id,
-              })
-            }
-          })
-      }
-      setStudentsList(students)
-    }
-  }, [])
+  const studentsList = route.params.studentsList
 
   const removeStudentFromList = () => {
     setConfirmmodalVisible(!ConfirmmodalVisible)
