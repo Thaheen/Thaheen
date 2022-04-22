@@ -316,7 +316,6 @@ const StudentHome = () => {
                           fontSize: 18,
                           textAlign: 'left',
                           color: 'white',
-                          width: '100%',
                           marginLeft: 40,
                         },
                       ]}>
