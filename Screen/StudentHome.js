@@ -14,8 +14,9 @@ import {
 import TitleStyles from '../Styles/Titles';
 import ThaheenStanding from '../assets/images/ThaheenStanding';
 import ProgressIcon from '../assets/images/ProgressIcon';
-import Badage from '../assets/images/badage';
-import BadageGreyedOut from '../assets/images/badageGreyedOut';
+import BadgeGold from '../assets/images/BadgeGold';
+import BadgeSilver from '../assets/images/BadgeSilver';
+import BadgeBronze from '../assets/images/BadgeBronze';import BadageGreyedOut from '../assets/images/badageGreyedOut';
 import TextCard from '../Components/TextCard';
 import HomeSection from '../Components/HomeSection';
 import auth from '@react-native-firebase/auth';
@@ -37,7 +38,8 @@ const StudentHome = () => {
 
   var color = 0;
   var darkercolor = 0;
-  const studentTitles = ['الطالب المميز', 'الطالب الذكي', 'الطالب المبدع'];
+  const studentTitles = ['الطالب الذهبي', 'الطالب الفضي','الطالب البرونزي']
+  const studentBadges = [<BadgeGold style={{position: "absolute", bottom:-10, right:10}} />, <BadgeSilver style={{position: "absolute", bottom:-10, right:10}} />, <BadgeBronze style={{position: "absolute", bottom:-10, right:10}} />]
 
   const progressDarkercolors = ['#EE7C60', '#84CCEA', '#AFC3D6'];
   const progressColors = ['#FBE5DA', '#D5EEF8', '#D8E2EB'];
@@ -169,14 +171,6 @@ const StudentHome = () => {
               ]}>
               مرحبًا {fullName}
             </Text>
-            <Text
-              style={[
-                TitleStyles.subTitle,
-                I18nManager.isRTL ? {marginLeft: 60} : {marginRight: 60},
-                {fontFamily: 'AJannatLT-Bold'},
-              ]}>
-              المستوى: ممتاز
-            </Text>
             {studentRank < 3 ? (
               <Text
                 style={[
@@ -184,7 +178,8 @@ const StudentHome = () => {
                   I18nManager.isRTL ? {marginLeft: 60} : {marginRight: 60},
                   {fontFamily: 'AJannatLT-Bold', marginBottom: 20},
                 ]}>
-                اللقب:
+                 اللقب: 
+                 {' '}
                 {studentTitles[studentRank]}
               </Text>
             ) : (
@@ -201,27 +196,13 @@ const StudentHome = () => {
 
           <ThaheenStanding
             style={[
-              {position: 'absolute', bottom: 0},
+              {position: 'absolute', bottom: -30},
               I18nManager.isRTL ? {left: -20} : {right: -20},
             ]}
             width={139}
             height={139}
           />
-          {studentRank < 3 ? (
-            <Badage
-              style={[
-                {position: 'absolute', bottom: 10},
-                I18nManager.isRTL ? {right: 0} : {left: 0},
-              ]}
-            />
-          ) : (
-            <BadageGreyedOut
-              style={[
-                {position: 'absolute', bottom: 10},
-                I18nManager.isRTL ? {right: 0} : {left: 0},
-              ]}
-            />
-          )}
+          {studentBadges[studentRank]}
         </View>
         {/* end top container */}
 

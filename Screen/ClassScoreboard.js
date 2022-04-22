@@ -14,7 +14,9 @@ import FocusAwareStatusBar from '../Components/FocusAwareStatusBar'
 import TitleStyles from '../Styles/Titles'
 import AnimalPicker from '../Screen/AnimalPicker.js'
 import {getTopStudents} from '../helpers/getTopStudents.js'
-import Badage from '../assets/images/badage';
+import BadgeGold from '../assets/images/BadgeGold';
+import BadgeSilver from '../assets/images/BadgeSilver';
+import BadgeBronze from '../assets/images/BadgeBronze';
 
 import firestore from '@react-native-firebase/firestore'
 
@@ -23,7 +25,8 @@ const ClassScoreboard = ({navigation, route}) => {
   const [studentsScores, setStudentsScores] = useState([])
   const [totalAssignments, setTotalAssignments] = useState()
 
-  const studentTitles = ['الطالب المميز', 'الطالب الذكي','الطالب المبدع']
+  const studentTitles = ['الطالب الذهبي', 'الطالب الفضي','الطالب البرونزي']
+  const studentBadges = [<BadgeGold width={30} style={{position: "absolute"}} />, <BadgeSilver width={30} style={{position: "absolute"}} />, <BadgeBronze width={30} style={{position: "absolute"}} />]
 
   const classId = route.params.classId
   const EngToArabicNum = num => {
@@ -142,7 +145,7 @@ const ClassScoreboard = ({navigation, route}) => {
               </View>
               {index < 3 ? (
                 <View style={{flexDirection: 'column', alignItems: 'center'}}>
-                  <Badage width={30} style={{position: 'absolute'}} />
+                  {studentBadges[index]}
                   <Text style={[TitleStyles.smallText, {fontSize: 12, marginTop: 10}]}>
                     {studentTitles[index]}
                   </Text>
