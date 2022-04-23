@@ -322,21 +322,9 @@ const ClassInputFields = ({ID, type, callBackFunction, title, buttonText}) => {
                 position: 'relative',
                 marginTop: 20,
                 backgroundColor: 'rgba(255, 255, 255, 0)',
-                width: 300,
                 padding: 0,
               },
             ]}>
-            <TouchableOpacity>
-              <View
-                style={[
-                  TitleStyles.InstructorSubCard,
-                  {height: 50, width: 150, borderRightWidth: 0},
-                ]}>
-                <Unlock />
-                <Text style={TitleStyles.smallText}>إنشاء رمز للفصل</Text>
-              </View>
-            </TouchableOpacity>
-
             <TouchableOpacity
               onPress={() => {
                 setAddmodalVisible(!AddmodalVisible);
