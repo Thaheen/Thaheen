@@ -437,6 +437,37 @@ class RecordVoice extends Component {
     //the home work ayat should be cleaned
     this.state.HomeWork = SurahAyat + '';
 
+    this.state.HomeWork = this.state.HomeWork.replace(
+      new RegExp(
+        String.fromCharCode(
+          1617,
+          124,
+          1614,
+          124,
+          1611,
+          124,
+          1615,
+          124,
+          1612,
+          124,
+          1616,
+          124,
+          1613,
+          124,
+          1618,
+        ),
+        'g',
+      ),
+      '',
+    );
+
+    this.state.HomeWork = this.state.HomeWork.replace(/إ|ٱ|أ|آ|آ/g, 'ا');
+    this.state.HomeWork = this.state.HomeWork.replace(
+      / ٓ| ۖ| ۡ| ۖ|ۥ | ۗ| ۛ| ۖ| ۙ| ۡ-/g,
+      '',
+    );
+    this.state.HomeWork = this.state.HomeWork.replace(/مۡ|مۡ |مٰ |مٓ/g, 'م');
+
     console.log('Home work');
     console.log(this.state.HomeWork);
     this.state.Title = this.state.TextType;
