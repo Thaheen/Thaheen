@@ -61,7 +61,6 @@ import {SearchBar} from 'react-native-elements';
 //the ref of record voice code
 // https://instamobile.io/react-native-tutorials/react-native-record-audio-play/?ref=hackernoon.com
 class RecordVoice extends Component {
-  // const navigation = useNavigation();
   constructor(props) {
     super(props);
     this.state = {
@@ -461,12 +460,17 @@ class RecordVoice extends Component {
       '',
     );
 
-    this.state.HomeWork = this.state.HomeWork.replace(/إ|ٱ|أ|آ|آ/g, 'ا');
-    this.state.HomeWork = this.state.HomeWork.replace(
-      / ٓ| ۖ| ۡ| ۖ|ۥ | ۗ| ۛ| ۖ| ۙ| ۡ-/g,
-      '',
-    );
-    this.state.HomeWork = this.state.HomeWork.replace(/مۡ|مۡ |مٰ |مٓ/g, 'م');
+    this.state.HomeWork = this.state.HomeWork.replace(/إ|ٱ|أ|آ|آ/g, 'ا')
+      .replace(/مۡ|مۡ |مٰـ|مٰ|مۢ|مٓ/g, 'م')
+      .replace(/بۛ|بۡ/g, 'م')
+      .replace(/لۡ|لٰ/g, 'م')
+      .replace(/سۡ/g, 'س');
+
+    // this.state.HomeWork = this.state.HomeWork.replace(
+    //   / ٓ| ۖ| ۡ| ۖ|ۥ | ۗ| ۛ| ۖ| ۙ| ۡ| ٗ-/g,
+    //   '',
+    // );
+    // this.state.HomeWork = this.state.HomeWork.replace(/مۡ|مۡ |مٰـ|مٰ|مٓ/g, 'م');
 
     console.log('Home work');
     console.log(this.state.HomeWork);
@@ -554,29 +558,7 @@ class RecordVoice extends Component {
                 )}
               </View>
             </TouchableOpacity>
-            {/* <SelectDropdown
-              style={{zIndex: 1}}
-              data={Surah}
-              buttonStyle={TitleStyles.buttonStyle}
-              buttonTextStyle={TitleStyles.dropdownButtonText}
-              onSelect={(selectedItem, index) => {
-                // console.log(selectedItem, index);
-                this.setState({TextType: selectedItem});
-                this.setState({SurahNum: index++});
-                console.log(' Index for surah ' + this.state.SurahNum);
-              }}
-              buttonTextAfterSelection={(selectedItem, index) => {
-                // text represented after item is selected
-                // if data array is an array of objects then return selectedItem.property to render after item is selected
-                return selectedItem;
-              }}
-              rowTextForSelection={(item, index) => {
-                // text represented for each item in dropdown
-                // if data array is an array of objects then return item.property to represent item in dropdown
-                return item;
-              }}
-              defaultButtonText="السورة"
-            /> */}
+
             <TheArrow style={{zIndex: 3, top: 25, right: 25}} />
             <SelectDropdown
               style={{zIndex: 1}}
@@ -584,7 +566,6 @@ class RecordVoice extends Component {
               buttonStyle={TitleStyles.buttonStyle2}
               buttonTextStyle={TitleStyles.dropdownButtonText}
               onSelect={(selectedItem, index) => {
-                // console.log(selectedItem, index);
                 this.setState({from: selectedItem});
               }}
               buttonTextAfterSelection={(selectedItem, index) => {
@@ -634,29 +615,14 @@ class RecordVoice extends Component {
               marginTop: 15,
               paddingLeft: 12,
             }}>
-            {/* <TextInput
-              placeholderTextColor={'#C3C7CA'}
-              style={TitleStyles.TextArea}
-              onChangeText={text => (this.state.HomeWork = text)}
-              value={'Ayat AlSurah'}
-              underlineColorAndroid="transparent"
-              color="black"
-              multiline
-            /> */}
-
             <FlatList
               style={{marginTop: 20}}
               contentContainerStyle={{
-                //flexDirection: 'row',
                 width: 333,
                 height: 452,
-                // textAlign: 'right',
                 alignItems: 'center',
-                // marginBottom: 20,
-                //backgroundColor: 'red',
               }}
               data={SurahAyat}
-              // extraData={selectedId}
               renderItem={({item}) => (
                 <Text>
                   {'   '}
@@ -818,10 +784,6 @@ class RecordVoice extends Component {
                     placeholder="بحث عن السورة"
                     placeholderTextColor="#43515F"
                     onChangeText={text => this.searchSurah(text)}></TextInput>
-
-                  {/* <TouchableOpacity>
-                    <Text>بحث</Text>
-                  </TouchableOpacity> */}
                 </View>
                 {this.state.isSearching == false && (
                   <FlatList
@@ -830,7 +792,6 @@ class RecordVoice extends Component {
                       alignItems: 'center',
                     }}
                     data={this.state.Surah}
-                    // extraData={selكctedId}
                     renderItem={({item, index}) => (
                       <TouchableOpacity
                         style={TitleStyles.QuranBox}
