@@ -48,7 +48,6 @@ const WelcomeScreen = ({navigation}) => {
     return classcomm;
   }, []);
 
-  console.log(ClassList)
 
   return (
     <SafeAreaView

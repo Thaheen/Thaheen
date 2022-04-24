@@ -81,12 +81,6 @@ const StudentNotifications = ({navigation, route}) => {
     }, []);
     
 
-  const setClassCommunityID=CId=>{
-    setClassID(CId)    
-    console.log(ClassID)
-    navigation.navigate('ViewClassCommunity' , {ClassCID:ClassID})
-  }
-
   return (
     <SafeAreaView
       style={{
