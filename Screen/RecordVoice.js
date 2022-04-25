@@ -77,6 +77,7 @@ class RecordVoice extends Component {
       duration: '00:00:00',
       modalVisible: false,
       ErrormodalVisible: false,
+      errorMessage:'',
       record: '',
       setLocalpath: '',
       MideaResponse: '',
@@ -394,6 +395,11 @@ if (this.props.route.params.keyword=='student'){
       });
     } catch (error) {
       console.log(error);
+      this.setState(
+        {ErrormodalVisible: true,
+        errorMessage:'حدث خطأ ما ، الرجاء المحاولة مرة اخرى',
+        loading: false
+      });
     }
   };
 
@@ -405,7 +411,10 @@ if (this.props.route.params.keyword=='student'){
       this.state.Title == null ||
       (this.state.day == null && this.props.route.params.keyword == 'class')
     ) {
-      this.setState({ErrormodalVisible: true});
+      this.setState(
+        {ErrormodalVisible: true,
+        errorMessage:'عذراً جميع الحقول مطلوبة'
+      });
       console.log('Error model ' + this.state.ErrormodalVisible);
       console.log('home in if ' + this.state.HomeWork);
       return;
@@ -503,7 +512,7 @@ if (this.props.route.params.keyword=='student'){
                     TitleStyles.subTitle,
                     {textAlign: 'center', fontFamily: 'AJannatLT-Bold'},
                   ]}>
-                  {'عذراً جميع الحقول مطلوبة'}
+                  {this.state.errorMessage}
                 </Text>
                 <TouchableOpacity
                   style={[

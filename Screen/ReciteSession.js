@@ -309,7 +309,7 @@ const ReciteSession = ({navigation, route}) => {
           style={{
             position: 'absolute',
             backgroundColor: '#DAE2E9',
-            width: 390,
+            width: '100%',
             height: 100,
             top: 50,
           }}></View>
