@@ -41,6 +41,8 @@ import CheckVector from '../assets/images/CheckVector.svg';
 import SelectDropdown from 'react-native-select-dropdown';
 import TheArrow from '../assets/images/TheArrow.svg';
 import Deadline from '../assets/images/deadline.svg';
+import Loader from 'react-native-modal-loader';
+
 
 import AudioRecorderPlayer, {
   AVEncoderAudioQualityIOSType,
@@ -91,6 +93,7 @@ class RecordVoice extends Component {
       SucessfulModalVisible: false,
       isDateTimePickerVisible: false,
       day: null,
+      loading:false,
     };
     this.audioRecorderPlayer = new AudioRecorderPlayer();
     this.audioRecorderPlayer.setSubscriptionDuration(0.09); // optional. Default is 0.1
@@ -327,6 +330,7 @@ if (this.props.route.params.keyword=='student'){
   }
 
   submitToGoogle = async () => {
+      this.setState({loading: true});
     try {
       this.DownLoadURI = await storage()
         .ref('OCR/' + this.Title) //name in storage in firebase console
@@ -594,6 +598,7 @@ if (this.props.route.params.keyword=='student'){
               )}
             </>
           </View>
+               <Loader loading={this.state.loading} color="#F5C5AD" />
           <Modal
             animationType="fade"
             transparent={true}
