@@ -39,23 +39,19 @@ const Chunking = ({navigation, route}) => {
   const [textBody, setTextBody] = useState('');
   const [myArray, updateMyArray] = useState([]);
   const [chunk, setChunk] = useState([]);
-  //global.chunk = [];
   const [show, setShow] = useState(false);
   const [counter, setCounter] = useState(0);
-  const [chunkCounter, setChunkCounter] = useState(1);
-
   const [onePass, setOnePass] = useState(0);
   const [doneRecite, setDoneRecite] = useState(false);
   const [coloredWords, setColoredWords] = useState([]);
-  const [numOfmistakes, setnumOfmistakes] = useState();
   const [loading, setLoading] = useState(false);
   var taggedWords = [];
   const [FinalResult, setFinalResult] = useState([]);
-  //var FinalResult = [];
   const [DownLoadURI, setDownLoadURI] = useState('');
   const [IsRecording, setIsRecording] = useState(false);
   const [dialog, setDialog] = useState('إضغط زر المايكروفون لنبدأ');
   const [recordID, setRecordId] = useState();
+  const [finishChunk, setfinishChunk] = useState(false);
 
   if (onePass == 0) {
     setRecordId(Math.floor(100000 + Math.random() * 90000).toString());
@@ -97,7 +93,11 @@ const Chunking = ({navigation, route}) => {
       updateMyArray(arr => [...arr, FullText[counter]]);
       //setChunk(arr => [...arr, FullText[counter]]);
       setCounter(counter => counter + 1);
-    } else {
+    }
+
+    if (counter > FullText.length - 1) {
+      setfinishChunk(true);
+      console.log(finishChunk);
     }
   };
   //console.log(chunk);
@@ -252,29 +252,60 @@ const Chunking = ({navigation, route}) => {
           TitleStyles.MemorizationContainer,
           {width: 370, marginTop: 120},
         ]}>
-        <TouchableOpacity
-          style={{
-            backgroundColor: '#F5C5AD',
-            marginTop: 20,
-            width: 250,
-            marginLeft: 60,
-            marginBottom: 10,
-            borderRadius: 13,
-            shadowColor: '#00000',
-            shadowOffset: {
-              width: 0,
-              height: 4,
-            },
-            shadowOpacity: 0.25,
-            shadowRadius: 9,
-            elevation: 9,
-          }}>
-          <Text
-            style={[TitleStyles.sectionTitle, {marginTop: 3, fontSize: 20}]}
-            onPress={ShowMoreChuncks}>
-            اظهار المزيد من النص
-          </Text>
-        </TouchableOpacity>
+        {finishChunk == true && (
+          <TouchableOpacity
+            style={{
+              backgroundColor: '#F5C5AD',
+              marginTop: 20,
+              width: 250,
+              marginLeft: 60,
+              marginBottom: 10,
+              borderRadius: 13,
+              shadowColor: '#00000',
+              shadowOffset: {
+                width: 0,
+                height: 4,
+              },
+              shadowOpacity: 0.25,
+              shadowRadius: 9,
+              elevation: 9,
+            }}>
+            <Text
+              style={[TitleStyles.sectionTitle, {marginTop: 3, fontSize: 20}]}
+              onPress={() =>
+                navigation.navigate('MemorizeFeedback', {
+                  textID: route.params.TextID,
+                })
+              }>
+              انتهيت
+            </Text>
+          </TouchableOpacity>
+        )}
+        {finishChunk == false && (
+          <TouchableOpacity
+            style={{
+              backgroundColor: '#F5C5AD',
+              marginTop: 20,
+              width: 250,
+              marginLeft: 60,
+              marginBottom: 10,
+              borderRadius: 13,
+              shadowColor: '#00000',
+              shadowOffset: {
+                width: 0,
+                height: 4,
+              },
+              shadowOpacity: 0.25,
+              shadowRadius: 9,
+              elevation: 9,
+            }}>
+            <Text
+              style={[TitleStyles.sectionTitle, {marginTop: 3, fontSize: 20}]}
+              onPress={ShowMoreChuncks}>
+              اظهار المزيد من النص
+            </Text>
+          </TouchableOpacity>
+        )}
 
         <>{newTextTag}</>
       </View>

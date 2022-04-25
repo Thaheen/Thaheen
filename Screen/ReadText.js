@@ -30,9 +30,6 @@ const ReadText = ({navigation, route}) => {
   const [textTitle, setTextTitle] = useState('');
   const [Record, setRecord] = useState(false);
 
-  let type = route.params.Type;
-  console.log(type);
-
   useEffect(() => {
     const MemorizationText = firestore()
       .collection('Student Text')
