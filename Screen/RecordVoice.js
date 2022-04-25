@@ -95,6 +95,8 @@ class RecordVoice extends Component {
       isDateTimePickerVisible: false,
       day: null,
       loading:false,
+      Picked:false,
+
     };
     this.audioRecorderPlayer = new AudioRecorderPlayer();
     this.audioRecorderPlayer.setSubscriptionDuration(0.09); // optional. Default is 0.1
@@ -111,6 +113,7 @@ class RecordVoice extends Component {
   handleDatePicked = date => {
     console.log('A date has been picked: ', date);
     this.setState({day: date});
+     this.setState({Picked: true});
 
     this.hideDateTimePicker();
   };
@@ -572,10 +575,18 @@ if (this.props.route.params.keyword=='student'){
               marginTop: 20,
             }}>
             <TouchableOpacity onPress={() => this.onRecoed()}>
-              <Microphone />
-            </TouchableOpacity>
-          </View>
 
+        <Microphone />
+
+            </TouchableOpacity>
+                
+
+
+          </View>
+          {this.state.RecFlag==true &&(
+      <Text style={[TitleStyles.smallText,{ marginTop: 10,color:"#c78b6d"}]}> *  تم ارفاق الصوت </Text>
+
+          )}
           <View
             style={{
               flexDirection: 'row',
@@ -600,6 +611,10 @@ if (this.props.route.params.keyword=='student'){
               )}
             </>
           </View>
+           {this.state.Picked==true &&(
+      <Text style={[TitleStyles.smallText,{ marginTop: 10,color:"#c78b6d"}]}> *  تم تحديد يوم التسليم </Text>
+
+          )}
                <Loader loading={this.state.loading} color="#F5C5AD" />
           <Modal
             animationType="fade"
