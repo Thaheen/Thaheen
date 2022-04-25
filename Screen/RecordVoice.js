@@ -42,6 +42,7 @@ import SelectDropdown from 'react-native-select-dropdown';
 import TheArrow from '../assets/images/TheArrow.svg';
 import Deadline from '../assets/images/deadline.svg';
 import Loader from 'react-native-modal-loader';
+import Close from '../assets/images/Close.svg';
 
 
 import AudioRecorderPlayer, {
@@ -609,6 +610,15 @@ if (this.props.route.params.keyword=='student'){
                 backgroundColor: 'rgba(52, 52, 52, 0.5)',
                 height: '100%',
               }}>
+               <Close
+                 width={50}
+                  height={50}
+                 style={{
+                   position:'absolute',
+                                   marginLeft: 20, marginTop: 200 ,zIndex:4}}
+                                   onPress={() => this.setState({modalVisible: false})}
+               />
+             
               <View style={[TitleStyles.modalContent, {alignItems: 'center'}]}>
                 <RecordingMicrophone
                   width={120}
