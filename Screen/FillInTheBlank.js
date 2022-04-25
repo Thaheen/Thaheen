@@ -36,29 +36,7 @@ const FillInTheBlank = ({navigation, route}) => {
           setTextBody(
             snapshot
               .data()
-              .TextBody.replace(
-                new RegExp(
-                  String.fromCharCode(
-                    1617,
-                    124,
-                    1614,
-                    124,
-                    1611,
-                    124,
-                    1615,
-                    124,
-                    1612,
-                    124,
-                    1616,
-                    124,
-                    1613,
-                    124,
-                    1618,
-                  ),
-                  'g',
-                ),
-                '',
-              ),
+              .TextBody.replace(/,|،/g, ' ')
           );
         } else {
           firestore()
@@ -66,29 +44,7 @@ const FillInTheBlank = ({navigation, route}) => {
             .doc(route.params.TextID)
             .onSnapshot(Qsnapshot => {
               setTextBody(
-                Qsnapshot.data().TextBody.replace(
-                  new RegExp(
-                    String.fromCharCode(
-                      1617,
-                      124,
-                      1614,
-                      124,
-                      1611,
-                      124,
-                      1615,
-                      124,
-                      1612,
-                      124,
-                      1616,
-                      124,
-                      1613,
-                      124,
-                      1618,
-                    ),
-                    'g',
-                  ),
-                  '',
-                ),
+                Qsnapshot.data().TextBody.replace(/,|،/g, ' '),
               );
             });
         }
@@ -100,19 +56,20 @@ const FillInTheBlank = ({navigation, route}) => {
   //sole.log(textBody.slice(-1));
 
   var array = textBody.split(' ');
+  array=array.filter(x => x !== "")
   const clonedArr = [...array];
 
-  //Cleaning array
-  const cleanedTextArray = [...array];
-  for (let i = 0; i < cleanedTextArray.length - 1; i++) {
-    if (
-      cleanedTextArray[i].slice(-1) ==
-      ('ذ' || 'د' || 'ز' || 'ر' || 'و' || 'ا' || 'آ' || 'إ' || 'أ')
-    ) {
-      if (cleanedTextArray[i + 1] == (',' || '،')) {
-      }
-    }
-  }
+  // //Cleaning array
+  // const cleanedTextArray = [...array];
+  // for (let i = 0; i < cleanedTextArray.length - 1; i++) {
+  //   if (
+  //     cleanedTextArray[i].slice(-1) ==
+  //     ('ذ' || 'د' || 'ز' || 'ر' || 'و' || 'ا' || 'آ' || 'إ' || 'أ')
+  //   ) {
+  //     if (cleanedTextArray[i + 1] == (',' || '،')) {
+  //     }
+  //   }
+  // }
 
   const [show, setShow] = React.useState(false);
 
