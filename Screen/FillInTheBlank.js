@@ -31,16 +31,16 @@ const FillInTheBlank = ({navigation, route}) => {
       .collection('Student Text')
       .doc(route.params.TextID)
       .onSnapshot(snapshot => {
-        if(snapshot.exists){
-        setTextBody(snapshot.data().TextBody);
-      }else{
-        firestore()
-          .collection('Instructor Text')
-          .doc(route.params.TextID)
-          .onSnapshot(Qsnapshot=>{
-            setTextBody(Qsnapshot.data().TextBody);
-          })
-      }
+        if (snapshot.exists) {
+          setTextBody(snapshot.data().TextBody);
+        } else {
+          firestore()
+            .collection('Instructor Text')
+            .doc(route.params.TextID)
+            .onSnapshot(Qsnapshot => {
+              setTextBody(Qsnapshot.data().TextBody);
+            });
+        }
       });
     return MemorizationText;
   }, []);
@@ -143,10 +143,33 @@ const FillInTheBlank = ({navigation, route}) => {
       </View>
 
       <ThaheenStanding
-        style={[{position: 'absolute', bottom: 70, right: -20}]}
+        style={[{position: 'absolute', bottom: 30, right: -15}]}
         width={150}
         height={150}
       />
+
+      <TouchableOpacity
+        style={[
+          TitleStyles.Button,
+          {
+            flexDirection: 'row',
+            justifyContent: 'center',
+            backgroundColor: '#F5C5AD',
+            position: 'absolute',
+            alignSelf: 'center',
+            width: 200,
+            borderRadius: 30,
+            marginTop: 650,
+            zIndex: 1,
+          },
+        ]}
+        onPress={() =>
+          navigation.navigate('MemorizeFeedback', {
+            textID: route.params.TextID,
+          })
+        }>
+        <Text style={TitleStyles.ButtonText}>انتهيت</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
