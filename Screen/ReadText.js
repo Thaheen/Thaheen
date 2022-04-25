@@ -30,6 +30,9 @@ const ReadText = ({navigation, route}) => {
   const [textTitle, setTextTitle] = useState('');
   const [Record, setRecord] = useState(false);
 
+  let type = route.params.Type;
+  console.log(type);
+
   useEffect(() => {
     const MemorizationText = firestore()
       .collection('Student Text')
@@ -71,13 +74,13 @@ const ReadText = ({navigation, route}) => {
       <View style={[TitleStyles.MemorizationContainer, {marginLeft: 26}]}>
         <Text style={[TitleStyles.TextOrange]}>أولاً اقرأ النص كاملاً</Text>
 
-      <View>
-            <Text style={[TitleStyles.smallText, {textAlign: 'center'}]}>
-              {' '}
-              {textBody}{' '}
-            </Text>
-          </View>
-       
+        <View>
+          <Text style={[TitleStyles.smallText, {textAlign: 'center'}]}>
+            {' '}
+            {textBody}{' '}
+          </Text>
+        </View>
+
         {/* Retrive the audio for the text if exist */}
         {Record == true && (
           <TouchableOpacity
@@ -117,27 +120,53 @@ const ReadText = ({navigation, route}) => {
             },
           ]}
         />
-        <TouchableOpacity
-          style={[
-            TitleStyles.Button,
-            {
-              backgroundColor: '#DAE2E9',
-              //alignSelf: 'center',
-              width: 283,
-              //marginBottom: Platform.OS === 'ios' ? 100 : 90,
-              zIndex: 3,
-              marginLeft: 50,
-              marginTop: 260,
-              position: 'absolute',
-            },
-          ]}
-          onPress={() => {
-            navigation.navigate('FillInTheBlank', {
-              TextID: route.params.TextID,
-            });
-          }}>
-          <Text style={TitleStyles.ButtonText}>إبدا المراجعة</Text>
-        </TouchableOpacity>
+        {route.params.Type == 'FillBlank' && (
+          <TouchableOpacity
+            style={[
+              TitleStyles.Button,
+              {
+                backgroundColor: '#DAE2E9',
+                //alignSelf: 'center',
+                width: 283,
+                //marginBottom: Platform.OS === 'ios' ? 100 : 90,
+                zIndex: 3,
+                marginLeft: 50,
+                marginTop: 260,
+                position: 'absolute',
+              },
+            ]}
+            onPress={() => {
+              navigation.navigate('FillInTheBlank', {
+                TextID: route.params.TextID,
+              });
+            }}>
+            <Text style={TitleStyles.ButtonText}>إبدا المراجعة</Text>
+          </TouchableOpacity>
+        )}
+
+        {route.params.Type == 'Chunking' && (
+          <TouchableOpacity
+            style={[
+              TitleStyles.Button,
+              {
+                backgroundColor: '#DAE2E9',
+                //alignSelf: 'center',
+                width: 283,
+                //marginBottom: Platform.OS === 'ios' ? 100 : 90,
+                zIndex: 3,
+                marginLeft: 50,
+                marginTop: 260,
+                position: 'absolute',
+              },
+            ]}
+            onPress={() => {
+              navigation.navigate('Chunking', {
+                TextID: route.params.TextID,
+              });
+            }}>
+            <Text style={TitleStyles.ButtonText}>إبدا المراجعة</Text>
+          </TouchableOpacity>
+        )}
       </View>
     </SafeAreaView>
   );

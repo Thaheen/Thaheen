@@ -30,17 +30,17 @@ const MemorizationSession = ({navigation, route}) => {
       .collection('Student Text')
       .doc(route.params.TextID)
       .onSnapshot(snapshot => {
-        if(snapshot.exists){
-          console.log('in student text')
+        if (snapshot.exists) {
+          console.log('in student text');
           setTextHead(snapshot.data().TextHead);
-        }else{
+        } else {
           firestore()
-          .collection('Instructor Text')
-          .doc(route.params.TextID)
-          .onSnapshot(Qsnapshot=>{
-            console.log('in instructor text')
-            setTextHead(Qsnapshot.data().TextHead);
-          })
+            .collection('Instructor Text')
+            .doc(route.params.TextID)
+            .onSnapshot(Qsnapshot => {
+              console.log('in instructor text');
+              setTextHead(Qsnapshot.data().TextHead);
+            });
         }
       });
     return MemorizationText;
@@ -113,6 +113,7 @@ const MemorizationSession = ({navigation, route}) => {
             onPress={() => {
               navigation.navigate('ReadText', {
                 TextID: route.params.TextID,
+                Type: 'FillBlank',
               });
             }}>
             <Text style={[TitleStyles.StartMemorize]}> إبدا </Text>
@@ -143,8 +144,9 @@ const MemorizationSession = ({navigation, route}) => {
               },
             ]}
             onPress={() => {
-              navigation.navigate('Chunking', {
+              navigation.navigate('ReadText', {
                 TextID: route.params.TextID,
+                Type: 'Chunking',
               });
             }}>
             <Text style={[TitleStyles.StartMemorize]}> إبدا </Text>
