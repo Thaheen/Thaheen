@@ -25,6 +25,7 @@ import StopMicrophone from '../assets/images/StopMicrophone.svg';
 const FillInTheBlank = ({navigation, route}) => {
   const [textBody, setTextBody] = useState('');
   const [IsRecording, setIsRecording] = useState(false);
+  //var cleanedTextArray = [];
 
   useEffect(() => {
     const MemorizationText = firestore()
@@ -32,23 +33,87 @@ const FillInTheBlank = ({navigation, route}) => {
       .doc(route.params.TextID)
       .onSnapshot(snapshot => {
         if (snapshot.exists) {
-          setTextBody(snapshot.data().TextBody);
+          setTextBody(
+            snapshot
+              .data()
+              .TextBody.replace(
+                new RegExp(
+                  String.fromCharCode(
+                    1617,
+                    124,
+                    1614,
+                    124,
+                    1611,
+                    124,
+                    1615,
+                    124,
+                    1612,
+                    124,
+                    1616,
+                    124,
+                    1613,
+                    124,
+                    1618,
+                  ),
+                  'g',
+                ),
+                '',
+              ),
+          );
         } else {
           firestore()
             .collection('Instructor Text')
             .doc(route.params.TextID)
             .onSnapshot(Qsnapshot => {
-              setTextBody(Qsnapshot.data().TextBody);
+              setTextBody(
+                Qsnapshot.data().TextBody.replace(
+                  new RegExp(
+                    String.fromCharCode(
+                      1617,
+                      124,
+                      1614,
+                      124,
+                      1611,
+                      124,
+                      1615,
+                      124,
+                      1612,
+                      124,
+                      1616,
+                      124,
+                      1613,
+                      124,
+                      1618,
+                    ),
+                    'g',
+                  ),
+                  '',
+                ),
+              );
             });
         }
       });
     return MemorizationText;
   }, []);
 
-  // console.log(textBody);
+  //let cleanedText = textBody.replace(/,|،/g, '');
+  //sole.log(textBody.slice(-1));
 
   var array = textBody.split(' ');
   const clonedArr = [...array];
+
+  //Cleaning array
+  const cleanedTextArray = [...array];
+  for (let i = 0; i < cleanedTextArray.length - 1; i++) {
+    if (
+      cleanedTextArray[i].slice(-1) ==
+      ('ذ' || 'د' || 'ز' || 'ر' || 'و' || 'ا' || 'آ' || 'إ' || 'أ')
+    ) {
+      if (cleanedTextArray[i + 1] == (',' || '،')) {
+      }
+    }
+  }
+
   const [show, setShow] = React.useState(false);
 
   const toggleText = () => {
