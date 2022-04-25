@@ -386,6 +386,7 @@ if (this.props.route.params.keyword=='student'){
         uploading: false,
         responseReceived: true,
         HomeWork: responseJson.responses[0].fullTextAnnotation.text,
+        loading: false
       });
     } catch (error) {
       console.log(error);
