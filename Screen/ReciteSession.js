@@ -167,6 +167,10 @@ const ReciteSession = ({navigation, route}) => {
 
     console.log('Before loop ==', textBody);
     for (let i = 0, j = 0; i < textBody.length; i++, j++) {
+      if(textBody[i]==""){
+        --j;
+        continue;
+      }
       taggedWords.push({
         Text: textBody[i],
         color: 'Black',
