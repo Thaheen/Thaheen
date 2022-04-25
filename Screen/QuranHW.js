@@ -462,10 +462,13 @@ class RecordVoice extends Component {
 
     this.state.HomeWork = this.state.HomeWork.replace(/إ|ٱ|أ|آ|آ/g, 'ا')
       .replace(/مۡ|مۡ |مٰـ|مٰ|مۢ|مٓ/g, 'م')
-      .replace(/بۛ|بۡ/g, 'م')
-      .replace(/لۡ|لٰ/g, 'م')
-      .replace(/سۡ/g, 'س');
+      .replace(/بۛ|بۡ/g, 'ب')
+      .replace(/لۡ|لٰ/g, 'ل')
+      .replace(/سۡ/g, 'س')
+      .replace(/حۡ/g, 'ح')
+      .replace(/عٰ|عۡ/g, 'ع');
 
+    // وۡ;
     // this.state.HomeWork = this.state.HomeWork.replace(
     //   / ٓ| ۖ| ۡ| ۖ|ۥ | ۗ| ۛ| ۖ| ۙ| ۡ| ٗ-/g,
     //   '',
@@ -615,7 +618,7 @@ class RecordVoice extends Component {
               marginTop: 15,
               paddingLeft: 12,
             }}>
-            <FlatList
+            {/* <FlatList
               style={{marginTop: 20}}
               contentContainerStyle={{
                 width: 333,
@@ -630,7 +633,18 @@ class RecordVoice extends Component {
                   {'   '}
                 </Text>
               )}
-            />
+            /> */}
+            <ScrollView>
+              <Text
+                style={{
+                  fontSize: 16,
+                  marginTop: 20,
+                  // alignSelf: 'center',
+                  textAlign: 'left',
+                }}>
+                {this.state.HomeWork}
+              </Text>
+            </ScrollView>
           </View>
 
           <View
