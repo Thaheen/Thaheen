@@ -30,6 +30,7 @@ import functions, {firebase} from '@react-native-firebase/functions';
 import ColoredText from '../Components/ColoredText.js';
 import Loader from 'react-native-modal-loader';
 import ErrorModel from '../Components/ErrorModel';
+import MicRec from '../assets/images/MicRec.svg';
 
 const Chunking = ({navigation, route}) => {
   // Error model
@@ -242,21 +243,38 @@ const Chunking = ({navigation, route}) => {
         flex: 1,
         backgroundColor: '#DAE2E9',
       }}>
-      <Text style={[TitleStyles.sectionTitle, {marginTop: 30}]}>
+      <Text style={[TitleStyles.sectionTitle, {marginTop:9}]}>
         هيا لنبدأ المراجعة
       </Text>
       <BackButton />
-      <View style={[TitleStyles.MemorizationContainer]}>
+      <View style={[TitleStyles.MemorizationContainer,    {width: 370,marginTop: 120,}]}>
+        <TouchableOpacity style={{
+            backgroundColor: '#F5C5AD',
+    marginTop: 20,
+    width:250,
+  marginLeft:60,
+    marginBottom: 10,
+    borderRadius: 13,
+    shadowColor: '#00000',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 9,
+    elevation: 9,
+        }}>
         <Text
-          style={[TitleStyles.sectionTitle, {marginTop: 20, fontSize: 20}]}
+          style={[TitleStyles.sectionTitle, {marginTop: 3, fontSize: 20,}]}
           onPress={ShowMoreChuncks}>
           اظهار المزيد من النص
         </Text>
+</TouchableOpacity>
 
         <>{newTextTag}</>
       </View>
 
-      <View style={{marginTop: 310}}>
+      <View style={{marginTop: 330}}>
         <WhiteCurve />
       </View>
 
@@ -273,20 +291,36 @@ const Chunking = ({navigation, route}) => {
       />
 
       <View
-        style={[
-          TitleStyles.MemorizationContainer,
-          {width: 333, height: 139, top: 470},
-        ]}>
+        style={{
+          borderRadius: 25,
+
+          marginTop: 170,
+          alignSelf: 'center',
+          position: 'absolute',
+          shadowOffset: {
+            width: 3,
+            height: 9,
+          },
+          shadowOpacity: 0.25,
+          shadowRadius: 10,
+          elevation: 10,
+          zIndex: 1,
+          width: 370,
+          height: 139,
+          top: 420,
+        }}>
+        <MicRec style={{     zIndex: 1}}/>
+
         {taggedWords != null && (
           <FlatList
             style={[
               {
-                padding: 10,
-                height: '100%',
-                marginLeft: 25,
-                flex: 1,
-                top: -210,
-                textAlign: 'center',
+                position:'absolute',
+                 zIndex: 3,
+                 marginLeft:30,
+                 paddingTop:10,
+              
+             
               },
             ]}
             data={FinalResult}
@@ -300,6 +334,8 @@ const Chunking = ({navigation, route}) => {
         <View
           style={{
             position: 'absolute',
+            top:135,
+            left:126
           }}>
           {IsRecording ? (
             <TouchableOpacity onPress={() => finishRecord()}>
