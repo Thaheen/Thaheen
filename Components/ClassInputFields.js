@@ -158,6 +158,11 @@ const ClassInputFields = ({ID, type, callBackFunction, title, buttonText}) => {
         })
         .then(() => {
           setModalVisible(!modalVisible);
+          setClassName('')
+          setCapacity('')
+          setClassName('')
+          setSchoolName('')
+          setSubject('')
         });
     } else {
       firestore()

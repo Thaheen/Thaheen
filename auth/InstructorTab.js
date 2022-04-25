@@ -93,6 +93,18 @@ const HomeStackScreens = () => {
   );
 };
 
+const CreateClassScreens = () => {
+  return (
+    <CreateClassStack.Navigator initialRouteName="CreateClass">
+      <CreateClassStack.Screen
+        name="CreateClass"
+        component={CreateClass}
+        options={{headerShown: false}}
+      />
+    </CreateClassStack.Navigator>
+  );
+};
+
 const ProfileStackScreens = () => {
   return (
     <ProfileStack.Navigator initialRouteName="InstructorProfile">
@@ -129,6 +141,19 @@ const InstructorTab = () => {
           tabBarLabel: 'الرئيسية',
           tabBarIcon: ({focused}) => (
             <HomeOutline fill={focused ? '#43515F' : 'none'} />
+          ),
+          tabBarLabelStyle: TitleStyles.profileTextIcon,
+          headerShown: false,
+        }}
+      />
+      <Tab.Screen
+        name="CreateClassScreens"
+        component={CreateClassScreens}
+        options={{
+          tabBarLabel: 'إنشاء فصل',
+          tabBarIcon: ({focused}) => (
+          focused ? <PlusFilled /> :   <Plus />
+          
           ),
           tabBarLabelStyle: TitleStyles.profileTextIcon,
           headerShown: false,

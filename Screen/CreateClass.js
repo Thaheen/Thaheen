@@ -39,7 +39,6 @@ const CreateClass = ({navigation, route}) => {
           buttonText={'إنشاء الفصل'}
         />
       </ScrollView>
-      <BackButton />
     </SafeAreaView>
   )
 }
