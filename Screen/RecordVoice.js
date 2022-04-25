@@ -334,6 +334,10 @@ if (this.props.route.params.keyword=='student'){
     this.setState({HomeWork: text});
   }
 
+  handleChangeTitle(text) {
+    this.setState({Title: text});
+  }
+
   submitToGoogle = async () => {
       this.setState({loading: true});
     try {
@@ -532,7 +536,7 @@ if (this.props.route.params.keyword=='student'){
             placeholder=" عنوان النص "
             placeholderTextColor={'#C3C7CA'}
             style={TitleStyles.Title}
-            onChangeText={text => (this.state.Title = text)}
+            onChangeText={text => this.handleChangeTitle(text)}
             value={this.state.Title}
             underlineColorAndroid="transparent"
             color="black"
