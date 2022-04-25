@@ -71,24 +71,13 @@ const ReadText = ({navigation, route}) => {
       <View style={[TitleStyles.MemorizationContainer, {marginLeft: 26}]}>
         <Text style={[TitleStyles.TextOrange]}>أولاً اقرأ النص كاملاً</Text>
 
-        <FlatList
-          style={{marginTop: 20, textAlign: 'center'}}
-          contentContainerStyle={{
-            // flexDirection: 'row',
-            width: 333,
-            height: 452,
-            alignItems: 'center',
-          }}
-          data={clonedArr}
-          numColumns={6}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={({item, index}) => (
+      <View>
             <Text style={[TitleStyles.smallText, {textAlign: 'center'}]}>
               {' '}
-              {item}{' '}
+              {textBody}{' '}
             </Text>
-          )}
-        />
+          </View>
+       
         {/* Retrive the audio for the text if exist */}
         {Record == true && (
           <TouchableOpacity
