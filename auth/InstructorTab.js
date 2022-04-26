@@ -153,7 +153,7 @@ const InstructorTab = () => {
         options={{
           tabBarLabel: 'إنشاء فصل',
           tabBarIcon: ({focused}) => (
-            <View style={{bottom:20, width:71 , height:68 ,borderRadius:42 ,elevation: 9, backgroundColor: 'white'}}>
+            <View style={[TitleStyles.shadowOffset,{bottom:20, width:71 , height:68 ,borderRadius:42, backgroundColor: 'white'}]}>
             <PlusCircle style={{right: 4}}/>
             </View>
           ),
