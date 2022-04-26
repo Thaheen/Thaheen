@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Platform} from 'react-native';
+import {Platform, View} from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
@@ -8,6 +8,9 @@ import NotfyOutline from '../assets/images/NotfyOutline.svg';
 import ClassOutline from '../assets/images/ClassOutline.svg';
 import HomeOutline from '../assets/images/HomeOutline.svg';
 import TitleStyles from '../Styles/Titles';
+import PlusCircle from '../assets/images/PlusCircle.svg';
+import {UserInfoContext} from '../auth/UserInfoContext'
+//import TextType from '../Components/TextType'
 
 import {default as StudentEditProfile} from '../Screen/StudentEditProfile.js';
 import {default as WelcomeScreen} from '../Screen/WelcomeScreen.js';
@@ -28,6 +31,7 @@ import {default as ProgressChart} from '../Screen/ProgressChart.js';
 
 const HomeStack = createNativeStackNavigator();
 const ClassStack = createNativeStackNavigator();
+const AddTextStack = createNativeStackNavigator();
 const NotifyStack = createNativeStackNavigator();
 const ProfileStack = createNativeStackNavigator();
 
@@ -110,6 +114,12 @@ const ClassStackScreens = () => {
     </ClassStack.Navigator>
   );
 };
+const AddTextScreens = () => {
+  return (
+    <AddTextStack.Navigator>
+    </AddTextStack.Navigator>
+  );
+};
 const NotifyStackScreens = () => {
   return (
     <NotifyStack.Navigator>
@@ -178,6 +188,26 @@ const StudentTab = () => {
           tabBarLabelStyle: TitleStyles.profileTextIcon,
           headerShown: false,
         }}
+      />
+      <Tab.Screen
+        name="AddTextScreens"
+        component={AddTextScreens}
+        options={{
+          tabBarLabel: 'إضافة نص',
+          tabBarLabelStyle: [TitleStyles.profileTextIcon, {fontSize: 15}],
+          headerShown: false,
+          tabBarIcon: ({focused}) => (
+            <View style={[TitleStyles.shadowOffset,{bottom:20, width:71 , height:68 ,borderRadius:42, backgroundColor: 'white'}]}>
+            <PlusCircle style={{right: 4}} />
+            </View>
+          ),
+        }}
+        listeners={({ navigation }) => ({
+          tabPress: (e) => {
+            e.preventDefault()
+            navigation.navigate("TextType", {keyWord: 'student'})
+          },
+        })}
       />
       <Tab.Screen
         name="Notify"

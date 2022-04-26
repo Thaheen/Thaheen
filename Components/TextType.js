@@ -20,6 +20,7 @@ import {SvgUri} from 'react-native-svg';
 import CheckVector from '../assets/images/CheckVector.svg';
 import {useNavigation} from '@react-navigation/native';
 import Close from '../assets/images/Close.svg';
+import {UserInfoContext} from '../auth/UserInfoContext'
 
 import Pen from '../assets/images/Pen.svg';
 import UserRead from '../assets/images/UserRead.svg';
@@ -34,6 +35,7 @@ const TextType = ({
   callBackFunction,
 }) => {
   const navigation = useNavigation();
+  const {student} = React.useContext(UserInfoContext)
 
   //Success modal
   return (
@@ -43,10 +45,13 @@ const TextType = ({
           style={{backgroundColor: 'rgba(52, 52, 52, 0.5)', height: '100%'}}>
           <View style={TitleStyles.modalContent}>
             <Close
-              height="40"
-              width="40"
+              height='40'
+              width='40'
               style={[{position: 'absolute', top: 20, left: 20, zIndex: 2}]}
-              onPress={callBackFunction}
+              onPress={() => {
+                if (keyWord === 'class') callBackFunction()
+                else navigation.goBack()
+              }}
             />
             <Text
               style={[
@@ -66,15 +71,15 @@ const TextType = ({
                   if (keyWord == 'class') {
                     navigation.navigate('Instruction', {
                       ClassID: classKey,
-                           keyword : 'class',
+                      keyword : 'class',
                     });
                     setModalVisible(!modalVisible);
                   } else {
+                    navigation.pop()
                     navigation.navigate('Instruction', {
-                      StudentID: studentID,
+                      StudentID: student.id,
                       keyword : 'student',
                     });
-                    setModalVisible(!modalVisible);
                   }
                 }}>
                 <Pen style={[{marginTop: 25}]} />
@@ -91,12 +96,12 @@ const TextType = ({
                     });
                     setModalVisible(!modalVisible);
                   } else {
+                    navigation.pop()
                     navigation.navigate('QuranHW', {
-                      StudentID: studentID,
+                      StudentID: student.id,
                       keyword : 'student',
 
                     });
-                    setModalVisible(!modalVisible);
                   }
                 }}>
                 <UserRead style={[{marginTop: 25}]} />

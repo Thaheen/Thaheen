@@ -18,6 +18,7 @@ import {default as ReciteSession} from '../Screen/ReciteSession.js';
 import {default as Feedback} from '../Screen/Feedback.js';
 import {default as Instruction} from '../Screen/Instruction.js';
 import {default as MemorizeFeedback} from '../Screen/MemorizeFeedback.js';
+import TextType from '../Components/TextType'
 
 const Stack = createNativeStackNavigator();
 
@@ -107,6 +108,12 @@ const ParentStack = () => {
         name="Instruction"
         component={Instruction}
         options={{headerShown: false, animation: 'fade'}}
+      />
+      <Stack.Screen
+        name="TextType"
+        component={TextType}
+        options={{headerShown: false, presentation: 'transparentModal', cardOverlayEnabled: true }}
+        cardStyle={{backgroundColor: 'transparent'}}
       />
     </Stack.Navigator>
   );
