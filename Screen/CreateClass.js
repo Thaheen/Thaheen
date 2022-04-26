@@ -28,6 +28,7 @@ const CreateClass = ({navigation, route}) => {
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#FFF',
+        paddingBottom:25
       }}>
       <Ombre style={[{position: 'absolute', top: 0}]} />
 

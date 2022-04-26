@@ -80,7 +80,7 @@ const HomeStackScreens = () => {
         options={{headerShown: false}}
       />
 
-<HomeStack.Screen
+      <HomeStack.Screen
         name="ProgressChart"
         component={ProgressChart}
         options={{headerShown: false}}

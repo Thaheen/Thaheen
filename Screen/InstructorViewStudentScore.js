@@ -118,7 +118,7 @@ const InstructorViewStudentScore = ({navigation, route}) => {
                     backgroundColor: rowColors[index % 2],
                     paddingVertical: 5,
                   }}>
-                  <AssignmentIcon />
+                  <AssignmentIcon stroke="#758BA0" fill="#758BA0"/>
                   <Text
                     style={[
                       TitleStyles.HeaderTitle,

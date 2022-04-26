@@ -146,10 +146,11 @@ const InsClassInfo = ({navigation, route}) => {
 
   return (
     <MenuProvider>
-      <View style={{backgroundColor: '#FFF', height: '100%'}}>
+      <View style={{backgroundColor: '#FFF', height: '100%', paddingBottom: 25,}}>
         <SafeAreaView style={{backgroundColor: '#FFF'}}>
           <Ombre style={[{position: 'absolute', top: 0}]} />
 
+          <ScrollView>
           <StatusBar backgroundColor="#DAE2E9" translucent />
           <BackButton />
 
@@ -507,6 +508,7 @@ const InsClassInfo = ({navigation, route}) => {
           </View>
 
           {/* End of Students card Section */}
+          </ScrollView>
         </SafeAreaView>
       </View>
     </MenuProvider>

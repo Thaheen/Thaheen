@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Platform} from 'react-native';
+import {Platform, View} from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
@@ -7,6 +7,7 @@ import ProfileOutline from '../assets/images/ProfileOutline.svg';
 import HomeOutline from '../assets/images/HomeOutline.svg';
 import Plus from '../assets/images/Plus.svg';
 import PlusFilled from '../assets/images/PlusFilled.svg';
+import PlusCircle from '../assets/images/PlusCircle.svg';
 import TitleStyles from '../Styles/Titles';
 
 import {default as InstructorHome} from '../Screen/InstructorHome.js';
@@ -152,10 +153,11 @@ const InstructorTab = () => {
         options={{
           tabBarLabel: 'إنشاء فصل',
           tabBarIcon: ({focused}) => (
-          focused ? <PlusFilled /> :   <Plus />
-          
+            <View style={{bottom:20, width:71 , height:68 ,borderRadius:42 ,elevation: 9, backgroundColor: 'white'}}>
+            <PlusCircle style={{right: 4}}/>
+            </View>
           ),
-          tabBarLabelStyle: TitleStyles.profileTextIcon,
+          tabBarLabelStyle: [TitleStyles.profileTextIcon, {fontSize: 15}],
           headerShown: false,
         }}
       />

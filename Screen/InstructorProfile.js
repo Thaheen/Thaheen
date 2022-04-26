@@ -140,7 +140,7 @@ const InstructorProfile = ({navigation, route}) => {
       style={{
         backgroundColor: '#FFFFFF',
         height: '100%',
-        paddingBottom: Platform.OS === 'ios' ? 100 : 65,
+        paddingBottom: Platform.OS === 'ios' ? 125 : 85,
         ...(Platform.OS === 'android' ? {marginTop: 20} : null),
         // justifyContent: 'center',
         // alignItems: 'center',

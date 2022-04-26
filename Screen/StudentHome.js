@@ -19,6 +19,8 @@ import BadgeSilver from '../assets/images/BadgeSilver';
 import BadgeBronze from '../assets/images/BadgeBronze';import BadageGreyedOut from '../assets/images/badageGreyedOut';
 import TextCard from '../Components/TextCard';
 import HomeSection from '../Components/HomeSection';
+import Trophy from '../assets/images/Trophy';
+import AssignmentIcon from '../assets/images/AssignmentIcon';
 import auth from '@react-native-firebase/auth';
 import BottomBar from '../Components/BottomBar';
 import {NavigationContainer} from '@react-navigation/native';
@@ -207,7 +209,7 @@ const StudentHome = () => {
         {/* end top container */}
 
         {/* start mid container */}
-        <HomeSection title="نصوصي" iconName="Plus" type="text" />
+        <HomeSection title="نصوصي" icon={<AssignmentIcon style={{marginRight: 15}} stroke="#43515F" fill="#43515F"/>} type="text" />
 
         {TextList != 0 && (
           <FlatList
@@ -253,7 +255,7 @@ const StudentHome = () => {
         {/* end mid container */}
 
         {/* start bottom container */}
-        <HomeSection title="مستوى تقدمي" iconName="Trophy" />
+        <HomeSection title="مستوى تقدمي" icon={ <Trophy style={{marginRight: 15}}/>} />
 
         <View
           style={[

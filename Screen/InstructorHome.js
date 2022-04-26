@@ -18,6 +18,8 @@ import Plus from '../assets/images/Plus.svg';
 import InfoCard from '../assets/images/infoCard.svg';
 import Cell from '../assets/images/cell.svg';
 import InsClassCard from '../Components/InsClassCard.js';
+import HomeSection from '../Components/HomeSection';
+import InsClasses from '../assets/images/InsClasses.svg';
 
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
@@ -104,8 +106,8 @@ const Home = ({navigation, route}) => {
         <View>
           <Podium
             style={[
-              Platform.OS === 'ios' ? TitleStyles.SoftShadow : null,
-              {position: 'absolute', top: 10, left: 15},
+              Platform.OS === 'ios' ? [TitleStyles.SoftShadow, {marginTop: 10}] : {marginTop: StatusBar.currentHeight},
+              {position: 'absolute', left: 15},
             ]}
           />
           <Text
@@ -150,15 +152,7 @@ const Home = ({navigation, route}) => {
 
         {/* Start of classes Section */}
         <View>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate('CreateClass');
-            }}>
-            <Text style={[TitleStyles.HeaderTitle, {alignSelf: 'flex-start'}]}>
-              <Plus style={{marginTop: 10}} />
-              فصولي
-            </Text>
-          </TouchableOpacity>
+        <HomeSection title="فصولي" icon={<InsClasses style={{marginRight: 15}}/>} type="InsClasses" />
 
           {allClasses.length == 0 ? (
             <Text
