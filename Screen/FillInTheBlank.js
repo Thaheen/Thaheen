@@ -33,43 +33,22 @@ const FillInTheBlank = ({navigation, route}) => {
       .doc(route.params.TextID)
       .onSnapshot(snapshot => {
         if (snapshot.exists) {
-          setTextBody(
-            snapshot
-              .data()
-              .TextBody.replace(/,|،/g, ' ')
-          );
+          setTextBody(snapshot.data().TextBody.replace(/,|،/g, ' '));
         } else {
           firestore()
             .collection('Instructor Text')
             .doc(route.params.TextID)
             .onSnapshot(Qsnapshot => {
-              setTextBody(
-                Qsnapshot.data().TextBody.replace(/,|،/g, ' '),
-              );
+              setTextBody(Qsnapshot.data().TextBody.replace(/,|،/g, ' '));
             });
         }
       });
     return MemorizationText;
   }, []);
 
-  //let cleanedText = textBody.replace(/,|،/g, '');
-  //sole.log(textBody.slice(-1));
-
   var array = textBody.split(' ');
-  array=array.filter(x => x !== "")
+  array = array.filter(x => x !== '');
   const clonedArr = [...array];
-
-  // //Cleaning array
-  // const cleanedTextArray = [...array];
-  // for (let i = 0; i < cleanedTextArray.length - 1; i++) {
-  //   if (
-  //     cleanedTextArray[i].slice(-1) ==
-  //     ('ذ' || 'د' || 'ز' || 'ر' || 'و' || 'ا' || 'آ' || 'إ' || 'أ')
-  //   ) {
-  //     if (cleanedTextArray[i + 1] == (',' || '،')) {
-  //     }
-  //   }
-  // }
 
   const [show, setShow] = React.useState(false);
 

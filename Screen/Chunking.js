@@ -81,7 +81,7 @@ const Chunking = ({navigation, route}) => {
   }, []);
 
   if (textBody.indexOf('،') || textBody.indexOf(',') > -1) {
-    var FullText = textBody.split('،');
+    var FullText = textBody.split(/,|،/g);
   }
 
   //var cont = 0;
