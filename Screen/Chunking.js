@@ -9,6 +9,7 @@ import {
   I18nManager,
   VirtualizedList,
   useRef,
+  LogBox
 } from 'react-native';
 import {FlatList} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -83,6 +84,10 @@ const Chunking = ({navigation, route}) => {
   if (textBody.indexOf('،') || textBody.indexOf(',') > -1) {
     var FullText = textBody.split(/,|،/g);
   }
+
+  useEffect(() => {
+    LogBox.ignoreLogs(['Each child in a list should have a unique "key" prop']);
+  }, []);
 
   //var cont = 0;
 
