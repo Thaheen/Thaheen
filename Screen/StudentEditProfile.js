@@ -345,7 +345,7 @@ const StudentEditProfile = ({navigation, route}) => {
               alignSelf: 'center',
               width: 283,
               marginTop: 40,
-              marginBottom: Platform.OS === 'ios' ? 100 : 90,
+              marginBottom: Platform.OS === 'ios' ? 125 : 115,
               // height: 40,
               ///   marginTop: 20,
               //marginBottom: 20,
