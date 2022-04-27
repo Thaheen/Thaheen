@@ -30,55 +30,51 @@ const StudentNotifications = ({navigation, route}) => {
 
   const [onePass, setOnePass] = useState(0)
   let StudentAssignment = [];
+  let classIds = [];
+  let classNames = [];
 
+
+  for (c in ClassList){
+    classIds.push(ClassList[c].key)
+    classNames.push({
+      ClassID: ClassList[c].key,
+      ClassName: ClassList[c].Name,
+    })
+
+  }
 
   useEffect(() => {
 
-
-    for (index in ClassList) {
-        
         const assignments = firestore()
           .collection('Instructor Text')
-          .where('ClassId', '==', ClassList[index].key.toString())
+          .where('ClassId', 'in', classIds).orderBy('Deadline')
           .onSnapshot(querySnapshot => {
             querySnapshot.forEach(documentSnapshot => {
+              for ( id in classNames){
+              if(classNames[id].ClassID == documentSnapshot.data().ClassId){
+
               if(!StudentAssignment.includes({
                 ...documentSnapshot.data(),
-                class: ClassList[index].Name,
+                ClassName: classNames[id].ClassName,
                 key: documentSnapshot.id,
               })){
+                
               StudentAssignment.push({
                 ...documentSnapshot.data(),
-                class: ClassList[index].Name,
+                ClassName: classNames[id].ClassName,
                 key: documentSnapshot.id,
               });}
+            }}
             });
             if ( StudentAssignment.length != 0){
             setClassesAssignments(StudentAssignment);
             }
-          }); 
-
-          
-    }
-    //console.log(ClassesAssignments)
-
-    //  for(assignment in StudentAssignment ){
-    //             //console.log(StudentAssignment[assignment].class)
-    //             firestore()
-    //               .collection('ClassCommunity')
-    //               .doc(StudentAssignment[assignment].ClassId.toString())
-    //               .onSnapshot(snapshot => {
-                    
-    //                 StudentAssignment[assignment] = {...StudentAssignment[assignment], class: snapshot.data().Name.toString()}
-
-    //                 // console.log(snapshot.data().Name.toString())
-    //                 //console.log(StudentAssignment[assignment].class)
-    //               });                
-    //         }
-  
-
+          }, error => {
+            }); 
 
     }, []);
+
+
     
 
   return (
@@ -137,7 +133,7 @@ const StudentNotifications = ({navigation, route}) => {
                           TitleStyles.smallText,
                           {paddingRight: 10, paddingLeft: 10},
                         ]}>
-                        {item.class}
+                        {item.ClassName}
                       </Text>
                     </View>
                   </TouchableOpacity>
