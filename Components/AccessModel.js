@@ -137,7 +137,7 @@ const AccessModel = ({modalVisible, setModalVisible, studentID, type}) => {
         setStudent(studentSnapShot);
         navigation.reset({
           index: 0,
-          routes: [{name: 'StudentTab'}],
+          routes: [{name: 'WelcomeScreen'}],
         })
         return;
       } else if (passcodeVal.length == 6 && isValidPasscode != passcodeVal.replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d))) {

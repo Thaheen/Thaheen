@@ -115,6 +115,11 @@ const ParentStack = () => {
         options={{headerShown: false, presentation: 'transparentModal', cardOverlayEnabled: true }}
         cardStyle={{backgroundColor: 'transparent'}}
       />
+      <Stack.Screen
+        name="WelcomeScreen"
+        component={WelcomeScreen}
+        options={{headerShown: false}}
+      />
     </Stack.Navigator>
   );
 };

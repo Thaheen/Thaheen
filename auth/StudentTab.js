@@ -41,11 +41,6 @@ const HomeStackScreens = () => {
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen
-        name="WelcomeScreen"
-        component={WelcomeScreen}
-        options={{headerShown: false}}
-      />
-      <HomeStack.Screen
         name="StudentHome"
         component={StudentHome}
         options={{headerShown: false}}
@@ -72,11 +67,11 @@ const HomeStackScreens = () => {
         options={{headerShown: false}}
       /> */}
 
-      <HomeStack.Screen
+      {/* <HomeStack.Screen
         name="Chunking"
         component={Chunking}
         options={{headerShown: false}}
-      />
+      /> */}
 
       <HomeStack.Screen
         name="StudentViewAllAssignment"
@@ -100,13 +95,13 @@ const ClassStackScreens = () => {
         component={StudentClass}
         options={{headerShown: false}}
       />
-      <HomeStack.Screen
+      <ClassStack.Screen
         name="ViewClassCommunity"
         component={ViewClassCommunity}
         options={{headerShown: false}}
       />
 
-      <HomeStack.Screen
+      <ClassStack.Screen
         name="ClassScoreboard"
         component={ClassScoreboard}
         options={{headerShown: false}}
@@ -131,6 +126,11 @@ const NotifyStackScreens = () => {
       <NotifyStack.Screen
         name="ViewClassCommunity"
         component={ViewClassCommunity}
+        options={{headerShown: false}}
+      />
+      <ClassStack.Screen
+        name="ClassScoreboard"
+        component={ClassScoreboard}
         options={{headerShown: false}}
       />
     </NotifyStack.Navigator>

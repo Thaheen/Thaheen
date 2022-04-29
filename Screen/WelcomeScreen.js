@@ -104,7 +104,7 @@ const WelcomeScreen = ({navigation}) => {
           onPress={() => {
             navigation.reset({
               index: 0,
-              routes: [{name: 'StudentHome'}],
+              routes: [{name: 'StudentTab'}],
             })
           }}>
           <Text style={TitleStyles.ButtonText}>ابدأ التعلم</Text>
