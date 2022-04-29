@@ -27,11 +27,14 @@ const StudentNotifications = ({navigation, route}) => {
   const [ClassesAssignments, setClassesAssignments] = useState([]);
   const [ClassID , setClassID]=useState('')
   const {student, ClassList} = React.useContext(UserInfoContext);
+  const todayTimestamp = new Date()
+  const TwoDaysInMilliseconds = 172800000;
 
   const [onePass, setOnePass] = useState(0)
   let StudentAssignment = [];
   let classIds = [];
   let classNames = [];
+  let closeToDueDate = false;
 
 
   for (c in ClassList){
@@ -52,18 +55,25 @@ const StudentNotifications = ({navigation, route}) => {
             querySnapshot.forEach(documentSnapshot => {
               for ( id in classNames){
               if(classNames[id].ClassID == documentSnapshot.data().ClassId){
+              
+              // if((todayTimestamp - ClassesAssignments[1].Deadline.toDate()) <= TwoDaysInMilliseconds){
+              // closeToDueDate = true;
+              // }
 
               if(!StudentAssignment.includes({
                 ...documentSnapshot.data(),
                 ClassName: classNames[id].ClassName,
+                DueDate: closeToDueDate,
                 key: documentSnapshot.id,
               })){
                 
               StudentAssignment.push({
                 ...documentSnapshot.data(),
                 ClassName: classNames[id].ClassName,
+                DueDate: closeToDueDate,
                 key: documentSnapshot.id,
               });}
+              
             }}
             });
             if ( StudentAssignment.length != 0){
@@ -76,6 +86,7 @@ const StudentNotifications = ({navigation, route}) => {
 
 
     
+
 
   return (
     <SafeAreaView
@@ -112,6 +123,8 @@ const StudentNotifications = ({navigation, route}) => {
           data={ClassesAssignments}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({item}) => (
+            
+
             <TouchableOpacity 
              onPress={() => {
               navigation.navigate('ViewClassCommunity' , {ClassCID:item.ClassId})
@@ -126,14 +139,15 @@ const StudentNotifications = ({navigation, route}) => {
                         style={[
                           TitleStyles.smallText,
                         ]}>
-                        {' \n '} ●  {item.TextHead} 
-                      </Text>
+                في {item.ClassName} 
+                    </Text>
                       <Text
                         style={[
                           TitleStyles.smallText,
                           {paddingRight: 10, paddingLeft: 10},
                         ]}>
-                        {item.ClassName}
+                        تم اضافة واجب "{item.TextHead}" {'\n'}
+
                       </Text>
                     </View>
                   </TouchableOpacity>
