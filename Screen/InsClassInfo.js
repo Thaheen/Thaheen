@@ -261,7 +261,7 @@ const InsClassInfo = ({navigation, route}) => {
                   backgroundColor: 'rgba(52, 52, 52, 0.5)',
                   alignItems: 'center',
                 }}>
-                <View style={{marginTop: 40, width: '90%'}}>
+                <View style={{marginTop: 40, width: '90%', alignSelf: 'center'}}>
                   <Homework
                     width={85}
                     height={85}
@@ -278,7 +278,8 @@ const InsClassInfo = ({navigation, route}) => {
                         borderRadius: 25,
                         marginTop: 40,
                         height: '90%',
-
+                        alignSelf: 'center',
+                        width:'100%',
                         backgroundColor: 'white',
                         paddingBottom: 20,
                       },
@@ -483,7 +484,7 @@ const InsClassInfo = ({navigation, route}) => {
               ) : null}
 
               <FlatList
-                style={[{marginTop: 30, height: '55%'}]}
+                style={[{marginTop: 30, height: 150}]}
                 data={studentsList}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({item}) => (
