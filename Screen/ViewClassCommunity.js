@@ -49,8 +49,8 @@ const StudentClass = ({navigation, route}) => {
       .collection('ClassCommunity')
       .doc(route.params.ClassCID)
       .onSnapshot(querySnapshot => {
-        console.log(route.params.ClassCID)
-        console.log(querySnapshot.data())
+        console.log(route.params.ClassCID);
+        console.log(querySnapshot.data());
         setclassName(querySnapshot.data().Name);
       });
     return classcomm;
@@ -135,7 +135,7 @@ const StudentClass = ({navigation, route}) => {
           style={{
             height: 390,
             top: 80,
-            flexGrow:0
+            flexGrow: 0,
           }}
           data={TextList}
           keyExtractor={(item, index) => index.toString()}
@@ -221,7 +221,10 @@ const StudentClass = ({navigation, route}) => {
                       paddingHorizontal: 32,
                     }}
                     onPress={() => {
-                      navigation.navigate('ReciteSession', {TextID: item.key});
+                      navigation.navigate('ReadText', {
+                        TextID: item.key,
+                        Type: 'Reciting',
+                      });
                     }}>
                     <Text style={TitleStyles.smallText}>ابدأ التسميع</Text>
                   </TouchableOpacity>

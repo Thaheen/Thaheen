@@ -23,7 +23,7 @@ const TextCard = ({title, textID, doneRecite, deleteOption, sentFunction}) => {
       .doc(textID)
       .onSnapshot(snapshot => {
         if (snapshot.exists) {
-          setTotalWords( 
+          setTotalWords(
             snapshot.data().TextBody.replace(/إ|أ|آ/g, 'ا').split(' '),
           );
           setNumOfMistakes(snapshot.data().Feedback.score);
@@ -52,23 +52,27 @@ const TextCard = ({title, textID, doneRecite, deleteOption, sentFunction}) => {
           flexDirection: I18nManager.isRTL ? 'row' : 'row-reverse',
           marginBottom: 20,
           alignItems: 'center',
-          justifyContent: 'space-between'
+          justifyContent: 'space-between',
         }}>
-        <View style={{flexDirection: 'row', alignItems: 'center',}}>
-        <BookReader />
-        <Text
-          style={[
-            TitleStyles.smallText,
-            I18nManager.isRTL ? {marginLeft: 15} : {marginRight: 15},
-            {fontSize: 18},
-          ]}>
-          {title}
-        </Text>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <BookReader />
+          <Text
+            style={[
+              TitleStyles.smallText,
+              I18nManager.isRTL ? {marginLeft: 15} : {marginRight: 15},
+              {fontSize: 18},
+            ]}>
+            {title}
+          </Text>
         </View>
         {deleteOption ? (
-          <TouchableOpacity
-            onPress={() => sentFunction(textID)}>
-            <Trash width={30} height={30} fill={'#C54822'} style={{alignSelf:'flex-start'}} />
+          <TouchableOpacity onPress={() => sentFunction(textID)}>
+            <Trash
+              width={30}
+              height={30}
+              fill={'#C54822'}
+              style={{alignSelf: 'flex-start'}}
+            />
           </TouchableOpacity>
         ) : null}
       </View>
@@ -122,7 +126,10 @@ const TextCard = ({title, textID, doneRecite, deleteOption, sentFunction}) => {
               paddingHorizontal: 12,
             }}
             onPress={() => {
-              navigation.navigate('ReciteSession', {TextID: textID});
+              navigation.navigate('ReadText', {
+                TextID: textID,
+                Type: 'Reciting',
+              });
             }}>
             <Text style={TitleStyles.smallText}>ابدأ التسميع</Text>
           </TouchableOpacity>

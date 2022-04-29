@@ -164,9 +164,32 @@ const ReadText = ({navigation, route}) => {
             <Text style={TitleStyles.ButtonText}>إبدا المراجعة</Text>
           </TouchableOpacity>
         )}
+
+        {route.params.Type == 'Reciting' && (
+          <TouchableOpacity
+            style={[
+              TitleStyles.Button,
+              {
+                backgroundColor: '#DAE2E9',
+                //alignSelf: 'center',
+                width: 283,
+                //marginBottom: Platform.OS === 'ios' ? 100 : 90,
+                zIndex: 3,
+                marginLeft: 50,
+                marginTop: 260,
+                position: 'absolute',
+              },
+            ]}
+            onPress={() => {
+              navigation.navigate('ReciteSession', {
+                TextID: route.params.TextID,
+              });
+            }}>
+            <Text style={TitleStyles.ButtonText}>إبدا التسميع</Text>
+          </TouchableOpacity>
+        )}
       </View>
     </SafeAreaView>
   );
 };
-
 export default ReadText;
