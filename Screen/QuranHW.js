@@ -98,6 +98,7 @@ class RecordVoice extends Component {
       Surah: [],
       isSearching: false,
       searchList: [],
+        Picked:false,
     };
     this.audioRecorderPlayer = new AudioRecorderPlayer();
     this.audioRecorderPlayer.setSubscriptionDuration(0.09); // optional. Default is 0.1
@@ -113,6 +114,7 @@ class RecordVoice extends Component {
   handleDatePicked = date => {
     console.log('A date has been picked: ', date);
     this.setState({day: date});
+    this.setState({Picked: true});
 
     this.hideDateTimePicker();
   };
@@ -173,6 +175,8 @@ class RecordVoice extends Component {
     this.audioRecorderPlayer.removeRecordBackListener();
     this.setState({
       recordSecs: 0,
+      RecFlag:true,
+
     });
     console.log(result);
     this.record = result;
@@ -227,7 +231,7 @@ class RecordVoice extends Component {
         // const fileType = uriParts[uriParts.length - 1];
         var storageRef = storage().ref();
         storageRef
-          .child('records/' + this.state.Title + '.m4a')
+          .child('records/' + this.state.Title+'.m4a')
           .putFile(this.record)
           .then(() => {
             console.log('Sent!');
@@ -328,6 +332,10 @@ class RecordVoice extends Component {
       console.log('Error model ' + this.state.ErrormodalVisible);
       console.log('home in if ' + this.state.HomeWork);
       return;
+    }
+       if (this.state.RecFlag == true) {
+      console.log('with record');
+      this.uploadAudio();
     }
     console.log(
       this.props.route.params.StudentID + ',' + this.props.route.params.ClassID,
@@ -661,6 +669,10 @@ class RecordVoice extends Component {
               <Microphone />
             </TouchableOpacity>
           </View>
+             {this.state.RecFlag==true &&(
+      <Text style={[TitleStyles.smallText,{ marginTop: 10,color:"#c78b6d"}]}> *  تم ارفاق الصوت </Text>
+
+          )}
           <View
             style={{
               flexDirection: 'row',
@@ -685,7 +697,10 @@ class RecordVoice extends Component {
               )}
             </>
           </View>
+       {this.state.Picked==true &&(
+      <Text style={[TitleStyles.smallText,{ marginTop: 10,color:"#c78b6d"}]}> *  تم تحديد يوم التسليم </Text>
 
+          )}
           <Modal
             animationType="fade"
             transparent={true}
