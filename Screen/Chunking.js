@@ -9,7 +9,7 @@ import {
   I18nManager,
   VirtualizedList,
   useRef,
-  LogBox
+  LogBox,
 } from 'react-native';
 import {FlatList} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -89,14 +89,10 @@ const Chunking = ({navigation, route}) => {
     LogBox.ignoreLogs(['Each child in a list should have a unique "key" prop']);
   }, []);
 
-  //var cont = 0;
-
   ShowMoreChuncks = () => {
     setFinalResult([]);
-    //console.log(FullText);
     if (counter <= FullText.length - 1) {
       updateMyArray(arr => [...arr, FullText[counter]]);
-      //setChunk(arr => [...arr, FullText[counter]]);
       setCounter(counter => counter + 1);
     }
 
@@ -170,9 +166,6 @@ const Chunking = ({navigation, route}) => {
       console.log(`Transcription: ${transcription}`);
 
       compare(transcription);
-      // console.log('---');
-      // console.log(chunk);
-      // console.log('---');
     } catch (error) {
       console.log(error + '<-----here ');
 
@@ -183,7 +176,7 @@ const Chunking = ({navigation, route}) => {
 
     setLoading(false);
   };
-  //console.log(myArray[counter]);
+
   const compare = transcription => {
     var count = 0;
     // from google >> transcription
@@ -204,8 +197,6 @@ const Chunking = ({navigation, route}) => {
         FilterTextbody.length - 1 == i &&
         !(transcriptArray[j] == FilterTextbody[i])
       ) {
-        // console.log('inside first condition ' + i);
-
         taggedWords.pop();
         taggedWords.push({
           Text: FilterTextbody[i],
