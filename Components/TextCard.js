@@ -26,7 +26,7 @@ const TextCard = ({title, textID, doneRecite, deleteOption, sentFunction}) => {
           setTotalWords(
             snapshot.data().TextBody.replace(/إ|أ|آ/g, 'ا').split(' '),
           );
-          setNumOfMistakes(snapshot.data().Feedback.score);
+          setNumOfMistakes(snapshot.data().Feedback.mistakes);
         }
       });
     return text;
