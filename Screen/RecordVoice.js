@@ -127,7 +127,6 @@ class RecordVoice extends Component {
           PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
           PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
         ]);
-        console.log('write external stroage', grants);
 
         if (
           grants['android.permission.WRITE_EXTERNAL_STORAGE'] ===
@@ -137,13 +136,10 @@ class RecordVoice extends Component {
           grants['android.permission.RECORD_AUDIO'] ===
             PermissionsAndroid.RESULTS.GRANTED
         ) {
-          console.log('permissions granted');
         } else {
-          console.log('All required permissions not granted');
           return;
         }
       } catch (err) {
-        console.warn(err);
         return;
       }
     }
@@ -156,7 +152,6 @@ class RecordVoice extends Component {
       AVNumberOfChannelsKeyIOS: 2,
       AVFormatIDKeyIOS: AVEncodingOption.aac,
     };
-    console.log('audioSet', audioSet);
     const uri = await this.audioRecorderPlayer.startRecorder(path, audioSet);
     this.audioRecorderPlayer.addRecordBackListener(e => {
       this.setState({
@@ -166,7 +161,6 @@ class RecordVoice extends Component {
         ),
       });
     });
-    console.log(`uri: ${uri}`);
   };
 
   onStopRecord = async () => {
@@ -203,29 +197,7 @@ class RecordVoice extends Component {
   };
 
   uploadAudio = async () => {
-    try {
-      const blob = await new Promise((resolve, reject) => {
-        const xhr = new XMLHttpRequest();
-        xhr.onload = () => {
-          try {
-            resolve(xhr.response);
-          } catch (error) {
-            console.log('error:', error);
-          }
-        };
-        xhr.onerror = e => {
-          console.log(e);
-          reject(new TypeError('Network request failed'));
-        };
-        xhr.responseType = 'blob';
-        xhr.open('GET', this.record, true);
-        xhr.send(null);
-      });
-      if (blob != null) {
-        console.log('the bloob ' + blob);
-
-        // const uriParts = this.record.split(".");
-        // const fileType = uriParts[uriParts.length - 1];
+  
         var storageRef = storage().ref();
         storageRef
           .child('records/' + this.state.Title + '.m4a')
@@ -235,12 +207,7 @@ class RecordVoice extends Component {
             console.log('title' + this.state.Title);
           })
           .catch(e => console.log('error:', e));
-      } else {
-        console.log('erroor with blob');
-      }
-    } catch (error) {
-      console.log('error:', error);
-    }
+      
   };
 
   retrieveRecord = async () => {

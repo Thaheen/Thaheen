@@ -24,8 +24,6 @@ import StopMicrophone from '../assets/images/StopMicrophone.svg';
 
 const FillInTheBlank = ({navigation, route}) => {
   const [textBody, setTextBody] = useState('');
-  const [IsRecording, setIsRecording] = useState(false);
-  //var cleanedTextArray = [];
 
   useEffect(() => {
     const MemorizationText = firestore()
@@ -58,7 +56,6 @@ const FillInTheBlank = ({navigation, route}) => {
 
   for (var i = 1; i < clonedArr.length; i++) {
     clonedArr[i++] = '____';
-    //console.log(clonedArr);
   }
 
   return (
