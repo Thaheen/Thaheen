@@ -25,7 +25,7 @@ const ClassAllStudents = ({navigation, route}) => {
   const [username, setUsername] = useState()
   const [studentId, setStudentId] = useState()
   const [ConfirmmodalVisible, setConfirmmodalVisible] = useState(false)
-  const studentsList = route.params.studentsList
+  const [studentsList, setStudentsList] = useState(route.params.studentsList)
 
   const removeStudentFromList = () => {
     setConfirmmodalVisible(!ConfirmmodalVisible)
