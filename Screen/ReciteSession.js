@@ -166,6 +166,10 @@ const ReciteSession = ({navigation, route}) => {
     const transcriptArray = transcription.split(' ');
 
     console.log('Before loop ==', textBody);
+
+    setTextBody(textBody.filter(x => x !== ""))
+
+   
     for (let i = 0, j = 0; i < textBody.length; i++, j++) {
       if(textBody[i]==""){
         --j;
@@ -225,6 +229,7 @@ const ReciteSession = ({navigation, route}) => {
     setDoneRecite(true);
     setnumOfmistakes(counter);
     setColoredWords(taggedWords);
+    console.log('After loop ==', textBody);
   };
 
   return (
