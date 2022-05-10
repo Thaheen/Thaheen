@@ -146,7 +146,7 @@ const StudentNotifications = ({navigation, route}) => {
                           TitleStyles.smallText,
                           {paddingRight: 10, paddingLeft: 10},
                         ]}>
-                        تم اضافة واجب "{item.TextHead}" {'\n'}
+                        تم اضافة واجب "{item.TextHead}" 
 
                       </Text>
                     </View>
