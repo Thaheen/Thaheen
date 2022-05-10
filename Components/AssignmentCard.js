@@ -89,7 +89,7 @@ const AssignmentCard = ({title, textID, index, deleteOption}) => {
         ]}>
         {title}
       </Text>
-      <TouchableOpacity>
+      {/* <TouchableOpacity>
         <Text
           style={[
             TitleStyles.smallText,
@@ -101,7 +101,7 @@ const AssignmentCard = ({title, textID, index, deleteOption}) => {
           ]}>
           عرض التفاصيل
         </Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };
