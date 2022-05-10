@@ -22,6 +22,7 @@ import {
 } from 'react-native';
 import TitleStyles from '../Styles/Titles';
 import firestore from '@react-native-firebase/firestore';
+import { LogBox } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {SvgUri} from 'react-native-svg';
@@ -209,7 +210,8 @@ class RecordVoice extends Component {
           .catch(e => console.log('error:', e));
       
   };
-
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();//Ignore all log notifications
   retrieveRecord = async () => {
     console.log('onStartPlay');
     storage()
