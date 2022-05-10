@@ -22,7 +22,7 @@ import {
 } from 'react-native';
 import TitleStyles from '../Styles/Titles';
 import firestore from '@react-native-firebase/firestore';
-import { LogBox } from 'react-native';
+import {LogBox} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {SvgUri} from 'react-native-svg';
@@ -45,7 +45,6 @@ import Deadline from '../assets/images/deadline.svg';
 import Loader from 'react-native-modal-loader';
 import Close from '../assets/images/Close.svg';
 
-
 import AudioRecorderPlayer, {
   AVEncoderAudioQualityIOSType,
   AVEncodingOption,
@@ -65,9 +64,7 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 //the ref of record voice code
 // https://instamobile.io/react-native-tutorials/react-native-record-audio-play/?ref=hackernoon.com
 class RecordVoice extends Component {
-
-LogBox.ignoreAllLogs();//Ignore all log notifications
-
+  //LogBox.ignoreAllLogs();//Ignore all log notifications
   // const navigation = useNavigation();
   constructor(props) {
     super(props);
@@ -81,7 +78,7 @@ LogBox.ignoreAllLogs();//Ignore all log notifications
       duration: '00:00:00',
       modalVisible: false,
       ErrormodalVisible: false,
-      errorMessage:'',
+      errorMessage: '',
       record: '',
       setLocalpath: '',
       MideaResponse: '',
@@ -99,9 +96,8 @@ LogBox.ignoreAllLogs();//Ignore all log notifications
       SucessfulModalVisible: false,
       isDateTimePickerVisible: false,
       day: null,
-      loading:false,
-      Picked:false,
-
+      loading: false,
+      Picked: false,
     };
     this.audioRecorderPlayer = new AudioRecorderPlayer();
     this.audioRecorderPlayer.setSubscriptionDuration(0.09); // optional. Default is 0.1
@@ -118,7 +114,7 @@ LogBox.ignoreAllLogs();//Ignore all log notifications
   handleDatePicked = date => {
     console.log('A date has been picked: ', date);
     this.setState({day: date});
-     this.setState({Picked: true});
+    this.setState({Picked: true});
 
     this.hideDateTimePicker();
   };
@@ -201,19 +197,17 @@ LogBox.ignoreAllLogs();//Ignore all log notifications
   };
 
   uploadAudio = async () => {
-  
-        var storageRef = storage().ref();
-        storageRef
-          .child('records/' + this.state.Title + '.m4a')
-          .putFile(this.record)
-          .then(() => {
-            console.log('Sent!');
-            console.log('title' + this.state.Title);
-          })
-          .catch(e => console.log('error:', e));
-      
+    var storageRef = storage().ref();
+    storageRef
+      .child('records/' + this.state.Title + '.m4a')
+      .putFile(this.record)
+      .then(() => {
+        console.log('Sent!');
+        console.log('title' + this.state.Title);
+      })
+      .catch(e => console.log('error:', e));
   };
-    retrieveRecord = async () => {
+  retrieveRecord = async () => {
     console.log('onStartPlay');
     storage()
       .ref('records/' + this.title + '.m4a') //name in storage in firebase console
@@ -268,14 +262,12 @@ LogBox.ignoreAllLogs();//Ignore all log notifications
     this.setState({
       SucessfulModalVisible: false,
     });
-if (this.props.route.params.keyword=='student'){
-
-
-    this.props.navigation.navigate('StudentHome');} 
-    else  this.props.navigation.navigate('InsClassInfo',{
-                      classKey: this.props.route.params.ClassID,
-                
-                    });
+    if (this.props.route.params.keyword == 'student') {
+      this.props.navigation.navigate('StudentHome');
+    } else
+      this.props.navigation.navigate('InsClassInfo', {
+        classKey: this.props.route.params.ClassID,
+      });
   };
   //////////////////////////////OCR SECTION //////////////////////////////////////////////
 
@@ -309,7 +301,7 @@ if (this.props.route.params.keyword=='student'){
   }
 
   submitToGoogle = async () => {
-      this.setState({loading: true});
+    this.setState({loading: true});
     try {
       this.DownLoadURI = await storage()
         .ref('OCR/' + this.Title) //name in storage in firebase console
@@ -365,14 +357,14 @@ if (this.props.route.params.keyword=='student'){
         uploading: false,
         responseReceived: true,
         HomeWork: responseJson.responses[0].fullTextAnnotation.text,
-        loading: false
+        loading: false,
       });
     } catch (error) {
       console.log(error);
-      this.setState(
-        {ErrormodalVisible: true,
-        errorMessage:'حدث خطأ ما ، الرجاء المحاولة مرة اخرى',
-        loading: false
+      this.setState({
+        ErrormodalVisible: true,
+        errorMessage: 'حدث خطأ ما ، الرجاء المحاولة مرة اخرى',
+        loading: false,
       });
     }
   };
@@ -385,9 +377,9 @@ if (this.props.route.params.keyword=='student'){
       this.state.Title == null ||
       (this.state.day == null && this.props.route.params.keyword == 'class')
     ) {
-      this.setState(
-        {ErrormodalVisible: true,
-        errorMessage:'عذراً جميع الحقول مطلوبة'
+      this.setState({
+        ErrormodalVisible: true,
+        errorMessage: 'عذراً جميع الحقول مطلوبة',
       });
       console.log('Error model ' + this.state.ErrormodalVisible);
       console.log('home in if ' + this.state.HomeWork);
@@ -445,276 +437,290 @@ if (this.props.route.params.keyword=='student'){
     console.log('student id ' + StudentID);
     // console.log('class id ' + ClassID);
     return (
-      <TouchableWithoutFeedback onPress={() => {Keyboard.dismiss()}}>
-      <View>
-        <SafeAreaView
-          style={{
-            backgroundColor: '#DAE2E9',
-            height: '100%',
-            justifyContent: 'center',
-            alignItems: 'center',
-            ...(Platform.OS === 'android' ? {paddingTop: 20} : null),
-          }}>
-          <BackGround
+      <TouchableWithoutFeedback
+        onPress={() => {
+          Keyboard.dismiss();
+        }}>
+        <View>
+          <SafeAreaView
             style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 16,
-              bottom: 0,
-            }}
-          />
-          <BackButton />
-
-          <Modal
-            animationType="fade"
-            transparent={true}
-            visible={this.state.ErrormodalVisible}>
-            <View
-              style={{
-                backgroundColor: 'rgba(52, 52, 52, 0.5)',
-                height: '100%',
-              }}>
-              <View style={TitleStyles.modalContent}>
-                <ErrorVector
-                  width={120}
-                  height={120}
-                  style={{marginLeft: 80, marginTop: -75}}
-                />
-                <Text
-                  style={[
-                    TitleStyles.subTitle,
-                    {textAlign: 'center', fontFamily: 'AJannatLT-Bold'},
-                  ]}>
-                  {this.state.errorMessage}
-                </Text>
-                <TouchableOpacity
-                  style={[
-                    TitleStyles.AlertButton,
-                    {backgroundColor: '#DAE2E9'},
-                  ]}
-                  onPress={() => this.setState({ErrormodalVisible: false})}>
-                  <Text style={TitleStyles.ButtonText}>حسنا </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </Modal>
-
-          <Text style={TitleStyles.ButtonText}>إضافة واجب جديد </Text>
-
-          <TextInput
-            placeholder=" عنوان النص "
-            placeholderTextColor={'#C3C7CA'}
-            style={TitleStyles.Title}
-            onChangeText={text => this.handleChangeTitle(text)}
-            value={this.state.Title}
-            underlineColorAndroid="transparent"
-            color="black"
-          />
-          <View
-            style={{
-              backgroundColor: 'white',
-              borderRadius: 10,
-              borderColor: '#DAE2E9',
-              borderWidth: 2,
-              width: '80%',
-              height: '30%',
-
-              paddingLeft: 12,
+              backgroundColor: '#DAE2E9',
+              height: '100%',
+              justifyContent: 'center',
+              alignItems: 'center',
+              ...(Platform.OS === 'android' ? {paddingTop: 20} : null),
             }}>
+            <BackGround
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 16,
+                bottom: 0,
+              }}
+            />
+            <BackButton />
+
+            <Modal
+              animationType="fade"
+              transparent={true}
+              visible={this.state.ErrormodalVisible}>
+              <View
+                style={{
+                  backgroundColor: 'rgba(52, 52, 52, 0.5)',
+                  height: '100%',
+                }}>
+                <View style={TitleStyles.modalContent}>
+                  <ErrorVector
+                    width={120}
+                    height={120}
+                    style={{marginLeft: 80, marginTop: -75}}
+                  />
+                  <Text
+                    style={[
+                      TitleStyles.subTitle,
+                      {textAlign: 'center', fontFamily: 'AJannatLT-Bold'},
+                    ]}>
+                    {this.state.errorMessage}
+                  </Text>
+                  <TouchableOpacity
+                    style={[
+                      TitleStyles.AlertButton,
+                      {backgroundColor: '#DAE2E9'},
+                    ]}
+                    onPress={() => this.setState({ErrormodalVisible: false})}>
+                    <Text style={TitleStyles.ButtonText}>حسنا </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </Modal>
+
+            <Text style={TitleStyles.ButtonText}>إضافة واجب جديد </Text>
+
             <TextInput
-              placeholder=" أدخل النص "
+              placeholder=" عنوان النص "
               placeholderTextColor={'#C3C7CA'}
-              style={TitleStyles.TextArea}
-              onChangeText={text => this.handleChange(text)}
-              value={this.state.HomeWork}
+              style={TitleStyles.Title}
+              onChangeText={text => this.handleChangeTitle(text)}
+              value={this.state.Title}
               underlineColorAndroid="transparent"
               color="black"
-              multiline
             />
+            <View
+              style={{
+                backgroundColor: 'white',
+                borderRadius: 10,
+                borderColor: '#DAE2E9',
+                borderWidth: 2,
+                width: '80%',
+                height: '30%',
+
+                paddingLeft: 12,
+              }}>
+              <TextInput
+                placeholder=" أدخل النص "
+                placeholderTextColor={'#C3C7CA'}
+                style={TitleStyles.TextArea}
+                onChangeText={text => this.handleChange(text)}
+                value={this.state.HomeWork}
+                underlineColorAndroid="transparent"
+                color="black"
+                multiline
+              />
+
+              <TouchableOpacity
+                style={{position: 'absolute'}}
+                onPress={() => this.onSelectImagePress()}>
+                <Camera
+                  style={{
+                    left: 260,
+                    top: 2,
+                    position: 'absolute',
+                    backgroundColor: 'white',
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
+
+            <View
+              style={{
+                flexDirection: 'row',
+                backgroundColor: '#DAE2E9',
+                borderRadius: 10,
+
+                width: '80%',
+                alignItems: 'flex-start',
+                marginTop: 20,
+              }}>
+              <TouchableOpacity onPress={() => this.onRecoed()}>
+                <Microphone />
+              </TouchableOpacity>
+            </View>
+            {this.state.RecFlag == true && (
+              <Text
+                style={[
+                  TitleStyles.smallText,
+                  {marginTop: 10, color: '#c78b6d'},
+                ]}>
+                {' '}
+                * تم ارفاق الصوت{' '}
+              </Text>
+            )}
+            <View
+              style={{
+                flexDirection: 'row',
+                backgroundColor: '#DAE2E9',
+                borderRadius: 10,
+
+                width: '80%',
+                alignItems: 'flex-start',
+                marginTop: 20,
+              }}>
+              <>
+                {/* <Button title="Show DatePicker" onPress={this.showDateTimePicker} /> */}
+                {this.props.route.params.keyword == 'class' && (
+                  <TouchableOpacity onPress={() => this.showDateTimePicker()}>
+                    <Deadline />
+                    <DateTimePicker
+                      isVisible={this.state.isDateTimePickerVisible}
+                      onConfirm={this.handleDatePicked}
+                      onCancel={this.hideDateTimePicker}
+                    />
+                  </TouchableOpacity>
+                )}
+              </>
+            </View>
+            {this.state.Picked == true && (
+              <Text
+                style={[
+                  TitleStyles.smallText,
+                  {marginTop: 10, color: '#c78b6d'},
+                ]}>
+                {' '}
+                * تم تحديد يوم التسليم{' '}
+              </Text>
+            )}
+            <Loader loading={this.state.loading} color="#F5C5AD" />
+            <Modal
+              animationType="fade"
+              transparent={true}
+              visible={this.state.modalVisible}>
+              <View
+                style={{
+                  backgroundColor: 'rgba(52, 52, 52, 0.5)',
+                  height: '100%',
+                }}>
+                <Close
+                  width={50}
+                  height={50}
+                  style={{
+                    position: 'absolute',
+                    marginLeft: 20,
+                    marginTop: 200,
+                    zIndex: 4,
+                  }}
+                  onPress={() => this.setState({modalVisible: false})}
+                />
+
+                <View
+                  style={[TitleStyles.modalContent, {alignItems: 'center'}]}>
+                  <RecordingMicrophone
+                    width={120}
+                    height={120}
+                    style={{marginLeft: 10, marginTop: -75}}
+                  />
+                  <Text
+                    style={[
+                      TitleStyles.subTitle,
+                      {textAlign: 'center', fontWeight: 'bold'},
+                    ]}>
+                    {this.state.textValue}
+                  </Text>
+
+                  <TouchableOpacity
+                    style={[
+                      TitleStyles.AlertButton,
+                      {backgroundColor: '#DAE2E9', width: '50%'},
+                    ]}
+                    onPress={() => this.onModalPress()}>
+                    <Text style={TitleStyles.ButtonText}>ايقاف </Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={[
+                      TitleStyles.AlertButton,
+                      {backgroundColor: '#DAE2E9', width: '50%'},
+                    ]}
+                    onPress={() => this.onStartPlay()}>
+                    <Text style={TitleStyles.ButtonText}>تشغيل </Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={[
+                      TitleStyles.AlertButton,
+                      {backgroundColor: '#DAE2E9', width: '50%'},
+                    ]}
+                    onPress={() => this.onReRecoed()}>
+                    <Text style={TitleStyles.ButtonText}>إعادة التسجيل </Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={[
+                      TitleStyles.AlertButton,
+                      {backgroundColor: '#DAE2E9', width: '50%'},
+                    ]}
+                    onPress={() => this.setState({modalVisible: false})}>
+                    <Text style={TitleStyles.ButtonText}>اضافة الصوت </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </Modal>
+
+            <Modal
+              animationType="fade"
+              transparent={true}
+              visible={this.state.SucessfulModalVisible}>
+              <View
+                style={{
+                  backgroundColor: 'rgba(52, 52, 52, 0.5)',
+                  height: '100%',
+                }}>
+                <View style={TitleStyles.modalContent}>
+                  <CheckVector
+                    width={120}
+                    height={120}
+                    style={{marginLeft: 80, marginTop: -75}}
+                  />
+                  <Text
+                    style={[
+                      TitleStyles.subTitle,
+                      {textAlign: 'center', fontFamily: 'AJannatLT-Bold'},
+                    ]}>
+                    {'تمت اضافة الواجب بنجاح'}
+                  </Text>
+                  <TouchableOpacity
+                    style={[
+                      TitleStyles.AlertButton,
+                      {backgroundColor: '#DAE2E9'},
+                    ]}
+                    onPress={() => this.onSucssfulModalPress()}>
+                    <Text style={TitleStyles.ButtonText}>{'حسنا'} </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </Modal>
 
             <TouchableOpacity
-              style={{position: 'absolute'}}
-              onPress={() => this.onSelectImagePress()}>
-              <Camera
-                style={{
-                  left: 260,
-                  top: 2,
-                  position: 'absolute',
-                  backgroundColor: 'white',
-                }}
-              />
+              style={[
+                TitleStyles.Button,
+                TitleStyles.shadowOffset,
+                {marginBottom: 10, marginTop: 40, width: '50%'},
+              ]}
+              onPress={() => this.UploadHomeWork()}>
+              <Text style={TitleStyles.ButtonText}>إضافة الواجب </Text>
             </TouchableOpacity>
-          </View>
-
-          <View
-            style={{
-              flexDirection: 'row',
-              backgroundColor: '#DAE2E9',
-              borderRadius: 10,
-
-              width: '80%',
-              alignItems: 'flex-start',
-              marginTop: 20,
-            }}>
-            <TouchableOpacity onPress={() => this.onRecoed()}>
-
-        <Microphone />
-
-            </TouchableOpacity>
-                
-
-
-          </View>
-          {this.state.RecFlag==true &&(
-      <Text style={[TitleStyles.smallText,{ marginTop: 10,color:"#c78b6d"}]}> *  تم ارفاق الصوت </Text>
-
-          )}
-          <View
-            style={{
-              flexDirection: 'row',
-              backgroundColor: '#DAE2E9',
-              borderRadius: 10,
-
-              width: '80%',
-              alignItems: 'flex-start',
-              marginTop: 20,
-            }}>
-            <>
-              {/* <Button title="Show DatePicker" onPress={this.showDateTimePicker} /> */}
-              {this.props.route.params.keyword == 'class' && (
-                <TouchableOpacity onPress={() => this.showDateTimePicker()}>
-                  <Deadline />
-                  <DateTimePicker
-                    isVisible={this.state.isDateTimePickerVisible}
-                    onConfirm={this.handleDatePicked}
-                    onCancel={this.hideDateTimePicker}
-                  />
-                </TouchableOpacity>
-              )}
-            </>
-          </View>
-           {this.state.Picked==true &&(
-      <Text style={[TitleStyles.smallText,{ marginTop: 10,color:"#c78b6d"}]}> *  تم تحديد يوم التسليم </Text>
-
-          )}
-               <Loader loading={this.state.loading} color="#F5C5AD" />
-          <Modal
-            animationType="fade"
-            transparent={true}
-            visible={this.state.modalVisible}>
-            <View
-              style={{
-                backgroundColor: 'rgba(52, 52, 52, 0.5)',
-                height: '100%',
-              }}>
-               <Close
-                 width={50}
-                  height={50}
-                 style={{
-                   position:'absolute',
-                                   marginLeft: 20, marginTop: 200 ,zIndex:4}}
-                                   onPress={() => this.setState({modalVisible: false})}
-               />
-             
-              <View style={[TitleStyles.modalContent, {alignItems: 'center'}]}>
-                <RecordingMicrophone
-                  width={120}
-                  height={120}
-                  style={{marginLeft: 10, marginTop: -75}}
-                />
-                <Text
-                  style={[
-                    TitleStyles.subTitle,
-                    {textAlign: 'center', fontWeight: 'bold'},
-                  ]}>
-                  {this.state.textValue}
-                </Text>
-
-                <TouchableOpacity
-                  style={[
-                    TitleStyles.AlertButton,
-                    {backgroundColor: '#DAE2E9', width: '50%'},
-                  ]}
-                  onPress={() => this.onModalPress()}>
-                  <Text style={TitleStyles.ButtonText}>ايقاف </Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  style={[
-                    TitleStyles.AlertButton,
-                    {backgroundColor: '#DAE2E9', width: '50%'},
-                  ]}
-                  onPress={() => this.onStartPlay()}>
-                  <Text style={TitleStyles.ButtonText}>تشغيل </Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  style={[
-                    TitleStyles.AlertButton,
-                    {backgroundColor: '#DAE2E9', width: '50%'},
-                  ]}
-                  onPress={() => this.onReRecoed()}>
-                  <Text style={TitleStyles.ButtonText}>إعادة التسجيل </Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  style={[
-                    TitleStyles.AlertButton,
-                    {backgroundColor: '#DAE2E9', width: '50%'},
-                  ]}
-                  onPress={() => this.setState({modalVisible: false})}>
-                  <Text style={TitleStyles.ButtonText}>اضافة الصوت </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </Modal>
-
-          <Modal
-            animationType="fade"
-            transparent={true}
-            visible={this.state.SucessfulModalVisible}>
-            <View
-              style={{
-                backgroundColor: 'rgba(52, 52, 52, 0.5)',
-                height: '100%',
-              }}>
-              <View style={TitleStyles.modalContent}>
-                <CheckVector
-                  width={120}
-                  height={120}
-                  style={{marginLeft: 80, marginTop: -75}}
-                />
-                <Text
-                  style={[
-                    TitleStyles.subTitle,
-                    {textAlign: 'center', fontFamily: 'AJannatLT-Bold'},
-                  ]}>
-                  {'تمت اضافة الواجب بنجاح'}
-                </Text>
-                <TouchableOpacity
-                  style={[
-                    TitleStyles.AlertButton,
-                    {backgroundColor: '#DAE2E9'},
-                  ]}
-                  onPress={() => this.onSucssfulModalPress()}>
-                  <Text style={TitleStyles.ButtonText}>{'حسنا'} </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </Modal>
-
-          <TouchableOpacity
-            style={[
-              TitleStyles.Button,
-              TitleStyles.shadowOffset,
-              {marginBottom: 10, marginTop: 40, width: '50%'},
-            ]}
-            onPress={() => this.UploadHomeWork()}>
-            <Text style={TitleStyles.ButtonText}>إضافة الواجب </Text>
-          </TouchableOpacity>
-        </SafeAreaView>
-      </View>
+          </SafeAreaView>
+        </View>
       </TouchableWithoutFeedback>
     );
   }
