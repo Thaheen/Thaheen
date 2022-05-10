@@ -616,7 +616,7 @@ class RecordVoice extends Component {
                   style={{
                     position: 'absolute',
                     marginLeft: 20,
-                    marginTop: 200,
+                    marginTop: 230,
                     zIndex: 4,
                   }}
                   onPress={() => this.setState({modalVisible: false})}
