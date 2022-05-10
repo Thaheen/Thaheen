@@ -89,7 +89,7 @@ const AssignmentCard = ({title, textID, index, deleteOption}) => {
         ]}>
         {title}
       </Text>
-      {/* <TouchableOpacity>
+      <TouchableOpacity>
         <Text
           style={[
             TitleStyles.smallText,
@@ -99,9 +99,9 @@ const AssignmentCard = ({title, textID, index, deleteOption}) => {
               textDecorationLine: 'underline',
             },
           ]}>
-          عرض التفاصيل
+                                   
         </Text>
-      </TouchableOpacity> */}
+      </TouchableOpacity>
     </View>
   );
 };

@@ -65,6 +65,9 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 //the ref of record voice code
 // https://instamobile.io/react-native-tutorials/react-native-record-audio-play/?ref=hackernoon.com
 class RecordVoice extends Component {
+
+LogBox.ignoreAllLogs();//Ignore all log notifications
+
   // const navigation = useNavigation();
   constructor(props) {
     super(props);
@@ -210,9 +213,7 @@ class RecordVoice extends Component {
           .catch(e => console.log('error:', e));
       
   };
-LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
-LogBox.ignoreAllLogs();//Ignore all log notifications
-  retrieveRecord = async () => {
+    retrieveRecord = async () => {
     console.log('onStartPlay');
     storage()
       .ref('records/' + this.title + '.m4a') //name in storage in firebase console
