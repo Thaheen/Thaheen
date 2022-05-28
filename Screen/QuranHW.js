@@ -437,11 +437,16 @@ class RecordVoice extends Component {
     const versesLength = FromAyah.length;
     console.log('FromAyah');
     console.log(FromAyah);
-    for(var ayah in FromAyah){
-      FromAyah[ayah] = {id: (parseInt(ayah)+1).toString(), name: (parseInt(ayah)+1).toString()}
-      ToAyah[ayah] = {id: (parseInt(ayah)+1).toString(), name: (parseInt(ayah)+1).toString()}
+    for (var ayah in FromAyah) {
+      FromAyah[ayah] = {
+        id: (parseInt(ayah) + 1).toString(),
+        name: (parseInt(ayah) + 1).toString(),
+      };
+      ToAyah[ayah] = {
+        id: (parseInt(ayah) + 1).toString(),
+        name: (parseInt(ayah) + 1).toString(),
+      };
     }
-
 
     //Get the selected Surah with given index from-to
     //There is a problem but it can be fixed later
@@ -553,192 +558,175 @@ class RecordVoice extends Component {
             </View>
           </Modal>
           <Text style={TitleStyles.ButtonText}>إضافة واجب جديد </Text>
-          <View style={{ height: 50,width:'80%', flexDirection: 'row', justifyContent: 'space-between'}}>
+          <View
+            style={{
+              height: 35,
+              width: '80%',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              zIndex: 2,
+            }}>
             <TouchableOpacity
               style={TitleStyles.buttonStyle2}
               onPress={() => this.setState({QuranModal: true})}>
-              <View style={{flexDirection: 'row', alignItems: 'center' }}>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
                 {this.state.TextType != null && (
                   <Text
-                    style={[
-                      TitleStyles.dropdownButtonText,
-                      { marginLeft: 10},
-                    ]}>
+                    style={[TitleStyles.dropdownButtonText, {marginLeft: 10}]}>
                     {this.state.TextType}
                   </Text>
                 )}
                 {this.state.TextType == null && (
                   <Text
-                    style={[
-                      TitleStyles.dropdownButtonText,
-                      { marginLeft: 10},
-                    ]}>
+                    style={[TitleStyles.dropdownButtonText, {marginLeft: 10}]}>
                     السورة
                   </Text>
                 )}
-                <TheArrow style={{marginLeft: 7}}/>
+                <TheArrow style={{marginLeft: 7}} />
               </View>
-              
             </TouchableOpacity>
 
-            {/* <TheArrow style={{zIndex: 3, top: 25, right: 25}} /> */}
-            {/* <SelectDropdown
-              style={{zIndex: 1}}
-              data={FromAyah}
-              buttonStyle={TitleStyles.buttonStyle2}
-              buttonTextStyle={TitleStyles.dropdownButtonText}
-              onSelect={(selectedItem, index) => {
-                this.setState({from: selectedItem});
-              }}
-              buttonTextAfterSelection={(selectedItem, index) => {
-                // text represented after item is selected
-                // if data array is an array of objects then return selectedItem.property to render after item is selected
-                return selectedItem;
-              }}
-              rowTextForSelection={(item, index) => {
-                // text represented for each item in dropdown
-                // if data array is an array of objects then return item.property to represent item in dropdown
-                return item;
-              }}
-              defaultButtonText="من آية"
-            />
-            <TheArrow style={{top: 25, right: 21}} /> */}
+            <View style={{width: 90}}>
+              <SearchableDropdown
+                onTextChange={text => console.log(text)}
+                // Change listner on the searchable input
+                onItemSelect={item => {
+                  this.setState({from: item.id});
+                }}
+                // Called after the selection from the dropdown
+                containerStyle={{
+                  width: 90,
+                  zIndex: 10,
+                  position: 'absolute',
+                }}
+                // Suggestion container style
+                textInputStyle={{
+                  // Inserted text style
+                  borderWidth: 1,
+                  borderColor: 'white',
+                  backgroundColor: '#FAF7F6',
+                  color: '#43515F',
+                  backgroundColor: 'white',
+                  borderRadius: 12,
+                  fontFamily: 'AJannatLT-Bold',
+                  fontSize: 18,
+                  textAlign: 'right',
+                  paddingLeft: 10,
+                  marginBottom: 5,
+                }}
+                itemStyle={{
+                  // Single dropdown item style
+                  marginTop: 4,
+                  padding: 6,
+                  backgroundColor: 'white',
+                  borderColor: '#bbb',
+                  borderWidth: 1,
+                  fontFamily: 'AJannatLT-Bold',
+                  color: '#8E8D8D',
+                  borderRadius: 12,
+                }}
+                itemTextStyle={{
+                  // Text style of a single dropdown item
+                  color: '#8E8D8D',
+                  fontSize: 14,
+                  fontFamily: 'AJannatLT-Bold',
+                  textAlign: 'center',
+                }}
+                itemsContainerStyle={{
+                  // Items container style you can pass maxHeight
+                  // To restrict the items dropdown hieght
+                  maxHeight: 240,
+                  width: 90,
+                  zIndex: 10,
+                }}
+                items={FromAyah}
+                // Mapping of item array
+                //defaultIndex={2}
+                // Default selected item index
+                placeholder={
+                  this.state.from == '' ? 'من آية' : this.state.from.toString()
+                }
+                placeholderTextColor="#8E8D8D"
+                // Place holder for the search input
 
-<View style={{width: 90}}>
-            <SearchableDropdown
-              onTextChange={text => console.log(text)}
-              // Change listner on the searchable input
-              onItemSelect={item => {
-                this.setState({from: item.id});
-              }}
-              // Called after the selection from the dropdown
-              containerStyle={{
-                width: 90,
-                zIndex: 10,
-                position: 'absolute',
-              }}
-              // Suggestion container style
-              textInputStyle={{
-                // Inserted text style
-                borderWidth: 1,
-                borderColor: 'white',
-                backgroundColor: '#FAF7F6',
-                color: '#8E8D8D',
-                backgroundColor: 'white',
-                borderRadius: 12,
-                fontFamily: 'AJannatLT-Bold',
-                fontSize: 18,
-                textAlign: 'right',
-                paddingLeft: 10,
-                marginBottom: 5,
-              }}
-              itemStyle={{
-                // Single dropdown item style
-                marginTop: 4,
-                padding: 6,
-                backgroundColor: 'white',
-                borderColor: '#bbb',
-                borderWidth: 1,
-                fontFamily: 'AJannatLT-Bold',
-                color: '#8E8D8D',
-                borderRadius: 12,
-              }}
-              itemTextStyle={{
-                // Text style of a single dropdown item
-                color: '#8E8D8D',
-                fontSize: 14,
-                fontFamily: 'AJannatLT-Bold',
-                textAlign: 'center',
-              }}
-              itemsContainerStyle={{
-                // Items container style you can pass maxHeight
-                // To restrict the items dropdown hieght
-               maxHeight: 240,
-               width: 90,
-               zIndex: 10,
-              }}
-              items={FromAyah}
-              // Mapping of item array
-              //defaultIndex={2}
-              // Default selected item index
-              placeholder={this.state.from== "" ? "من آية": this.state.from.toString()}
-              
-              placeholderTextColor="#8E8D8D"
-              // Place holder for the search input
-             
-              // Reset textInput Value with true and false state
-              underlineColorAndroid="transparent"
-              // To remove the underline from the android input
-            />
-            <TheArrow style={{zIndex: 15, alignSelf: 'flex-end',top: 20, right: 7}}/>
-</View>
-<View style={{width: 90}}>
-            {/* to ayah drop down list */}
-            <SearchableDropdown
-              onTextChange={text => console.log(text)}
-              // Change listner on the searchable input
-              onItemSelect={item => {
-                this.setState({to: item.id});
-              }}
-              // Called after the selection from the dropdown
-              containerStyle={{
-                width: 90,
-                zIndex: 10,
-                position: 'absolute', 
-              }}
-              // Suggestion container style
-              textInputStyle={{
-                // Inserted text style
-                borderWidth: 1,
-                borderColor: 'white',
-                backgroundColor: 'white',
-                borderRadius: 12,
-                fontFamily: 'AJannatLT-Bold',
-                fontSize: 18,
-                textAlign: 'right',
-                color: '#8E8D8D',
-                paddingLeft: 10,
-                marginBottom: 5,
-              }}
-              itemStyle={{
-                // Single dropdown item style
-                padding: 6,
-                marginTop: 4,
-                backgroundColor: 'white',
-                borderColor: '#bbb',
-                borderWidth: 1,
-                fontFamily: 'AJannatLT-Bold',
-                color: '#8E8D8D',
-                borderRadius: 12,
-              }}
-              itemTextStyle={{
-                // Text style of a single dropdown item
-                color: '#8E8D8D',
-                fontSize: 14,
-                fontFamily: 'AJannatLT-Bold',
-                textAlign: 'center',
-                
-              }}
-              itemsContainerStyle={{
-                // Items container style you can pass maxHeight
-                // To restrict the items dropdown hieght
-               maxHeight: 240,
-               width: 90,
-               zIndex: 10,
-              }}
-              items={ToAyah}
-              // Mapping of item array
-              //defaultIndex={2}
-              // Default selected item index
-              placeholder={this.state.to== "" ? "إلى آية": this.state.to.toString()}
-              placeholderTextColor="#8E8D8D"
-              // Place holder for the search input
+                // Reset textInput Value with true and false state
+                underlineColorAndroid="transparent"
+                // To remove the underline from the android input
+              />
+              <TheArrow
+                style={{zIndex: 15, alignSelf: 'flex-end', top: 20, right: 7}}
+              />
+            </View>
+            <View style={{width: 90}}>
+              {/* to ayah drop down list */}
+              <SearchableDropdown
+                onTextChange={text => console.log(text)}
+                // Change listner on the searchable input
+                onItemSelect={item => {
+                  this.setState({to: item.id});
+                }}
+                // Called after the selection from the dropdown
+                containerStyle={{
+                  width: 90,
+                  zIndex: 10,
+                  position: 'absolute',
+                }}
+                // Suggestion container style
+                textInputStyle={{
+                  // Inserted text style
+                  borderWidth: 1,
+                  borderColor: 'white',
+                  backgroundColor: 'white',
+                  borderRadius: 12,
+                  fontFamily: 'AJannatLT-Bold',
+                  fontSize: 18,
+                  textAlign: 'right',
+                  color: '#43515F',
+                  paddingLeft: 10,
+                  marginBottom: 5,
+                }}
+                itemStyle={{
+                  // Single dropdown item style
+                  padding: 6,
+                  marginTop: 4,
+                  backgroundColor: 'white',
+                  borderColor: '#bbb',
+                  borderWidth: 1,
+                  fontFamily: 'AJannatLT-Bold',
+                  color: '#8E8D8D',
+                  borderRadius: 12,
+                }}
+                itemTextStyle={{
+                  // Text style of a single dropdown item
+                  color: '#8E8D8D',
+                  fontSize: 14,
+                  fontFamily: 'AJannatLT-Bold',
+                  textAlign: 'center',
+                }}
+                itemsContainerStyle={{
+                  // Items container style you can pass maxHeight
+                  // To restrict the items dropdown hieght
+                  maxHeight: 240,
+                  width: 90,
+                  zIndex: 10,
+                }}
+                items={ToAyah}
+                // Mapping of item array
+                //defaultIndex={2}
+                // Default selected item index
+                placeholder={
+                  this.state.to == '' ? 'إلى آية' : this.state.to.toString()
+                }
+                placeholderTextColor="#8E8D8D"
+                // Place holder for the search input
 
-              underlineColorAndroid="transparent"
-              // To remove the underline from the android input
-            />
-             <TheArrow style={{zIndex: 15, alignSelf: 'flex-end',top: 20, right: 7}}/>
-</View>
+                underlineColorAndroid="transparent"
+                // To remove the underline from the android input
+              />
+              <TheArrow
+                style={{zIndex: 15, alignSelf: 'flex-end', top: 20, right: 7}}
+              />
+            </View>
             {/* <SelectDropdown
               data={this.Ayaharray(totalVerses)}
               buttonStyle={TitleStyles.buttonStyle2}
