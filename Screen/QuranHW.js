@@ -438,10 +438,8 @@ class RecordVoice extends Component {
     console.log('FromAyah');
     console.log(FromAyah);
     for(var ayah in FromAyah){
-      FromAyah[ayah] = {id: ayah, name: ayah}
-    }
-    for(var ayah in ToAyah){
-      ToAyah[ayah] = {id: ayah, name: ayah}
+      FromAyah[ayah] = {id: (parseInt(ayah)+1).toString(), name: (parseInt(ayah)+1).toString()}
+      ToAyah[ayah] = {id: (parseInt(ayah)+1).toString(), name: (parseInt(ayah)+1).toString()}
     }
 
 
@@ -610,7 +608,9 @@ class RecordVoice extends Component {
             <SearchableDropdown
               onTextChange={text => console.log(text)}
               // Change listner on the searchable input
-              onItemSelect={item => alert(JSON.stringify(item))}
+              onItemSelect={item => {
+                this.setState({from: item.id});
+              }}
               // Called after the selection from the dropdown
               containerStyle={{
                 width: 90,
@@ -661,10 +661,11 @@ class RecordVoice extends Component {
               // Mapping of item array
               //defaultIndex={2}
               // Default selected item index
-              placeholder="من آية"
+              placeholder={this.state.from== "" ? "من آية": this.state.from.toString()}
+              
               placeholderTextColor="#8E8D8D"
               // Place holder for the search input
-              resetValue={false}
+             
               // Reset textInput Value with true and false state
               underlineColorAndroid="transparent"
               // To remove the underline from the android input
@@ -676,7 +677,9 @@ class RecordVoice extends Component {
             <SearchableDropdown
               onTextChange={text => console.log(text)}
               // Change listner on the searchable input
-              onItemSelect={item => alert(JSON.stringify(item))}
+              onItemSelect={item => {
+                this.setState({to: item.id});
+              }}
               // Called after the selection from the dropdown
               containerStyle={{
                 width: 90,
@@ -704,7 +707,6 @@ class RecordVoice extends Component {
                 backgroundColor: 'white',
                 borderColor: '#bbb',
                 borderWidth: 1,
-               
                 fontFamily: 'AJannatLT-Bold',
                 color: '#8E8D8D',
                 borderRadius: 12,
@@ -728,11 +730,10 @@ class RecordVoice extends Component {
               // Mapping of item array
               //defaultIndex={2}
               // Default selected item index
-              placeholder="إلى آية"
+              placeholder={this.state.to== "" ? "إلى آية": this.state.to.toString()}
               placeholderTextColor="#8E8D8D"
               // Place holder for the search input
-              resetValue={false}
-              // Reset textInput Value with true and false state
+
               underlineColorAndroid="transparent"
               // To remove the underline from the android input
             />
