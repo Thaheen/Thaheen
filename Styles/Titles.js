@@ -217,7 +217,6 @@ export default StyleSheet.create({
     borderColor: '#8E8D8D',
     fontFamily: 'AJannatLT-Bold',
     fontSize: 18,
-
     width: '25%',
   },
 
@@ -581,5 +580,11 @@ export default StyleSheet.create({
     margin: 5,
     width: 300,
     alignItems: 'center',
+  },
+  spinner: {
+    // flex: 1,
+    marginRight: 10,
+    minWidth: 150,
+    borderRadius: 10,
   },
 });

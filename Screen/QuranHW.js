@@ -40,7 +40,7 @@ import SelectDropdown from 'react-native-select-dropdown';
 import TheArrow from '../assets/images/TheArrow.svg';
 import Deadline from '../assets/images/deadline.svg';
 import Icon from 'react-native-vector-icons';
-
+import InputSpinner from 'react-native-input-spinner';
 import SearchableDropdown from 'react-native-searchable-dropdown';
 import AudioRecorderPlayer, {
   AVEncoderAudioQualityIOSType,
@@ -98,7 +98,7 @@ class RecordVoice extends Component {
       Surah: [],
       isSearching: false,
       searchList: [],
-        Picked:false,
+      Picked: false,
     };
     this.audioRecorderPlayer = new AudioRecorderPlayer();
     this.audioRecorderPlayer.setSubscriptionDuration(0.09); // optional. Default is 0.1
@@ -175,8 +175,7 @@ class RecordVoice extends Component {
     this.audioRecorderPlayer.removeRecordBackListener();
     this.setState({
       recordSecs: 0,
-      RecFlag:true,
-
+      RecFlag: true,
     });
     console.log(result);
     this.record = result;
@@ -231,7 +230,7 @@ class RecordVoice extends Component {
         // const fileType = uriParts[uriParts.length - 1];
         var storageRef = storage().ref();
         storageRef
-          .child('records/' + this.state.Title+'.m4a')
+          .child('records/' + this.state.Title + '.m4a')
           .putFile(this.record)
           .then(() => {
             console.log('Sent!');
@@ -333,7 +332,7 @@ class RecordVoice extends Component {
       console.log('home in if ' + this.state.HomeWork);
       return;
     }
-       if (this.state.RecFlag == true) {
+    if (this.state.RecFlag == true) {
       console.log('with record');
       this.uploadAudio();
     }
@@ -436,6 +435,9 @@ class RecordVoice extends Component {
     //From To Ayah
     const FromAyah = this.Ayaharray(totalVerses);
     const ToAyah = this.Ayaharray(totalVerses);
+    const versesLength = FromAyah.length;
+    console.log('FromAyah');
+    console.log(FromAyah);
 
     //Get the selected Surah with given index from-to
     //There is a problem but it can be fixed later
@@ -476,17 +478,23 @@ class RecordVoice extends Component {
       .replace(/حۡ/g, 'ح')
       .replace(/عٰ|عۡ/g, 'ع');
 
-    // وۡ;
-    // this.state.HomeWork = this.state.HomeWork.replace(
-    //   / ٓ| ۖ| ۡ| ۖ|ۥ | ۗ| ۛ| ۖ| ۙ| ۡ| ٗ-/g,
-    //   '',
-    // );
-    // this.state.HomeWork = this.state.HomeWork.replace(/مۡ|مۡ |مٰـ|مٰ|مٓ/g, 'م');
-
     console.log('Home work');
     console.log(this.state.HomeWork);
     this.state.Title = this.state.TextType;
 
+    const items = [
+      //name key is must.It is to show the text in front
+      {id: 1, name: '1angellist'},
+      {id: 2, name: '2codepen'},
+      {id: 3, name: '3envelope'},
+      {id: 4, name: 'etsy'},
+      {id: 5, name: 'facebook'},
+      {id: 6, name: 'foursquare'},
+      {id: 7, name: 'github-alt'},
+      {id: 8, name: 'github'},
+      {id: 9, name: 'gitlab'},
+      {id: 10, name: 'instagram'},
+    ];
     return (
       <View>
         <SafeAreaView
@@ -507,7 +515,6 @@ class RecordVoice extends Component {
             }}
           />
           <BackButton />
-
           <Modal
             animationType="fade"
             transparent={true}
@@ -541,9 +548,7 @@ class RecordVoice extends Component {
               </View>
             </View>
           </Modal>
-
           <Text style={TitleStyles.ButtonText}>إضافة واجب جديد </Text>
-
           <View style={{flexDirection: 'row'}}>
             <TouchableOpacity
               style={TitleStyles.buttonStyle2}
@@ -571,7 +576,7 @@ class RecordVoice extends Component {
             </TouchableOpacity>
 
             <TheArrow style={{zIndex: 3, top: 25, right: 25}} />
-            <SelectDropdown
+            {/* <SelectDropdown
               style={{zIndex: 1}}
               data={FromAyah}
               buttonStyle={TitleStyles.buttonStyle2}
@@ -591,7 +596,69 @@ class RecordVoice extends Component {
               }}
               defaultButtonText="من آية"
             />
-            <TheArrow style={{top: 25, right: 21}} />
+            <TheArrow style={{top: 25, right: 21}} /> */}
+
+            <SearchableDropdown
+              onTextChange={text => console.log(text)}
+              // Change listner on the searchable input
+              onItemSelect={item => alert(JSON.stringify(item))}
+              // Called after the selection from the dropdown
+              containerStyle={{padding: 5, width: 100}}
+              // Suggestion container style
+              textInputStyle={{
+                // Inserted text style
+                padding: 12,
+                borderWidth: 1,
+                borderColor: 'white',
+                backgroundColor: '#FAF7F6',
+                color: 'red',
+                backgroundColor: 'white',
+                borderRadius: 12,
+                fontFamily: 'AJannatLT-Bold',
+                marginBottom: '2%',
+                textAlign: 'center',
+              }}
+              itemStyle={{
+                // Single dropdown item style
+                padding: 10,
+                marginTop: 2,
+                backgroundColor: 'white',
+                borderColor: '#bbb',
+                borderWidth: 1,
+                width: 70,
+                fontFamily: 'AJannatLT-Bold',
+                color: 'red',
+                borderRadius: 12,
+              }}
+              itemTextStyle={{
+                // Text style of a single dropdown item
+                color: '#8E8D8D',
+                fontSize: 10,
+                fontFamily: 'AJannatLT-Bold',
+                // width: 70,
+                // height: 20,
+                textAlign: 'center',
+              }}
+              itemsContainerStyle={{
+                // Items container style you can pass maxHeight
+                // To restrict the items dropdown hieght
+                maxHeight: 140,
+                width: 70,
+                zIndex: 4,
+                //position: 'absolute',
+              }}
+              items={items}
+              // Mapping of item array
+              //defaultIndex={2}
+              // Default selected item index
+              placeholder="من آية"
+              // Place holder for the search input
+              resetValue={false}
+              // Reset textInput Value with true and false state
+              underlineColorAndroid="transparent"
+              // To remove the underline from the android input
+            />
+
             <SelectDropdown
               data={FromAyah}
               buttonStyle={TitleStyles.buttonStyle2}
@@ -614,7 +681,6 @@ class RecordVoice extends Component {
             />
             <TheArrow style={{top: 25, right: 9, position: 'absolute'}} />
           </View>
-
           <View
             style={{
               backgroundColor: 'white',
@@ -626,35 +692,17 @@ class RecordVoice extends Component {
               marginTop: 15,
               paddingLeft: 12,
             }}>
-            {/* <FlatList
-              style={{marginTop: 20}}
-              contentContainerStyle={{
-                width: 333,
-                height: 452,
-                alignItems: 'center',
-              }}
-              data={SurahAyat}
-              renderItem={({item}) => (
-                <Text>
-                  {'   '}
-                  {item}
-                  {'   '}
-                </Text>
-              )}
-            /> */}
             <ScrollView>
               <Text
                 style={{
                   fontSize: 16,
                   marginTop: 20,
-                  // alignSelf: 'center',
                   textAlign: 'left',
                 }}>
                 {this.state.HomeWork}
               </Text>
             </ScrollView>
           </View>
-
           <View
             style={{
               flexDirection: 'row',
@@ -669,9 +717,15 @@ class RecordVoice extends Component {
               <Microphone />
             </TouchableOpacity>
           </View>
-             {this.state.RecFlag==true &&(
-      <Text style={[TitleStyles.smallText,{ marginTop: 10,color:"#c78b6d"}]}> *  تم ارفاق الصوت </Text>
-
+          {this.state.RecFlag == true && (
+            <Text
+              style={[
+                TitleStyles.smallText,
+                {marginTop: 10, color: '#c78b6d'},
+              ]}>
+              {' '}
+              * تم ارفاق الصوت{' '}
+            </Text>
           )}
           <View
             style={{
@@ -697,9 +751,15 @@ class RecordVoice extends Component {
               )}
             </>
           </View>
-       {this.state.Picked==true &&(
-      <Text style={[TitleStyles.smallText,{ marginTop: 10,color:"#c78b6d"}]}> *  تم تحديد يوم التسليم </Text>
-
+          {this.state.Picked == true && (
+            <Text
+              style={[
+                TitleStyles.smallText,
+                {marginTop: 10, color: '#c78b6d'},
+              ]}>
+              {' '}
+              * تم تحديد يوم التسليم{' '}
+            </Text>
           )}
           <Modal
             animationType="fade"
@@ -762,7 +822,6 @@ class RecordVoice extends Component {
               </View>
             </View>
           </Modal>
-
           <Modal
             animationType="fade"
             transparent={true}
@@ -796,7 +855,6 @@ class RecordVoice extends Component {
               </View>
             </View>
           </Modal>
-
           <Modal
             animationType="fade"
             transparent={true}
@@ -875,7 +933,6 @@ class RecordVoice extends Component {
               </View>
             </View>
           </Modal>
-
           <TouchableOpacity
             style={[
               TitleStyles.Button,
