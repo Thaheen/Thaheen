@@ -110,7 +110,7 @@ export default StyleSheet.create({
     textAlign: I18nManager.isRTL ? 'left' : 'right',
     fontFamily: 'AJannatLT-Bold',
     fontSize: 18,
-    color: '#B4B4B4',
+    color: '#8E8D8D',
   },
 
   AlertButton: {
@@ -216,8 +216,10 @@ export default StyleSheet.create({
     borderRadius: 15,
     borderColor: '#8E8D8D',
     fontFamily: 'AJannatLT-Bold',
+    color: '#8E8D8D',
     fontSize: 18,
-    width: '25%',
+    width: 90,
+    justifyContent: 'center',
   },
 
   /////Access Passcode Style////
@@ -558,7 +560,7 @@ export default StyleSheet.create({
     width: 300,
     backgroundColor: '#EBEBEB',
     alignSelf: 'center',
-    height: 35,
+    //height: 35,
     borderRadius: 15,
   },
   SearchText: {
